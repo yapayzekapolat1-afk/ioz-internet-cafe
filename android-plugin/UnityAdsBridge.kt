@@ -42,7 +42,7 @@ private const val DEFAULT_PLACEMENT_ID = "Rewarded_Android"
 // IMPORTANT: testMode MUST be false in the build you upload to Google
 // Play. Test ads are for development only — shipping with testMode=true
 // is a Unity Ads policy violation and your real ad revenue will be zero.
-private const val UNITY_TEST_MODE = false
+private const val UNITY_TEST_MODE = true
 
 // A generous last-resort ceiling — only fires if Unity Ads never calls
 // EITHER onInitializationComplete or onInitializationFailed at all (a
