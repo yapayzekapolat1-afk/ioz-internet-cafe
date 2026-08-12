@@ -1,0 +1,8 @@
+{
+  "appId": "com.sizinsirketiniz.iozcafe",
+  "appName": "iOZ Internet Cafe",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
