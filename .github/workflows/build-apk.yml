@@ -128,6 +128,6 @@ jobs:
       - name: APK'yı yükle (indirilebilir çıktı)
         uses: actions/upload-artifact@v4
         with:
-              name: ioz-internet-cafe-release-aab
-    path: android/app/build/outputs/bundle/release/app-release.aab
+          name: ioz-internet-cafe-release-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
 
