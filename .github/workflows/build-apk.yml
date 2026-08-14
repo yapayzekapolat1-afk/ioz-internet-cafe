@@ -112,19 +112,15 @@ jobs:
       - name: Web dosyalarını native projeye senkronize et
         run: npx cap sync android
 
-      - name: APK derle (debug imzasıyla release)
+      - name: APK derle (Release)
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew bundleRelease \
-            -Pandroid.injected.signing.store.file=$HOME/.android/debug.keystore \
-            -Pandroid.injected.signing.store.password=android \
-            -Pandroid.injected.signing.key.alias=androiddebugkey \
-            -Pandroid.injected.signing.key.password=android
+          ./gradlew assembleRelease
 
       - name: APK'yı yükle (indirilebilir çıktı)
         uses: actions/upload-artifact@v4
         with:
-          name: ioz-internet-cafe-release-aab
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          name: ioz-internet-cafe-release-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
           
