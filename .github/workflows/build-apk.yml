@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      KEYSTORE_PASSWORD: polat4735.P
+      KEY_ALIAS: ioz-key
+      KEY_PASSWORD: polat4735.P
     steps:
       - name: Kodu indir
         uses: actions/checkout@v4
@@ -74,8 +78,12 @@ jobs:
       - name: Web dosyalarını native projeye senkronize et
         run: npx cap sync android
 
-      - name: Keystore'u oluştur
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release-key.jks
+      - name: Keystore'u BURADA, TAZE olarak oluştur
+        run: |
+          keytool -genkey -v -keystore android/app/release-key.jks \
+            -alias "$KEY_ALIAS" -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass "$KEYSTORE_PASSWORD" -keypass "$KEY_PASSWORD" \
+            -dname "CN=Ioz, OU=Ioz, O=Ioz, L=Istanbul, S=Istanbul, C=TR"
 
       - name: İmzalama ayarlarını build.gradle'a ekle
         run: |
@@ -87,25 +95,15 @@ jobs:
           if ! grep -q "signingConfig signingConfigs.release" "$APP_GRADLE"; then
             awk '{print} /buildTypes[[:space:]]*{/ {inBT=1} inBT && /release[[:space:]]*{/ && !done {print "            signingConfig signingConfigs.release"; done=1}' "$APP_GRADLE" > /tmp/bg2.tmp && mv /tmp/bg2.tmp "$APP_GRADLE"
           fi
-          echo "----- app/build.gradle (kontrol) -----"
-          cat "$APP_GRADLE"
 
       - name: AAB derle (Release, imzalı)
         working-directory: android
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           chmod +x gradlew
           ./gradlew bundleRelease
 
       - name: APK derle (Release, imzalı)
         working-directory: android
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew assembleRelease
 
       - name: AAB'yi yükle
