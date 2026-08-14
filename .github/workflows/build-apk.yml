@@ -122,11 +122,12 @@ jobs:
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew bundleRelease --stacktrace
+          
 
       - name: APK'yı yükle (indirilebilir çıktı)
         uses: actions/upload-artifact@v4
         with:
-          name: ioz-internet-cafe-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+              name: ioz-internet-cafe-release-aab
+    path: android/app/build/outputs/bundle/release/app-release.aab
+
