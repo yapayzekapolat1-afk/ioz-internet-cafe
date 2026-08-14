@@ -118,11 +118,16 @@ jobs:
       - name: Web dosyalarını native projeye senkronize et
         run: npx cap sync android
 
-      - name: APK derle (debug — test için imzasız/otomatik imzalı)
-        working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew bundleRelease --stacktrace
+      - name: APK derle (debug imzasıyla release)
+    working-directory: android
+    run: |
+      chmod +x gradlew
+      ./gradlew bundleRelease \
+        -Pandroid.injected.signing.store.file=$HOME/.android/debug.keystore \
+        -Pandroid.injected.signing.store.password=android \
+        -Pandroid.injected.signing.key.alias=androiddebugkey \
+        -Pandroid.injected.signing.key.password=android
+        
           
 
       - name: APK'yı yükle (indirilebilir çıktı)
