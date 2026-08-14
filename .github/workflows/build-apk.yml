@@ -7,12 +7,6 @@ name: Build Android APK
 # ÇALIŞTIRMA: Actions sekmesi -> "Build Android APK" -> "Run workflow"
 # butonuna basman yeterli. main dalına her push yaptığında da otomatik
 # çalışır.
-#
-# NOT: Bu workflow burada (Claude tarafından) hiç çalıştırılıp test
-# edilemedi — yazan ortamda internet/Android SDK erişimi yok. İlk
-# çalıştırmanda küçük bir adımda hata çıkarsa (özellikle "MainActivity
-# patch" veya "gradle dependency insert" adımlarında), hata logunu
-# kopyalayıp gönder, birlikte düzeltiriz.
 
 on:
   push:
@@ -119,20 +113,18 @@ jobs:
         run: npx cap sync android
 
       - name: APK derle (debug imzasıyla release)
-    working-directory: android
-    run: |
-      chmod +x gradlew
-      ./gradlew bundleRelease \
-        -Pandroid.injected.signing.store.file=$HOME/.android/debug.keystore \
-        -Pandroid.injected.signing.store.password=android \
-        -Pandroid.injected.signing.key.alias=androiddebugkey \
-        -Pandroid.injected.signing.key.password=android
-        
-          
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file=$HOME/.android/debug.keystore \
+            -Pandroid.injected.signing.store.password=android \
+            -Pandroid.injected.signing.key.alias=androiddebugkey \
+            -Pandroid.injected.signing.key.password=android
 
       - name: APK'yı yükle (indirilebilir çıktı)
         uses: actions/upload-artifact@v4
         with:
           name: ioz-internet-cafe-release-aab
           path: android/app/build/outputs/bundle/release/app-release.aab
-
+          
