@@ -1,13 +1,5 @@
 name: Build Android APK
 
-# Bu workflow, "npx cap add android" ve Android Studio derlemesini SENİN
-# bilgisayarında değil, GitHub'ın kendi sunucularında otomatik yapar.
-# Sonunda Play Store'a yüklenebilir, İMZALI bir .aab dosyası üretir.
-#
-# ÇALIŞTIRMA: Actions sekmesi -> "Build Android APK" -> "Run workflow"
-# butonuna basman yeterli. main dalına her push yaptığında da otomatik
-# çalışır.
-
 on:
   push:
     branches: [ main ]
@@ -41,25 +33,9 @@ jobs:
         run: |
           APP_ID=$(node -e "console.log(require('./capacitor.config.json').appId)")
           PKG_PATH="android/app/src/main/java/$(echo $APP_ID | tr '.' '/')"
-          echo "Uygulama paketi: $APP_ID -> $PKG_PATH"
           mkdir -p "$PKG_PATH"
-
           sed "s/^package .*/package $APP_ID;/" android-plugin/UnityAdsBridge.kt > "$PKG_PATH/UnityAdsBridge.kt"
-
-          cat > "$PKG_PATH/MainActivity.java" << EOF
-          package $APP_ID;
-
-          import android.os.Bundle;
-          import com.getcapacitor.BridgeActivity;
-
-          public class MainActivity extends BridgeActivity {
-              @Override
-              public void onCreate(Bundle savedInstanceState) {
-                  registerPlugin(UnityAdsBridge.class);
-                  super.onCreate(savedInstanceState);
-              }
-          }
-          EOF
+          printf 'package %s;\n\nimport android.os.Bundle;\nimport com.getcapacitor.BridgeActivity;\n\npublic class MainActivity extends BridgeActivity {\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        registerPlugin(UnityAdsBridge.class);\n        super.onCreate(savedInstanceState);\n    }\n}\n' "$APP_ID" > "$PKG_PATH/MainActivity.java"
 
       - name: Kotlin desteğini Android projesine ekle
         run: |
@@ -67,7 +43,6 @@ jobs:
           if ! grep -q "kotlin-gradle-plugin" "$ROOT_GRADLE"; then
             sed -i "s/classpath 'com.android.tools.build:gradle:[^']*'/&\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24\"/" "$ROOT_GRADLE"
           fi
-
           APP_GRADLE="android/app/build.gradle"
           if ! grep -q "kotlin-android" "$APP_GRADLE"; then
             sed -i "s/apply plugin: 'com.android.application'/apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'/" "$APP_GRADLE"
@@ -100,33 +75,22 @@ jobs:
         run: npx cap sync android
 
       - name: Keystore'u oluştur
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release-key.jks
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release-key.jks
 
       - name: İmzalama ayarlarını build.gradle'a ekle
         run: |
           APP_GRADLE="android/app/build.gradle"
-
           if ! grep -q "signingConfigs" "$APP_GRADLE"; then
-            sed -i "/android {/a\\
-    signingConfigs {\\
-        release {\\
-            storeFile file('release-key.jks')\\
-            storePassword System.getenv('KEYSTORE_PASSWORD')\\
-            keyAlias System.getenv('KEY_ALIAS')\\
-            keyPassword System.getenv('KEY_PASSWORD')\\
-        }\\
-    }" "$APP_GRADLE"
+            SIGNING=$(printf '    signingConfigs {\n        release {\n            storeFile file("release-key.jks")\n            storePassword System.getenv("KEYSTORE_PASSWORD")\n            keyAlias System.getenv("KEY_ALIAS")\n            keyPassword System.getenv("KEY_PASSWORD")\n        }\n    }')
+            awk -v block="$SIGNING" '{print} /android {/ && !done {print block; done=1}' "$APP_GRADLE" > /tmp/bg.tmp && mv /tmp/bg.tmp "$APP_GRADLE"
           fi
-
           if ! grep -q "signingConfig signingConfigs.release" "$APP_GRADLE"; then
-            sed -i "0,/release {/{s/release {/release {\n            signingConfig signingConfigs.release/}" "$APP_GRADLE"
+            awk '{print} /release {/ && !done {print "            signingConfig signingConfigs.release"; done=1}' "$APP_GRADLE" > /tmp/bg2.tmp && mv /tmp/bg2.tmp "$APP_GRADLE"
           fi
-
           echo "----- app/build.gradle (kontrol) -----"
           cat "$APP_GRADLE"
 
-      - name: AAB derle (Release, imzalı) — Play Store için
+      - name: AAB derle (Release, imzalı)
         working-directory: android
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -136,7 +100,7 @@ jobs:
           chmod +x gradlew
           ./gradlew bundleRelease
 
-      - name: APK derle (Release, imzalı) — test için telefona kurulabilir
+      - name: APK derle (Release, imzalı)
         working-directory: android
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -144,13 +108,13 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew assembleRelease
 
-      - name: AAB'yi yükle (Play Store'a bunu yükleyeceksin)
+      - name: AAB'yi yükle
         uses: actions/upload-artifact@v4
         with:
           name: ioz-internet-cafe-release-aab
           path: android/app/build/outputs/bundle/release/*.aab
 
-      - name: APK'yı yükle (telefonuna test için kur)
+      - name: APK'yı yükle
         uses: actions/upload-artifact@v4
         with:
           name: ioz-internet-cafe-release-apk
