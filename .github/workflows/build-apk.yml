@@ -80,12 +80,12 @@ jobs:
       - name: İmzalama ayarlarını build.gradle'a ekle
         run: |
           APP_GRADLE="android/app/build.gradle"
-          if ! grep -q "signingConfigs" "$APP_GRADLE"; then
+          if ! grep -q "signingConfigs {" "$APP_GRADLE"; then
             SIGNING=$(printf '    signingConfigs {\n        release {\n            storeFile file("release-key.jks")\n            storePassword System.getenv("KEYSTORE_PASSWORD")\n            keyAlias System.getenv("KEY_ALIAS")\n            keyPassword System.getenv("KEY_PASSWORD")\n        }\n    }')
             awk -v block="$SIGNING" '{print} /android {/ && !done {print block; done=1}' "$APP_GRADLE" > /tmp/bg.tmp && mv /tmp/bg.tmp "$APP_GRADLE"
           fi
           if ! grep -q "signingConfig signingConfigs.release" "$APP_GRADLE"; then
-            awk '{print} /release {/ && !done {print "            signingConfig signingConfigs.release"; done=1}' "$APP_GRADLE" > /tmp/bg2.tmp && mv /tmp/bg2.tmp "$APP_GRADLE"
+            awk '{print} /buildTypes[[:space:]]*{/ {inBT=1} inBT && /release[[:space:]]*{/ && !done {print "            signingConfig signingConfigs.release"; done=1}' "$APP_GRADLE" > /tmp/bg2.tmp && mv /tmp/bg2.tmp "$APP_GRADLE"
           fi
           echo "----- app/build.gradle (kontrol) -----"
           cat "$APP_GRADLE"
