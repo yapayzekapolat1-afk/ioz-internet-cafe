@@ -1,0 +1,141 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    steps:
+      - name: Kodu indir
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Java (JDK 21) kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Capacitor bağımlılıklarını kur
+        run: npm install
+
+      - name: Android projesini oluştur
+        run: npx cap add android
+
+      - name: Unity Ads eklentisini native projeye yerleştir
+        run: |
+          APP_ID=$(node -e "console.log(require('./capacitor.config.json').appId)")
+          PKG_PATH="android/app/src/main/java/$(echo $APP_ID | tr '.' '/')"
+          mkdir -p "$PKG_PATH"
+          sed "s/^package .*/package $APP_ID;/" android-plugin/UnityAdsBridge.kt > "$PKG_PATH/UnityAdsBridge.kt"
+          printf 'package %s;\n\nimport android.os.Bundle;\nimport com.getcapacitor.BridgeActivity;\n\npublic class MainActivity extends BridgeActivity {\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        registerPlugin(UnityAdsBridge.class);\n        super.onCreate(savedInstanceState);\n    }\n}\n' "$APP_ID" > "$PKG_PATH/MainActivity.java"
+
+      - name: Kotlin desteğini Android projesine ekle
+        run: |
+          ROOT_GRADLE="android/build.gradle"
+          if ! grep -q "kotlin-gradle-plugin" "$ROOT_GRADLE"; then
+            sed -i "s/classpath 'com.android.tools.build:gradle:[^']*'/&\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24\"/" "$ROOT_GRADLE"
+          fi
+          APP_GRADLE="android/app/build.gradle"
+          if ! grep -q "kotlin-android" "$APP_GRADLE"; then
+            sed -i "s/apply plugin: 'com.android.application'/apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'/" "$APP_GRADLE"
+          fi
+
+      - name: Unity Ads Gradle bağımlılığını ekle
+        run: |
+          GRADLE_FILE="android/app/build.gradle"
+          if ! grep -q "com.unity3d.ads:unity-ads" "$GRADLE_FILE"; then
+            sed -i "s/implementation project(':capacitor-android')/implementation project(':capacitor-android')\n    implementation 'com.unity3d.ads:unity-ads:4.16.6'/" "$GRADLE_FILE"
+          fi
+
+      - name: İnternet izinlerini garantile
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if ! grep -q "ACCESS_NETWORK_STATE" "$MANIFEST"; then
+            sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />#' "$MANIFEST"
+          fi
+
+      - name: Uygulama ikonunu yerleştir
+        run: |
+          for dir in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            cp "android-icons/mipmap-$dir/ic_launcher.png" "android/app/src/main/res/mipmap-$dir/ic_launcher.png"
+            cp "android-icons/mipmap-$dir/ic_launcher_round.png" "android/app/src/main/res/mipmap-$dir/ic_launcher_round.png"
+          done
+          ANYDPI="android/app/src/main/res/mipmap-anydpi-v26"
+          if [ -d "$ANYDPI" ]; then rm -f "$ANYDPI"/*.xml; fi
+
+      - name: Web dosyalarını native projeye senkronize et
+        run: npx cap sync android
+
+      - name: Sürüm numarasını (versionCode) otomatik artır
+        run: |
+          APP_GRADLE="android/app/build.gradle"
+          # github.run_number bu workflow her çalıştığında 1 artar, asla geriye
+          # gitmez veya tekrar etmez — Play Store'un istediği "her yüklemede
+          # daha yüksek versionCode" kuralını garanti eder.
+          NEW_CODE=${{ github.run_number }}
+          NEW_NAME="1.0.${{ github.run_number }}"
+          sed -i "s/versionCode [0-9]\+/versionCode $NEW_CODE/" "$APP_GRADLE"
+          sed -i "s/versionName \"[^\"]*\"/versionName \"$NEW_NAME\"/" "$APP_GRADLE"
+          echo "versionCode=$NEW_CODE, versionName=$NEW_NAME olarak ayarlandı."
+          grep -E "versionCode|versionName" "$APP_GRADLE"
+
+      - name: Sabit keystore'u geri yükle (ilk sürümü imzalayan anahtar)
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release-key.jks
+          # Dosyanın boş/bozuk gelmediğini erken fark etmek için boyut kontrolü
+          test -s android/app/release-key.jks || (echo "HATA: KEYSTORE_BASE64 secret'i boş veya eksik" && exit 1)
+          echo "Dosya boyutu: $(stat -c%s android/app/release-key.jks) bayt"
+
+      - name: Keystore'un şifre/alias ile açıldığını erkenden doğrula
+        run: |
+          if ! keytool -list -keystore android/app/release-key.jks -alias "$KEY_ALIAS" -storepass "$KEYSTORE_PASSWORD" > /dev/null 2>&1; then
+            echo "HATA: keystore, verilen KEYSTORE_PASSWORD/KEY_ALIAS ile açılamadı."
+            echo "İhtimaller: (1) KEYSTORE_BASE64 secret'i eksik/bozuk yapıştırılmış, (2) bu keystore aslında farklı bir şifre/alias ile üretilmiş."
+            exit 1
+          fi
+          echo "Keystore doğrulandı, alias '$KEY_ALIAS' bulundu."
+
+      - name: İmzalama ayarlarını build.gradle'a ekle
+        run: |
+          APP_GRADLE="android/app/build.gradle"
+          if ! grep -q "signingConfigs {" "$APP_GRADLE"; then
+            SIGNING=$(printf '    signingConfigs {\n        release {\n            storeFile file("release-key.jks")\n            storePassword System.getenv("KEYSTORE_PASSWORD")\n            keyAlias System.getenv("KEY_ALIAS")\n            keyPassword System.getenv("KEY_PASSWORD")\n        }\n    }')
+            awk -v block="$SIGNING" '{print} /android {/ && !done {print block; done=1}' "$APP_GRADLE" > /tmp/bg.tmp && mv /tmp/bg.tmp "$APP_GRADLE"
+          fi
+          if ! grep -q "signingConfig signingConfigs.release" "$APP_GRADLE"; then
+            awk '{print} /buildTypes[[:space:]]*{/ {inBT=1} inBT && /release[[:space:]]*{/ && !done {print "            signingConfig signingConfigs.release"; done=1}' "$APP_GRADLE" > /tmp/bg2.tmp && mv /tmp/bg2.tmp "$APP_GRADLE"
+          fi
+
+      - name: AAB derle (Release, imzalı)
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew bundleRelease
+
+      - name: APK derle (Release, imzalı)
+        working-directory: android
+        run: ./gradlew assembleRelease
+
+      - name: AAB'yi yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ioz-internet-cafe-release-aab
+          path: android/app/build/outputs/bundle/release/*.aab
+
+      - name: APK'yı yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ioz-internet-cafe-release-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
