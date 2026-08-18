@@ -28,7 +28,10 @@ jobs:
           java-version: '21'
 
       - name: Capacitor bağımlılıklarını kur
-        run: npm install
+        run: |
+          npm install
+          npm install @capacitor/app
+        
 
       - name: Android projesini oluştur
         run: npx cap add android
