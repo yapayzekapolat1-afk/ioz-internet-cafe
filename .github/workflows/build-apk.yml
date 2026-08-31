@@ -103,7 +103,7 @@ jobs:
           # gitmez veya tekrar etmez — Play Store'un istediği "her yüklemede
           # daha yüksek versionCode" kuralını garanti eder.
           NEW_CODE=${{ github.run_number }}
-          NEW_NAME="4.0.${{ github.run_number }}"
+          NEW_NAME="5.0.${{ github.run_number }}"
           sed -i "s/versionCode [0-9]\+/versionCode $NEW_CODE/" "$APP_GRADLE"
           sed -i "s/versionName \"[^\"]*\"/versionName \"$NEW_NAME\"/" "$APP_GRADLE"
           echo "versionCode=$NEW_CODE, versionName=$NEW_NAME olarak ayarlandı."
