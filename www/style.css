@@ -340,16 +340,36 @@ body{
   z-index:2;
 }
 .hud-id{ line-height:1.3; }
+.hud-name-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
 .hud-name{
   font-family:var(--font-display);
   font-size:16px;
   font-weight:600;
   color:var(--text);
-  max-width:220px;
+  max-width:160px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
+.vip-badge{
+  display:flex;
+  align-items:center;
+  gap:2px;
+  flex-shrink:0;
+  padding:2px 6px 2px 5px;
+  border-radius:6px;
+  background:linear-gradient(90deg, var(--gold), #ffe08a);
+  color:#2A1B00;
+  font-family:var(--font-mono);
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:.3px;
+}
+.vip-badge svg{ width:11px; height:11px; }
 .hud-money{
   margin-top:3px;
   display:flex;
@@ -701,6 +721,12 @@ body{
   display:flex; align-items:center; justify-content:center;
   cursor:pointer;
 }
+.hud-vip-btn{
+  margin-left:8px;
+  background:rgba(245,184,78,.12);
+  border-color:var(--gold);
+  color:var(--gold);
+}
 
 .sub-hud{
   display:flex;
@@ -1001,6 +1027,57 @@ body{
   white-space:nowrap;
 }
 .store-item-owned svg{ width:14px; height:14px; }
+
+/* ---------- vip modal ---------- */
+.vip-hero{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  padding:18px 0 14px;
+}
+.vip-hero svg{ color:var(--gold); width:40px; height:40px; }
+.vip-hero-title{
+  font-family:var(--font-display);
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
+  text-align:center;
+}
+.vip-benefit-list{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  margin:4px 0 18px;
+}
+.vip-benefit-list li{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:12.5px;
+  color:var(--text);
+}
+.vip-benefit-list svg{ flex-shrink:0; width:16px; height:16px; color:var(--accent); }
+.vip-buy-btn{
+  background:linear-gradient(90deg, var(--gold), #ffe08a);
+  color:#2A1B00;
+  font-weight:800;
+}
+.vip-owned-box{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  justify-content:center;
+  padding:12px;
+  margin-top:22px;
+  border-radius:10px;
+  background:rgba(52,231,196,.08);
+  border:1px solid var(--accent-dim);
+  color:var(--accent);
+  font-size:12.5px;
+  font-weight:600;
+}
 
 /* ---------- tiktok panel ---------- */
 .tiktok-card{
@@ -1837,11 +1914,13 @@ body{
 
 /* icon sizing utilities */
 svg[class^="i-"]{ display:block; fill:none; }
+.i-11{ width:11px; height:11px; }
 .i-12{ width:12px; height:12px; }
 .i-14{ width:14px; height:14px; }
 .i-16{ width:16px; height:16px; }
 .i-18{ width:18px; height:18px; }
 .i-20{ width:20px; height:20px; }
 .i-24{ width:24px; height:24px; }
+.i-40{ width:40px; height:40px; }
 
 [hidden]{ display:none !important; }

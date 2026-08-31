@@ -269,7 +269,12 @@
     <header class="hud">
       <img src="assets/logo-sm.jpg" alt="iOZ" class="hud-logo">
       <div class="hud-id">
-        <div class="hud-name" id="hud-cafe-name">—</div>
+        <div class="hud-name-row">
+          <div class="hud-name" id="hud-cafe-name">—</div>
+          <span id="vip-badge" class="vip-badge" hidden>
+            <svg class="i-11"><use href="#icon-shop-vip"/></svg>VIP
+          </span>
+        </div>
         <div class="hud-money">
           <svg class="i-14"><use href="#icon-coin"/></svg>
           <span id="hud-money">0</span> ₺
@@ -282,6 +287,9 @@
         </div>
         <div class="hud-day"><span data-i18n="hud.day">Gün</span> <span id="hud-day">1</span></div>
       </div>
+      <button id="btn-open-vip" class="hud-icon-btn hud-vip-btn" aria-label="VIP">
+        <svg class="i-18"><use href="#icon-shop-vip"/></svg>
+      </button>
       <button id="btn-info" class="hud-icon-btn" aria-label="Bilgi">
         <svg class="i-18"><use href="#icon-info"/></svg>
       </button>
@@ -391,7 +399,7 @@
         </ul>
         <button id="btn-next-day" class="btn btn-primary btn-block btn-with-icon">
           <svg class="i-16"><use href="#icon-play"/></svg>
-          <span data-i18n="day.watchAd">Reklam İzle ve Devam Et</span>
+          <span id="btn-next-day-label" data-i18n="day.watchAd">Reklam İzle ve Devam Et</span>
         </button>
         <p class="ad-hint" id="ad-hint" data-i18n="day.adHint">Kısa bir reklam sonrası ertesi güne geçersin.</p>
 
@@ -423,6 +431,36 @@
           <li><span data-i18n="bankrupt.customers">Toplam müşteri</span><strong id="bankrupt-customers">0</strong></li>
         </ul>
         <button id="btn-bankrupt-restart" class="btn btn-primary btn-block" data-i18n="bankrupt.restart">Yeniden Başla</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIP ÜYELİK (real-money one-time purchase) -->
+  <div id="modal-vip" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span data-i18n="vip.title">VIP Üyelik</span>
+        <button id="btn-close-vip" class="hud-icon-btn"><svg class="i-18"><use href="#icon-close"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <div class="vip-hero">
+          <svg class="i-40"><use href="#icon-shop-vip"/></svg>
+          <div class="vip-hero-title" data-i18n="vip.heroTitle">İşletmeni VIP Yap</div>
+        </div>
+        <ul class="vip-benefit-list">
+          <li><svg class="i-16"><use href="#icon-check"/></svg><span data-i18n="vip.benefit1">Tüm kazançların 2 katına çıkar</span></li>
+          <li><svg class="i-16"><use href="#icon-check"/></svg><span data-i18n="vip.benefit2">Gün sonu reklamları tamamen kalkar</span></li>
+          <li><svg class="i-16"><use href="#icon-check"/></svg><span data-i18n="vip.benefit3">Diğer tüm reklamlar da kaldırılır</span></li>
+          <li><svg class="i-16"><use href="#icon-check"/></svg><span data-i18n="vip.benefit4">Adının yanında altın VIP rozeti</span></li>
+        </ul>
+        <button id="btn-buy-vip" class="btn btn-primary btn-block vip-buy-btn">
+          <span data-i18n="vip.buyBtn">VIP OL</span> — <span id="vip-price-label">100 ₺</span>
+        </button>
+        <div id="vip-owned-box" class="vip-owned-box" hidden>
+          <svg class="i-18"><use href="#icon-check"/></svg>
+          <span data-i18n="vip.alreadyOwned">Zaten VIP üyesin, teşekkürler!</span>
+        </div>
+        <p class="settings-note" data-i18n="vip.note">Tek seferlik satın alma. Google Play hesabına bağlıdır, uygulamayı silsen bile korunur.</p>
       </div>
     </div>
   </div>

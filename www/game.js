@@ -227,6 +227,20 @@
       "staff.cleaner.descToHire": "İşe alım {hire} ₺ + günlük {wage} ₺ maaş. Dükkan puanını yükseltir.",
       "staff.fire": "Kovla",
 
+      "vip.title": "VIP Üyelik",
+      "vip.heroTitle": "İşletmeni VIP Yap",
+      "vip.benefit1": "Tüm kazançların 2 katına çıkar",
+      "vip.benefit2": "Gün sonu reklamları tamamen kalkar",
+      "vip.benefit3": "Diğer tüm reklamlar da kaldırılır",
+      "vip.benefit4": "Adının yanında altın VIP rozeti",
+      "vip.buyBtn": "VIP OL",
+      "vip.alreadyOwned": "Zaten VIP üyesin, teşekkürler!",
+      "vip.note": "Tek seferlik satın alma. Google Play hesabına bağlıdır, uygulamayı silsen bile korunur.",
+      "vip.purchased": "VIP üyeliğin aktif! Kazançların artık 2 katı 👑",
+      "vip.purchaseFailed": "Satın alma tamamlanamadı, tekrar dene.",
+      "vip.adFreeHint": "VIP üyesin, reklamsız devam ediyorsun 👑",
+      "day.continueVip": "Sonraki Güne Geç",
+
       "toast.notEnoughMoney": "Yetersiz bütçe",
       "toast.stationFilledMeanwhile": "Masa {n} bu arada doldu",
       "toast.adBonusQuick": "+{amount} ₺ reklam bonusu!",
@@ -498,6 +512,20 @@
       "staff.cleaner.descHired": "{wage} ₺ daily wage · boosts your cafe rating.",
       "staff.cleaner.descToHire": "{hire} ₺ to hire + {wage} ₺ daily wage. Boosts your cafe rating.",
       "staff.fire": "Let Go",
+
+      "vip.title": "VIP Membership",
+      "vip.heroTitle": "Make Your Business VIP",
+      "vip.benefit1": "Doubles all your earnings",
+      "vip.benefit2": "Removes the end-of-day ad entirely",
+      "vip.benefit3": "Removes all other ads too",
+      "vip.benefit4": "A gold VIP badge next to your name",
+      "vip.buyBtn": "GO VIP",
+      "vip.alreadyOwned": "You're already VIP, thank you!",
+      "vip.note": "One-time purchase. Tied to your Google Play account, kept even if you uninstall.",
+      "vip.purchased": "VIP membership active! Earnings are now 2x 👑",
+      "vip.purchaseFailed": "Purchase couldn't be completed, try again.",
+      "vip.adFreeHint": "You're VIP, continuing ad-free 👑",
+      "day.continueVip": "Continue to Next Day",
 
       "toast.notEnoughMoney": "Not enough budget",
       "toast.stationFilledMeanwhile": "Table {n} got filled in the meantime",
@@ -908,7 +936,8 @@
       staff: { cleaner: false },
       rating: 7.0,
       rateUsClaimed: false,
-      adBonusUsesToday: 0
+      adBonusUsesToday: 0,
+      vip: false
     };
   }
 
@@ -993,6 +1022,7 @@
       if (typeof parsed.rating !== "number") parsed.rating = 7.0;
       if (typeof parsed.rateUsClaimed !== "boolean") parsed.rateUsClaimed = false;
       if (typeof parsed.adBonusUsesToday !== "number") parsed.adBonusUsesToday = 0;
+      if (typeof parsed.vip !== "boolean") parsed.vip = false;
 
       parsed.stations.forEach(function (s) {
         if (typeof s.computerLevel !== "number") s.computerLevel = s.hasComputer ? 1 : 0;
@@ -1113,6 +1143,13 @@
   var btnCloseStore = $("btn-close-store");
   var storeList = $("store-list");
   var btnTiktokClaim = $("btn-tiktok-claim");
+  var vipBadge = $("vip-badge");
+  var btnOpenVip = $("btn-open-vip");
+  var modalVip = $("modal-vip");
+  var btnCloseVip = $("btn-close-vip");
+  var btnBuyVip = $("btn-buy-vip");
+  var vipOwnedBox = $("vip-owned-box");
+  var vipPriceLabel = $("vip-price-label");
 
   $("price-table").textContent = TABLE_COST + " ₺";
   $("price-computer").textContent = COMPUTER_COST + " ₺";
@@ -1152,6 +1189,8 @@
   // birikir. Tüm gelir kaynaklarına (masa/PS ödemesi + otomat geliri)
   // revenueBoost ile birlikte uygulanır.
   function rebirthMultiplier() { return 1 + state.rebirths * 0.15; }
+  // VIP: real-money one-time purchase, doubles every income source.
+  function vipMultiplier() { return state.vip ? 2 : 1; }
 
   function dailyRunningCost() {
     var total = DAILY_BASE_COST;
@@ -1194,6 +1233,16 @@
       state = existing;
       startGameScreen();
       maybeShowChangelog();
+      // Re-confirm VIP entitlement with Google Play (covers reinstalls /
+      // new devices — VIP isn't lost even if the local save is).
+      Billing.restore(function (isVip) {
+        if (isVip && !state.vip) {
+          state.vip = true;
+          save();
+          renderHud();
+          renderAdBonusButton();
+        }
+      });
     } else {
       screenSetup.hidden = false;
       nameInput.focus();
@@ -1279,6 +1328,7 @@
     statRating.textContent = state.rating.toFixed(1);
     statCustomers.textContent = state.totalCustomers;
     statToday.textContent = fmtMoney(state.today.revenue) + " ₺";
+    if (vipBadge) vipBadge.hidden = !state.vip;
 
     var tables = countHasTable();
     var computers = countHasComputer();
@@ -1600,7 +1650,7 @@
         var perMin = 0;
         if (state.vending.drink) perMin += VENDING_DRINK_RATE_PER_HOUR / 60;
         if (state.vending.food) perMin += VENDING_FOOD_RATE_PER_HOUR / 60;
-        perMin *= rebirthMultiplier();
+        perMin *= rebirthMultiplier() * vipMultiplier();
         state.vendingAccrued += perMin * step;
         var whole = Math.floor(state.vendingAccrued);
         if (whole > 0) {
@@ -1616,7 +1666,7 @@
         if (state.clockMin >= s.sessionEndMin) {
           // "Gelir Artışı" dükkan ürünü (+%20) ve Yeniden Doğuş kalıcı
           // bonusu (+%15/doğuş) net kazanca birlikte uygulanır.
-          var earned = s.payout * (state.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier();
+          var earned = s.payout * (state.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier();
           earned = Math.round(earned);
           state.money += earned;
           state.today.revenue += earned;
@@ -1682,7 +1732,7 @@
       var rate = s.agreedRate || s.rate;
       var partial = Math.round(usedHours * rate);
       if (state.shop.revenueBoost) partial = Math.round(partial * 1.2);
-      partial = Math.round(partial * rebirthMultiplier());
+      partial = Math.round(partial * rebirthMultiplier() * vipMultiplier());
       state.money += partial;
       state.today.revenue += partial;
       state.today.served += 1;
@@ -1775,6 +1825,18 @@
     dayLost.textContent = state.today.lost;
     dayNet.textContent = (net >= 0 ? "+" : "") + fmtMoney(net) + " ₺";
     dayNet.style.color = net >= 0 ? "var(--gold)" : "var(--danger)";
+    // VIP: no ad is shown at all — button just advances the day, and the
+    // "reklam gösterilemedi" fallback UI never applies since Ads.showRewarded
+    // is skipped entirely in the click handler below.
+    var nextDayLabel = $("btn-next-day-label");
+    if (state.vip) {
+      if (nextDayLabel) nextDayLabel.textContent = t("day.continueVip");
+      if (adHint) { adHint.hidden = false; adHint.textContent = t("vip.adFreeHint"); }
+      if (adBlockedBox) adBlockedBox.hidden = true;
+    } else {
+      if (nextDayLabel) nextDayLabel.textContent = t("day.watchAd");
+      if (adHint) { adHint.hidden = false; adHint.textContent = t("day.adHint"); }
+    }
     modalDay.hidden = false;
   }
 
@@ -1851,6 +1913,92 @@
     }
   };
 
+  // ---------------------------------------------------------------- vip billing (real-money one-time purchase)
+  // Same pattern as the Ads bridge above: a native Capacitor plugin named
+  // "BillingBridge" (Google Play Billing Library) is registered in the APK
+  // — see android-plugin/BillingBridge.kt. Here we only detect it and call
+  // it; opened in a plain browser, we fall back to instantly granting VIP
+  // so the flow can be tested without a signed build or real payment.
+  var VIP_PRODUCT_ID = "vip_membership";
+  var Billing = {
+    nativeBridge: function () {
+      return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.BillingBridge) || null;
+    },
+    // onDone(success, reason) is called exactly once. On success the
+    // purchase has already been acknowledged/consumed by the native side.
+    purchaseVip: function (onDone) {
+      var bridge = this.nativeBridge();
+      if (bridge) {
+        bridge.purchaseVip({ productId: VIP_PRODUCT_ID })
+          .then(function () { onDone(true, null); })
+          .catch(function (err) {
+            var raw = (err && (err.message || err.errorMessage || err)) || "unknown";
+            onDone(false, raw);
+          });
+        return;
+      }
+      // ---- browser preview fallback: no real billing available here ----
+      onDone(true, "preview");
+    },
+    // Re-checks entitlement with Google Play so a reinstall / new device
+    // gets VIP back without paying again. Call this once on startup.
+    restore: function (onDone) {
+      var bridge = this.nativeBridge();
+      if (!bridge || !bridge.restorePurchases) { onDone(false); return; }
+      bridge.restorePurchases()
+        .then(function (res) { onDone(!!(res && res.vip)); })
+        .catch(function () { onDone(false); });
+    }
+  };
+
+  function renderVipModal() {
+    if (!state) return;
+    var owned = !!state.vip;
+    if (btnBuyVip) btnBuyVip.hidden = owned;
+    if (vipOwnedBox) vipOwnedBox.hidden = !owned;
+    // Show the real, localized Play Store price when available instead of
+    // the hardcoded "100 ₺" placeholder (Google sets the local-currency
+    // price for a given base price, so it won't always read exactly 100).
+    var bridge = Billing.nativeBridge();
+    if (!owned && bridge && bridge.getVipPrice && vipPriceLabel) {
+      bridge.getVipPrice({ productId: VIP_PRODUCT_ID })
+        .then(function (res) { if (res && res.price) vipPriceLabel.textContent = res.price; })
+        .catch(function () { /* keep placeholder */ });
+    }
+  }
+
+  if (btnOpenVip) {
+    btnOpenVip.addEventListener("click", function () {
+      renderVipModal();
+      modalVip.hidden = false;
+    });
+  }
+  if (btnCloseVip) {
+    btnCloseVip.addEventListener("click", function () { modalVip.hidden = true; });
+  }
+  if (modalVip) {
+    modalVip.addEventListener("click", function (e) { if (e.target === modalVip) modalVip.hidden = true; });
+  }
+  if (btnBuyVip) {
+    btnBuyVip.addEventListener("click", function () {
+      if (!state || state.vip) return;
+      btnBuyVip.disabled = true;
+      Billing.purchaseVip(function (success) {
+        btnBuyVip.disabled = false;
+        if (success) {
+          state.vip = true;
+          save();
+          renderHud();
+          renderVipModal();
+          renderAdBonusButton();
+          showToast(t("vip.purchased"));
+        } else {
+          showToast(t("vip.purchaseFailed"));
+        }
+      });
+    });
+  }
+
   var AD_BONUS = 100;
   var adBlockedBox = $("ad-blocked-box");
   var adBlockedText = $("ad-blocked-text");
@@ -1867,6 +2015,9 @@
 
   function renderAdBonusButton() {
     if (!state || !btnAdBonus) return;
+    // VIP: "tüm reklamlar kaldırılır" — this opt-in bonus ad goes away too.
+    if (state.vip) { btnAdBonus.hidden = true; return; }
+    btnAdBonus.hidden = false;
     var left = AD_BONUS_QUICK_DAILY_LIMIT - state.adBonusUsesToday;
     if (left <= 0) {
       btnAdBonus.disabled = true;
@@ -1896,7 +2047,37 @@
     });
   }
 
+  // Shared tail of the day-transition, used both for the normal
+  // watch-ad path and the VIP no-ad path below.
+  function advanceToNextDay(withAdBonus) {
+    modalDay.hidden = true;
+    if (withAdBonus) {
+      state.money += AD_BONUS;
+      showToast(t("toast.adBonusDay", { amount: AD_BONUS }));
+    }
+    state.day += 1;
+    state.clockMin = DAY_OPEN_MIN;
+    state.dayOver = false;
+    state.today = { served: 0, revenue: 0, lost: 0 };
+    state.todayCosts = 0;
+    state.adBonusUsesToday = 0;
+    state.requests = [];
+    state.nextRequestAtMin = DAY_OPEN_MIN + 4;
+    lastTickAt = Date.now();
+    renderFloor();
+    renderRequests();
+    renderAdBonusButton();
+    renderHud();
+    save();
+  }
+
   btnNextDay.addEventListener("click", function () {
+    // VIP: no ad, ever. Advance straight to the next day.
+    if (state.vip) {
+      advanceToNextDay(false);
+      return;
+    }
+
     btnNextDay.disabled = true;
     adBlockedBox.hidden = true;
     adHint.hidden = false;
@@ -1916,25 +2097,7 @@
 
       // Either fully watched (bonus) or shown-but-skipped (still a served
       // impression, still earns revenue) — the day is allowed to proceed.
-      modalDay.hidden = true;
-      if (watchedFully) {
-        state.money += AD_BONUS;
-        showToast(t("toast.adBonusDay", { amount: AD_BONUS }));
-      }
-      state.day += 1;
-      state.clockMin = DAY_OPEN_MIN;
-      state.dayOver = false;
-      state.today = { served: 0, revenue: 0, lost: 0 };
-      state.todayCosts = 0;
-      state.adBonusUsesToday = 0;
-      state.requests = [];
-      state.nextRequestAtMin = DAY_OPEN_MIN + 4;
-      lastTickAt = Date.now();
-      renderFloor();
-      renderRequests();
-      renderAdBonusButton();
-      renderHud();
-      save();
+      advanceToNextDay(watchedFully);
     });
   });
 
