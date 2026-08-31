@@ -36,13 +36,14 @@ jobs:
       - name: Android projesini oluştur
         run: npx cap add android
 
-      - name: Unity Ads eklentisini native projeye yerleştir
+      - name: Eklentileri native projeye yerleştir (Unity Ads + Billing)
         run: |
           APP_ID=$(node -e "console.log(require('./capacitor.config.json').appId)")
           PKG_PATH="android/app/src/main/java/$(echo $APP_ID | tr '.' '/')"
           mkdir -p "$PKG_PATH"
           sed "s/^package .*/package $APP_ID;/" android-plugin/UnityAdsBridge.kt > "$PKG_PATH/UnityAdsBridge.kt"
-          printf 'package %s;\n\nimport android.os.Bundle;\nimport com.getcapacitor.BridgeActivity;\n\npublic class MainActivity extends BridgeActivity {\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        registerPlugin(UnityAdsBridge.class);\n        super.onCreate(savedInstanceState);\n    }\n}\n' "$APP_ID" > "$PKG_PATH/MainActivity.java"
+          sed "s/^package .*/package $APP_ID;/" android-plugin/BillingBridge.kt > "$PKG_PATH/BillingBridge.kt"
+          printf 'package %s;\n\nimport android.os.Bundle;\nimport com.getcapacitor.BridgeActivity;\n\npublic class MainActivity extends BridgeActivity {\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        registerPlugin(UnityAdsBridge.class);\n        registerPlugin(BillingBridge.class);\n        super.onCreate(savedInstanceState);\n    }\n}\n' "$APP_ID" > "$PKG_PATH/MainActivity.java"
 
       - name: Kotlin desteğini Android projesine ekle
         run: |
@@ -62,11 +63,25 @@ jobs:
             sed -i "s/implementation project(':capacitor-android')/implementation project(':capacitor-android')\n    implementation 'com.unity3d.ads:unity-ads:4.16.6'/" "$GRADLE_FILE"
           fi
 
+      - name: Play Billing Gradle bağımlılığını ekle
+        run: |
+          GRADLE_FILE="android/app/build.gradle"
+          if ! grep -q "com.android.billingclient:billing" "$GRADLE_FILE"; then
+            sed -i "s/implementation project(':capacitor-android')/implementation project(':capacitor-android')\n    implementation 'com.android.billingclient:billing:7.1.1'/" "$GRADLE_FILE"
+          fi
+
       - name: İnternet izinlerini garantile
         run: |
           MANIFEST="android/app/src/main/AndroidManifest.xml"
           if ! grep -q "ACCESS_NETWORK_STATE" "$MANIFEST"; then
             sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />#' "$MANIFEST"
+          fi
+
+      - name: Billing iznini garantile
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if ! grep -q "com.android.vending.BILLING" "$MANIFEST"; then
+            sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="com.android.vending.BILLING" />#' "$MANIFEST"
           fi
 
       - name: Uygulama ikonunu yerleştir
