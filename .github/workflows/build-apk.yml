@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed so the last step can commit docs/version.json back
     env:
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
       KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -137,25 +139,31 @@ jobs:
         run: |
           # android-icons/ klasöründe artık tek bir kaynak resim var: icon.png.
           # Play/Android'in istediği 5 farklı boyutu (mdpi→xxxhdpi) burada
-          # ImageMagick ile otomatik üretiyoruz — repoda 10 ayrı dosyayla
-          # uğraşmaya gerek yok, sadece bu tek dosyayı güncel tutman yeterli.
+          # Python/Pillow ile otomatik üretiyoruz (ImageMagick'in runner'da
+          # her zaman `convert` adıyla bulunamaması sorununu ortadan kaldırır)
+          # — repoda 10 ayrı dosyayla uğraşmaya gerek yok, sadece bu tek
+          # dosyayı güncel tutman yeterli.
           SRC="android-icons/icon.png"
           test -s "$SRC" || (echo "HATA: android-icons/icon.png bulunamadı" && exit 1)
-          declare -A SIZES=( [mdpi]=48 [hdpi]=72 [xhdpi]=96 [xxhdpi]=144 [xxxhdpi]=192 )
-          for dpi in "${!SIZES[@]}"; do
-            px="${SIZES[$dpi]}"
-            DEST="android/app/src/main/res/mipmap-$dpi"
-            mkdir -p "$DEST"
-            convert "$SRC" -resize "${px}x${px}" "$DEST/ic_launcher.png"
-            convert "$SRC" -resize "${px}x${px}" "$DEST/ic_launcher_round.png"
-          done
+          pip install --quiet --break-system-packages Pillow
+          python3 - "$SRC" <<'PYEOF'
+          import sys
+          from PIL import Image
+          import os
+          src = Image.open(sys.argv[1]).convert("RGB")
+          sizes = {"mdpi": 48, "hdpi": 72, "xhdpi": 96, "xxhdpi": 144, "xxxhdpi": 192}
+          for dpi, px in sizes.items():
+              dest = "android/app/src/main/res/mipmap-" + dpi
+              os.makedirs(dest, exist_ok=True)
+              resized = src.resize((px, px), Image.LANCZOS)
+              resized.save(dest + "/ic_launcher.png")
+              resized.save(dest + "/ic_launcher_round.png")
+          print("İkonlar 5 boyutta üretildi.")
+          PYEOF
           ANYDPI="android/app/src/main/res/mipmap-anydpi-v26"
           if [ -d "$ANYDPI" ]; then rm -f "$ANYDPI"/*.xml; fi
 
-      - name: Web dosyalarını native projeye senkronize et
-        run: npx cap sync android
-
-      - name: Sürüm numarasını (versionCode) otomatik artır
+      - name: Sürüm numarasını (versionCode) otomatik artır + app-version.json yaz
         run: |
           APP_GRADLE="android/app/build.gradle"
           # github.run_number bu workflow her çalıştığında 1 artar, asla geriye
@@ -167,6 +175,16 @@ jobs:
           sed -i "s/versionName \"[^\"]*\"/versionName \"$NEW_NAME\"/" "$APP_GRADLE"
           echo "versionCode=$NEW_CODE, versionName=$NEW_NAME olarak ayarlandı."
           grep -E "versionCode|versionName" "$APP_GRADLE"
+          # Aynı sürüm numarasını, oyunun kendisinin ("bu APK hangi sürüm?")
+          # bilmesi için www/ içine de yazıyoruz — bu dosya APK'nın içine
+          # gömülür ve zorunlu-güncelleme kontrolünde "benim sürümüm" olarak
+          # kullanılır. cap sync'ten ÖNCE burada olması şart, yoksa APK'nın
+          # içine hiç girmez.
+          echo "{\"versionCode\": $NEW_CODE, \"versionName\": \"$NEW_NAME\"}" > www/app-version.json
+          cat www/app-version.json
+
+      - name: Web dosyalarını native projeye senkronize et
+        run: npx cap sync android
 
       - name: Sabit keystore'u geri yükle (ilk sürümü imzalayan anahtar)
         run: |
@@ -216,3 +234,28 @@ jobs:
         with:
           name: ioz-internet-cafe-release-apk
           path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: docs/version.json güncelle (zorunlu güncelleme kontrolü için)
+        run: |
+          # Build başarıyla bitti demek ki bu versionCode artık gerçek,
+          # Play Store'a yüklenebilir bir sürüm — GitHub Pages'teki
+          # version.json'ı da buna göre güncelleyip repoya geri commit
+          # ediyoruz. Oyun her açılışta bu dosyayı okuyup kendi sürümüyle
+          # karşılaştırıyor (bkz. game.js: checkForUpdate).
+          mkdir -p docs
+          cat > docs/version.json <<VERSIONEOF
+          {
+            "latestVersionCode": ${{ github.run_number }},
+            "updateUrl": "https://play.google.com/store/apps/details?id=com.iozgames.iozcafe"
+          }
+          VERSIONEOF
+          cat docs/version.json
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/version.json
+          if git diff --staged --quiet; then
+            echo "version.json zaten güncel, commit atılmadı."
+          else
+            git commit -m "chore: latestVersionCode -> ${{ github.run_number }} [skip ci]"
+            git push origin HEAD:main
+          fi
