@@ -43,7 +43,56 @@ jobs:
           mkdir -p "$PKG_PATH"
           sed "s/^package .*/package $APP_ID;/" android-plugin/UnityAdsBridge.kt > "$PKG_PATH/UnityAdsBridge.kt"
           sed "s/^package .*/package $APP_ID;/" android-plugin/BillingBridge.kt > "$PKG_PATH/BillingBridge.kt"
-          printf 'package %s;\n\nimport android.os.Bundle;\nimport com.getcapacitor.BridgeActivity;\n\npublic class MainActivity extends BridgeActivity {\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        registerPlugin(UnityAdsBridge.class);\n        registerPlugin(BillingBridge.class);\n        super.onCreate(savedInstanceState);\n    }\n}\n' "$APP_ID" > "$PKG_PATH/MainActivity.java"
+          cat > "$PKG_PATH/MainActivity.java" <<JAVAEOF
+          package $APP_ID;
+
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.view.View;
+          import android.view.WindowManager;
+          import com.getcapacitor.BridgeActivity;
+
+          public class MainActivity extends BridgeActivity {
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  registerPlugin(UnityAdsBridge.class);
+                  registerPlugin(BillingBridge.class);
+                  super.onCreate(savedInstanceState);
+                  // Draw behind the notch/cutout instead of boxing the WebView
+                  // in below it — without this, devices with a display cutout
+                  // render the top slice of the game off-screen ("ekran yarı
+                  // kesilmiş").
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                      getWindow().getAttributes().layoutInDisplayCutoutMode =
+                          WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+                  }
+                  enableImmersiveFullscreen();
+              }
+
+              @Override
+              public void onWindowFocusChanged(boolean hasFocus) {
+                  super.onWindowFocusChanged(hasFocus);
+                  // The system bars can silently reclaim their space the moment
+                  // focus returns (app switcher, a permission dialog, etc.) —
+                  // re-apply here or the game randomly reverts to a half-cut
+                  // layout after backgrounding instead of staying fullscreen.
+                  if (hasFocus) enableImmersiveFullscreen();
+              }
+
+              private void enableImmersiveFullscreen() {
+                  View decorView = getWindow().getDecorView();
+                  decorView.setSystemUiVisibility(
+                      View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                      | View.SYSTEM_UI_FLAG_FULLSCREEN
+                      | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                  );
+              }
+          }
+          JAVAEOF
+          cat "$PKG_PATH/MainActivity.java"
 
       - name: Kotlin desteğini Android projesine ekle
         run: |
@@ -103,7 +152,7 @@ jobs:
           # gitmez veya tekrar etmez — Play Store'un istediği "her yüklemede
           # daha yüksek versionCode" kuralını garanti eder.
           NEW_CODE=${{ github.run_number }}
-          NEW_NAME="5.0.${{ github.run_number }}"
+          NEW_NAME="4.0.${{ github.run_number }}"
           sed -i "s/versionCode [0-9]\+/versionCode $NEW_CODE/" "$APP_GRADLE"
           sed -i "s/versionName \"[^\"]*\"/versionName \"$NEW_NAME\"/" "$APP_GRADLE"
           echo "versionCode=$NEW_CODE, versionName=$NEW_NAME olarak ayarlandı."
