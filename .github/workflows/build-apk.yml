@@ -133,11 +133,21 @@ jobs:
             sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="com.android.vending.BILLING" />#' "$MANIFEST"
           fi
 
-      - name: Uygulama ikonunu yerleştir
+      - name: Uygulama ikonunu yerleştir (tek kaynak resimden 5 boyuta otomatik böl)
         run: |
-          for dir in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
-            cp "android-icons/mipmap-$dir/ic_launcher.png" "android/app/src/main/res/mipmap-$dir/ic_launcher.png"
-            cp "android-icons/mipmap-$dir/ic_launcher_round.png" "android/app/src/main/res/mipmap-$dir/ic_launcher_round.png"
+          # android-icons/ klasöründe artık tek bir kaynak resim var: icon.png.
+          # Play/Android'in istediği 5 farklı boyutu (mdpi→xxxhdpi) burada
+          # ImageMagick ile otomatik üretiyoruz — repoda 10 ayrı dosyayla
+          # uğraşmaya gerek yok, sadece bu tek dosyayı güncel tutman yeterli.
+          SRC="android-icons/icon.png"
+          test -s "$SRC" || (echo "HATA: android-icons/icon.png bulunamadı" && exit 1)
+          declare -A SIZES=( [mdpi]=48 [hdpi]=72 [xhdpi]=96 [xxhdpi]=144 [xxxhdpi]=192 )
+          for dpi in "${!SIZES[@]}"; do
+            px="${SIZES[$dpi]}"
+            DEST="android/app/src/main/res/mipmap-$dpi"
+            mkdir -p "$DEST"
+            convert "$SRC" -resize "${px}x${px}" "$DEST/ic_launcher.png"
+            convert "$SRC" -resize "${px}x${px}" "$DEST/ic_launcher_round.png"
           done
           ANYDPI="android/app/src/main/res/mipmap-anydpi-v26"
           if [ -d "$ANYDPI" ]; then rm -f "$ANYDPI"/*.xml; fi
