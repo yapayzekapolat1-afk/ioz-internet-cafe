@@ -22,6 +22,9 @@
   var TRANSLATIONS = {
     tr: {
       "boot.subtitle": "İşletme Simülasyonu",
+      "update.title": "Güncelleme Gerekli",
+      "update.subtitle": "Oyunu oynamaya devam etmek için yeni sürümü indir.",
+      "update.button": "Şimdi Güncelle",
       "setup.title": "Cafene bir isim ver",
       "setup.hint": "İşletmenin adı ekranın sol üstünde görünecek.",
       "setup.placeholder": "ör. Cyber Point",
@@ -347,6 +350,9 @@
     },
     en: {
       "boot.subtitle": "Business Simulation",
+      "update.title": "Update Required",
+      "update.subtitle": "Download the new version to keep playing.",
+      "update.button": "Update Now",
       "setup.title": "Give your cafe a name",
       "setup.hint": "Your business name will show up in the top-left corner.",
       "setup.placeholder": "e.g. Cyber Point",
@@ -818,6 +824,39 @@
   var RATE_US_REWARD = 200;
   var PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.iozgames.iozcafe";
 
+  // ---- zorunlu güncelleme kontrolü --------------------------------------
+  // Compares the version baked into THIS build (www/app-version.json,
+  // written by the CI workflow right before `cap sync`) against a small
+  // JSON file hosted on GitHub Pages that the workflow updates after every
+  // successful release. If Pages says a newer build exists, the player is
+  // stopped before the game screen ever shows and sent to the Play Store.
+  // Any failure here (offline, Pages down, files missing) FAILS OPEN — the
+  // game just starts normally. We never want a network hiccup to lock
+  // someone out of a game they already paid for (VIP).
+  var REMOTE_VERSION_URL = "https://yapayzekapolat1-afk.github.io/ioz-internet-cafe/version.json";
+  var updateRequired = false;
+  var pendingUpdateUrl = PLAY_STORE_URL;
+
+  function checkForUpdate() {
+    return fetch("app-version.json")
+      .then(function (r) { return r.json(); })
+      .then(function (local) {
+        if (!local || typeof local.versionCode !== "number") return;
+        var controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
+        var timeoutId = controller ? setTimeout(function () { controller.abort(); }, 5000) : null;
+        return fetch(REMOTE_VERSION_URL, controller ? { signal: controller.signal, cache: "no-store" } : { cache: "no-store" })
+          .then(function (r) { if (timeoutId) clearTimeout(timeoutId); return r.json(); })
+          .then(function (remote) {
+            if (remote && typeof remote.latestVersionCode === "number" && remote.latestVersionCode > local.versionCode) {
+              updateRequired = true;
+              pendingUpdateUrl = remote.updateUrl || PLAY_STORE_URL;
+            }
+          });
+      })
+      .catch(function () { /* fail open — see note above */ });
+  }
+  var updateCheckPromise = checkForUpdate();
+
   // ---- günlük giriş ödülü (daily login reward) -----------------------
   // 7-day cycle, day 7 is the biggest reward, then it loops back to day 1.
   // Tracked by REAL calendar date (not game day), so it rewards opening
@@ -1198,6 +1237,8 @@
   var $ = function (id) { return document.getElementById(id); };
   var screenLoading = $("screen-loading");
   var screenSetup = $("screen-setup");
+  var screenUpdateRequired = $("screen-update-required");
+  var btnUpdateNow = $("btn-update-now");
   var screenGame = $("screen-game");
   var loaderFill = $("loader-fill");
   var loaderPct = $("loader-pct");
@@ -1352,6 +1393,12 @@
     return total;
   }
 
+  if (btnUpdateNow) {
+    btnUpdateNow.addEventListener("click", function () {
+      window.open(pendingUpdateUrl, "_system");
+    });
+  }
+
   // ---------------------------------------------------------------- loading (4s)
   (function runLoader() {
     var duration = 4000;
@@ -1372,27 +1419,33 @@
   })();
 
   function afterLoad() {
-    setupStartMoney.textContent = fmtMoney(START_MONEY) + " ₺";
-    var existing = load();
-    screenLoading.hidden = true;
-    if (existing && existing.cafeName) {
-      state = existing;
-      startGameScreen();
-      maybeShowChangelog();
-      // Re-confirm VIP entitlement with Google Play (covers reinstalls /
-      // new devices — VIP isn't lost even if the local save is).
-      Billing.restore(function (isVip) {
-        if (isVip && !state.vip) {
-          state.vip = true;
-          save();
-          renderHud();
-          renderAdBonusButton();
-        }
-      });
-    } else {
-      screenSetup.hidden = false;
-      nameInput.focus();
-    }
+    updateCheckPromise.then(function () {
+      screenLoading.hidden = true;
+      if (updateRequired) {
+        screenUpdateRequired.hidden = false;
+        return; // the rest of the game never boots — no save is touched
+      }
+      setupStartMoney.textContent = fmtMoney(START_MONEY) + " ₺";
+      var existing = load();
+      if (existing && existing.cafeName) {
+        state = existing;
+        startGameScreen();
+        maybeShowChangelog();
+        // Re-confirm VIP entitlement with Google Play (covers reinstalls /
+        // new devices — VIP isn't lost even if the local save is).
+        Billing.restore(function (isVip) {
+          if (isVip && !state.vip) {
+            state.vip = true;
+            save();
+            renderHud();
+            renderAdBonusButton();
+          }
+        });
+      } else {
+        screenSetup.hidden = false;
+        nameInput.focus();
+      }
+    });
   }
 
   // ---------------------------------------------------------------- what's new (v2)
