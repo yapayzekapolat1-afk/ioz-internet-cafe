@@ -138,7 +138,7 @@ jobs:
         run: |
           GRADLE_FILE="android/app/build.gradle"
           if ! grep -q "com.android.billingclient:billing" "$GRADLE_FILE"; then
-            sed -i "s/implementation project(':capacitor-android')/implementation project(':capacitor-android')\n    implementation 'com.android.billingclient:billing:7.1.1'/" "$GRADLE_FILE"
+            sed -i "s/implementation project(':capacitor-android')/implementation project(':capacitor-android')\n    implementation 'com.android.billingclient:billing:8.3.0'/" "$GRADLE_FILE"
           fi
 
       - name: İnternet izinlerini garantile
