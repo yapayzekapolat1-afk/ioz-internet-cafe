@@ -42,6 +42,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
@@ -68,9 +69,13 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
 
     override fun load() {
         super.load()
+        // PBL 8.0.0+: enablePendingPurchases() with no arguments was removed.
+        // This is the documented drop-in replacement for the old behavior.
         billingClient = BillingClient.newBuilder(activity.applicationContext)
             .setListener(this)
-            .enablePendingPurchases()
+            .enablePendingPurchases(
+                PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
+            )
             .build()
         connect(null)
     }
@@ -105,7 +110,10 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
                 .setProductList(listOf(product))
                 .build()
 
-            client.queryProductDetailsAsync(params) { result, productDetailsList ->
+            // PBL 8.0.0+: the callback now receives a QueryProductDetailsResult
+            // instead of a raw list — unwrap it with .productDetailsList.
+            client.queryProductDetailsAsync(params) { result, queryResult ->
+                val productDetailsList = queryResult.productDetailsList
                 if (result.responseCode != BillingClient.BillingResponseCode.OK || productDetailsList.isNullOrEmpty()) {
                     call.reject("product_unavailable: ${result.debugMessage}")
                     return@queryProductDetailsAsync
@@ -228,7 +236,8 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
             val params = QueryProductDetailsParams.newBuilder()
                 .setProductList(listOf(product))
                 .build()
-            client.queryProductDetailsAsync(params) { result, productDetailsList ->
+            client.queryProductDetailsAsync(params) { result, queryResult ->
+                val productDetailsList = queryResult.productDetailsList
                 if (result.responseCode != BillingClient.BillingResponseCode.OK || productDetailsList.isNullOrEmpty()) {
                     call.reject("product_unavailable")
                     return@queryProductDetailsAsync
