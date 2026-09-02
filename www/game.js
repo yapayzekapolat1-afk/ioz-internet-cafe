@@ -58,10 +58,13 @@
       "price.topLevel": "En üst seviye",
       "price.save": "Kaydet",
       "price.psTitle": "Playstion",
+      "price.carTitle": "Simulator",
+      "price.carTitle": "Simülatör",
       "price.tableTitle": "Masa",
       "price.feeSuffix": "Ücreti",
       "price.setHourlyRate": "saatlik ücreti belirle.",
       "price.noConsoleYet": "Bu masada henüz konsol yok, ama ücretini şimdiden ayarlayabilirsin.",
+      "price.noCarYet": "Bu kabinde henüz simülatör yok, ama ücretini şimdiden ayarlayabilirsin.",
       "price.noComputerYet": "Bu masada henüz bilgisayar yok, ama ücretini şimdiden ayarlayabilirsin.",
       "price.fb.tooExpensive": "Çok pahalı.",
       "price.fb.tooExpensiveDesc": "Bu fiyata {name} için kimse oturmaz, masa boş kalır.",
@@ -119,6 +122,14 @@
       "store.title": "Dükkan",
       "store.intro": "Kalıcı yükseltmeler satın al, işletmeni büyüt.",
       "store.sectionPs": "İOZ Playstion",
+      "store.sectionCar": "İOZ Araba Simülasyonu",
+      "store.tabPc": "Bilgisayar",
+      "store.tabPs": "Playstion",
+      "store.tabCar": "Araba Sim",
+      "store.tabVending": "Otomatlar",
+      "store.tabStaff": "Personel",
+      "store.tabRebirth": "Rebirth",
+      "store.sectionCar": "İOZ Araba Simülasyonu",
       "store.sectionVending": "Otomatlar",
       "store.sectionStaff": "Personel",
       "store.owned": "Alındı",
@@ -136,8 +147,10 @@
       "rating.airConNo": "Yok",
 
       "floor.psTableEmpty": "PS Masası",
+      "floor.carTableEmpty": "Simülatör Kabini",
       "floor.emptySpot": "Boş Alan",
       "floor.noConsole": "Konsol yok",
+      "floor.noCar": "Simülatör yok",
       "floor.noComputer": "Bilgisayar yok",
 
       "shop.fiberInternet.name": "Fiber İnternet Altyapısı",
@@ -169,7 +182,7 @@
       "settings.version": "Sürüm 2.0",
       "settings.versionPrefix": "Sürüm",
       "settings.tab.how": "Nasıl Oynanır",
-      "settings.tab.prices": "Fiyatlar",
+      "settings.tab.prices": "Fiyat Tablosu",
       "settings.tab.achievements": "Başarımlar",
       "settings.tab.social": "Sosyal",
       "settings.tab.app": "Uygulama",
@@ -217,6 +230,14 @@
       "ps.maxedDesc": "Masa {n} · en üst seviye.",
       "ps.ready": "Hazır",
 
+      "car.tableName": "Simülatör Kabini {n}",
+      "car.tableDesc": "Araba simülasyonu köşesi için kabin kur.",
+      "car.consoleSetupName": "İoz Racer Basic Kur",
+      "car.consoleSetupDesc": "Kabin {n} için ilk simülatörü satın al.",
+      "car.upgradeDesc": "Kabin {n} simülatörünü yükselt.",
+      "car.maxedDesc": "Kabin {n} · en üst seviye.",
+      "car.ready": "Hazır",
+
       "vending.drink.name": "İçecek Otomatı",
       "vending.drink.desc": "Saatte {rate} ₺ pasif gelir.",
       "vending.food.name": "Yiyecek Otomatı",
@@ -240,6 +261,22 @@
       "vip.purchaseFailed": "Satın alma tamamlanamadı, tekrar dene.",
       "vip.adFreeHint": "VIP üyesin, reklamsız devam ediyorsun 👑",
       "day.continueVip": "Sonraki Güne Geç",
+      "day.continueFree": "Sonraki Güne Geç (Reklamsız)",
+      "day.freeDayHint": "Bugün reklam yok, direkt devam edebilirsin 🎉",
+
+      "daily.title": "Günlük Giriş Ödülü",
+      "daily.dayLabel": "{day}. Gün",
+      "daily.subtitle": "Her gün gir, ödülün büyüsün!",
+      "daily.claimBtn": "Ödülü Al",
+      "daily.claimed": "+{amount} ₺ günlük ödül alındı!",
+
+      "bulk.title": "Fiyatlar",
+      "bulk.subtitle": "Bir markadan kaç tane varsa, hepsinin fiyatını tek seferde değiştir.",
+      "bulk.empty": "Henüz fiyatlandırılabilecek bir bilgisayar/konsol/simülatör yok.",
+      "bulk.unitSuffix": "adet",
+      "bulk.apply": "Uygula",
+      "bulk.applied": "{name} ({count} adet) fiyatı güncellendi",
+      "shopbar.prices": "Fiyatlar",
 
       "toast.notEnoughMoney": "Yetersiz bütçe",
       "toast.stationFilledMeanwhile": "Masa {n} bu arada doldu",
@@ -254,6 +291,8 @@
       "toast.installedSuffix": " kuruldu!",
       "toast.psTableBuilt": "Playstion masası kuruldu",
       "toast.psConsoleInstalled": "İoz Playstion 4 kuruldu!",
+      "toast.carTableBuilt": "Simülatör kabini kuruldu",
+      "toast.carConsoleInstalled": "İoz Racer Basic kuruldu!",
       "toast.cleanerHired": "Temizlikçi işe alındı!",
       "toast.cleanerFired": "Temizlikçiyle yollar ayrıldı",
       "toast.tiktokThanks": "+{amount} ₺ — takip ettiğin için teşekkürler!",
@@ -348,6 +387,7 @@
       "price.feeSuffix": "Rate",
       "price.setHourlyRate": "set the hourly rate.",
       "price.noConsoleYet": "This table doesn't have a console yet, but you can set its price in advance.",
+      "price.noCarYet": "This cabin doesn't have a simulator yet, but you can set its price in advance.",
       "price.noComputerYet": "This table doesn't have a computer yet, but you can set its price in advance.",
       "price.fb.tooExpensive": "Too expensive.",
       "price.fb.tooExpensiveDesc": "Nobody will sit at a {name} for this price — the table stays empty.",
@@ -405,6 +445,13 @@
       "store.title": "Store",
       "store.intro": "Buy permanent upgrades and grow your business.",
       "store.sectionPs": "İOZ Playstion",
+      "store.sectionCar": "İOZ Araba Simülasyonu",
+      "store.tabPc": "Computers",
+      "store.tabPs": "Playstion",
+      "store.tabCar": "Car Sim",
+      "store.tabVending": "Vending",
+      "store.tabStaff": "Staff",
+      "store.tabRebirth": "Rebirth",
       "store.sectionVending": "Vending Machines",
       "store.sectionStaff": "Staff",
       "store.owned": "Owned",
@@ -422,8 +469,10 @@
       "rating.airConNo": "Not installed",
 
       "floor.psTableEmpty": "PS Table",
+      "floor.carTableEmpty": "Sim Cabin",
       "floor.emptySpot": "Empty Spot",
       "floor.noConsole": "No console",
+      "floor.noCar": "No simulator",
       "floor.noComputer": "No computer",
 
       "shop.fiberInternet.name": "Fiber Internet Infrastructure",
@@ -455,7 +504,7 @@
       "settings.version": "Version 2.0",
       "settings.versionPrefix": "Version",
       "settings.tab.how": "How to Play",
-      "settings.tab.prices": "Prices",
+      "settings.tab.prices": "Price Table",
       "settings.tab.achievements": "Achievements",
       "settings.tab.social": "Social",
       "settings.tab.app": "App",
@@ -503,6 +552,14 @@
       "ps.maxedDesc": "Table {n} · top tier.",
       "ps.ready": "Ready",
 
+      "car.tableName": "Sim Cabin {n}",
+      "car.tableDesc": "Set up a cabin for the racing sim corner.",
+      "car.consoleSetupName": "Install İoz Racer Basic",
+      "car.consoleSetupDesc": "Buy the first simulator for cabin {n}.",
+      "car.upgradeDesc": "Upgrade cabin {n}'s simulator.",
+      "car.maxedDesc": "Cabin {n} · top level.",
+      "car.ready": "Ready",
+
       "vending.drink.name": "Drink Vending Machine",
       "vending.drink.desc": "{rate} ₺ passive income per hour.",
       "vending.food.name": "Snack Vending Machine",
@@ -526,6 +583,22 @@
       "vip.purchaseFailed": "Purchase couldn't be completed, try again.",
       "vip.adFreeHint": "You're VIP, continuing ad-free 👑",
       "day.continueVip": "Continue to Next Day",
+      "day.continueFree": "Continue to Next Day (No Ad)",
+      "day.freeDayHint": "No ad today, you can just continue 🎉",
+
+      "daily.title": "Daily Login Reward",
+      "daily.dayLabel": "Day {day}",
+      "daily.subtitle": "Log in every day for a bigger reward!",
+      "daily.claimBtn": "Claim Reward",
+      "daily.claimed": "+{amount} ₺ daily reward claimed!",
+
+      "bulk.title": "Prices",
+      "bulk.subtitle": "Change the price for every unit of a brand at once.",
+      "bulk.empty": "No priceable computers/consoles/simulators yet.",
+      "bulk.unitSuffix": "units",
+      "bulk.apply": "Apply",
+      "bulk.applied": "{name} ({count} units) price updated",
+      "shopbar.prices": "Prices",
 
       "toast.notEnoughMoney": "Not enough budget",
       "toast.stationFilledMeanwhile": "Table {n} got filled in the meantime",
@@ -540,6 +613,8 @@
       "toast.installedSuffix": " installed!",
       "toast.psTableBuilt": "Playstion table set up",
       "toast.psConsoleInstalled": "İoz Playstion 4 installed!",
+      "toast.carTableBuilt": "Sim cabin set up",
+      "toast.carConsoleInstalled": "İoz Racer Basic installed!",
       "toast.cleanerHired": "Cleaner hired!",
       "toast.cleanerFired": "Parted ways with the cleaner",
       "toast.tiktokThanks": "+{amount} ₺ — thanks for following!",
@@ -709,6 +784,20 @@
   };
   var PS_PHOTOS = { 1: "assets/ps-lvl1.jpg", 2: "assets/ps-lvl1.jpg", 3: "assets/ps-lvl2.jpg", 4: "assets/ps-lvl2.jpg", 5: "assets/ps-lvl2.jpg" };
 
+  // ---- İOZ Araba Simülasyonu (10 dedicated sim-racing cabinets, separate
+  // pool from PC + Playstion). Priced ~5x İOZ Playstion, top of the
+  // station food-chain. Each of the 3 levels gets its own custom SVG
+  // silhouette (icon-car-lvl1/2/3, defined in index.html) instead of a
+  // photo — so unlike the PS tiers, every level actually looks different.
+  var CAR_STATION_COUNT = 10;
+  var CAR_TABLE_COST = PS_TABLE_COST * 5;     // 1250
+  var CAR_CONSOLE_COST = PS_CONSOLE_COST * 5; // 1500
+  var CAR_LEVELS = {
+    1: { name: "İoz Racer Basic", defaultRate: 400,  maxAcceptRate: 700,  dailyCost: 250, upgradeCost: 8000,  icon: "icon-car-lvl1" },
+    2: { name: "İoz Racer GT",    defaultRate: 900,  maxAcceptRate: 1500, dailyCost: 500, upgradeCost: 18000, icon: "icon-car-lvl2" },
+    3: { name: "İoz Racer Elite", defaultRate: 1800, maxAcceptRate: 3000, dailyCost: 950, upgradeCost: null,  icon: "icon-car-lvl3" }
+  };
+
   // ---- otomatlar (vending machines) — passive hourly income, single unit
   // each, bought once through the Dükkan. Cheap parallel system: no floor
   // slot, no request queue, just an hourly accrual added straight into tick().
@@ -728,6 +817,25 @@
   // same pattern as the TikTok follow bonus.
   var RATE_US_REWARD = 200;
   var PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.iozgames.iozcafe";
+
+  // ---- günlük giriş ödülü (daily login reward) -----------------------
+  // 7-day cycle, day 7 is the biggest reward, then it loops back to day 1.
+  // Tracked by REAL calendar date (not game day), so it rewards opening
+  // the app once per day regardless of how far the in-game clock got.
+  var DAILY_REWARDS = [300, 500, 800, 1200, 1800, 2500, 5000];
+  var pendingDailyRewardDay = null; // set by checkDailyReward(), consumed by claim button
+
+  function todayDateStr() {
+    var d = new Date();
+    var pad = function (n) { return n < 10 ? "0" + n : "" + n; };
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+  function dateStrDaysAgo(n) {
+    var d = new Date();
+    d.setDate(d.getDate() - n);
+    var pad = function (x) { return x < 10 ? "0" + x : "" + x; };
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
 
   // ---- achievements / xp / level ------------------------------------
   // XP needed to REACH each level (index 0 = level 1, always 0 XP).
@@ -779,17 +887,17 @@
 
     { id: "full_capacity", xp: 400,
       check: function (st) {
-        var t = st.stations.filter(function (s) { return !s.isPS && s.hasTable; }).length;
-        var c = st.stations.filter(function (s) { return !s.isPS && s.hasComputer; }).length;
+        var t = st.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasTable; }).length;
+        var c = st.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasComputer; }).length;
         return t >= MAX_STATIONS && c >= MAX_STATIONS;
       } },
     { id: "top_tier_pc", xp: 500,
       check: function (st) {
-        return st.stations.some(function (s) { return !s.isPS && s.computerLevel === 7; });
+        return st.stations.some(function (s) { return !s.isPS && !s.isCar && s.computerLevel === 7; });
       } },
     { id: "all_lvl3plus", xp: 600,
       check: function (st) {
-        var pcs = st.stations.filter(function (s) { return !s.isPS && s.hasComputer; });
+        var pcs = st.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasComputer; });
         return pcs.length >= MAX_STATIONS && pcs.every(function (s) { return s.computerLevel >= 3; });
       } },
 
@@ -902,6 +1010,17 @@
         isPS: true
       });
     }
+
+    // İOZ Araba Simülasyonu: dedicated sim cabinets, separate pool again.
+    for (var c = 0; c < CAR_STATION_COUNT; c++) {
+      stations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0,
+        rate: CAR_LEVELS[1].defaultRate,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0,
+        isCar: true
+      });
+    }
     return stations;
   }
 
@@ -937,7 +1056,9 @@
       rating: 7.0,
       rateUsClaimed: false,
       adBonusUsesToday: 0,
-      vip: false
+      vip: false,
+      dailyStreak: 0,
+      lastLoginDate: null
     };
   }
 
@@ -961,15 +1082,17 @@
       if (!raw) return null;
       var parsed = JSON.parse(raw);
       if (!parsed || !parsed.stations) return null;
-      // MIGRATION: the PC pool (10→20) and the İOZ Playstion pool (added,
-      // then 2→10) have both grown over updates. Rather than checking exact
+      // MIGRATION: the PC pool (10→20), the İOZ Playstion pool (added,
+      // then 2→10) and now the İOZ Araba Simülasyonu pool (brand new) have
+      // all grown/appeared over updates. Rather than checking exact
       // historical lengths — which breaks the moment a count changes again —
-      // split whatever the save has into its two pools by the isPS flag and
+      // split whatever the save has into its three pools by isPS/isCar and
       // pad each up to its CURRENT target independently. A save from any
       // past version heals itself here with zero lost progress, and this
-      // needs no further edits if either number changes again later.
-      var pcStations = parsed.stations.filter(function (s) { return !s.isPS; });
+      // needs no further edits if any number changes again later.
+      var pcStations = parsed.stations.filter(function (s) { return !s.isPS && !s.isCar; });
       var psStations = parsed.stations.filter(function (s) { return s.isPS; });
+      var carStations = parsed.stations.filter(function (s) { return s.isCar; });
       while (pcStations.length < MAX_STATIONS) {
         pcStations.push({
           hasTable: false, hasComputer: false, computerLevel: 0, rate: DEFAULT_RATE,
@@ -984,8 +1107,17 @@
           sessionStartMin: 0, sessionEndMin: 0, payout: 0, isPS: true
         });
       }
-      parsed.stations = pcStations.slice(0, MAX_STATIONS).concat(psStations.slice(0, PS_STATION_COUNT));
-      if (parsed.stations.length !== MAX_STATIONS + PS_STATION_COUNT) return null;
+      while (carStations.length < CAR_STATION_COUNT) {
+        carStations.push({
+          hasTable: false, hasComputer: false, computerLevel: 0, rate: CAR_LEVELS[1].defaultRate,
+          occupied: false, customerName: "", hoursBooked: 0,
+          sessionStartMin: 0, sessionEndMin: 0, payout: 0, isCar: true
+        });
+      }
+      parsed.stations = pcStations.slice(0, MAX_STATIONS)
+        .concat(psStations.slice(0, PS_STATION_COUNT))
+        .concat(carStations.slice(0, CAR_STATION_COUNT));
+      if (parsed.stations.length !== MAX_STATIONS + PS_STATION_COUNT + CAR_STATION_COUNT) return null;
 
       // Fill in anything a older/partial save is missing so we never crash
       // on a field that didn't exist in a previous version.
@@ -1023,6 +1155,8 @@
       if (typeof parsed.rateUsClaimed !== "boolean") parsed.rateUsClaimed = false;
       if (typeof parsed.adBonusUsesToday !== "number") parsed.adBonusUsesToday = 0;
       if (typeof parsed.vip !== "boolean") parsed.vip = false;
+      if (typeof parsed.dailyStreak !== "number") parsed.dailyStreak = 0;
+      if (typeof parsed.lastLoginDate !== "string") parsed.lastLoginDate = null;
 
       parsed.stations.forEach(function (s) {
         if (typeof s.computerLevel !== "number") s.computerLevel = s.hasComputer ? 1 : 0;
@@ -1076,6 +1210,7 @@
   var statTables = $("stat-tables");
   var statComputers = $("stat-computers");
   var statPs = $("stat-ps");
+  var statCar = $("stat-car");
   var statLevel = $("stat-level");
   var statCustomers = $("stat-customers");
   var statToday = $("stat-today");
@@ -1123,6 +1258,7 @@
   var btnClosePrice = $("btn-close-price");
   var upgradeCard = $("upgrade-card");
   var upgradePhoto = $("upgrade-photo");
+  var upgradeCarIcon = $("upgrade-car-icon");
   var upgradeLabel = $("upgrade-label");
   var upgradeName = $("upgrade-name");
   var upgradeCost = $("upgrade-cost");
@@ -1150,6 +1286,11 @@
   var btnBuyVip = $("btn-buy-vip");
   var vipOwnedBox = $("vip-owned-box");
   var vipPriceLabel = $("vip-price-label");
+  var modalDaily = $("modal-daily-reward");
+  var dailyRewardAmount = $("daily-reward-amount");
+  var dailyRewardDayLabel = $("daily-reward-day-label");
+  var dailyRewardTrack = $("daily-reward-track");
+  var btnClaimDaily = $("btn-claim-daily");
 
   $("price-table").textContent = TABLE_COST + " ₺";
   $("price-computer").textContent = COMPUTER_COST + " ₺";
@@ -1170,8 +1311,11 @@
   // units use PS_LEVELS, every other station uses COMPUTER_LEVELS. Every
   // lookup in the file goes through this so the two station types share
   // all the same rendering/pricing/upgrade code paths safely.
-  function levelsFor(s) { return (s && s.isPS) ? PS_LEVELS : COMPUTER_LEVELS; }
+  function levelsFor(s) { return (s && s.isPS) ? PS_LEVELS : (s && s.isCar) ? CAR_LEVELS : COMPUTER_LEVELS; }
   function photosFor(s) { return (s && s.isPS) ? PS_PHOTOS : COMPUTER_PHOTOS; }
+  // Car sim has no photo assets — every level is a custom inline SVG icon
+  // instead (icon-car-lvl1/2/3), so the visual code checks this first.
+  function isIconOnlyStation(s) { return !!(s && s.isCar); }
   // "Fiber İnternet Altyapısı" dükkan ürünü: her seviyenin fiyat tavanını
   // kalıcı olarak +%25 yükseltir — müşteriler daha pahalı fiyata da razı
   // olur. Tek yerden hesaplanır ki fiyat kaydırıcısı, geri bildirim metni
@@ -1180,10 +1324,12 @@
     return state.shop.fiberInternet ? Math.round(lvl.maxAcceptRate * 1.25) : lvl.maxAcceptRate;
   }
 
-  function countHasTable() { return state.stations.filter(function (s) { return !s.isPS && s.hasTable; }).length; }
-  function countHasComputer() { return state.stations.filter(function (s) { return !s.isPS && s.hasComputer; }).length; }
+  function countHasTable() { return state.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasTable; }).length; }
+  function countHasComputer() { return state.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasComputer; }).length; }
   function countPsWithTable() { return state.stations.filter(function (s) { return s.isPS && s.hasTable; }).length; }
   function countPsWithConsole() { return state.stations.filter(function (s) { return s.isPS && s.hasComputer; }).length; }
+  function countCarWithTable() { return state.stations.filter(function (s) { return s.isCar && s.hasTable; }).length; }
+  function countCarWithConsole() { return state.stations.filter(function (s) { return s.isCar && s.hasComputer; }).length; }
 
   // Yeniden Doğuş kalıcı bonusu: her yeniden doğuşta +%15, kalıcı olarak
   // birikir. Tüm gelir kaynaklarına (masa/PS ödemesi + otomat geliri)
@@ -1312,6 +1458,7 @@
     tickHandle = setInterval(tick, TICK_MS);
     if (state.bankrupt) showBankrupt();
     else if (state.dayOver) showDaySummary();
+    else checkDailyReward();
     requestNotificationPermission();
   }
 
@@ -1324,6 +1471,7 @@
     statTables.textContent = countHasTable() + "/" + MAX_STATIONS;
     statComputers.textContent = countHasComputer() + "/" + MAX_STATIONS;
     statPs.textContent = countPsWithConsole() + "/" + PS_STATION_COUNT;
+    if (statCar) statCar.textContent = countCarWithConsole() + "/" + CAR_STATION_COUNT;
     statLevel.textContent = "Lv " + state.level;
     statRating.textContent = state.rating.toFixed(1);
     statCustomers.textContent = state.totalCustomers;
@@ -1333,7 +1481,7 @@
     var tables = countHasTable();
     var computers = countHasComputer();
     btnBuyTable.disabled = tables >= MAX_STATIONS || state.money < TABLE_COST;
-    var hasBareTable = state.stations.some(function (s) { return !s.isPS && s.hasTable && !s.hasComputer; });
+    var hasBareTable = state.stations.some(function (s) { return !s.isPS && !s.isCar && s.hasTable && !s.hasComputer; });
     btnBuyComputer.disabled = !hasBareTable || computers >= MAX_STATIONS || state.money < COMPUTER_COST;
   }
 
@@ -1346,6 +1494,9 @@
     if (s.isPS) {
       cls.push("is-ps");
       if (s.hasComputer && s.computerLevel >= 2) cls.push("ps-lvl" + s.computerLevel);
+    } else if (s.isCar) {
+      cls.push("is-car");
+      if (s.hasComputer) cls.push("car-lvl" + s.computerLevel);
     } else if (s.hasComputer && s.computerLevel >= 2) {
       cls.push("lvl" + s.computerLevel);
     }
@@ -1365,11 +1516,17 @@
   function stationVisualMarkup(s) {
     if (s.hasComputer) {
       var name = levelsFor(s)[s.computerLevel].name;
+      if (isIconOnlyStation(s)) {
+        var carIcon = CAR_LEVELS[s.computerLevel].icon;
+        return '<div class="station-car-frame car-lvl' + s.computerLevel + '">' +
+          '<svg class="station-car-svg"><use href="#' + carIcon + '"/></svg>' +
+          '</div>';
+      }
       return '<div class="station-photo-frame">' +
         '<img class="station-photo" src="' + photosFor(s)[s.computerLevel] + '" alt="' + name + '">' +
         '</div>';
     }
-    return '<svg class="i-24 station-bare-desk"><use href="#' + (s.isPS ? "icon-gamepad-mini" : "icon-desk-mini") + '"/></svg>';
+    return '<svg class="i-24 station-bare-desk"><use href="#' + (s.isPS ? "icon-gamepad-mini" : s.isCar ? "icon-car-mini" : "icon-desk-mini") + '"/></svg>';
   }
 
   function renderFloor() {
@@ -1383,13 +1540,17 @@
         el.innerHTML = s.isPS
           ? '<svg class="i-20 icon-plus"><use href="#icon-plus"/></svg>' +
             '<span class="station-label">' + t("floor.psTableEmpty") + '</span>'
+          : s.isCar
+          ? '<svg class="i-20 icon-plus"><use href="#icon-plus"/></svg>' +
+            '<span class="station-label">' + t("floor.carTableEmpty") + '</span>'
           : '<svg class="i-20 icon-plus"><use href="#icon-plus"/></svg>' +
             '<span class="station-label">' + t("floor.emptySpot") + '</span>';
       } else {
         var label = s.occupied ? s.customerName
-          : (s.hasComputer ? levelsFor(s)[s.computerLevel].name : (s.isPS ? t("floor.noConsole") : t("floor.noComputer")));
+          : (s.hasComputer ? levelsFor(s)[s.computerLevel].name : (s.isPS ? t("floor.noConsole") : s.isCar ? t("floor.noCar") : t("floor.noComputer")));
         el.innerHTML =
           (s.isPS ? '<span class="ps-badge">PS</span>' : "") +
+          (s.isCar ? '<span class="car-badge">SİM</span>' : "") +
           (s.isVip ? '<span class="vip-badge">★</span>' : "") +
           stationVisualMarkup(s) +
           '<span class="station-label">' + label + '</span>' +
@@ -1828,10 +1989,13 @@
     // VIP: no ad is shown at all — button just advances the day, and the
     // "reklam gösterilemedi" fallback UI never applies since Ads.showRewarded
     // is skipped entirely in the click handler below.
+    // Non-VIP: ads only show every OTHER day (day 1→2 needs an ad, day
+    // 2→3 is free, day 3→4 needs one again, ...) so players aren't hit
+    // with a mandatory ad every single day.
     var nextDayLabel = $("btn-next-day-label");
-    if (state.vip) {
-      if (nextDayLabel) nextDayLabel.textContent = t("day.continueVip");
-      if (adHint) { adHint.hidden = false; adHint.textContent = t("vip.adFreeHint"); }
+    if (state.vip || isFreeDayTransition()) {
+      if (nextDayLabel) nextDayLabel.textContent = state.vip ? t("day.continueVip") : t("day.continueFree");
+      if (adHint) { adHint.hidden = false; adHint.textContent = state.vip ? t("vip.adFreeHint") : t("day.freeDayHint"); }
       if (adBlockedBox) adBlockedBox.hidden = true;
     } else {
       if (nextDayLabel) nextDayLabel.textContent = t("day.watchAd");
@@ -1839,6 +2003,10 @@
     }
     modalDay.hidden = false;
   }
+
+  // Odd day number → the upcoming transition (to day+1) is the "free" one.
+  // Day 1→2 requires an ad, day 2→3 is free, day 3→4 requires one, etc.
+  function isFreeDayTransition() { return state.day % 2 === 0; }
 
   // ---------------------------------------------------------------- ads
   // Real ad playback happens natively (Unity Ads has no web SDK). In the
@@ -1999,6 +2167,57 @@
     });
   }
 
+  // ---------------------------------------------------------------- daily login reward
+  function checkDailyReward() {
+    var today = todayDateStr();
+    if (state.lastLoginDate === today) return; // already claimed today, stay quiet
+
+    var yesterday = dateStrDaysAgo(1);
+    var nextDay;
+    if (state.lastLoginDate === yesterday) {
+      nextDay = (state.dailyStreak % 7) + 1; // continues the streak, loops after day 7
+    } else {
+      nextDay = 1; // first login ever, or a gap of 2+ days — streak resets
+    }
+    pendingDailyRewardDay = nextDay;
+    renderDailyRewardModal();
+    modalDaily.hidden = false;
+  }
+
+  function renderDailyRewardModal() {
+    if (!pendingDailyRewardDay) return;
+    var amount = DAILY_REWARDS[pendingDailyRewardDay - 1];
+    if (dailyRewardAmount) dailyRewardAmount.textContent = "+" + fmtMoney(amount) + " ₺";
+    if (dailyRewardDayLabel) dailyRewardDayLabel.textContent = t("daily.dayLabel", { day: pendingDailyRewardDay });
+    if (dailyRewardTrack) {
+      dailyRewardTrack.innerHTML = "";
+      DAILY_REWARDS.forEach(function (amt, i) {
+        var dayNum = i + 1;
+        var pip = document.createElement("div");
+        pip.className = "daily-pip" +
+          (dayNum === pendingDailyRewardDay ? " current" : "") +
+          (dayNum < pendingDailyRewardDay ? " past" : "");
+        pip.innerHTML = '<span class="daily-pip-day">' + dayNum + '</span><span class="daily-pip-amt">' + fmtMoney(amt) + '</span>';
+        dailyRewardTrack.appendChild(pip);
+      });
+    }
+  }
+
+  if (btnClaimDaily) {
+    btnClaimDaily.addEventListener("click", function () {
+      if (!pendingDailyRewardDay || !state) return;
+      var amount = DAILY_REWARDS[pendingDailyRewardDay - 1];
+      state.money += amount;
+      state.dailyStreak = pendingDailyRewardDay;
+      state.lastLoginDate = todayDateStr();
+      pendingDailyRewardDay = null;
+      save();
+      renderHud();
+      modalDaily.hidden = true;
+      showToast(t("daily.claimed", { amount: amount }));
+    });
+  }
+
   var AD_BONUS = 100;
   var adBlockedBox = $("ad-blocked-box");
   var adBlockedText = $("ad-blocked-text");
@@ -2073,7 +2292,8 @@
 
   btnNextDay.addEventListener("click", function () {
     // VIP: no ad, ever. Advance straight to the next day.
-    if (state.vip) {
+    // Non-VIP: every other day is also ad-free (see isFreeDayTransition).
+    if (state.vip || isFreeDayTransition()) {
       advanceToNextDay(false);
       return;
     }
@@ -2101,6 +2321,93 @@
     });
   });
 
+  // ---------------------------------------------------------------- bulk price ("Fiyatlar")
+  var modalBulkPrice = $("modal-bulk-price");
+  var btnOpenBulkPrice = $("btn-open-bulk-price");
+  var btnCloseBulkPrice = $("btn-close-bulk-price");
+  var bulkPriceList = $("bulk-price-list");
+  var bulkPriceEmpty = $("bulk-price-empty");
+
+  function bulkPriceMax(levels, level) {
+    return Math.ceil((effectiveMaxAccept(levels[level]) * 1.15) / 10) * 10;
+  }
+
+  function renderBulkPriceModal() {
+    var groups = {};
+    var order = [];
+    state.stations.forEach(function (s, idx) {
+      if (!s.hasComputer) return;
+      var levels = levelsFor(s);
+      var kind = s.isPS ? "ps" : (s.isCar ? "car" : "pc");
+      var key = kind + "-" + s.computerLevel;
+      if (!groups[key]) {
+        groups[key] = {
+          key: key, kind: kind, level: s.computerLevel, levels: levels,
+          name: levels[s.computerLevel].name, count: 0, sampleRate: s.rate, indices: []
+        };
+        order.push(key);
+      }
+      groups[key].count += 1;
+      groups[key].indices.push(idx);
+    });
+
+    bulkPriceList.innerHTML = "";
+    bulkPriceEmpty.hidden = order.length > 0;
+
+    order.forEach(function (key) {
+      var g = groups[key];
+      var max = bulkPriceMax(g.levels, g.level);
+      var row = document.createElement("div");
+      row.className = "bulk-price-row";
+      row.innerHTML =
+        '<div class="bulk-price-info">' +
+          '<div class="bulk-price-name">' + g.name + '</div>' +
+          '<div class="bulk-price-count">' + g.count + ' ' + t("bulk.unitSuffix") + '</div>' +
+        '</div>' +
+        '<input type="number" class="bulk-price-input" min="' + MIN_RATE + '" max="' + max + '" value="' + g.sampleRate + '" data-key="' + key + '">' +
+        '<button class="bulk-price-apply" data-key="' + key + '">' + t("bulk.apply") + '</button>';
+      bulkPriceList.appendChild(row);
+    });
+
+    // stash groups on the list element so the click handler below can read
+    // indices without re-scanning state.stations every click.
+    bulkPriceList._groups = groups;
+  }
+
+  if (btnOpenBulkPrice) {
+    btnOpenBulkPrice.addEventListener("click", function () {
+      renderBulkPriceModal();
+      modalBulkPrice.hidden = false;
+    });
+  }
+  if (btnCloseBulkPrice) {
+    btnCloseBulkPrice.addEventListener("click", function () { modalBulkPrice.hidden = true; });
+  }
+  if (modalBulkPrice) {
+    modalBulkPrice.addEventListener("click", function (e) { if (e.target === modalBulkPrice) modalBulkPrice.hidden = true; });
+  }
+  if (bulkPriceList) {
+    bulkPriceList.addEventListener("click", function (e) {
+      var btn = e.target.closest(".bulk-price-apply");
+      if (!btn) return;
+      var key = btn.dataset.key;
+      var groups = bulkPriceList._groups || {};
+      var g = groups[key];
+      if (!g) return;
+      var input = bulkPriceList.querySelector('.bulk-price-input[data-key="' + key + '"]');
+      if (!input) return;
+      var max = bulkPriceMax(g.levels, g.level);
+      var val = Math.round(parseFloat(input.value));
+      if (isNaN(val)) return;
+      val = Math.max(MIN_RATE, Math.min(max, val));
+      input.value = val;
+      g.indices.forEach(function (idx) { state.stations[idx].rate = val; });
+      renderFloor();
+      save();
+      showToast(t("bulk.applied", { name: g.name, count: g.count }));
+    });
+  }
+
   // ---------------------------------------------------------------- price editing
   floor.addEventListener("click", function (e) {
     var card = e.target.closest(".station");
@@ -2126,10 +2433,10 @@
   function openPriceModal(idx) {
     editingStationIdx = idx;
     var s = state.stations[idx];
-    priceModalTitle.textContent = (s.isPS ? t("price.psTitle") : t("price.tableTitle")) + " " + (idx + 1) + " " + t("price.feeSuffix");
+    priceModalTitle.textContent = (s.isPS ? t("price.psTitle") : s.isCar ? t("price.carTitle") : t("price.tableTitle")) + " " + (idx + 1) + " " + t("price.feeSuffix");
     priceModalSub.textContent = s.hasComputer
       ? levelsFor(s)[s.computerLevel].name + " · " + t("price.setHourlyRate")
-      : (s.isPS ? t("price.noConsoleYet") : t("price.noComputerYet"));
+      : (s.isPS ? t("price.noConsoleYet") : s.isCar ? t("price.noCarYet") : t("price.noComputerYet"));
     applySliderRange(s);
     priceSlider.value = s.rate;
     priceValue.textContent = s.rate;
@@ -2143,13 +2450,12 @@
     if (!s.hasComputer) { upgradeCard.hidden = true; return; }
 
     var levels = levelsFor(s);
-    var photos = photosFor(s);
     var cur = levels[s.computerLevel];
     upgradeCard.hidden = false;
 
     if (!cur.upgradeCost) {
       upgradeCard.classList.add("maxed");
-      upgradePhoto.src = photos[s.computerLevel];
+      setUpgradeVisual(s, s.computerLevel);
       upgradeLabel.textContent = t("price.topLevel");
       upgradeName.textContent = cur.name;
       btnUpgradeStation.hidden = true;
@@ -2158,12 +2464,27 @@
 
     var next = levels[s.computerLevel + 1];
     upgradeCard.classList.remove("maxed");
-    upgradePhoto.src = photos[s.computerLevel + 1];
+    setUpgradeVisual(s, s.computerLevel + 1);
     upgradeLabel.textContent = t("price.nextLevel");
     upgradeName.textContent = next.name;
     btnUpgradeStation.hidden = false;
     upgradeCost.textContent = fmtMoney(cur.upgradeCost) + " ₺";
     btnUpgradeStation.disabled = state.money < cur.upgradeCost;
+  }
+
+  // Car sim has no photo files — swap in the matching inline SVG icon and
+  // hide the <img> instead. Every other station type keeps using photos.
+  function setUpgradeVisual(s, level) {
+    if (isIconOnlyStation(s)) {
+      upgradePhoto.hidden = true;
+      upgradeCarIcon.hidden = false;
+      upgradeCarIcon.className = "upgrade-photo upgrade-car-icon car-lvl" + level;
+      upgradeCarIcon.querySelector("use").setAttribute("href", "#" + CAR_LEVELS[level].icon);
+    } else {
+      upgradeCarIcon.hidden = true;
+      upgradePhoto.hidden = false;
+      upgradePhoto.src = photosFor(s)[level];
+    }
   }
 
   btnUpgradeStation.addEventListener("click", function () {
@@ -2254,7 +2575,7 @@
   btnBuyTable.addEventListener("click", function () {
     if (countHasTable() >= MAX_STATIONS) return showToast(t("toast.maxTablesReached"));
     if (state.money < TABLE_COST) return showToast(t("toast.notEnoughMoney"));
-    var slot = state.stations.find(function (s) { return !s.isPS && !s.hasTable; });
+    var slot = state.stations.find(function (s) { return !s.isPS && !s.isCar && !s.hasTable; });
     if (!slot) return;
     slot.hasTable = true;
     state.money -= TABLE_COST;
@@ -2262,7 +2583,7 @@
   });
 
   btnBuyComputer.addEventListener("click", function () {
-    var slot = state.stations.find(function (s) { return !s.isPS && s.hasTable && !s.hasComputer; });
+    var slot = state.stations.find(function (s) { return !s.isPS && !s.isCar && s.hasTable && !s.hasComputer; });
     if (!slot) return showToast(t("toast.addTableFirst"));
     if (countHasComputer() >= MAX_STATIONS) return showToast(t("toast.maxComputersReached"));
     if (state.money < COMPUTER_COST) return showToast(t("toast.notEnoughMoney"));
@@ -2334,11 +2655,30 @@
   btnOpenStore.addEventListener("click", function () {
     renderShop();
     renderPsSection();
+    renderCarSection();
     renderVendingSection();
     renderStaffSection();
     renderRebirthSection();
     modalStore.hidden = false;
   });
+
+  // ---- store modal tabs: one category visible at a time instead of six
+  // stacked sections — everything still renders underneath, switching is
+  // instant, nothing is removed, just no longer all shown at once.
+  var storeTabs = $("store-tabs");
+  if (storeTabs) {
+    storeTabs.addEventListener("click", function (e) {
+      var btn = e.target.closest(".store-tab");
+      if (!btn) return;
+      var tab = btn.dataset.tab;
+      Array.prototype.slice.call(storeTabs.querySelectorAll(".store-tab")).forEach(function (b) {
+        b.classList.toggle("is-active", b === btn);
+      });
+      Array.prototype.slice.call(document.querySelectorAll(".store-tab-panel")).forEach(function (panel) {
+        panel.hidden = panel.dataset.tabPanel !== tab;
+      });
+    });
+  }
   btnCloseStore.addEventListener("click", function () { modalStore.hidden = true; });
   modalStore.addEventListener("click", function (e) { if (e.target === modalStore) modalStore.hidden = true; });
 
@@ -2493,6 +2833,92 @@
         upgradeStation(idx);
       }
       renderPsSection();
+      renderFloor();
+      renderHud();
+      save();
+    });
+  }
+
+  // ---------------------------------------------------------------- İOZ Araba Simülasyonu (dükkan)
+  var carStoreList = $("car-store-list");
+
+  function renderCarSection() {
+    if (!state || !carStoreList) return;
+    var html = "";
+    state.stations.forEach(function (s, idx) {
+      if (!s.isCar) return;
+      var slotNum = idx - MAX_STATIONS - PS_STATION_COUNT + 1; // 1..10
+      if (!s.hasTable) {
+        html += '<div class="store-item">' +
+          '<div class="store-item-icon"><svg class="i-28"><use href="#icon-car-mini"/></svg></div>' +
+          '<div class="store-item-info">' +
+            '<div class="store-item-name">' + t("car.tableName", { n: slotNum }) + '</div>' +
+            '<div class="store-item-desc">' + t("car.tableDesc") + '</div>' +
+          '</div>' +
+          '<button class="car-action-btn" data-action="car-table" data-idx="' + idx + '"' +
+            (state.money < CAR_TABLE_COST ? " disabled" : "") + '>' + fmtMoney(CAR_TABLE_COST) + ' ₺</button>' +
+        '</div>';
+      } else if (!s.hasComputer) {
+        html += '<div class="store-item">' +
+          '<div class="store-item-icon"><svg class="i-28"><use href="#icon-car-mini"/></svg></div>' +
+          '<div class="store-item-info">' +
+            '<div class="store-item-name">' + t("car.consoleSetupName") + '</div>' +
+            '<div class="store-item-desc">' + t("car.consoleSetupDesc", { n: slotNum }) + '</div>' +
+          '</div>' +
+          '<button class="car-action-btn" data-action="car-console" data-idx="' + idx + '"' +
+            (state.money < CAR_CONSOLE_COST ? " disabled" : "") + '>' + fmtMoney(CAR_CONSOLE_COST) + ' ₺</button>' +
+        '</div>';
+      } else {
+        var lvl = CAR_LEVELS[s.computerLevel];
+        if (lvl.upgradeCost) {
+          html += '<div class="store-item">' +
+            '<div class="store-item-icon"><svg class="i-28"><use href="#' + lvl.icon + '"/></svg></div>' +
+            '<div class="store-item-info">' +
+              '<div class="store-item-name">' + lvl.name + ' → ' + CAR_LEVELS[s.computerLevel + 1].name + '</div>' +
+              '<div class="store-item-desc">' + t("car.upgradeDesc", { n: slotNum }) + '</div>' +
+            '</div>' +
+            '<button class="car-action-btn" data-action="car-upgrade" data-idx="' + idx + '"' +
+              (state.money < lvl.upgradeCost ? " disabled" : "") + '>' + fmtMoney(lvl.upgradeCost) + ' ₺</button>' +
+          '</div>';
+        } else {
+          html += '<div class="store-item owned">' +
+            '<div class="store-item-icon"><svg class="i-28"><use href="#' + lvl.icon + '"/></svg></div>' +
+            '<div class="store-item-info">' +
+              '<div class="store-item-name">' + lvl.name + '</div>' +
+              '<div class="store-item-desc">' + t("car.maxedDesc", { n: slotNum }) + '</div>' +
+            '</div>' +
+            '<div class="store-item-owned"><svg class="i-18"><use href="#icon-check"/></svg>' + t("car.ready") + '</div>' +
+          '</div>';
+        }
+      }
+    });
+    carStoreList.innerHTML = html;
+  }
+
+  if (carStoreList) {
+    carStoreList.addEventListener("click", function (e) {
+      var btn = e.target.closest(".car-action-btn");
+      if (!btn || btn.disabled) return;
+      var idx = parseInt(btn.dataset.idx, 10);
+      var s = state.stations[idx];
+      if (!s) return;
+      var action = btn.dataset.action;
+      if (action === "car-table") {
+        if (state.money < CAR_TABLE_COST) return showToast(t("toast.notEnoughMoney"));
+        s.hasTable = true;
+        state.money -= CAR_TABLE_COST;
+        showToast(t("toast.carTableBuilt"));
+      } else if (action === "car-console") {
+        if (state.money < CAR_CONSOLE_COST) return showToast(t("toast.notEnoughMoney"));
+        s.hasComputer = true;
+        s.computerLevel = 1;
+        s.rate = CAR_LEVELS[1].defaultRate;
+        state.money -= CAR_CONSOLE_COST;
+        showToast(t("toast.carConsoleInstalled"));
+      } else if (action === "car-upgrade") {
+        upgradeStation(idx);
+      }
+      renderCarSection();
       renderFloor();
       renderHud();
       save();

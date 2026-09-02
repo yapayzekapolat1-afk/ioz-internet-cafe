@@ -140,6 +140,52 @@
       <circle cx="16" cy="11.6" r=".9" fill="currentColor"/>
       <circle cx="17.6" cy="13.2" r=".9" fill="currentColor"/>
     </symbol>
+    <!-- price tag, for the bulk "Fiyatlar" button -->
+    <symbol id="icon-price-tag" viewBox="0 0 24 24">
+      <path d="M12.6 3.4 20 10.8a2 2 0 0 1 0 2.8l-6.4 6.4a2 2 0 0 1-2.8 0L3.4 12.6A2 2 0 0 1 3 11.3V5a1.6 1.6 0 0 1 1.6-1.6h6.3c.5 0 1 .2 1.3.6Z"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="8" cy="8" r="1.4" fill="currentColor"/>
+    </symbol>
+    <!-- steering wheel, bare car-slot fallback icon -->
+    <symbol id="icon-car-mini" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M12 6v4M8.4 15.9 10 13M15.6 15.9 14 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <!-- level 1: simple boxy racer -->
+    <symbol id="icon-car-lvl1" viewBox="0 0 64 40">
+      <path d="M6 26h4l4-9c1-2 3-3 5-3h18c2 0 4 1 5 3l4 9h4a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2a5 5 0 0 1-10 0H18a5 5 0 0 1-10 0H6a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M17 17h9v6h-11Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle cx="16" cy="32" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="46" cy="32" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </symbol>
+    <!-- level 2: sportier, spoiler + side stripe -->
+    <symbol id="icon-car-lvl2" viewBox="0 0 64 40">
+      <path d="M4 27h3l3-10c1.5-2.5 4-4 7-4h5l3-4h6l-1 4h3c3 0 5.5 1.5 7 4l3 10h4a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a5 5 0 0 1-10 0H19a5 5 0 0 1-10 0H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2Z"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M46 15l6-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 15h11l-2 6H14Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M9 24h44" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 3"/>
+      <circle cx="15" cy="32" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="47" cy="32" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </symbol>
+    <!-- level 3: futuristic / neon-glow supercar -->
+    <symbol id="icon-car-lvl3" viewBox="0 0 64 40">
+      <defs>
+        <radialGradient id="carLvl3Glow" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="currentColor" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="32" cy="26" rx="30" ry="14" fill="url(#carLvl3Glow)"/>
+      <path d="M2 26 8 16c2-3 6-5 10-5h8l4-5h6l-2 5h4c4 0 8 2 10 5l6 10h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2a5.5 5.5 0 0 1-11 0H15a5.5 5.5 0 0 1-11 0H2a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2Z"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M18 12h13l-2 7H15Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M50 13l7-4M6 23h50" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      <circle cx="14" cy="31" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/>
+      <circle cx="48" cy="31" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/>
+    </symbol>
     <!-- trophy for achievements -->
     <symbol id="icon-trophy" viewBox="0 0 24 24">
       <path d="M7 4h10v4a5 5 0 0 1-5 5 5 5 0 0 1-5-5V4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
@@ -301,6 +347,7 @@
       <div class="sub-hud-item"><svg class="i-12"><use href="#icon-desk-mini"/></svg><span id="stat-tables">0/20</span></div>
       <div class="sub-hud-item"><svg class="i-12"><use href="#icon-monitor-mini"/></svg><span id="stat-computers">0/20</span></div>
       <div class="sub-hud-item"><svg class="i-12"><use href="#icon-gamepad-mini"/></svg><span id="stat-ps">0/10</span></div>
+      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-car-mini"/></svg><span id="stat-car">0/10</span></div>
       <div class="sub-hud-item"><svg class="i-12"><use href="#icon-user"/></svg><span id="stat-customers">0</span></div>
       <div class="sub-hud-item sub-hud-today"><svg class="i-12"><use href="#icon-coin"/></svg><span id="stat-today">0 ₺</span></div>
     </div>
@@ -339,10 +386,29 @@
         <svg class="i-20"><use href="#icon-shop"/></svg>
         <span class="shop-btn-label" data-i18n="shopbar.store">Dükkan</span>
       </button>
+      <button id="btn-open-bulk-price" class="shop-btn shop-btn-prices">
+        <svg class="i-20"><use href="#icon-price-tag"/></svg>
+        <span class="shop-btn-label" data-i18n="shopbar.prices">Fiyatlar</span>
+      </button>
     </footer>
 
     <div class="toast-layer" id="toast-layer"></div>
   </section>
+
+  <!-- TOPLU FİYAT AYARI (bulk price by brand/level) -->
+  <div id="modal-bulk-price" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span data-i18n="bulk.title">Fiyatlar</span>
+        <button id="btn-close-bulk-price" class="hud-icon-btn"><svg class="i-18"><use href="#icon-close"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <p class="settings-note" data-i18n="bulk.subtitle" style="margin-top:-4px;">Bir markadan kaç tane varsa, hepsinin fiyatını tek seferde değiştir.</p>
+        <div id="bulk-price-list" class="bulk-price-list"></div>
+        <p id="bulk-price-empty" class="settings-note" data-i18n="bulk.empty" hidden>Henüz fiyatlandırılabilecek bir bilgisayar/konsol/simülatör yok.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- PER-STATION HOURLY PRICE MODAL -->
   <div id="modal-price" class="modal" hidden>
@@ -368,6 +434,7 @@
 
         <div class="upgrade-card" id="upgrade-card">
           <img id="upgrade-photo" class="upgrade-photo" src="" alt="">
+          <svg id="upgrade-car-icon" class="upgrade-photo upgrade-car-icon" hidden><use href=""/></svg>
           <div class="upgrade-info">
             <div class="upgrade-label" id="upgrade-label" data-i18n="price.nextLevel">Sonraki Seviye</div>
             <div class="upgrade-name" id="upgrade-name">—</div>
@@ -435,6 +502,24 @@
     </div>
   </div>
 
+  <!-- GÜNLÜK GİRİŞ ÖDÜLÜ -->
+  <div id="modal-daily-reward" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span data-i18n="daily.title">Günlük Giriş Ödülü</span>
+      </div>
+      <div class="modal-body">
+        <p class="settings-note" data-i18n="daily.subtitle" style="text-align:center;margin-top:-4px;">Her gün gir, ödülün büyüsün!</p>
+        <div id="daily-reward-track" class="daily-reward-track"></div>
+        <div class="daily-reward-hero">
+          <div id="daily-reward-day-label" class="daily-reward-day">1. Gün</div>
+          <div id="daily-reward-amount" class="daily-reward-amount">+300 ₺</div>
+        </div>
+        <button id="btn-claim-daily" class="btn btn-primary btn-block vip-buy-btn" data-i18n="daily.claimBtn">Ödülü Al</button>
+      </div>
+    </div>
+  </div>
+
   <!-- VIP ÜYELİK (real-money one-time purchase) -->
   <div id="modal-vip" class="modal" hidden>
     <div class="modal-card">
@@ -472,33 +557,51 @@
         <span data-i18n="store.title">Dükkan</span>
         <button id="btn-close-store" class="hud-icon-btn"><svg class="i-18"><use href="#icon-close"/></svg></button>
       </div>
+      <div class="store-tabs" id="store-tabs">
+        <button class="store-tab is-active" data-tab="pc">
+          <svg class="i-16"><use href="#icon-desk-mini"/></svg><span data-i18n="store.tabPc">Bilgisayar</span>
+        </button>
+        <button class="store-tab" data-tab="ps">
+          <svg class="i-16"><use href="#icon-gamepad-mini"/></svg><span data-i18n="store.tabPs">Playstion</span>
+        </button>
+        <button class="store-tab" data-tab="car">
+          <svg class="i-16"><use href="#icon-car-mini"/></svg><span data-i18n="store.tabCar">Araba Sim</span>
+        </button>
+        <button class="store-tab" data-tab="vending">
+          <svg class="i-16"><use href="#icon-drink"/></svg><span data-i18n="store.tabVending">Otomatlar</span>
+        </button>
+        <button class="store-tab" data-tab="staff">
+          <svg class="i-16"><use href="#icon-broom"/></svg><span data-i18n="store.tabStaff">Personel</span>
+        </button>
+        <button class="store-tab" data-tab="rebirth">
+          <svg class="i-16"><use href="#icon-rebirth"/></svg><span data-i18n="store.tabRebirth">Rebirth</span>
+        </button>
+      </div>
       <div class="modal-body">
-        <p class="store-intro" data-i18n="store.intro">Kalıcı yükseltmeler satın al, işletmeni büyüt.</p>
-        <div class="store-list" id="store-list"></div>
-
-        <div class="store-section-head">
-          <svg class="i-18"><use href="#icon-gamepad-mini"/></svg>
-          <span data-i18n="store.sectionPs">İOZ Playstion</span>
+        <div class="store-tab-panel is-active" data-tab-panel="pc">
+          <p class="store-intro" data-i18n="store.intro">Kalıcı yükseltmeler satın al, işletmeni büyüt.</p>
+          <div class="store-list" id="store-list"></div>
         </div>
-        <div class="store-list" id="ps-store-list"></div>
 
-        <div class="store-section-head">
-          <svg class="i-18"><use href="#icon-drink"/></svg>
-          <span data-i18n="store.sectionVending">Otomatlar</span>
+        <div class="store-tab-panel" data-tab-panel="ps" hidden>
+          <div class="store-list" id="ps-store-list"></div>
         </div>
-        <div class="store-list" id="vending-store-list"></div>
 
-        <div class="store-section-head">
-          <svg class="i-18"><use href="#icon-broom"/></svg>
-          <span data-i18n="store.sectionStaff">Personel</span>
+        <div class="store-tab-panel" data-tab-panel="car" hidden>
+          <div class="store-list" id="car-store-list"></div>
         </div>
-        <div class="store-list" id="staff-store-list"></div>
 
-        <div class="store-section-head">
-          <svg class="i-18"><use href="#icon-rebirth"/></svg>
-          <span data-i18n="rebirth.title">Yeniden Doğuş</span>
+        <div class="store-tab-panel" data-tab-panel="vending" hidden>
+          <div class="store-list" id="vending-store-list"></div>
         </div>
-        <div id="rebirth-store-list"></div>
+
+        <div class="store-tab-panel" data-tab-panel="staff" hidden>
+          <div class="store-list" id="staff-store-list"></div>
+        </div>
+
+        <div class="store-tab-panel" data-tab-panel="rebirth" hidden>
+          <div id="rebirth-store-list"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -638,6 +741,33 @@
             <div class="price-row"><span>İoz Playstion 5</span><strong>480 ₺/sa</strong></div>
             <div class="price-row"><span>İoz Playstion 5 Pro</span><strong>750 ₺/sa</strong></div>
             <div class="price-row"><span>İoz Playstion 6</span><strong>1.150 ₺/sa</strong></div>
+          </div>
+
+          <div class="store-section-head">
+            <svg class="i-18"><use href="#icon-car-mini"/></svg>
+            <span data-i18n="store.sectionCar">İOZ Araba Simülasyonu</span>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.investment">Yatırım</span><span data-i18n="price.amount">Tutar</span></div>
+            <div class="price-row"><span data-i18n="price.carTable">Simülatör Kabini</span><strong>1.250 ₺</strong></div>
+            <div class="price-row"><span data-i18n="price.carConsole">İoz Racer Basic (ilk simülatör)</span><strong>1.500 ₺</strong></div>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.hwUpgrade">Donanım Yükseltmesi</span><span data-i18n="price.cost">Maliyet</span></div>
+            <div class="price-row"><span>Racer Basic → Racer GT</span><strong>8.000 ₺</strong></div>
+            <div class="price-row"><span>Racer GT → Racer Elite</span><strong>18.000 ₺</strong></div>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.dailyCost">Günlük gider</span><span data-i18n="price.amount">Tutar</span></div>
+            <div class="price-row"><span>İoz Racer Basic</span><strong class="neg">250 ₺</strong></div>
+            <div class="price-row"><span>İoz Racer GT</span><strong class="neg">500 ₺</strong></div>
+            <div class="price-row"><span>İoz Racer Elite</span><strong class="neg">950 ₺</strong></div>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.ceiling">Müşteri fiyat tavanı</span><span data-i18n="price.ceilingLimit">Üst sınır</span></div>
+            <div class="price-row"><span>İoz Racer Basic</span><strong>700 ₺/sa</strong></div>
+            <div class="price-row"><span>İoz Racer GT</span><strong>1.500 ₺/sa</strong></div>
+            <div class="price-row"><span>İoz Racer Elite</span><strong>3.000 ₺/sa</strong></div>
           </div>
         </div>
 
