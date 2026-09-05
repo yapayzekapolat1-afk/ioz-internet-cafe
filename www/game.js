@@ -36,16 +36,14 @@
 
       "achv.unlockedHead": "Başarım Kazandın!",
 
-      "changelog.title": "Yenilikler — Sürüm 3.0",
+      "changelog.title": "Yenilikler — Sürüm 5.0",
       "changelog.intro": "Cafeni açtığından beri epey şey değişti, hepsi burada:",
-      "changelog.1.b": "40 masa ve bilgisayar", "changelog.1.t": "— kapasite bir kez daha ikiye katlandı.",
-      "changelog.2.b": "30 İOZ Playstion istasyonu", "changelog.2.t": "— üç katına çıktı.",
-      "changelog.3.b": "Yeniden Doğuş", "changelog.3.t": "— işletmeni sıfırlayıp kalıcı gelir bonusu kazan.",
-      "changelog.4.b": "VIP Üyelik Programı", "changelog.4.t": "— bazı müşteriler fiyat tanımaz, daha uzun kalır.",
-      "changelog.5.b": "Fiber İnternet & Jeneratör", "changelog.5.t": "— fiyat tavanını yükselt, giderleri azalt.",
-      "changelog.6.b": "Klima & Sadakat Kartı", "changelog.6.t": "— dükkan puanı ve ortalama kalış süresi artsın.",
-      "changelog.7.b": "Reklam Kampanyası", "changelog.7.t": "— müşteri sabrı ve kuyruk kapasitesi arttı.",
-      "changelog.8.b": "Dükkan resmen devrim geçirdi", "changelog.8.t": "— 4 üründen 10 ürüne çıktı.",
+      "changelog.1.b": "Playstion, Araba Sim ve Atari'ye +40 seviye", "changelog.1.t": "— artık çok daha uzun bir yükseltme yolu var.",
+      "changelog.2.b": "Donanım Parça Yükseltmeleri", "changelog.2.t": "— bilgisayarların son seviyeye ulaşınca RAM, SSD, ekran kartı ve soğutma sistemiyle daha da güçlensin.",
+      "changelog.3.b": "Rebirth bonusu 3 katına çıktı", "changelog.3.t": "— her yeniden doğuş artık çok daha değerli.",
+      "changelog.4.b": "10 adet VIP Bilgisayar", "changelog.4.t": "— reklam izleyerek ücretsiz kazanılıyor.",
+      "changelog.5.b": "Dükkana 2 yeni ürün", "changelog.5.t": "— Güvenlik Kamera Sistemi ve Online Rezervasyon Sistemi.",
+      "changelog.6.b": "Instagram kanalımıza katıl", "changelog.6.t": "— yeni içerikler ve kampanyalardan haberdar ol.",
       "changelog.close": "Kapat",
       "changelog.closeWithCount": "Kapat ({n})",
 
@@ -59,15 +57,20 @@
       "price.perHour": "₺ / saat",
       "price.nextLevel": "Sonraki Seviye",
       "price.topLevel": "En üst seviye",
+      "parts.head": "Donanım Parça Yükseltmeleri",
+      "parts.sub": "En üst seviyeye ulaştı. Şimdi tek tek parçalarını yükselterek gelirini daha da artırabilirsin.",
+      "parts.installed": "Takıldı ✓",
       "price.save": "Kaydet",
       "price.psTitle": "Playstion",
       "price.carTitle": "Simulator",
       "price.carTitle": "Simülatör",
+      "price.arcadeTitle": "Atari",
       "price.tableTitle": "Masa",
       "price.feeSuffix": "Ücreti",
       "price.setHourlyRate": "saatlik ücreti belirle.",
       "price.noConsoleYet": "Bu masada henüz konsol yok, ama ücretini şimdiden ayarlayabilirsin.",
       "price.noCarYet": "Bu kabinde henüz simülatör yok, ama ücretini şimdiden ayarlayabilirsin.",
+      "price.noArcadeYet": "Bu dolapta henüz atari yok, ama ücretini şimdiden ayarlayabilirsin.",
       "price.noComputerYet": "Bu masada henüz bilgisayar yok, ama ücretini şimdiden ayarlayabilirsin.",
       "price.fb.tooExpensive": "Çok pahalı.",
       "price.fb.tooExpensiveDesc": "Bu fiyata {name} için kimse oturmaz, masa boş kalır.",
@@ -90,6 +93,10 @@
       "price.ceilingNote": "Bu tavanın üstünde fiyat verirsen o masaya kimse oturmaz.",
       "price.psTable": "PS Masası",
       "price.psConsole": "İoz Playstion 4 (ilk konsol)",
+      "price.carTable": "Simülatör Kabini",
+      "price.carConsole": "İoz Racer Basic (ilk simülatör)",
+      "price.arcadeTable": "Atari Dolabı",
+      "price.arcadeConsole": "İoz Atari Mini (ilk atari)",
 
       "day.title": "Gün Sonu",
       "day.titleWithNum": "{day}. Gün Sonu",
@@ -126,13 +133,15 @@
       "store.intro": "Kalıcı yükseltmeler satın al, işletmeni büyüt.",
       "store.sectionPs": "İOZ Playstion",
       "store.sectionCar": "İOZ Araba Simülasyonu",
+      "store.sectionArcade": "İOZ Oyun Atarisi",
       "store.tabPc": "Bilgisayar",
       "store.tabPs": "Playstion",
       "store.tabCar": "Araba Sim",
+      "store.tabArcade": "Oyun Atarisi",
       "store.tabVending": "Otomatlar",
       "store.tabStaff": "Personel",
       "store.tabRebirth": "Rebirth",
-      "store.sectionCar": "İOZ Araba Simülasyonu",
+      "store.tabUpgrade": "Dükkan Geliştir",
       "store.sectionVending": "Otomatlar",
       "store.sectionStaff": "Personel",
       "store.owned": "Alındı",
@@ -151,9 +160,12 @@
 
       "floor.psTableEmpty": "PS Masası",
       "floor.carTableEmpty": "Simülatör Kabini",
+      "floor.arcadeTableEmpty": "Atari Dolabı",
       "floor.emptySpot": "Boş Alan",
+      "floor.adPcEmpty": "İzle ve Kazan",
       "floor.noConsole": "Konsol yok",
       "floor.noCar": "Simülatör yok",
+      "floor.noArcade": "Atari yok",
       "floor.noComputer": "Bilgisayar yok",
 
       "shop.fiberInternet.name": "Fiber İnternet Altyapısı",
@@ -168,6 +180,10 @@
       "shop.generator.desc": "Tüm günlük gideri kalıcı olarak %25 azaltır.",
       "shop.adCampaign.name": "Sosyal Medya Reklam Kampanyası",
       "shop.adCampaign.desc": "Müşteri sabrını ve aynı anda bekleyebilecek istek sayısını artırır.",
+      "shop.security.name": "Güvenlik Kamera Sistemi",
+      "shop.security.desc": "Müşteriler kendini güvende hisseder — dükkan puanına kalıcı +0.5 taban bonus ekler.",
+      "shop.onlineReservation.name": "Online Rezervasyon Sistemi",
+      "shop.onlineReservation.desc": "Müşteriler önceden yer ayırtır — cafene gelen trafiği kalıcı olarak +%25 daha artırır.",
 
       "rebirth.title": "Yeniden Doğuş",
       "rebirth.intro": "İşletmeni sıfırlayıp kalıcı bir bonusla yeniden başla. Bonus, yapılan her yeniden doğuşla birikir.",
@@ -181,6 +197,14 @@
       "rebirth.confirmYes": "Evet, Yeniden Doğ",
       "rebirth.confirmCancel": "Vazgeç",
       "rebirth.done": "Yeniden doğdun! Kalıcı bonus: +%{pct}",
+      "upgrade.intro": "İşletmeni sıfırlayıp sıfırdan, çok daha büyük bir dükkan olarak yeniden aç. Tüm maliyetler ve tüm kazançların kalıcı olarak x{mult} büyür — aynı düzen, çok daha zorlu ve çok daha kazançlı. Başarımların, seviyen, toplam müşteri sayın ve rebirth ilerlemen korunur.",
+      "upgrade.introDone": "Dükkanın zaten geliştirildi — tüm maliyetler ve kazançların kalıcı olarak büyütülmüş durumda.",
+      "upgrade.multiplier": "Aktif çarpan",
+      "upgrade.cost": "Geliştirme bedeli",
+      "upgrade.button": "Dükkanı Geliştir",
+      "upgrade.confirmText": "Kasan, masaların, bilgisayarların ve dükkan yükseltmelerin sıfırlanacak; {cost} ₺ ödeyip tüm maliyet ve kazançlarını kalıcı olarak x{mult} büyüteceksin. Başarımların, seviyen, toplam müşteri sayın ve rebirth ilerlemen korunur. Bu işlem geri alınamaz.",
+      "upgrade.done": "Dükkanın geliştirildi! Artık tüm maliyetler ve kazançların x{mult}.",
+      "upgrade.confirmYes": "Evet, Geliştir",
 
       "settings.version": "Sürüm 2.0",
       "settings.versionPrefix": "Sürüm",
@@ -193,25 +217,26 @@
       "how.1.title": "İstekleri karşıla", "how.1.desc": "Müşteriler belirli bir masa için istek gönderir. Onaylarsan oturur, reddedersen gider.",
       "how.2.title": "Fiyatı sen belirle", "how.2.desc": "Masaya dokunup saatlik ücreti ayarla. Pahalı masaya müşteri az gelir, ucuz masa hep dolar.",
       "how.3.title": "Günü kârla kapat", "how.3.desc": "Cafe 08:00–24:00 arası açık. Gün sonunda elektrik ve internet gideri bütçenden düşer.",
-      "how.4.title": "Büyü", "how.4.desc": "En fazla 40 masa ve 40 bilgisayar. Boş duran masa gider yazdırır, dengeyi koru.",
+      "how.4.title": "Büyü", "how.4.desc": "En fazla 60 masa ve 60 bilgisayar. Boş duran masa gider yazdırır, dengeyi koru.",
 
       "level.label": "Seviye",
       "level.maxReached": "en üst seviye",
 
+      "instagram.title": "Bizi Instagram'da Takip Et",
+      "instagram.sub": "Yeni güncellemeler, kampanyalar ve kamera arkası içerikler için kanalımıza katıl.",
+      "instagram.open": "Kanala Katıl",
+      "instagram.notNow": "Şimdi Değil",
       "social.tiktok.title": "TikTok'ta Bizi Takip Et",
       "social.tiktok.open": "TikTok'ta Aç",
-      "social.tiktok.note": "Bizi takip et, ödülünü bir kereye mahsus oyun içinde alabilirsin.",
-      "social.whatsapp.title": "İOZ Games Duyuru Kanalı",
-      "social.whatsapp.handle": "WhatsApp Kanalı",
-      "social.whatsapp.open": "Kanala Katıl",
-      "social.whatsapp.note": "Kanala katıl, ödülünü bir kereye mahsus oyun içinde alabilirsin.",
+      "social.tiktok.note": "Bizi takip et, uygulamaya geri dön ve ödülünü buradan al.",
+      "social.followFirst": "Önce TikTok'ta Takip Et",
+      "social.rateFirst": "Önce Play Store'da Değerlendir",
       "social.rateus.title": "Bizi Play Store'da Değerlendir",
       "social.rateus.handle": "Beğendiysen 5 yıldız bırak ⭐",
-      "social.rateus.note": "Play Store'u açar, değerlendirdikten sonra bir kereye mahsus ödülünü buradan alabilirsin.",
+      "social.rateus.open": "Play Store'da Değerlendir",
+      "social.rateus.note": "Değerlendir, uygulamaya geri dön ve ödülünü buradan al.",
       "social.rewardClaimed": "Ödül Alındı ✓",
       "social.claimReward": "{amount} ₺ Ödülünü Al",
-      "social.openPlayStore": "Play Store'u Aç",
-      "social.rateAndClaim": "Değerlendir ve {amount} ₺ Al",
 
       "app.legalNote": "Gizlilik Politikası ve Kullanım Şartları uygulama paketinin legal/ klasöründedir.",
       "app.dangerZone": "Tehlikeli Bölge",
@@ -240,11 +265,20 @@
       "car.upgradeDesc": "Kabin {n} simülatörünü yükselt.",
       "car.maxedDesc": "Kabin {n} · en üst seviye.",
       "car.ready": "Hazır",
+      "arcade.tableName": "Atari Dolabı {n}",
+      "arcade.tableDesc": "Oyun atarisi köşesi için dolap kur.",
+      "arcade.consoleSetupName": "İoz Atari Mini Kur",
+      "arcade.consoleSetupDesc": "Dolap {n} için ilk atariyi satın al.",
+      "arcade.upgradeDesc": "Dolap {n} atarisini yükselt.",
+      "arcade.maxedDesc": "Dolap {n} · en üst seviye.",
+      "arcade.ready": "Hazır",
 
       "vending.drink.name": "İçecek Otomatı",
       "vending.drink.desc": "Saatte {rate} ₺ pasif gelir.",
       "vending.food.name": "Yiyecek Otomatı",
       "vending.food.desc": "Saatte {rate} ₺ pasif gelir.",
+      "vending.candy.name": "Tatlı Otomatı",
+      "vending.candy.desc": "Saatte {rate} ₺ pasif gelir.",
 
       "staff.cleaner.name": "Temizlikçi",
       "staff.cleaner.descHired": "Günlük {wage} ₺ maaş · dükkan puanını yükseltir.",
@@ -284,6 +318,7 @@
       "toast.notEnoughMoney": "Yetersiz bütçe",
       "toast.stationFilledMeanwhile": "Masa {n} bu arada doldu",
       "toast.adBonusQuick": "+{amount} ₺ reklam bonusu!",
+      "toast.adPcClaimed": "Yeni bir VIP bilgisayar kazandın!",
       "toast.adBonusDay": "Reklam bonusu: +{amount} ₺",
       "toast.priceTooHighCustomerLeft": "Fiyat çok yüksek, bekleyen müşteri gitti",
       "toast.maxTablesReached": "Maksimum masa sayısına ulaşıldı",
@@ -296,6 +331,8 @@
       "toast.psConsoleInstalled": "İoz Playstion 4 kuruldu!",
       "toast.carTableBuilt": "Simülatör kabini kuruldu",
       "toast.carConsoleInstalled": "İoz Racer Basic kuruldu!",
+      "toast.arcadeTableBuilt": "Atari dolabı kuruldu",
+      "toast.arcadeConsoleInstalled": "İoz Atari Mini kuruldu!",
       "toast.cleanerHired": "Temizlikçi işe alındı!",
       "toast.cleanerFired": "Temizlikçiyle yollar ayrıldı",
       "toast.tiktokThanks": "+{amount} ₺ — takip ettiğin için teşekkürler!",
@@ -364,16 +401,14 @@
 
       "achv.unlockedHead": "Achievement Unlocked!",
 
-      "changelog.title": "What's New — Version 3.0",
+      "changelog.title": "What's New — Version 5.0",
       "changelog.intro": "A lot has changed since you last opened your cafe — here's everything:",
-      "changelog.1.b": "40 tables and computers", "changelog.1.t": "— capacity has doubled once again.",
-      "changelog.2.b": "30 İOZ Playstion stations", "changelog.2.t": "— tripled.",
-      "changelog.3.b": "Rebirth", "changelog.3.t": "— reset your business for a permanent revenue bonus.",
-      "changelog.4.b": "VIP Membership Program", "changelog.4.t": "— some customers ignore the price ceiling and stay longer.",
-      "changelog.5.b": "Fiber Internet & Generator", "changelog.5.t": "— raise your price ceiling, cut your running costs.",
-      "changelog.6.b": "Air Conditioning & Loyalty Card", "changelog.6.t": "— boost your cafe rating and average customer stay.",
-      "changelog.7.b": "Ad Campaign", "changelog.7.t": "— more customer patience and queue capacity.",
-      "changelog.8.b": "The Store got a full overhaul", "changelog.8.t": "— from 4 items to 10.",
+      "changelog.1.b": "+40 levels for Playstion, Car Sim and Arcade", "changelog.1.t": "— a much longer upgrade path now.",
+      "changelog.2.b": "Hardware Part Upgrades", "changelog.2.t": "— once a computer hits max level, push it further with RAM, SSD, GPU and cooling upgrades.",
+      "changelog.3.b": "Rebirth bonus tripled", "changelog.3.t": "— every rebirth is now worth a lot more.",
+      "changelog.4.b": "10 VIP Computers", "changelog.4.t": "— earned for free by watching an ad.",
+      "changelog.5.b": "2 new store items", "changelog.5.t": "— Security Camera System and Online Reservation System.",
+      "changelog.6.b": "Join our Instagram channel", "changelog.6.t": "— stay up to date on new content and promos.",
       "changelog.close": "Close",
       "changelog.closeWithCount": "Close ({n})",
 
@@ -387,13 +422,19 @@
       "price.perHour": "₺ / hour",
       "price.nextLevel": "Next Level",
       "price.topLevel": "Top tier",
+      "parts.head": "Hardware Part Upgrades",
+      "parts.sub": "Reached the top tier. Upgrade individual parts one by one to push its income even further.",
+      "parts.installed": "Installed ✓",
       "price.save": "Save",
       "price.psTitle": "Playstion",
       "price.tableTitle": "Table",
+      "price.carTitle": "Simulator",
+      "price.arcadeTitle": "Arcade",
       "price.feeSuffix": "Rate",
       "price.setHourlyRate": "set the hourly rate.",
       "price.noConsoleYet": "This table doesn't have a console yet, but you can set its price in advance.",
       "price.noCarYet": "This cabin doesn't have a simulator yet, but you can set its price in advance.",
+      "price.noArcadeYet": "This cabinet doesn't have an arcade machine yet, but you can set its price in advance.",
       "price.noComputerYet": "This table doesn't have a computer yet, but you can set its price in advance.",
       "price.fb.tooExpensive": "Too expensive.",
       "price.fb.tooExpensiveDesc": "Nobody will sit at a {name} for this price — the table stays empty.",
@@ -416,6 +457,10 @@
       "price.ceilingNote": "Price above this ceiling and nobody will sit at that table.",
       "price.psTable": "PS Table",
       "price.psConsole": "İoz Playstion 4 (first console)",
+      "price.carTable": "Sim Cabin",
+      "price.carConsole": "İoz Racer Basic (first simulator)",
+      "price.arcadeTable": "Arcade Cabinet",
+      "price.arcadeConsole": "İoz Atari Mini (first arcade machine)",
 
       "day.title": "End of Day",
       "day.titleWithNum": "End of Day {day}",
@@ -452,12 +497,15 @@
       "store.intro": "Buy permanent upgrades and grow your business.",
       "store.sectionPs": "İOZ Playstion",
       "store.sectionCar": "İOZ Araba Simülasyonu",
+      "store.sectionArcade": "İOZ Oyun Atarisi",
       "store.tabPc": "Computers",
       "store.tabPs": "Playstion",
       "store.tabCar": "Car Sim",
+      "store.tabArcade": "Game Arcade",
       "store.tabVending": "Vending",
       "store.tabStaff": "Staff",
       "store.tabRebirth": "Rebirth",
+      "store.tabUpgrade": "Upgrade Shop",
       "store.sectionVending": "Vending Machines",
       "store.sectionStaff": "Staff",
       "store.owned": "Owned",
@@ -476,9 +524,12 @@
 
       "floor.psTableEmpty": "PS Table",
       "floor.carTableEmpty": "Sim Cabin",
+      "floor.arcadeTableEmpty": "Arcade Cabinet",
       "floor.emptySpot": "Empty Spot",
+      "floor.adPcEmpty": "Watch & Earn",
       "floor.noConsole": "No console",
       "floor.noCar": "No simulator",
+      "floor.noArcade": "No arcade machine",
       "floor.noComputer": "No computer",
 
       "shop.fiberInternet.name": "Fiber Internet Infrastructure",
@@ -493,6 +544,10 @@
       "shop.generator.desc": "Permanently cuts all daily running costs by 25%.",
       "shop.adCampaign.name": "Social Media Ad Campaign",
       "shop.adCampaign.desc": "Increases customer patience and how many requests can queue at once.",
+      "shop.security.name": "Security Camera System",
+      "shop.security.desc": "Customers feel safer — adds a permanent +0.5 baseline bonus to your cafe rating.",
+      "shop.onlineReservation.name": "Online Reservation System",
+      "shop.onlineReservation.desc": "Customers book ahead — permanently increases your incoming customer traffic by another +25%.",
 
       "rebirth.title": "Rebirth",
       "rebirth.intro": "Reset your business for a permanent bonus. The bonus stacks with every rebirth.",
@@ -506,6 +561,14 @@
       "rebirth.confirmYes": "Yes, Rebirth",
       "rebirth.confirmCancel": "Cancel",
       "rebirth.done": "You've been reborn! Permanent bonus: +{pct}%",
+      "upgrade.intro": "Reset your business and reopen it as a much bigger shop. All costs and all earnings permanently scale by x{mult} — same layout, much tougher, much more lucrative. Your achievements, level, total customer count and rebirth progress are kept.",
+      "upgrade.introDone": "Your shop is already upgraded — all costs and earnings are permanently scaled up.",
+      "upgrade.multiplier": "Active multiplier",
+      "upgrade.cost": "Upgrade cost",
+      "upgrade.button": "Upgrade Shop",
+      "upgrade.confirmText": "Your cash, tables, computers and store upgrades will reset; you'll pay {cost} ₺ and permanently scale all costs and earnings by x{mult}. Your achievements, level, total customer count and rebirth progress are kept. This cannot be undone.",
+      "upgrade.done": "Your shop has been upgraded! All costs and earnings are now x{mult}.",
+      "upgrade.confirmYes": "Yes, Upgrade",
 
       "settings.version": "Version 2.0",
       "settings.versionPrefix": "Version",
@@ -518,25 +581,26 @@
       "how.1.title": "Handle requests", "how.1.desc": "Customers send a request for a specific table. Accept it and they sit down, decline and they leave.",
       "how.2.title": "Set your own prices", "how.2.desc": "Tap a table to set its hourly rate. Expensive tables get fewer customers, cheap ones stay full.",
       "how.3.title": "Close the day in profit", "how.3.desc": "The cafe is open 08:00–24:00. At day's end, electricity and internet costs come out of your budget.",
-      "how.4.title": "Grow", "how.4.desc": "Up to 40 tables and 40 computers. An idle table still costs you money, so keep things balanced.",
+      "how.4.title": "Grow", "how.4.desc": "Up to 60 tables and 60 computers. An idle table still costs you money, so keep things balanced.",
 
       "level.label": "Level",
       "level.maxReached": "max level",
 
+      "instagram.title": "Follow Us on Instagram",
+      "instagram.sub": "Join our channel for new updates, promos, and behind-the-scenes content.",
+      "instagram.open": "Join the Channel",
+      "instagram.notNow": "Not Now",
       "social.tiktok.title": "Follow Us on TikTok",
       "social.tiktok.open": "Open TikTok",
-      "social.tiktok.note": "Follow us and claim your one-time in-game reward.",
-      "social.whatsapp.title": "İOZ Games Announcement Channel",
-      "social.whatsapp.handle": "WhatsApp Channel",
-      "social.whatsapp.open": "Join the Channel",
-      "social.whatsapp.note": "Join the channel and claim your one-time in-game reward.",
+      "social.tiktok.note": "Follow us, come back to the app, then claim your reward here.",
+      "social.followFirst": "Follow on TikTok First",
+      "social.rateFirst": "Rate on the Play Store First",
       "social.rateus.title": "Rate Us on the Play Store",
       "social.rateus.handle": "Leave 5 stars if you're enjoying it ⭐",
-      "social.rateus.note": "Opens the Play Store — you can claim your one-time reward here afterward.",
+      "social.rateus.open": "Rate on the Play Store",
+      "social.rateus.note": "Rate us, come back to the app, then claim your reward here.",
       "social.rewardClaimed": "Reward Claimed ✓",
       "social.claimReward": "Claim {amount} ₺ Reward",
-      "social.openPlayStore": "Open Play Store",
-      "social.rateAndClaim": "Rate Us & Claim {amount} ₺",
 
       "app.legalNote": "The Privacy Policy and Terms of Use are in the legal/ folder of the app package.",
       "app.dangerZone": "Danger Zone",
@@ -565,11 +629,20 @@
       "car.upgradeDesc": "Upgrade cabin {n}'s simulator.",
       "car.maxedDesc": "Cabin {n} · top level.",
       "car.ready": "Ready",
+      "arcade.tableName": "Arcade Cabinet {n}",
+      "arcade.tableDesc": "Set up a cabinet for the arcade corner.",
+      "arcade.consoleSetupName": "Install İoz Atari Mini",
+      "arcade.consoleSetupDesc": "Buy the first arcade machine for cabinet {n}.",
+      "arcade.upgradeDesc": "Upgrade cabinet {n}'s arcade machine.",
+      "arcade.maxedDesc": "Cabinet {n} · top level.",
+      "arcade.ready": "Ready",
 
       "vending.drink.name": "Drink Vending Machine",
       "vending.drink.desc": "{rate} ₺ passive income per hour.",
       "vending.food.name": "Snack Vending Machine",
       "vending.food.desc": "{rate} ₺ passive income per hour.",
+      "vending.candy.name": "Candy Vending Machine",
+      "vending.candy.desc": "{rate} ₺ passive income per hour.",
 
       "staff.cleaner.name": "Cleaner",
       "staff.cleaner.descHired": "{wage} ₺ daily wage · boosts your cafe rating.",
@@ -609,6 +682,7 @@
       "toast.notEnoughMoney": "Not enough budget",
       "toast.stationFilledMeanwhile": "Table {n} got filled in the meantime",
       "toast.adBonusQuick": "+{amount} ₺ ad bonus!",
+      "toast.adPcClaimed": "You earned a new VIP computer!",
       "toast.adBonusDay": "Ad bonus: +{amount} ₺",
       "toast.priceTooHighCustomerLeft": "Price too high, the waiting customer left",
       "toast.maxTablesReached": "Maximum number of tables reached",
@@ -621,6 +695,8 @@
       "toast.psConsoleInstalled": "İoz Playstion 4 installed!",
       "toast.carTableBuilt": "Sim cabin set up",
       "toast.carConsoleInstalled": "İoz Racer Basic installed!",
+      "toast.arcadeTableBuilt": "Arcade cabinet set up",
+      "toast.arcadeConsoleInstalled": "İoz Atari Mini installed!",
       "toast.cleanerHired": "Cleaner hired!",
       "toast.cleanerFired": "Parted ways with the cleaner",
       "toast.tiktokThanks": "+{amount} ₺ — thanks for following!",
@@ -738,7 +814,15 @@
   // them so anyone updating from a version that far back still gets found
   // and migrated forward instead of starting over.
   var LEGACY_SAVE_KEYS = ["netcafe_save_v2", "netcafe_save_v1", "netcafe_save"];
-  var MAX_STATIONS = 40;
+  var MAX_STATIONS = 60;
+
+  // ---- Reklamla Kazanılan VIP Bilgisayarlar: 10 ekstra masa+bilgisayar,
+  // parayla değil ödüllü reklam izleyerek kazanılıyor. Kazanılınca sıradan
+  // bir İoz Old 90 (level 1) gibi davranır — aynı fiyatla başlar, aynı
+  // şekilde parayla yükseltilebilir; tek farkı kurulumun bedava olması ve
+  // "REKLAM" rozeti taşıması. Normal 60'lık PC havuzunun DIŞINDadır: ne
+  // "Masa Ekle" ile ne "full_capacity" gibi başarımlarla karışır.
+  var AD_PC_STATION_COUNT = 10;
   var TABLE_COST = 100;
   var COMPUTER_COST = 100;
   var MAX_LEVEL = 7;
@@ -769,6 +853,26 @@
     7: { name: "İoz X 2030", defaultRate: 450, maxAcceptRate: 765, dailyCost: 290, upgradeCost: null }
   };
 
+  // ---- Donanım Parça Yükseltmeleri: only for the regular PC pool, only
+  // once a station has reached İoz X 2030 (level 7, the top of
+  // COMPUTER_LEVELS). An orthogonal, per-station upgrade axis on top of
+  // computerLevel — very expensive, stacking income multipliers instead of
+  // changing the machine's tier/name. Bought in any order, once each.
+  var PC_PARTS = [
+    { id: "ram", name: "RAM Yükseltmesi", desc: "32 GB'a çıkar, çoklu görevde takılma kalmaz.", cost: 60000, bonusPct: 0.15 },
+    { id: "ssd", name: "NVMe SSD Yükseltmesi", desc: "Oyun ve uygulama açılışları göz açıp kapayana kadar.", cost: 90000, bonusPct: 0.15 },
+    { id: "gpu", name: "Ekran Kartı Yükseltmesi", desc: "En yeni oyunlar bile ultra ayarda tam performans.", cost: 150000, bonusPct: 0.25 },
+    { id: "cooling", name: "Sıvı Soğutma Sistemi", desc: "Sistem hiç ısınmaz, performans hep zirvede kalır.", cost: 45000, bonusPct: 0.10 }
+  ];
+  function pcPartsCost(part) { return Math.round(part.cost * shopTierMultiplier()); }
+  function partsMultiplier(s) {
+    if (!s || !s.parts) return 1;
+    var m = 1;
+    PC_PARTS.forEach(function (p) { if (s.parts[p.id]) m += p.bonusPct; });
+    return m;
+  }
+  function isPlainPc(s) { return !!(s && !s.isPS && !s.isCar && !s.isArcade); }
+
   var DEFAULT_RATE = 30;
   var MIN_RATE = 10;
   var MAX_RATE = 360;
@@ -778,7 +882,7 @@
   // ---- İOZ Playstion (2 dedicated console stations, separate from the
   // 20-slot PC pool). Deliberately spelled "Playstion" — not the Sony
   // trademark — to keep the store listing safe.
-  var PS_STATION_COUNT = 30;
+  var PS_STATION_COUNT = 40;
   var PS_TABLE_COST = 250;
   var PS_CONSOLE_COST = 300;
   var PS_LEVELS = {
@@ -795,7 +899,7 @@
   // station food-chain. Each of the 3 levels gets its own custom SVG
   // silhouette (icon-car-lvl1/2/3, defined in index.html) instead of a
   // photo — so unlike the PS tiers, every level actually looks different.
-  var CAR_STATION_COUNT = 10;
+  var CAR_STATION_COUNT = 30;
   var CAR_TABLE_COST = PS_TABLE_COST * 5;     // 1250
   var CAR_CONSOLE_COST = PS_CONSOLE_COST * 5; // 1500
   var CAR_LEVELS = {
@@ -803,6 +907,59 @@
     2: { name: "İoz Racer GT",    defaultRate: 900,  maxAcceptRate: 1500, dailyCost: 500, upgradeCost: 18000, icon: "icon-car-lvl2" },
     3: { name: "İoz Racer Elite", defaultRate: 1800, maxAcceptRate: 3000, dailyCost: 950, upgradeCost: null,  icon: "icon-car-lvl3" }
   };
+
+  // ---- İOZ Oyun Atarisi (10 dedicated retro arcade cabinets, separate
+  // pool from PC + Playstion + Araba Sim). Priced exactly 3x the Araba
+  // Simülasyonu across the board (table/console cost, rates, dailyCost,
+  // upgradeCost) — the new top of the station food-chain. Same
+  // icon-per-level pattern as the car pool (icon-arcade-lvl1/2/3).
+  var ARCADE_STATION_COUNT = 10;
+  var ARCADE_TABLE_COST = CAR_TABLE_COST * 3;     // 3750
+  var ARCADE_CONSOLE_COST = CAR_CONSOLE_COST * 3; // 4500
+  var ARCADE_LEVELS = {
+    1: { name: "İoz Atari Mini",    defaultRate: 1200, maxAcceptRate: 2100, dailyCost: 750,  upgradeCost: 24000, icon: "icon-arcade-lvl1" },
+    2: { name: "İoz Atari Pro",     defaultRate: 2700, maxAcceptRate: 4500, dailyCost: 1500, upgradeCost: 54000, icon: "icon-arcade-lvl2" },
+    3: { name: "İoz Atari Deluxe",  defaultRate: 5400, maxAcceptRate: 9000, dailyCost: 2850, upgradeCost: null,  icon: "icon-arcade-lvl3" }
+  };
+
+  // ---- Uzun oyun için: PS / Araba Sim / Atari'nin üst seviyesinin ötesine
+  // +40 seviye daha ekleniyor, her seviyede %18 katlanarak (aynı görsel/
+  // fotoğraf en üst seviyeninkiyle aynı kalıyor — sadece isim, ücret ve
+  // maliyet tırmanıyor). PC havuzu bunun dışında; o "Donanım Parça
+  // Yükseltmeleri" ile ayrı bir eksende büyüyor (yukarıda).
+  var LEVEL_EXTENSION_COUNT = 40;
+  var LEVEL_EXTENSION_GROWTH = 1.18;
+  function extendLevels(levels, topLevel, extraCount, growth, nameBase, iconOrNull) {
+    var lastRealUpgradeCost = null;
+    for (var lv = topLevel; lv >= 1; lv--) {
+      if (levels[lv].upgradeCost) { lastRealUpgradeCost = levels[lv].upgradeCost; break; }
+    }
+    var rate = levels[topLevel].defaultRate;
+    var ceiling = levels[topLevel].maxAcceptRate;
+    var daily = levels[topLevel].dailyCost;
+    var upCost = lastRealUpgradeCost || Math.round(rate * 10);
+    for (var i = 1; i <= extraCount; i++) {
+      rate = Math.round(rate * growth);
+      ceiling = Math.round(ceiling * growth);
+      daily = Math.round(daily * growth);
+      upCost = Math.round(upCost * growth);
+      var lvl = {
+        name: nameBase + " +" + i,
+        defaultRate: rate,
+        maxAcceptRate: ceiling,
+        dailyCost: daily,
+        upgradeCost: (i === extraCount) ? null : upCost
+      };
+      if (iconOrNull) lvl.icon = iconOrNull;
+      levels[topLevel + i] = lvl;
+    }
+  }
+  extendLevels(PS_LEVELS, 5, LEVEL_EXTENSION_COUNT, LEVEL_EXTENSION_GROWTH, "İoz Playstion 6", null);
+  for (var _psExtraLvl = 6; _psExtraLvl <= 5 + LEVEL_EXTENSION_COUNT; _psExtraLvl++) {
+    PS_PHOTOS[_psExtraLvl] = PS_PHOTOS[5];
+  }
+  extendLevels(CAR_LEVELS, 3, LEVEL_EXTENSION_COUNT, LEVEL_EXTENSION_GROWTH, "İoz Racer Elite", "icon-car-lvl3");
+  extendLevels(ARCADE_LEVELS, 3, LEVEL_EXTENSION_COUNT, LEVEL_EXTENSION_GROWTH, "İoz Atari Deluxe", "icon-arcade-lvl3");
 
   // ---- otomatlar (vending machines) — passive hourly income, single unit
   // each, bought once through the Dükkan. Cheap parallel system: no floor
@@ -813,6 +970,9 @@
   var VENDING_FOOD_COST = 5000;
   var VENDING_FOOD_RATE_PER_HOUR = 70;
   var VENDING_FOOD_DAILY_COST = 20;
+  var VENDING_CANDY_COST = 8000;
+  var VENDING_CANDY_RATE_PER_HOUR = 100;
+  var VENDING_CANDY_DAILY_COST = 30;
 
   // ---- temizlikçi (cleaning staff) + dükkan puanı (0-10 cafe rating)
   var CLEANER_HIRE_COST = 2000;
@@ -926,17 +1086,17 @@
 
     { id: "full_capacity", xp: 400,
       check: function (st) {
-        var t = st.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasTable; }).length;
-        var c = st.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasComputer; }).length;
+        var t = st.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasTable; }).length;
+        var c = st.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasComputer; }).length;
         return t >= MAX_STATIONS && c >= MAX_STATIONS;
       } },
     { id: "top_tier_pc", xp: 500,
       check: function (st) {
-        return st.stations.some(function (s) { return !s.isPS && !s.isCar && s.computerLevel === 7; });
+        return st.stations.some(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.computerLevel === 7; });
       } },
     { id: "all_lvl3plus", xp: 600,
       check: function (st) {
-        var pcs = st.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasComputer; });
+        var pcs = st.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasComputer; });
         return pcs.length >= MAX_STATIONS && pcs.every(function (s) { return s.computerLevel >= 3; });
       } },
 
@@ -1030,13 +1190,27 @@
         hasTable: false, hasComputer: false, computerLevel: 0,
         rate: DEFAULT_RATE,
         occupied: false, customerName: "", hoursBooked: 0,
-        sessionStartMin: 0, sessionEndMin: 0, payout: 0
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0,
+        parts: {}
       });
     }
     stations[0].hasTable = true;
     stations[0].hasComputer = true;
     stations[0].computerLevel = 1;
     stations[0].rate = COMPUTER_LEVELS[1].defaultRate;
+
+    // Reklamla Kazanılan VIP Bilgisayarlar: separate 10-slot pool, right
+    // after the regular PC pool. Empty until the player watches a
+    // rewarded ad for each one.
+    for (var v = 0; v < AD_PC_STATION_COUNT; v++) {
+      stations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0,
+        rate: DEFAULT_RATE,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0,
+        parts: {}, isAdPc: true
+      });
+    }
 
     // İOZ Playstion: dedicated console slots, separate from the PC pool.
     // Same station shape (isPS flags which level table applies).
@@ -1060,6 +1234,17 @@
         isCar: true
       });
     }
+
+    // İOZ Oyun Atarisi: dedicated retro arcade cabinets, separate pool again.
+    for (var a = 0; a < ARCADE_STATION_COUNT; a++) {
+      stations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0,
+        rate: ARCADE_LEVELS[1].defaultRate,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0,
+        isArcade: true
+      });
+    }
     return stations;
   }
 
@@ -1080,16 +1265,17 @@
       shop: {
         fastServe: false, revenueBoost: false, customerBoost: false, autoAccept: false,
         fiberInternet: false, airCon: false, vipProgram: false, loyaltyCard: false,
-        generator: false, adCampaign: false
+        generator: false, adCampaign: false, security: false, onlineReservation: false
       },
       rebirths: 0,
+      shopTier: 0,
       tiktokClaimed: false,
       whatsappClaimed: false,
       xp: 0,
       level: 1,
       achievements: {},
       flawlessDayAchieved: false,
-      vending: { drink: false, food: false },
+      vending: { drink: false, food: false, candy: false },
       vendingAccrued: 0,
       staff: { cleaner: false },
       rating: 7.0,
@@ -1121,24 +1307,36 @@
       if (!raw) return null;
       var parsed = JSON.parse(raw);
       if (!parsed || !parsed.stations) return null;
-      // MIGRATION: the PC pool (10→20), the İOZ Playstion pool (added,
-      // then 2→10) and now the İOZ Araba Simülasyonu pool (brand new) have
-      // all grown/appeared over updates. Rather than checking exact
-      // historical lengths — which breaks the moment a count changes again —
-      // split whatever the save has into its three pools by isPS/isCar and
-      // pad each up to its CURRENT target independently. A save from any
-      // past version heals itself here with zero lost progress, and this
-      // needs no further edits if any number changes again later.
-      var pcStations = parsed.stations.filter(function (s) { return !s.isPS && !s.isCar; });
+      // MIGRATION: the PC pool, the Reklamla Kazanılan VIP Bilgisayar pool,
+      // the İOZ Playstion pool, the İOZ Araba Simülasyonu pool and the İOZ
+      // Oyun Atarisi pool have all grown/appeared over updates. Rather than
+      // checking exact historical lengths — which breaks the moment a count
+      // changes again — split whatever the save has into its five pools by
+      // isAdPc/isPS/isCar/isArcade and pad each up to its CURRENT target
+      // independently. A save from any past version heals itself here with
+      // zero lost progress, and this needs no further edits if any number
+      // changes again later.
+      var pcStations = parsed.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc; });
+      var adPcStations = parsed.stations.filter(function (s) { return s.isAdPc; });
       var psStations = parsed.stations.filter(function (s) { return s.isPS; });
       var carStations = parsed.stations.filter(function (s) { return s.isCar; });
+      var arcadeStations = parsed.stations.filter(function (s) { return s.isArcade; });
       while (pcStations.length < MAX_STATIONS) {
         pcStations.push({
           hasTable: false, hasComputer: false, computerLevel: 0, rate: DEFAULT_RATE,
           occupied: false, customerName: "", hoursBooked: 0,
-          sessionStartMin: 0, sessionEndMin: 0, payout: 0
+          sessionStartMin: 0, sessionEndMin: 0, payout: 0, parts: {}
         });
       }
+      pcStations.forEach(function (s) { if (!s.parts) s.parts = {}; });
+      while (adPcStations.length < AD_PC_STATION_COUNT) {
+        adPcStations.push({
+          hasTable: false, hasComputer: false, computerLevel: 0, rate: DEFAULT_RATE,
+          occupied: false, customerName: "", hoursBooked: 0,
+          sessionStartMin: 0, sessionEndMin: 0, payout: 0, parts: {}, isAdPc: true
+        });
+      }
+      adPcStations.forEach(function (s) { if (!s.parts) s.parts = {}; });
       while (psStations.length < PS_STATION_COUNT) {
         psStations.push({
           hasTable: false, hasComputer: false, computerLevel: 0, rate: PS_LEVELS[1].defaultRate,
@@ -1153,10 +1351,19 @@
           sessionStartMin: 0, sessionEndMin: 0, payout: 0, isCar: true
         });
       }
+      while (arcadeStations.length < ARCADE_STATION_COUNT) {
+        arcadeStations.push({
+          hasTable: false, hasComputer: false, computerLevel: 0, rate: ARCADE_LEVELS[1].defaultRate,
+          occupied: false, customerName: "", hoursBooked: 0,
+          sessionStartMin: 0, sessionEndMin: 0, payout: 0, isArcade: true
+        });
+      }
       parsed.stations = pcStations.slice(0, MAX_STATIONS)
+        .concat(adPcStations.slice(0, AD_PC_STATION_COUNT))
         .concat(psStations.slice(0, PS_STATION_COUNT))
-        .concat(carStations.slice(0, CAR_STATION_COUNT));
-      if (parsed.stations.length !== MAX_STATIONS + PS_STATION_COUNT + CAR_STATION_COUNT) return null;
+        .concat(carStations.slice(0, CAR_STATION_COUNT))
+        .concat(arcadeStations.slice(0, ARCADE_STATION_COUNT));
+      if (parsed.stations.length !== MAX_STATIONS + AD_PC_STATION_COUNT + PS_STATION_COUNT + CAR_STATION_COUNT + ARCADE_STATION_COUNT) return null;
 
       // Fill in anything a older/partial save is missing so we never crash
       // on a field that didn't exist in a previous version.
@@ -1177,16 +1384,20 @@
       if (typeof parsed.shop.loyaltyCard !== "boolean") parsed.shop.loyaltyCard = false;
       if (typeof parsed.shop.generator !== "boolean") parsed.shop.generator = false;
       if (typeof parsed.shop.adCampaign !== "boolean") parsed.shop.adCampaign = false;
+      if (typeof parsed.shop.security !== "boolean") parsed.shop.security = false;
+      if (typeof parsed.shop.onlineReservation !== "boolean") parsed.shop.onlineReservation = false;
       if (typeof parsed.rebirths !== "number") parsed.rebirths = 0;
+      if (typeof parsed.shopTier !== "number") parsed.shopTier = 0;
       if (typeof parsed.tiktokClaimed !== "boolean") parsed.tiktokClaimed = false;
       if (typeof parsed.whatsappClaimed !== "boolean") parsed.whatsappClaimed = false;
       if (typeof parsed.xp !== "number") parsed.xp = 0;
       if (typeof parsed.level !== "number") parsed.level = levelForXp(parsed.xp);
       if (!parsed.achievements || typeof parsed.achievements !== "object") parsed.achievements = {};
       if (typeof parsed.flawlessDayAchieved !== "boolean") parsed.flawlessDayAchieved = false;
-      if (!parsed.vending) parsed.vending = { drink: false, food: false };
+      if (!parsed.vending) parsed.vending = { drink: false, food: false, candy: false };
       if (typeof parsed.vending.drink !== "boolean") parsed.vending.drink = false;
       if (typeof parsed.vending.food !== "boolean") parsed.vending.food = false;
+      if (typeof parsed.vending.candy !== "boolean") parsed.vending.candy = false;
       if (typeof parsed.vendingAccrued !== "number") parsed.vendingAccrued = 0;
       if (!parsed.staff) parsed.staff = { cleaner: false };
       if (typeof parsed.staff.cleaner !== "boolean") parsed.staff.cleaner = false;
@@ -1252,6 +1463,8 @@
   var statComputers = $("stat-computers");
   var statPs = $("stat-ps");
   var statCar = $("stat-car");
+  var statArcade = $("stat-arcade");
+  var statAdPc = $("stat-ad-pc");
   var statLevel = $("stat-level");
   var statCustomers = $("stat-customers");
   var statToday = $("stat-today");
@@ -1274,7 +1487,7 @@
   var vendingStoreList = $("vending-store-list");
   var staffStoreList = $("staff-store-list");
   var rebirthStoreList = $("rebirth-store-list");
-  var btnRateUs = $("btn-rate-us");
+  var shopUpgradeStoreList = $("shop-upgrade-store-list");
   var modalChangelog = $("modal-changelog");
   var btnCloseChangelog = $("btn-close-changelog");
   var floor = $("floor");
@@ -1322,6 +1535,7 @@
   var btnTiktokClaim = $("btn-tiktok-claim");
   var vipBadge = $("vip-badge");
   var btnOpenVip = $("btn-open-vip");
+  var btnOpenShopUpgrade = $("btn-open-shop-upgrade");
   var modalVip = $("modal-vip");
   var btnCloseVip = $("btn-close-vip");
   var btnBuyVip = $("btn-buy-vip");
@@ -1333,8 +1547,8 @@
   var dailyRewardTrack = $("daily-reward-track");
   var btnClaimDaily = $("btn-claim-daily");
 
-  $("price-table").textContent = TABLE_COST + " ₺";
-  $("price-computer").textContent = COMPUTER_COST + " ₺";
+  // (price-table / price-computer text is set live in renderHud(), since it
+  // must reflect the current shop tier, not a fixed base price)
 
   // ---------------------------------------------------------------- helpers
   function fmtMoney(n) { return Math.round(n).toLocaleString("tr-TR"); }
@@ -1352,11 +1566,11 @@
   // units use PS_LEVELS, every other station uses COMPUTER_LEVELS. Every
   // lookup in the file goes through this so the two station types share
   // all the same rendering/pricing/upgrade code paths safely.
-  function levelsFor(s) { return (s && s.isPS) ? PS_LEVELS : (s && s.isCar) ? CAR_LEVELS : COMPUTER_LEVELS; }
+  function levelsFor(s) { return (s && s.isPS) ? PS_LEVELS : (s && s.isCar) ? CAR_LEVELS : (s && s.isArcade) ? ARCADE_LEVELS : COMPUTER_LEVELS; }
   function photosFor(s) { return (s && s.isPS) ? PS_PHOTOS : COMPUTER_PHOTOS; }
   // Car sim has no photo assets — every level is a custom inline SVG icon
   // instead (icon-car-lvl1/2/3), so the visual code checks this first.
-  function isIconOnlyStation(s) { return !!(s && s.isCar); }
+  function isIconOnlyStation(s) { return !!(s && (s.isCar || s.isArcade)); }
   // "Fiber İnternet Altyapısı" dükkan ürünü: her seviyenin fiyat tavanını
   // kalıcı olarak +%25 yükseltir — müşteriler daha pahalı fiyata da razı
   // olur. Tek yerden hesaplanır ki fiyat kaydırıcısı, geri bildirim metni
@@ -1365,27 +1579,47 @@
     return state.shop.fiberInternet ? Math.round(lvl.maxAcceptRate * 1.25) : lvl.maxAcceptRate;
   }
 
-  function countHasTable() { return state.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasTable; }).length; }
-  function countHasComputer() { return state.stations.filter(function (s) { return !s.isPS && !s.isCar && s.hasComputer; }).length; }
+  function countHasTable() { return state.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasTable; }).length; }
+  function countHasComputer() { return state.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasComputer; }).length; }
   function countPsWithTable() { return state.stations.filter(function (s) { return s.isPS && s.hasTable; }).length; }
   function countPsWithConsole() { return state.stations.filter(function (s) { return s.isPS && s.hasComputer; }).length; }
   function countCarWithTable() { return state.stations.filter(function (s) { return s.isCar && s.hasTable; }).length; }
   function countCarWithConsole() { return state.stations.filter(function (s) { return s.isCar && s.hasComputer; }).length; }
+  function countArcadeWithTable() { return state.stations.filter(function (s) { return s.isArcade && s.hasTable; }).length; }
+  function countArcadeWithConsole() { return state.stations.filter(function (s) { return s.isArcade && s.hasComputer; }).length; }
+  function countAdPcWithComputer() { return state.stations.filter(function (s) { return s.isAdPc && s.hasComputer; }).length; }
 
   // Yeniden Doğuş kalıcı bonusu: her yeniden doğuşta +%15, kalıcı olarak
   // birikir. Tüm gelir kaynaklarına (masa/PS ödemesi + otomat geliri)
   // revenueBoost ile birlikte uygulanır.
-  function rebirthMultiplier() { return 1 + state.rebirths * 0.15; }
+  function rebirthMultiplier() { return 1 + state.rebirths * 0.45; }
   // VIP: real-money one-time purchase, doubles every income source.
   function vipMultiplier() { return state.vip ? 2 : 1; }
+  // Dükkan Geliştir: bir kerelik 300.000 ₺'lik satın alma. İşletmeyi
+  // rebirth gibi sıfırlar (xp/seviye/başarım/toplam müşteri korunur) ama
+  // kalıcı olarak tüm maliyetleri VE tüm geliri aynı oranda (3.5x)
+  // büyütür — daha zor ama daha kazançlı "büyük dükkan" modu.
+  var SHOP_UPGRADE_COST = 300000;
+  var SHOP_TIER_MULTIPLIER = 3.5;
+  function shopTierMultiplier() { return (state && state.shopTier) ? SHOP_TIER_MULTIPLIER : 1; }
+  function tableCost() { return Math.round(TABLE_COST * shopTierMultiplier()); }
+  function computerCost() { return Math.round(COMPUTER_COST * shopTierMultiplier()); }
+  function psTableCost() { return Math.round(PS_TABLE_COST * shopTierMultiplier()); }
+  function psConsoleCost() { return Math.round(PS_CONSOLE_COST * shopTierMultiplier()); }
+  function carTableCost() { return Math.round(CAR_TABLE_COST * shopTierMultiplier()); }
+  function carConsoleCost() { return Math.round(CAR_CONSOLE_COST * shopTierMultiplier()); }
+  function arcadeTableCost() { return Math.round(ARCADE_TABLE_COST * shopTierMultiplier()); }
+  function arcadeConsoleCost() { return Math.round(ARCADE_CONSOLE_COST * shopTierMultiplier()); }
+  function upgradeCostFor(lvl) { return lvl.upgradeCost ? Math.round(lvl.upgradeCost * shopTierMultiplier()) : lvl.upgradeCost; }
 
   function dailyRunningCost() {
-    var total = DAILY_BASE_COST;
+    var total = DAILY_BASE_COST * shopTierMultiplier();
     state.stations.forEach(function (s) {
-      if (s.hasComputer) total += levelsFor(s)[s.computerLevel].dailyCost || 0;
+      if (s.hasComputer) total += (levelsFor(s)[s.computerLevel].dailyCost || 0) * shopTierMultiplier();
     });
     if (state.vending.drink) total += VENDING_DRINK_DAILY_COST;
     if (state.vending.food) total += VENDING_FOOD_DAILY_COST;
+    if (state.vending.candy) total += VENDING_CANDY_DAILY_COST;
     if (state.staff.cleaner) total += CLEANER_DAILY_WAGE;
     // "Jeneratör / Enerji Verimliliği" dükkan ürünü: tüm günlük gideri
     // kalıcı olarak %25 azaltır.
@@ -1425,6 +1659,7 @@
         screenUpdateRequired.hidden = false;
         return; // the rest of the game never boots — no save is touched
       }
+      showInstagramPopup();
       setupStartMoney.textContent = fmtMoney(START_MONEY) + " ₺";
       var existing = load();
       if (existing && existing.cafeName) {
@@ -1448,12 +1683,30 @@
     });
   }
 
+  // ---------------------------------------------------------------- instagram promo popup
+  // Deliberately shown on EVERY cold start (unlike the changelog, which is
+  // once-per-version) — no "seen" flag, no save-file involvement at all.
+  var modalInstagram = $("modal-instagram");
+  var btnInstagramOpen = $("btn-instagram-open");
+  var btnInstagramClose = $("btn-instagram-close");
+
+  function showInstagramPopup() {
+    if (!modalInstagram) return;
+    modalInstagram.hidden = false;
+  }
+  if (btnInstagramClose) {
+    btnInstagramClose.addEventListener("click", function () { modalInstagram.hidden = true; });
+  }
+  if (btnInstagramOpen) {
+    btnInstagramOpen.addEventListener("click", function () { modalInstagram.hidden = true; });
+  }
+
   // ---------------------------------------------------------------- what's new (v2)
   // Shown once, only to returning players who already had a save before
   // this update — a brand-new player has nothing to compare it to, so they
   // never see it. The "seen" flag lives outside the save file on purpose:
   // it's app-install-level state, not cafe-progress state.
-  var CHANGELOG_VERSION = "3.0";
+  var CHANGELOG_VERSION = "5.0";
   var CHANGELOG_SEEN_KEY = "netcafe_changelog_seen";
 
   function maybeShowChangelog() {
@@ -1525,6 +1778,8 @@
     statComputers.textContent = countHasComputer() + "/" + MAX_STATIONS;
     statPs.textContent = countPsWithConsole() + "/" + PS_STATION_COUNT;
     if (statCar) statCar.textContent = countCarWithConsole() + "/" + CAR_STATION_COUNT;
+    if (statArcade) statArcade.textContent = countArcadeWithConsole() + "/" + ARCADE_STATION_COUNT;
+    if (statAdPc) statAdPc.textContent = countAdPcWithComputer() + "/" + AD_PC_STATION_COUNT;
     statLevel.textContent = "Lv " + state.level;
     statRating.textContent = state.rating.toFixed(1);
     statCustomers.textContent = state.totalCustomers;
@@ -1533,9 +1788,12 @@
 
     var tables = countHasTable();
     var computers = countHasComputer();
-    btnBuyTable.disabled = tables >= MAX_STATIONS || state.money < TABLE_COST;
-    var hasBareTable = state.stations.some(function (s) { return !s.isPS && !s.isCar && s.hasTable && !s.hasComputer; });
-    btnBuyComputer.disabled = !hasBareTable || computers >= MAX_STATIONS || state.money < COMPUTER_COST;
+    var tCost = tableCost(), cCost = computerCost();
+    $("price-table").textContent = fmtMoney(tCost) + " ₺";
+    $("price-computer").textContent = fmtMoney(cCost) + " ₺";
+    btnBuyTable.disabled = tables >= MAX_STATIONS || state.money < tCost;
+    var hasBareTable = state.stations.some(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasTable && !s.hasComputer; });
+    btnBuyComputer.disabled = !hasBareTable || computers >= MAX_STATIONS || state.money < cCost;
   }
 
   function stationStatusClass(s) {
@@ -1546,13 +1804,17 @@
     else cls.push("empty");
     if (s.isPS) {
       cls.push("is-ps");
-      if (s.hasComputer && s.computerLevel >= 2) cls.push("ps-lvl" + s.computerLevel);
+      if (s.hasComputer && s.computerLevel >= 2) cls.push("ps-lvl" + Math.min(s.computerLevel, 5));
     } else if (s.isCar) {
       cls.push("is-car");
-      if (s.hasComputer) cls.push("car-lvl" + s.computerLevel);
+      if (s.hasComputer) cls.push("car-lvl" + Math.min(s.computerLevel, 3));
+    } else if (s.isArcade) {
+      cls.push("is-arcade");
+      if (s.hasComputer) cls.push("arcade-lvl" + Math.min(s.computerLevel, 3));
     } else if (s.hasComputer && s.computerLevel >= 2) {
       cls.push("lvl" + s.computerLevel);
     }
+    if (s.isAdPc) cls.push("is-ad-pc" + (s.hasTable ? "" : " ad-pc-empty"));
     return cls.join(" ");
   }
 
@@ -1570,16 +1832,17 @@
     if (s.hasComputer) {
       var name = levelsFor(s)[s.computerLevel].name;
       if (isIconOnlyStation(s)) {
-        var carIcon = CAR_LEVELS[s.computerLevel].icon;
-        return '<div class="station-car-frame car-lvl' + s.computerLevel + '">' +
-          '<svg class="station-car-svg"><use href="#' + carIcon + '"/></svg>' +
+        var iconRef = levelsFor(s)[s.computerLevel].icon;
+        var lvlCls = (s.isArcade ? "arcade-lvl" : "car-lvl") + Math.min(s.computerLevel, 3);
+        return '<div class="station-car-frame ' + lvlCls + '">' +
+          '<svg class="station-car-svg"><use href="#' + iconRef + '"/></svg>' +
           '</div>';
       }
       return '<div class="station-photo-frame">' +
         '<img class="station-photo" src="' + photosFor(s)[s.computerLevel] + '" alt="' + name + '">' +
         '</div>';
     }
-    return '<svg class="i-24 station-bare-desk"><use href="#' + (s.isPS ? "icon-gamepad-mini" : s.isCar ? "icon-car-mini" : "icon-desk-mini") + '"/></svg>';
+    return '<svg class="i-24 station-bare-desk"><use href="#' + (s.isPS ? "icon-gamepad-mini" : s.isCar ? "icon-car-mini" : s.isArcade ? "icon-arcade-mini" : "icon-desk-mini") + '"/></svg>';
   }
 
   function renderFloor() {
@@ -1596,15 +1859,23 @@
           : s.isCar
           ? '<svg class="i-20 icon-plus"><use href="#icon-plus"/></svg>' +
             '<span class="station-label">' + t("floor.carTableEmpty") + '</span>'
+          : s.isArcade
+          ? '<svg class="i-20 icon-plus"><use href="#icon-plus"/></svg>' +
+            '<span class="station-label">' + t("floor.arcadeTableEmpty") + '</span>'
+          : s.isAdPc
+          ? '<svg class="i-20"><use href="#icon-play"/></svg>' +
+            '<span class="station-label">' + t("floor.adPcEmpty") + '</span>'
           : '<svg class="i-20 icon-plus"><use href="#icon-plus"/></svg>' +
             '<span class="station-label">' + t("floor.emptySpot") + '</span>';
       } else {
         var label = s.occupied ? s.customerName
-          : (s.hasComputer ? levelsFor(s)[s.computerLevel].name : (s.isPS ? t("floor.noConsole") : s.isCar ? t("floor.noCar") : t("floor.noComputer")));
+          : (s.hasComputer ? levelsFor(s)[s.computerLevel].name : (s.isPS ? t("floor.noConsole") : s.isCar ? t("floor.noCar") : s.isArcade ? t("floor.noArcade") : t("floor.noComputer")));
         el.innerHTML =
           (s.isPS ? '<span class="ps-badge">PS</span>' : "") +
           (s.isCar ? '<span class="car-badge">SİM</span>' : "") +
-          (s.isVip ? '<span class="vip-badge">★</span>' : "") +
+          (s.isArcade ? '<span class="arcade-badge">ATARİ</span>' : "") +
+          (s.isAdPc ? '<span class="ad-pc-badge">REKLAM</span>' : "") +
+          (s.isVip ? '<span class="station-vip-badge">★</span>' : "") +
           stationVisualMarkup(s) +
           '<span class="station-label">' + label + '</span>' +
           '<span class="station-rate">' + s.rate + ' ₺/sa</span>' +
@@ -1712,6 +1983,7 @@
     // "Müşteri Verimliliği" dükkan ürünü: +%50 müşteri trafiği (aralığı
     // kısaltarak daha sık istek üretir).
     if (state.shop.customerBoost) sizeBoost *= 1.5;
+    if (state.shop.onlineReservation) sizeBoost *= 1.25;
     var gap = MAX_GAP_GAME_MIN / (demand * sizeBoost);
     gap = Math.max(MIN_GAP_GAME_MIN, Math.min(MAX_GAP_GAME_MIN, gap));
     // jitter so arrivals never feel metronomic
@@ -1860,11 +2132,12 @@
       // otomatlar: saatlik pasif gelir, dakikaya bölünüp biriktirilir
       // (küçük step'lerde sürekli sıfıra yuvarlanmasın diye kalan pay
       // state.vendingAccrued'da tutulur, hiç kayıp olmaz)
-      if (state.vending.drink || state.vending.food) {
+      if (state.vending.drink || state.vending.food || state.vending.candy) {
         var perMin = 0;
         if (state.vending.drink) perMin += VENDING_DRINK_RATE_PER_HOUR / 60;
         if (state.vending.food) perMin += VENDING_FOOD_RATE_PER_HOUR / 60;
-        perMin *= rebirthMultiplier() * vipMultiplier();
+        if (state.vending.candy) perMin += VENDING_CANDY_RATE_PER_HOUR / 60;
+        perMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier();
         state.vendingAccrued += perMin * step;
         var whole = Math.floor(state.vendingAccrued);
         if (whole > 0) {
@@ -1880,7 +2153,7 @@
         if (state.clockMin >= s.sessionEndMin) {
           // "Gelir Artışı" dükkan ürünü (+%20) ve Yeniden Doğuş kalıcı
           // bonusu (+%15/doğuş) net kazanca birlikte uygulanır.
-          var earned = s.payout * (state.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier();
+          var earned = s.payout * (state.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s);
           earned = Math.round(earned);
           state.money += earned;
           state.today.revenue += earned;
@@ -1946,7 +2219,7 @@
       var rate = s.agreedRate || s.rate;
       var partial = Math.round(usedHours * rate);
       if (state.shop.revenueBoost) partial = Math.round(partial * 1.2);
-      partial = Math.round(partial * rebirthMultiplier() * vipMultiplier());
+      partial = Math.round(partial * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s));
       state.money += partial;
       state.today.revenue += partial;
       state.today.served += 1;
@@ -1967,7 +2240,7 @@
     var totalToday = state.today.served + state.today.lost;
     var lostRatio = totalToday > 0 ? state.today.lost / totalToday : 0;
     var cleanBonus = state.staff.cleaner ? 1.5 : -1.5;
-    var comfortBonus = state.shop.airCon ? 1.0 : 0;
+    var comfortBonus = (state.shop.airCon ? 1.0 : 0) + (state.shop.security ? 0.5 : 0);
     var target = 7 + cleanBonus + comfortBonus - lostRatio * 4;
     target = Math.max(0, Math.min(10, target));
     state.rating = Math.max(0, Math.min(10, state.rating * 0.75 + target * 0.25));
@@ -1999,7 +2272,7 @@
   // than 5 days of running costs underwater) now also ends the game.
   function isBankrupt() {
     var earning = state.stations.some(function (s) { return s.hasTable && s.hasComputer; });
-    if (!earning && state.money < (TABLE_COST + COMPUTER_COST)) return true;
+    if (!earning && state.money < (tableCost() + computerCost())) return true;
     if (state.money < -5 * dailyRunningCost()) return true;
     return false;
   }
@@ -2280,7 +2553,7 @@
   // Separate from the mandatory day-transition ad above — this one is
   // opt-in, the player can tap it anytime requests are open, capped per
   // in-game day so it stays a nice-to-have rather than the whole economy.
-  var AD_BONUS_QUICK_REWARD = 5000;
+  var AD_BONUS_QUICK_REWARD = 3000;
   var AD_BONUS_QUICK_DAILY_LIMIT = 3;
   var btnAdBonus = $("btn-ad-bonus");
   var adBonusLabel = $("ad-bonus-label");
@@ -2391,7 +2664,7 @@
     state.stations.forEach(function (s, idx) {
       if (!s.hasComputer) return;
       var levels = levelsFor(s);
-      var kind = s.isPS ? "ps" : (s.isCar ? "car" : "pc");
+      var kind = s.isPS ? "ps" : (s.isCar ? "car" : (s.isArcade ? "arcade" : "pc"));
       var key = kind + "-" + s.computerLevel;
       if (!groups[key]) {
         groups[key] = {
@@ -2467,9 +2740,31 @@
     if (!card) return;
     var idx = parseInt(card.dataset.index, 10);
     var s = state.stations[idx];
-    if (!s || !s.hasTable) return;
+    if (!s) return;
+    if (s.isAdPc && !s.hasTable) { claimAdPcStation(idx); return; }
+    if (!s.hasTable) return;
     openPriceModal(idx);
   });
+
+  var adPcClaimBusy = false;
+  function claimAdPcStation(idx) {
+    if (adPcClaimBusy) return;
+    var s = state.stations[idx];
+    if (!s || !s.isAdPc || s.hasTable) return;
+    adPcClaimBusy = true;
+    Ads.showRewarded(function (watchedFully) {
+      adPcClaimBusy = false;
+      if (!watchedFully) return;
+      s.hasTable = true;
+      s.hasComputer = true;
+      s.computerLevel = 1;
+      s.rate = COMPUTER_LEVELS[1].defaultRate;
+      renderFloor();
+      renderHud();
+      save();
+      showToast(t("toast.adPcClaimed"));
+    });
+  }
 
   function applySliderRange(s) {
     var lvl = s.hasComputer ? levelsFor(s)[s.computerLevel] : levelsFor(s)[1];
@@ -2486,10 +2781,10 @@
   function openPriceModal(idx) {
     editingStationIdx = idx;
     var s = state.stations[idx];
-    priceModalTitle.textContent = (s.isPS ? t("price.psTitle") : s.isCar ? t("price.carTitle") : t("price.tableTitle")) + " " + (idx + 1) + " " + t("price.feeSuffix");
+    priceModalTitle.textContent = (s.isPS ? t("price.psTitle") : s.isCar ? t("price.carTitle") : s.isArcade ? t("price.arcadeTitle") : t("price.tableTitle")) + " " + (idx + 1) + " " + t("price.feeSuffix");
     priceModalSub.textContent = s.hasComputer
       ? levelsFor(s)[s.computerLevel].name + " · " + t("price.setHourlyRate")
-      : (s.isPS ? t("price.noConsoleYet") : s.isCar ? t("price.noCarYet") : t("price.noComputerYet"));
+      : (s.isPS ? t("price.noConsoleYet") : s.isCar ? t("price.noCarYet") : s.isArcade ? t("price.noArcadeYet") : t("price.noComputerYet"));
     applySliderRange(s);
     priceSlider.value = s.rate;
     priceValue.textContent = s.rate;
@@ -2498,9 +2793,12 @@
     modalPrice.hidden = false;
   }
 
+  var partsUpgradePanel = $("parts-upgrade-panel");
+  var partsUpgradeList = $("parts-upgrade-list");
+
   function renderUpgradeCard(idx) {
     var s = state.stations[idx];
-    if (!s.hasComputer) { upgradeCard.hidden = true; return; }
+    if (!s.hasComputer) { upgradeCard.hidden = true; if (partsUpgradePanel) partsUpgradePanel.hidden = true; return; }
 
     var levels = levelsFor(s);
     var cur = levels[s.computerLevel];
@@ -2512,27 +2810,80 @@
       upgradeLabel.textContent = t("price.topLevel");
       upgradeName.textContent = cur.name;
       btnUpgradeStation.hidden = true;
+      renderPartsPanel(idx);
       return;
     }
 
+    if (partsUpgradePanel) partsUpgradePanel.hidden = true;
     var next = levels[s.computerLevel + 1];
     upgradeCard.classList.remove("maxed");
     setUpgradeVisual(s, s.computerLevel + 1);
     upgradeLabel.textContent = t("price.nextLevel");
     upgradeName.textContent = next.name;
     btnUpgradeStation.hidden = false;
-    upgradeCost.textContent = fmtMoney(cur.upgradeCost) + " ₺";
-    btnUpgradeStation.disabled = state.money < cur.upgradeCost;
+    upgradeCost.textContent = fmtMoney(upgradeCostFor(cur)) + " ₺";
+    btnUpgradeStation.disabled = state.money < upgradeCostFor(cur);
   }
 
-  // Car sim has no photo files — swap in the matching inline SVG icon and
-  // hide the <img> instead. Every other station type keeps using photos.
+  // Parça yükseltmeleri: sadece sıradan bilgisayar havuzu, sadece
+  // İoz X 2030'a (level 7, en üst seviye) ulaşmış istasyonlarda görünür.
+  function renderPartsPanel(idx) {
+    if (!partsUpgradePanel || !partsUpgradeList) return;
+    var s = state.stations[idx];
+    if (!isPlainPc(s)) { partsUpgradePanel.hidden = true; return; }
+    partsUpgradePanel.hidden = false;
+    partsUpgradeList.innerHTML = PC_PARTS.map(function (p) {
+      var owned = !!(s.parts && s.parts[p.id]);
+      var cost = pcPartsCost(p);
+      if (owned) {
+        return '<div class="parts-item owned">' +
+          '<div class="parts-item-info">' +
+            '<div class="parts-item-name">' + p.name + '</div>' +
+            '<div class="parts-item-desc">' + p.desc + '</div>' +
+          '</div>' +
+          '<div class="store-item-owned"><svg class="i-18"><use href="#icon-check"/></svg>' + t("parts.installed") + '</div>' +
+        '</div>';
+      }
+      return '<div class="parts-item">' +
+        '<div class="parts-item-info">' +
+          '<div class="parts-item-name">' + p.name + ' <span class="parts-item-bonus">+' + Math.round(p.bonusPct * 100) + '%</span></div>' +
+          '<div class="parts-item-desc">' + p.desc + '</div>' +
+        '</div>' +
+        '<button class="parts-buy-btn" data-part="' + p.id + '"' + (state.money < cost ? " disabled" : "") + '>' + fmtMoney(cost) + ' ₺</button>' +
+      '</div>';
+    }).join("");
+  }
+
+  if (partsUpgradeList) {
+    partsUpgradeList.addEventListener("click", function (e) {
+      var btn = e.target.closest(".parts-buy-btn");
+      if (!btn || btn.disabled || editingStationIdx === null) return;
+      var s = state.stations[editingStationIdx];
+      if (!isPlainPc(s)) return;
+      var part = PC_PARTS.filter(function (p) { return p.id === btn.dataset.part; })[0];
+      if (!part || (s.parts && s.parts[part.id])) return;
+      var cost = pcPartsCost(part);
+      if (state.money < cost) return showToast(t("toast.notEnoughMoney"));
+      state.money -= cost;
+      if (!s.parts) s.parts = {};
+      s.parts[part.id] = true;
+      renderPartsPanel(editingStationIdx);
+      renderHud();
+      save();
+      showToast(part.name + t("toast.installedSuffix"));
+    });
+  }
+
+  // Car sim / arcade have no photo files — swap in the matching inline SVG
+  // icon and hide the <img> instead. Every other station type keeps using
+  // photos.
   function setUpgradeVisual(s, level) {
     if (isIconOnlyStation(s)) {
       upgradePhoto.hidden = true;
       upgradeCarIcon.hidden = false;
-      upgradeCarIcon.className = "upgrade-photo upgrade-car-icon car-lvl" + level;
-      upgradeCarIcon.querySelector("use").setAttribute("href", "#" + CAR_LEVELS[level].icon);
+      var lvlCls = (s.isArcade ? "arcade-lvl" : "car-lvl") + Math.min(level, 3);
+      upgradeCarIcon.className = "upgrade-photo upgrade-car-icon " + lvlCls;
+      upgradeCarIcon.querySelector("use").setAttribute("href", "#" + levelsFor(s)[level].icon);
     } else {
       upgradeCarIcon.hidden = true;
       upgradePhoto.hidden = false;
@@ -2627,23 +2978,23 @@
   // ---------------------------------------------------------------- shop
   btnBuyTable.addEventListener("click", function () {
     if (countHasTable() >= MAX_STATIONS) return showToast(t("toast.maxTablesReached"));
-    if (state.money < TABLE_COST) return showToast(t("toast.notEnoughMoney"));
-    var slot = state.stations.find(function (s) { return !s.isPS && !s.isCar && !s.hasTable; });
+    if (state.money < tableCost()) return showToast(t("toast.notEnoughMoney"));
+    var slot = state.stations.find(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && !s.hasTable; });
     if (!slot) return;
     slot.hasTable = true;
-    state.money -= TABLE_COST;
+    state.money -= tableCost();
     renderFloor(); renderHud(); save();
   });
 
   btnBuyComputer.addEventListener("click", function () {
-    var slot = state.stations.find(function (s) { return !s.isPS && !s.isCar && s.hasTable && !s.hasComputer; });
+    var slot = state.stations.find(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasTable && !s.hasComputer; });
     if (!slot) return showToast(t("toast.addTableFirst"));
     if (countHasComputer() >= MAX_STATIONS) return showToast(t("toast.maxComputersReached"));
-    if (state.money < COMPUTER_COST) return showToast(t("toast.notEnoughMoney"));
+    if (state.money < computerCost()) return showToast(t("toast.notEnoughMoney"));
     slot.hasComputer = true;
     slot.computerLevel = 1;
     slot.rate = COMPUTER_LEVELS[1].defaultRate;
-    state.money -= COMPUTER_COST;
+    state.money -= computerCost();
     renderFloor(); renderHud(); save();
   });
 
@@ -2656,8 +3007,9 @@
     var levels = levelsFor(s);
     var cur = levels[s.computerLevel];
     if (!cur.upgradeCost) return showToast(t("toast.alreadyMaxLevel"));
-    if (state.money < cur.upgradeCost) return showToast(t("toast.notEnoughMoney"));
-    state.money -= cur.upgradeCost;
+    var cost = upgradeCostFor(cur);
+    if (state.money < cost) return showToast(t("toast.notEnoughMoney"));
+    state.money -= cost;
     s.computerLevel += 1;
     // bump the price toward the new machine's market rate, but never
     // below what the owner already had it set to
@@ -2681,7 +3033,9 @@
     { id: "loyaltyCard", price: 18000, icon: "icon-shop-loyalty" },
     { id: "customerBoost", price: 20000, icon: "icon-shop-customers" },
     { id: "generator", price: 20000, icon: "icon-shop-generator" },
-    { id: "vipProgram", price: 30000, icon: "icon-shop-vip" }
+    { id: "vipProgram", price: 30000, icon: "icon-shop-vip" },
+    { id: "security", price: 35000, icon: "icon-shop-camera" },
+    { id: "onlineReservation", price: 45000, icon: "icon-shop-reservation" }
   ];
 
   function renderShop() {
@@ -2709,11 +3063,40 @@
     renderShop();
     renderPsSection();
     renderCarSection();
+    renderArcadeSection();
     renderVendingSection();
     renderStaffSection();
     renderRebirthSection();
+    renderShopUpgradeSection();
     modalStore.hidden = false;
   });
+
+  function switchStoreTab(tab) {
+    var storeTabsEl = $("store-tabs");
+    if (storeTabsEl) {
+      Array.prototype.slice.call(storeTabsEl.querySelectorAll(".store-tab")).forEach(function (b) {
+        b.classList.toggle("is-active", b.dataset.tab === tab);
+      });
+    }
+    Array.prototype.slice.call(document.querySelectorAll(".store-tab-panel")).forEach(function (panel) {
+      panel.hidden = panel.dataset.tabPanel !== tab;
+    });
+  }
+
+  if (btnOpenShopUpgrade) {
+    btnOpenShopUpgrade.addEventListener("click", function () {
+      renderShop();
+      renderPsSection();
+      renderCarSection();
+      renderArcadeSection();
+      renderVendingSection();
+      renderStaffSection();
+      renderRebirthSection();
+      renderShopUpgradeSection();
+      modalStore.hidden = false;
+      switchStoreTab("upgrade");
+    });
+  }
 
   // ---- store modal tabs: one category visible at a time instead of six
   // stacked sections — everything still renders underneath, switching is
@@ -2723,13 +3106,7 @@
     storeTabs.addEventListener("click", function (e) {
       var btn = e.target.closest(".store-tab");
       if (!btn) return;
-      var tab = btn.dataset.tab;
-      Array.prototype.slice.call(storeTabs.querySelectorAll(".store-tab")).forEach(function (b) {
-        b.classList.toggle("is-active", b === btn);
-      });
-      Array.prototype.slice.call(document.querySelectorAll(".store-tab-panel")).forEach(function (panel) {
-        panel.hidden = panel.dataset.tabPanel !== tab;
-      });
+      switchStoreTab(btn.dataset.tab);
     });
   }
   btnCloseStore.addEventListener("click", function () { modalStore.hidden = true; });
@@ -2751,26 +3128,44 @@
   });
 
   // ---------------------------------------------------------------- tiktok reward
-  // Honor-system reward: the app has no way to verify a follow server-side,
-  // same pattern most mobile games use for "follow us" bonuses. Claimable
-  // once per save file.
+  // Honor-system reward, but no longer a free instant-click: the app can't
+  // verify a follow/rating server-side, so instead it requires the player to
+  // actually LEAVE the app (tap the real TikTok/Play Store link, which
+  // backgrounds this app) and come back before the claim button unlocks.
+  // Clicking straight through without ever leaving no longer pays out.
   var TIKTOK_REWARD = 300;
   var TIKTOK_HANDLE = "iozgames";
+  var SOCIAL_MIN_AWAY_MS = 2500;
+  var socialGate = {
+    tiktok: { armed: false, verified: false },
+    rateus: { armed: false, verified: false }
+  };
+  var socialHiddenAt = 0;
 
   function renderTiktokClaim() {
     if (!state || !btnTiktokClaim) return;
     if (state.tiktokClaimed) {
       btnTiktokClaim.textContent = t("social.rewardClaimed");
       btnTiktokClaim.disabled = true;
-    } else {
+    } else if (socialGate.tiktok.verified) {
       btnTiktokClaim.textContent = t("social.claimReward", { amount: TIKTOK_REWARD });
       btnTiktokClaim.disabled = false;
+    } else {
+      btnTiktokClaim.textContent = t("social.followFirst");
+      btnTiktokClaim.disabled = true;
     }
+  }
+
+  var tiktokFollowLink = document.querySelector(".tiktok-follow-btn");
+  if (tiktokFollowLink) {
+    tiktokFollowLink.addEventListener("click", function () {
+      socialGate.tiktok.armed = true;
+    });
   }
 
   if (btnTiktokClaim) {
     btnTiktokClaim.addEventListener("click", function () {
-      if (!state || state.tiktokClaimed) return;
+      if (!state || state.tiktokClaimed || !socialGate.tiktok.verified) return;
       state.tiktokClaimed = true;
       state.money += TIKTOK_REWARD;
       renderTiktokClaim();
@@ -2780,33 +3175,60 @@
     });
   }
 
-  // ---------------------------------------------------------------- whatsapp channel reward
-  // Same honor-system, one-time-per-save pattern as the TikTok reward above.
-  var WHATSAPP_REWARD = 300;
-  var btnWhatsappClaim = $("btn-whatsapp-claim");
+  // ---------------------------------------------------------------- "Bizi Değerlendir" (Play Store)
+  var btnRateUsOpen = $("btn-rate-us-open");
+  var btnRateUsClaim = $("btn-rate-us-claim");
 
-  function renderWhatsappClaim() {
-    if (!state || !btnWhatsappClaim) return;
-    if (state.whatsappClaimed) {
-      btnWhatsappClaim.textContent = t("social.rewardClaimed");
-      btnWhatsappClaim.disabled = true;
-    } else {
-      btnWhatsappClaim.textContent = t("social.claimReward", { amount: fmtMoney(WHATSAPP_REWARD) });
-      btnWhatsappClaim.disabled = false;
+  function renderRateUsButtons() {
+    if (!state) return;
+    if (btnRateUsClaim) {
+      if (state.rateUsClaimed) {
+        btnRateUsClaim.textContent = t("social.rewardClaimed");
+        btnRateUsClaim.disabled = true;
+      } else if (socialGate.rateus.verified) {
+        btnRateUsClaim.textContent = t("social.claimReward", { amount: RATE_US_REWARD });
+        btnRateUsClaim.disabled = false;
+      } else {
+        btnRateUsClaim.textContent = t("social.rateFirst");
+        btnRateUsClaim.disabled = true;
+      }
     }
   }
 
-  if (btnWhatsappClaim) {
-    btnWhatsappClaim.addEventListener("click", function () {
-      if (!state || state.whatsappClaimed) return;
-      state.whatsappClaimed = true;
-      state.money += WHATSAPP_REWARD;
-      renderWhatsappClaim();
-      renderHud();
-      save();
-      showToast(t("toast.whatsappThanks", { amount: fmtMoney(WHATSAPP_REWARD) }));
+  if (btnRateUsOpen) {
+    btnRateUsOpen.addEventListener("click", function () {
+      socialGate.rateus.armed = true;
     });
   }
+
+  if (btnRateUsClaim) {
+    btnRateUsClaim.addEventListener("click", function () {
+      if (!state || state.rateUsClaimed || !socialGate.rateus.verified) return;
+      state.rateUsClaimed = true;
+      state.money += RATE_US_REWARD;
+      renderRateUsButtons();
+      renderHud();
+      save();
+      showToast(t("toast.rateUsThanks", { amount: RATE_US_REWARD }));
+    });
+  }
+
+  // Fires when the player actually leaves (TikTok app, Play Store, another
+  // app, screen lock — anything that backgrounds this WebView) and comes
+  // back. Only an armed gate that was away for a real, human-plausible
+  // amount of time gets verified — a same-tick tap can't fake it.
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      socialHiddenAt = Date.now();
+      return;
+    }
+    if (!socialHiddenAt) return;
+    var awayMs = Date.now() - socialHiddenAt;
+    socialHiddenAt = 0;
+    if (awayMs < SOCIAL_MIN_AWAY_MS) return;
+    if (socialGate.tiktok.armed) { socialGate.tiktok.armed = false; socialGate.tiktok.verified = true; renderTiktokClaim(); }
+    if (socialGate.rateus.armed) { socialGate.rateus.armed = false; socialGate.rateus.verified = true; renderRateUsButtons(); }
+  });
 
   // ---------------------------------------------------------------- İOZ Playstion (dükkan)
   function renderPsSection() {
@@ -2823,7 +3245,7 @@
             '<div class="store-item-desc">' + t("ps.tableDesc") + '</div>' +
           '</div>' +
           '<button class="ps-action-btn" data-action="ps-table" data-idx="' + idx + '"' +
-            (state.money < PS_TABLE_COST ? " disabled" : "") + '>' + fmtMoney(PS_TABLE_COST) + ' ₺</button>' +
+            (state.money < psTableCost() ? " disabled" : "") + '>' + fmtMoney(psTableCost()) + ' ₺</button>' +
         '</div>';
       } else if (!s.hasComputer) {
         html += '<div class="store-item">' +
@@ -2833,7 +3255,7 @@
             '<div class="store-item-desc">' + t("ps.consoleSetupDesc", { n: slotNum }) + '</div>' +
           '</div>' +
           '<button class="ps-action-btn" data-action="ps-console" data-idx="' + idx + '"' +
-            (state.money < PS_CONSOLE_COST ? " disabled" : "") + '>' + fmtMoney(PS_CONSOLE_COST) + ' ₺</button>' +
+            (state.money < psConsoleCost() ? " disabled" : "") + '>' + fmtMoney(psConsoleCost()) + ' ₺</button>' +
         '</div>';
       } else {
         var lvl = PS_LEVELS[s.computerLevel];
@@ -2845,7 +3267,7 @@
               '<div class="store-item-desc">' + t("ps.upgradeDesc", { n: slotNum }) + '</div>' +
             '</div>' +
             '<button class="ps-action-btn" data-action="ps-upgrade" data-idx="' + idx + '"' +
-              (state.money < lvl.upgradeCost ? " disabled" : "") + '>' + fmtMoney(lvl.upgradeCost) + ' ₺</button>' +
+              (state.money < upgradeCostFor(lvl) ? " disabled" : "") + '>' + fmtMoney(upgradeCostFor(lvl)) + ' ₺</button>' +
           '</div>';
         } else {
           html += '<div class="store-item owned">' +
@@ -2871,16 +3293,16 @@
       if (!s) return;
       var action = btn.dataset.action;
       if (action === "ps-table") {
-        if (state.money < PS_TABLE_COST) return showToast(t("toast.notEnoughMoney"));
+        if (state.money < psTableCost()) return showToast(t("toast.notEnoughMoney"));
         s.hasTable = true;
-        state.money -= PS_TABLE_COST;
+        state.money -= psTableCost();
         showToast(t("toast.psTableBuilt"));
       } else if (action === "ps-console") {
-        if (state.money < PS_CONSOLE_COST) return showToast(t("toast.notEnoughMoney"));
+        if (state.money < psConsoleCost()) return showToast(t("toast.notEnoughMoney"));
         s.hasComputer = true;
         s.computerLevel = 1;
         s.rate = PS_LEVELS[1].defaultRate;
-        state.money -= PS_CONSOLE_COST;
+        state.money -= psConsoleCost();
         showToast(t("toast.psConsoleInstalled"));
       } else if (action === "ps-upgrade") {
         upgradeStation(idx);
@@ -2909,7 +3331,7 @@
             '<div class="store-item-desc">' + t("car.tableDesc") + '</div>' +
           '</div>' +
           '<button class="car-action-btn" data-action="car-table" data-idx="' + idx + '"' +
-            (state.money < CAR_TABLE_COST ? " disabled" : "") + '>' + fmtMoney(CAR_TABLE_COST) + ' ₺</button>' +
+            (state.money < carTableCost() ? " disabled" : "") + '>' + fmtMoney(carTableCost()) + ' ₺</button>' +
         '</div>';
       } else if (!s.hasComputer) {
         html += '<div class="store-item">' +
@@ -2919,7 +3341,7 @@
             '<div class="store-item-desc">' + t("car.consoleSetupDesc", { n: slotNum }) + '</div>' +
           '</div>' +
           '<button class="car-action-btn" data-action="car-console" data-idx="' + idx + '"' +
-            (state.money < CAR_CONSOLE_COST ? " disabled" : "") + '>' + fmtMoney(CAR_CONSOLE_COST) + ' ₺</button>' +
+            (state.money < carConsoleCost() ? " disabled" : "") + '>' + fmtMoney(carConsoleCost()) + ' ₺</button>' +
         '</div>';
       } else {
         var lvl = CAR_LEVELS[s.computerLevel];
@@ -2931,7 +3353,7 @@
               '<div class="store-item-desc">' + t("car.upgradeDesc", { n: slotNum }) + '</div>' +
             '</div>' +
             '<button class="car-action-btn" data-action="car-upgrade" data-idx="' + idx + '"' +
-              (state.money < lvl.upgradeCost ? " disabled" : "") + '>' + fmtMoney(lvl.upgradeCost) + ' ₺</button>' +
+              (state.money < upgradeCostFor(lvl) ? " disabled" : "") + '>' + fmtMoney(upgradeCostFor(lvl)) + ' ₺</button>' +
           '</div>';
         } else {
           html += '<div class="store-item owned">' +
@@ -2957,21 +3379,107 @@
       if (!s) return;
       var action = btn.dataset.action;
       if (action === "car-table") {
-        if (state.money < CAR_TABLE_COST) return showToast(t("toast.notEnoughMoney"));
+        if (state.money < carTableCost()) return showToast(t("toast.notEnoughMoney"));
         s.hasTable = true;
-        state.money -= CAR_TABLE_COST;
+        state.money -= carTableCost();
         showToast(t("toast.carTableBuilt"));
       } else if (action === "car-console") {
-        if (state.money < CAR_CONSOLE_COST) return showToast(t("toast.notEnoughMoney"));
+        if (state.money < carConsoleCost()) return showToast(t("toast.notEnoughMoney"));
         s.hasComputer = true;
         s.computerLevel = 1;
         s.rate = CAR_LEVELS[1].defaultRate;
-        state.money -= CAR_CONSOLE_COST;
+        state.money -= carConsoleCost();
         showToast(t("toast.carConsoleInstalled"));
       } else if (action === "car-upgrade") {
         upgradeStation(idx);
       }
       renderCarSection();
+      renderFloor();
+      renderHud();
+      save();
+    });
+  }
+
+  // ---------------------------------------------------------------- İOZ Oyun Atarisi (dükkan)
+  var arcadeStoreList = $("arcade-store-list");
+
+  function renderArcadeSection() {
+    if (!state || !arcadeStoreList) return;
+    var html = "";
+    state.stations.forEach(function (s, idx) {
+      if (!s.isArcade) return;
+      var slotNum = idx - MAX_STATIONS - PS_STATION_COUNT - CAR_STATION_COUNT + 1; // 1..10
+      if (!s.hasTable) {
+        html += '<div class="store-item">' +
+          '<div class="store-item-icon"><svg class="i-28"><use href="#icon-arcade-mini"/></svg></div>' +
+          '<div class="store-item-info">' +
+            '<div class="store-item-name">' + t("arcade.tableName", { n: slotNum }) + '</div>' +
+            '<div class="store-item-desc">' + t("arcade.tableDesc") + '</div>' +
+          '</div>' +
+          '<button class="arcade-action-btn" data-action="arcade-table" data-idx="' + idx + '"' +
+            (state.money < arcadeTableCost() ? " disabled" : "") + '>' + fmtMoney(arcadeTableCost()) + ' ₺</button>' +
+        '</div>';
+      } else if (!s.hasComputer) {
+        html += '<div class="store-item">' +
+          '<div class="store-item-icon"><svg class="i-28"><use href="#icon-arcade-mini"/></svg></div>' +
+          '<div class="store-item-info">' +
+            '<div class="store-item-name">' + t("arcade.consoleSetupName") + '</div>' +
+            '<div class="store-item-desc">' + t("arcade.consoleSetupDesc", { n: slotNum }) + '</div>' +
+          '</div>' +
+          '<button class="arcade-action-btn" data-action="arcade-console" data-idx="' + idx + '"' +
+            (state.money < arcadeConsoleCost() ? " disabled" : "") + '>' + fmtMoney(arcadeConsoleCost()) + ' ₺</button>' +
+        '</div>';
+      } else {
+        var lvl = ARCADE_LEVELS[s.computerLevel];
+        if (lvl.upgradeCost) {
+          html += '<div class="store-item">' +
+            '<div class="store-item-icon"><svg class="i-28"><use href="#' + lvl.icon + '"/></svg></div>' +
+            '<div class="store-item-info">' +
+              '<div class="store-item-name">' + lvl.name + ' → ' + ARCADE_LEVELS[s.computerLevel + 1].name + '</div>' +
+              '<div class="store-item-desc">' + t("arcade.upgradeDesc", { n: slotNum }) + '</div>' +
+            '</div>' +
+            '<button class="arcade-action-btn" data-action="arcade-upgrade" data-idx="' + idx + '"' +
+              (state.money < upgradeCostFor(lvl) ? " disabled" : "") + '>' + fmtMoney(upgradeCostFor(lvl)) + ' ₺</button>' +
+          '</div>';
+        } else {
+          html += '<div class="store-item owned">' +
+            '<div class="store-item-icon"><svg class="i-28"><use href="#' + lvl.icon + '"/></svg></div>' +
+            '<div class="store-item-info">' +
+              '<div class="store-item-name">' + lvl.name + '</div>' +
+              '<div class="store-item-desc">' + t("arcade.maxedDesc", { n: slotNum }) + '</div>' +
+            '</div>' +
+            '<div class="store-item-owned"><svg class="i-18"><use href="#icon-check"/></svg>' + t("arcade.ready") + '</div>' +
+          '</div>';
+        }
+      }
+    });
+    arcadeStoreList.innerHTML = html;
+  }
+
+  if (arcadeStoreList) {
+    arcadeStoreList.addEventListener("click", function (e) {
+      var btn = e.target.closest(".arcade-action-btn");
+      if (!btn || btn.disabled) return;
+      var idx = parseInt(btn.dataset.idx, 10);
+      var s = state.stations[idx];
+      if (!s) return;
+      var action = btn.dataset.action;
+      if (action === "arcade-table") {
+        if (state.money < arcadeTableCost()) return showToast(t("toast.notEnoughMoney"));
+        s.hasTable = true;
+        state.money -= arcadeTableCost();
+        showToast(t("toast.arcadeTableBuilt"));
+      } else if (action === "arcade-console") {
+        if (state.money < arcadeConsoleCost()) return showToast(t("toast.notEnoughMoney"));
+        s.hasComputer = true;
+        s.computerLevel = 1;
+        s.rate = ARCADE_LEVELS[1].defaultRate;
+        state.money -= arcadeConsoleCost();
+        showToast(t("toast.arcadeConsoleInstalled"));
+      } else if (action === "arcade-upgrade") {
+        upgradeStation(idx);
+      }
+      renderArcadeSection();
       renderFloor();
       renderHud();
       save();
@@ -3061,12 +3569,17 @@
   }
 
   // ---------------------------------------------------------------- otomatlar (vending)
+  var VENDING_ITEMS = {
+    drink: { cost: VENDING_DRINK_COST, rate: VENDING_DRINK_RATE_PER_HOUR, icon: "icon-drink", nameKey: "vending.drink.name", descKey: "vending.drink.desc" },
+    food: { cost: VENDING_FOOD_COST, rate: VENDING_FOOD_RATE_PER_HOUR, icon: "icon-snack", nameKey: "vending.food.name", descKey: "vending.food.desc" },
+    candy: { cost: VENDING_CANDY_COST, rate: VENDING_CANDY_RATE_PER_HOUR, icon: "icon-candy", nameKey: "vending.candy.name", descKey: "vending.candy.desc" }
+  };
   function renderVendingSection() {
     if (!state || !vendingStoreList) return;
-    var items = [
-      { id: "drink", name: t("vending.drink.name"), desc: t("vending.drink.desc", { rate: VENDING_DRINK_RATE_PER_HOUR }), cost: VENDING_DRINK_COST, icon: "icon-drink" },
-      { id: "food", name: t("vending.food.name"), desc: t("vending.food.desc", { rate: VENDING_FOOD_RATE_PER_HOUR }), cost: VENDING_FOOD_COST, icon: "icon-snack" }
-    ];
+    var items = ["drink", "food", "candy"].map(function (id) {
+      var v = VENDING_ITEMS[id];
+      return { id: id, name: t(v.nameKey), desc: t(v.descKey, { rate: v.rate }), cost: v.cost, icon: v.icon };
+    });
     vendingStoreList.innerHTML = items.map(function (item) {
       var owned = !!state.vending[item.id];
       var canAfford = state.money >= item.cost;
@@ -3089,15 +3602,15 @@
       var btn = e.target.closest(".vending-buy-btn");
       if (!btn || btn.disabled) return;
       var id = btn.dataset.id;
-      var cost = id === "drink" ? VENDING_DRINK_COST : VENDING_FOOD_COST;
-      if (state.vending[id]) return;
-      if (state.money < cost) return showToast(t("toast.notEnoughMoney"));
-      state.money -= cost;
+      var item = VENDING_ITEMS[id];
+      if (!item || state.vending[id]) return;
+      if (state.money < item.cost) return showToast(t("toast.notEnoughMoney"));
+      state.money -= item.cost;
       state.vending[id] = true;
       renderVendingSection();
       renderHud();
       save();
-      showToast((id === "drink" ? t("vending.drink.name") : t("vending.food.name")) + t("toast.installedSuffix"));
+      showToast(t(item.nameKey) + t("toast.installedSuffix"));
     });
   }
 
@@ -3162,7 +3675,9 @@
       achievements: state.achievements,
       tiktokClaimed: state.tiktokClaimed,
       whatsappClaimed: state.whatsappClaimed,
-      rateUsClaimed: state.rateUsClaimed
+      rateUsClaimed: state.rateUsClaimed,
+      shopTier: state.shopTier,
+      vip: state.vip
     };
     state = freshState();
     state.cafeName = keep.cafeName;
@@ -3174,18 +3689,20 @@
     state.whatsappClaimed = keep.whatsappClaimed;
     state.rateUsClaimed = keep.rateUsClaimed;
     state.rebirths = newRebirths;
+    state.shopTier = keep.shopTier;
+    state.vip = keep.vip;
 
     modalStore.hidden = true;
     renderFloor(); renderRequests(); renderHud();
     save();
-    showToast(t("rebirth.done", { pct: newRebirths * 15 }));
+    showToast(t("rebirth.done", { pct: newRebirths * 45 }));
   }
 
   function renderRebirthSection() {
     if (!state || !rebirthStoreList) return;
     var eligible = canRebirth();
-    var curPct = state.rebirths * 15;
-    var nextPct = (state.rebirths + 1) * 15;
+    var curPct = state.rebirths * 45;
+    var nextPct = (state.rebirths + 1) * 45;
     var html =
       '<div class="rebirth-card">' +
         '<p class="rebirth-intro">' + t("rebirth.intro") + '</p>' +
@@ -3218,6 +3735,91 @@
     if (confirmBtn) confirmBtn.addEventListener("click", function () { doRebirth(); });
   }
 
+  // ---------------------------------------------------------------- dükkan geliştir (shop upgrade tier)
+  // Rebirth'e benzer ama gün/istasyon şartı yerine 300.000 ₺ karşılığında
+  // satın alınan, kalıcı ve TEK SEFERLİK bir "büyük dükkan" yükseltmesi.
+  // İşletmeyi rebirth gibi sıfırlar (xp/seviye/başarım/toplam müşteri/
+  // rebirth sayısı KORUNUR) ve state.shopTier=1 yapar; bu bayrak sayesinde
+  // tüm maliyetler VE tüm gelir kalıcı olarak SHOP_TIER_MULTIPLIER (3.5x)
+  // ile çarpılır — aynı 80 istasyonluk düzen, çok daha büyük rakamlar.
+  function canUpgradeShop() {
+    return !state.shopTier && state.money >= SHOP_UPGRADE_COST;
+  }
+
+  function doShopUpgrade() {
+    if (state.shopTier) return;
+    if (state.money < SHOP_UPGRADE_COST) return showToast(t("toast.notEnoughMoney"));
+    var keep = {
+      cafeName: state.cafeName,
+      totalCustomers: state.totalCustomers,
+      xp: state.xp,
+      level: state.level,
+      achievements: state.achievements,
+      tiktokClaimed: state.tiktokClaimed,
+      whatsappClaimed: state.whatsappClaimed,
+      rateUsClaimed: state.rateUsClaimed,
+      rebirths: state.rebirths,
+      vip: state.vip
+    };
+    state = freshState();
+    state.cafeName = keep.cafeName;
+    state.totalCustomers = keep.totalCustomers;
+    state.xp = keep.xp;
+    state.level = keep.level;
+    state.achievements = keep.achievements;
+    state.tiktokClaimed = keep.tiktokClaimed;
+    state.whatsappClaimed = keep.whatsappClaimed;
+    state.rateUsClaimed = keep.rateUsClaimed;
+    state.rebirths = keep.rebirths;
+    state.vip = keep.vip;
+    state.shopTier = 1;
+
+    modalStore.hidden = true;
+    renderFloor(); renderRequests(); renderHud();
+    save();
+    showToast(t("upgrade.done", { mult: SHOP_TIER_MULTIPLIER }));
+  }
+
+  function renderShopUpgradeSection() {
+    if (!state || !shopUpgradeStoreList) return;
+    var html = '<div class="rebirth-card">';
+    if (state.shopTier) {
+      html +=
+        '<p class="rebirth-intro">' + t("upgrade.introDone") + '</p>' +
+        '<div class="rebirth-stats">' +
+          '<div class="rebirth-stat"><span>' + t("upgrade.multiplier") + '</span><strong>x' + SHOP_TIER_MULTIPLIER + '</strong></div>' +
+        '</div>';
+    } else {
+      var eligible = state.money >= SHOP_UPGRADE_COST;
+      html +=
+        '<p class="rebirth-intro">' + t("upgrade.intro", { mult: SHOP_TIER_MULTIPLIER }) + '</p>' +
+        '<div class="rebirth-stats">' +
+          '<div class="rebirth-stat"><span>' + t("upgrade.cost") + '</span><strong>' + fmtMoney(SHOP_UPGRADE_COST) + ' ₺</strong></div>' +
+        '</div>' +
+        '<button id="btn-shop-upgrade" class="btn btn-primary btn-block"' + (eligible ? "" : " disabled") + '>' +
+          '<svg class="i-16"><use href="#icon-shop-upgrade"/></svg> ' + t("upgrade.button") + '</button>' +
+        '<div id="shop-upgrade-confirm-box" class="rebirth-confirm-box" hidden>' +
+          '<p class="rebirth-confirm-text">' + t("upgrade.confirmText", { cost: fmtMoney(SHOP_UPGRADE_COST), mult: SHOP_TIER_MULTIPLIER }) + '</p>' +
+          '<div class="rebirth-confirm-actions">' +
+            '<button id="btn-shop-upgrade-cancel" class="btn-reset-cancel">' + t("rebirth.confirmCancel") + '</button>' +
+            '<button id="btn-shop-upgrade-confirm" class="btn-reset-confirm">' + t("upgrade.confirmYes") + '</button>' +
+          '</div>' +
+        '</div>';
+    }
+    html += '</div>';
+    shopUpgradeStoreList.innerHTML = html;
+
+    var btn = $("btn-shop-upgrade");
+    if (btn) btn.addEventListener("click", function () {
+      btn.hidden = true;
+      $("shop-upgrade-confirm-box").hidden = false;
+    });
+    var cancelBtn = $("btn-shop-upgrade-cancel");
+    if (cancelBtn) cancelBtn.addEventListener("click", function () { renderShopUpgradeSection(); });
+    var confirmBtn2 = $("btn-shop-upgrade-confirm");
+    if (confirmBtn2) confirmBtn2.addEventListener("click", function () { doShopUpgrade(); });
+  }
+
   // ---------------------------------------------------------------- dükkan puanı (rating modal)
   function renderRatingModal() {
     if (!state) return;
@@ -3231,6 +3833,8 @@
         (state.staff.cleaner ? t("rating.cleanerYes") : t("rating.cleanerNo")) + '</strong></li>' +
       '<li><span>' + t("rating.airCon") + '</span><strong class="' + (state.shop.airCon ? "" : "neg") + '">' +
         (state.shop.airCon ? t("rating.airConYes") : t("rating.airConNo")) + '</strong></li>' +
+      '<li><span>' + t("rating.security") + '</span><strong class="' + (state.shop.security ? "" : "neg") + '">' +
+        (state.shop.security ? t("rating.airConYes") : t("rating.airConNo")) + '</strong></li>' +
       '<li><span>' + t("rating.lostToday") + '</span><strong class="' + (lostRatioPct > 20 ? "neg" : "") + '">%' + lostRatioPct + '</strong></li>' +
       '<li><span>' + t("rating.servedToday") + '</span><strong>' + state.today.served + '</strong></li>';
   }
@@ -3241,26 +3845,6 @@
   });
   btnCloseRating.addEventListener("click", function () { modalRating.hidden = true; });
   modalRating.addEventListener("click", function (e) { if (e.target === modalRating) modalRating.hidden = true; });
-
-  // ---------------------------------------------------------------- "Bizi Değerlendir" (Play Store)
-  function renderRateUsButton() {
-    if (!btnRateUs || !state) return;
-    btnRateUs.textContent = state.rateUsClaimed ? t("social.openPlayStore") : t("social.rateAndClaim", { amount: RATE_US_REWARD });
-  }
-
-  if (btnRateUs) {
-    btnRateUs.addEventListener("click", function () {
-      window.open(PLAY_STORE_URL, "_blank");
-      if (!state.rateUsClaimed) {
-        state.rateUsClaimed = true;
-        state.money += RATE_US_REWARD;
-        renderHud();
-        save();
-        showToast(t("toast.rateUsThanks", { amount: RATE_US_REWARD }));
-      }
-      renderRateUsButton();
-    });
-  }
 
   // ---------------------------------------------------------------- fx
   function spawnIncomePop(stationIdx, amount) {
@@ -3320,9 +3904,8 @@
   btnInfo.addEventListener("click", function () {
     renderSettingsStats();
     renderTiktokClaim();
-    renderWhatsappClaim();
     renderAchievementsTab();
-    renderRateUsButton();
+    renderRateUsButtons();
     renderSettingsVersion();
     modalInfo.hidden = false;
   });

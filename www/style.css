@@ -1,29 +1,24 @@
 /* ===================================================================
-   NET://CAFE — design tokens
+   iOZ Internet Cafe — design tokens
    bg base   #0B1018   panel #131B27   panel-2 #1B2634   border #263346
-   accent    #34E7C4 (crt teal)   gold #F5B84E (money)   danger #E8607A
-   display font: 'Chakra Petch'   body: 'Inter'   mono: 'JetBrains Mono'
+   accent    #2FBFA8 (calm teal)   gold #F0B94A (money)   danger #E8607A
+   display font: 'Plus Jakarta Sans'   body: 'Inter'   mono: 'JetBrains Mono'
    =================================================================== */
-
-@font-face {
-  font-family: 'Chakra Petch';
-  src: local('Chakra Petch');
-}
 
 :root{
   --bg:#0B1018;
   --panel:#131B27;
   --panel-2:#1B2634;
   --border:#263346;
-  --accent:#34E7C4;
-  --accent-dim:#1E9E86;
-  --gold:#F5B84E;
+  --accent:#2FBFA8;
+  --accent-dim:#1C8577;
+  --gold:#F0B94A;
   --danger:#E8607A;
   --text:#E8EDF4;
   --text-muted:#7C8AA0;
   --radius:10px;
-  --font-display:'Chakra Petch','Segoe UI',sans-serif;
-  --font-body:'Inter','Segoe UI',sans-serif;
+  --font-display:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif;
+  --font-body:'Inter','Segoe UI',system-ui,sans-serif;
   --font-mono:'JetBrains Mono','Consolas',monospace;
 }
 
@@ -727,6 +722,12 @@ body{
   border-color:var(--gold);
   color:var(--gold);
 }
+.hud-upgrade-btn{
+  margin-left:6px;
+  background:rgba(111,195,255,.12);
+  border-color:#6FC3FF;
+  color:#6FC3FF;
+}
 
 .sub-hud{
   display:flex;
@@ -785,6 +786,28 @@ body{
   cursor:default;
 }
 .station.empty .icon-plus{ color:#3A4B63; width:14px; height:14px; }
+
+.station.empty.ad-pc-empty{
+  background:rgba(240,185,74,.06);
+  border:1.5px dashed var(--gold);
+  color:var(--gold);
+  cursor:pointer;
+}
+.station.empty.ad-pc-empty svg{ color:var(--gold); width:16px; height:16px; }
+.station.empty.ad-pc-empty .station-label{ color:var(--gold); font-weight:700; }
+.ad-pc-badge{
+  position:absolute;
+  top:4px; left:4px;
+  font-family:var(--font-mono);
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.03em;
+  color:#2A1B00;
+  background:var(--gold);
+  padding:1px 5px;
+  border-radius:5px;
+  z-index:2;
+}
 
 .station.ready{
   border-color:#2C3B50;
@@ -1079,6 +1102,74 @@ body{
 }
 .store-item-owned svg{ width:14px; height:14px; }
 
+/* ---------- parça yükseltme paneli (max-level PC only) ---------- */
+.parts-upgrade-panel{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.parts-upgrade-head{
+  font-family:var(--font-display);
+  font-size:14px;
+  font-weight:700;
+  color:var(--gold);
+}
+.parts-upgrade-sub{
+  font-size:11.5px;
+  color:var(--text-muted);
+  margin:4px 0 12px;
+  line-height:1.4;
+}
+.parts-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:12px;
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  margin-bottom:8px;
+}
+.parts-item.owned{
+  background:transparent;
+  border-style:dashed;
+  opacity:.75;
+}
+.parts-item-info{ flex:1; min-width:0; }
+.parts-item-name{
+  font-family:var(--font-display);
+  font-size:13px;
+  font-weight:700;
+  color:var(--text);
+}
+.parts-item-bonus{ color:var(--gold); font-family:var(--font-mono); font-size:11.5px; }
+.parts-item-desc{
+  font-size:11px;
+  color:var(--text-muted);
+  margin-top:2px;
+  line-height:1.4;
+}
+.parts-buy-btn{
+  flex-shrink:0;
+  padding:9px 12px;
+  border-radius:8px;
+  border:none;
+  background:var(--gold);
+  color:#2A1B00;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.parts-buy-btn:disabled{
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  cursor:not-allowed;
+}
+.parts-buy-btn:active:not(:disabled){ transform:scale(.96); }
+
 /* ---------- vip modal ---------- */
 .vip-hero{
   display:flex;
@@ -1088,6 +1179,63 @@ body{
   padding:18px 0 14px;
 }
 .vip-hero svg{ color:var(--gold); width:40px; height:40px; }
+
+/* ---------- instagram promo modal (shown every cold start) ---------- */
+.instagram-hero{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:22px 4px 16px;
+  text-align:center;
+}
+.instagram-icon-badge{
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  background:radial-gradient(circle at 30% 110%, #FDF497 0%, #FD5949 26%, #D6249F 61%, #285AEB 100%);
+  box-shadow:0 6px 18px -4px rgba(214,36,159,.55);
+  margin-bottom:4px;
+}
+.instagram-title{
+  font-family:var(--font-display);
+  font-size:17px;
+  font-weight:700;
+  color:var(--text);
+}
+.instagram-sub{
+  font-size:12.5px;
+  color:var(--text-muted);
+  line-height:1.5;
+  max-width:280px;
+}
+.instagram-open-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background:linear-gradient(90deg, #D6249F 0%, #FD5949 100%);
+  color:#fff;
+  text-decoration:none;
+  margin-top:6px;
+}
+.btn-text-dismiss{
+  display:block;
+  width:100%;
+  background:none;
+  border:none;
+  color:var(--text-muted);
+  font-size:12.5px;
+  font-family:var(--font-body);
+  padding:14px 0 4px;
+  cursor:pointer;
+}
+.btn-text-dismiss:active{ opacity:.7; }
+
 .vip-hero-title{
   font-family:var(--font-display);
   font-size:16px;
@@ -1217,20 +1365,20 @@ body{
 }
 .tiktok-follow-btn svg{ width:15px; height:15px; }
 
-.whatsapp-card{ margin-top:16px; }
-.whatsapp-icon{ background:#25D366; }
-.whatsapp-icon svg{ color:#04160C; }
-.whatsapp-follow-btn{
+.rate-us-card{ margin-top:16px; }
+.rate-us-icon{ background:var(--gold); }
+.rate-us-icon svg{ color:#241900; }
+.rate-us-open-btn{
   display:flex;
   align-items:center;
   justify-content:center;
   gap:8px;
-  background:#25D366;
-  color:#04160C;
+  background:var(--gold);
+  color:#241900;
   margin-bottom:10px;
   text-decoration:none;
 }
-.whatsapp-follow-btn svg{ width:15px; height:15px; }
+.rate-us-open-btn svg{ width:15px; height:15px; }
 
 /* ---------- sub-hud additions ---------- */
 .sub-hud-level{ color:var(--gold); }
@@ -1250,7 +1398,7 @@ body{
   border-radius:5px;
   z-index:2;
 }
-.vip-badge{
+.station-vip-badge{
   position:absolute;
   top:2px; right:3px;
   font-size:10px;
@@ -1351,9 +1499,23 @@ body{
   border-radius:5px;
   z-index:2;
 }
+.arcade-badge{
+  position:absolute;
+  top:4px; left:4px;
+  font-family:var(--font-mono);
+  font-size:8.5px;
+  font-weight:700;
+  letter-spacing:.03em;
+  color:#052326;
+  background:#57D9E8;
+  padding:1px 5px;
+  border-radius:5px;
+  z-index:2;
+}
 .station-car-frame{
-  width:100%;
-  aspect-ratio:1.5;
+  width:46px;
+  height:32px;
+  flex-shrink:0;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -1363,8 +1525,8 @@ body{
   overflow:hidden;
 }
 .station-car-svg{
-  width:78%;
-  height:78%;
+  width:88%;
+  height:88%;
   display:block;
 }
 
@@ -1395,6 +1557,31 @@ body{
 .station.is-car.car-lvl3 .station-label,
 .station.is-car.car-lvl3.occupied .station-label{ color:var(--gold); }
 
+/* İOZ Oyun Atarisi — same three-tier bronze → silver-blue → gold ladder as
+   the car sim, for a consistent "premium station" visual language, but with
+   a cyan top-tier glow (instead of car's magenta) so a full floor of both
+   station types still reads as two distinct departments at a glance. */
+.station.is-arcade .station-car-frame{ border-color:#B08D57; }
+.station.is-arcade .station-car-svg{ color:#C9A268; }
+.station.is-arcade .station-label{ color:#D6B37A; }
+.station.is-arcade.occupied .station-label{ color:#D6B37A; }
+
+.station.is-arcade.arcade-lvl2 .station-car-frame{
+  border-color:#B9C4D6;
+  box-shadow:0 0 10px -2px rgba(180,200,230,.65);
+}
+.station.is-arcade.arcade-lvl2 .station-car-svg{ color:#D8E2F2; }
+.station.is-arcade.arcade-lvl2 .station-label,
+.station.is-arcade.arcade-lvl2.occupied .station-label{ color:#D8E2F2; }
+
+.station.is-arcade.arcade-lvl3 .station-car-frame{
+  border-color:var(--gold);
+  box-shadow:0 0 9px -1px rgba(245,184,78,.8), 0 0 16px -2px rgba(80,220,230,.55);
+}
+.station.is-arcade.arcade-lvl3 .station-car-svg{ color:var(--gold); }
+.station.is-arcade.arcade-lvl3 .station-label,
+.station.is-arcade.arcade-lvl3.occupied .station-label{ color:var(--gold); }
+
 .store-section-head:has(+ #car-store-list){ color:#FF9A4D; }
 .car-action-btn{
   flex-shrink:0;
@@ -1416,6 +1603,26 @@ body{
   cursor:not-allowed;
 }
 .car-action-btn:active:not(:disabled){ transform:scale(.96); }
+.arcade-action-btn{
+  flex-shrink:0;
+  padding:9px 12px;
+  border-radius:8px;
+  border:none;
+  background:#57D9E8;
+  color:#052326;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.arcade-action-btn:disabled{
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  cursor:not-allowed;
+}
+.arcade-action-btn:active:not(:disabled){ transform:scale(.96); }
 .upgrade-car-icon{ padding:8px; color:var(--accent); }
 
 /* ---------- level card (achievements tab header) ---------- */

@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0b1018">
 <title>iOZ Internet Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -121,11 +124,32 @@
       <path d="M17 8a3 3 0 0 1 0 9" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>
       <path d="M19.5 6.5a7 7 0 0 1 0 12" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".6"/>
     </symbol>
+    <!-- security camera: dome + lens + mount -->
+    <symbol id="icon-shop-camera" viewBox="0 0 24 24">
+      <path d="M3.5 8.5c5-3 12-3 17 0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <rect x="6" y="8.5" width="12.5" height="6.5" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="9.8" cy="11.8" r="1.9" fill="none" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M17 15v2.2M14.2 20h5.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </symbol>
+    <!-- online reservation: calendar + check -->
+    <symbol id="icon-shop-reservation" viewBox="0 0 24 24">
+      <rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M4 9.5h16M8 3v3.4M16 3v3.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M8.2 14.2l2.3 2.3 5-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
     <!-- rebirth: phoenix-ish circular arrow with a spark -->
     <symbol id="icon-rebirth" viewBox="0 0 24 24">
       <path d="M5 12a7 7 0 1 1 2.2 5.1" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
       <path d="M4 16.5v-3.2h3.2" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M12.5 6.5 11 10h2l-.7 3.3 3-4.3h-2l.7-2.5Z" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- Dükkan Geliştir: storefront with an upward arrow (bigger business) -->
+    <symbol id="icon-shop-upgrade" viewBox="0 0 24 24">
+      <path d="M4 20h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M5.5 20v-6.5h13V20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M4 13.5 6 8h12l2 5.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M9.5 20v-4h5v4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M12 2.5 9.3 6h2v3.3h1.4V6h2L12 2.5Z" fill="currentColor" stroke="none"/>
     </symbol>
     <!-- TikTok: stylized musical-note glyph -->
     <symbol id="icon-tiktok" viewBox="0 0 24 24">
@@ -152,39 +176,106 @@
       <circle cx="12" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.4"/>
       <path d="M12 6v4M8.4 15.9 10 13M15.6 15.9 14 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
     </symbol>
-    <!-- level 1: simple boxy racer -->
+    <!-- mini joystick, used for the arcade stat chip / store tab -->
+    <symbol id="icon-arcade-mini" viewBox="0 0 24 24">
+      <rect x="4" y="14" width="16" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="8.5" cy="17" r="1.2" fill="currentColor"/>
+      <circle cx="13" cy="17" r="1.2" fill="currentColor"/>
+      <path d="M15.5 12v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="15.5" cy="7.6" r="2.1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </symbol>
+    <!-- level 1: İoz Racer Basic — plain sit-down simulator cabinet
+         (screen + wheel + seat), deliberately understated -->
     <symbol id="icon-car-lvl1" viewBox="0 0 64 40">
-      <path d="M6 26h4l4-9c1-2 3-3 5-3h18c2 0 4 1 5 3l4 9h4a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2a5 5 0 0 1-10 0H18a5 5 0 0 1-10 0H6a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"
-        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M17 17h9v6h-11Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-      <circle cx="16" cy="32" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
-      <circle cx="46" cy="32" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <rect x="17" y="3" width="30" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <rect x="20.5" y="6" width="23" height="10" rx="1" fill="currentColor" opacity=".18"/>
+      <path d="M32 19v6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M20 38l2-13c.4-2 2-3.4 4-3.4h12c2 0 3.6 1.4 4 3.4l2 13Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="32" cy="27.5" r="7.2" fill="none" stroke="currentColor" stroke-width="2.2"/>
+      <circle cx="32" cy="27.5" r="1.6" fill="currentColor"/>
+      <path d="M32 21.3v3M26.7 30.7l2.6-1.7M37.3 30.7l-2.6-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M13 38h38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
     </symbol>
-    <!-- level 2: sportier, spoiler + side stripe -->
+    <!-- level 2: İoz Racer GT — wider curved screen + racing-seat wings -->
     <symbol id="icon-car-lvl2" viewBox="0 0 64 40">
-      <path d="M4 27h3l3-10c1.5-2.5 4-4 7-4h5l3-4h6l-1 4h3c3 0 5.5 1.5 7 4l3 10h4a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a5 5 0 0 1-10 0H19a5 5 0 0 1-10 0H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2Z"
-        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M46 15l6-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M16 15h11l-2 6H14Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-      <path d="M9 24h44" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 3"/>
-      <circle cx="15" cy="32" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
-      <circle cx="47" cy="32" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M14 3.5h36c1.6 0 2.6 1.6 2 3l-2 5.5H14L12 6.5c-.6-1.4.4-3 2-3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M17 6h30l-1.3 3.2H18.3Z" fill="currentColor" opacity=".2"/>
+      <path d="M32 12v6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M18 38l2-12.5c.4-2.2 2.2-3.7 4.4-3.7h15.2c2.2 0 4 1.5 4.4 3.7L46 38Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M22.5 21.8 21 38M41.5 21.8 43 38" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
+      <circle cx="32" cy="26.5" r="7.6" fill="none" stroke="currentColor" stroke-width="2.2"/>
+      <circle cx="32" cy="26.5" r="1.7" fill="currentColor"/>
+      <path d="M32 20v3.2M26.2 30l2.7-1.8M37.8 30l-2.7-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M11 38h42" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
     </symbol>
-    <!-- level 3: futuristic / neon-glow supercar -->
+    <!-- level 3: İoz Racer Elite — wraparound triple screen, mirror-wing
+         arms and a soft glow (radial gradient), the clearest "top tier" tell -->
     <symbol id="icon-car-lvl3" viewBox="0 0 64 40">
       <defs>
-        <radialGradient id="carLvl3Glow" cx="50%" cy="50%" r="60%">
+        <radialGradient id="carLvl3Glow" cx="50%" cy="45%" r="60%">
           <stop offset="0%" stop-color="currentColor" stop-opacity=".35"/>
           <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
         </radialGradient>
       </defs>
-      <ellipse cx="32" cy="26" rx="30" ry="14" fill="url(#carLvl3Glow)"/>
-      <path d="M2 26 8 16c2-3 6-5 10-5h8l4-5h6l-2 5h4c4 0 8 2 10 5l6 10h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2a5.5 5.5 0 0 1-11 0H15a5.5 5.5 0 0 1-11 0H2a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2Z"
-        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M18 12h13l-2 7H15Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-      <path d="M50 13l7-4M6 23h50" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-      <circle cx="14" cy="31" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/>
-      <circle cx="48" cy="31" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/>
+      <ellipse cx="32" cy="22" rx="30" ry="18" fill="url(#carLvl3Glow)"/>
+      <path d="M6 10c0-3.6 2.9-6.3 6.6-5.7l6 1c1 .2 1.7 1 1.9 2l1 5.6M58 10c0-3.6-2.9-6.3-6.6-5.7l-6 1c-1 .2-1.7 1-1.9 2l-1 5.6"
+        fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="16" y="2.5" width="32" height="14.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <rect x="19" y="5.3" width="26" height="9" rx="1" fill="currentColor" opacity=".22"/>
+      <path d="M32 17v5.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M17.5 38l2.1-12.8c.4-2.4 2.5-4.2 5-4.2h14.8c2.5 0 4.6 1.8 5 4.2L46.5 38Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M22 20.3c-1.5 1.4-2.3 3-2.6 5M42 20.3c1.5 1.4 2.3 3 2.6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".75"/>
+      <circle cx="32" cy="26" r="8" fill="none" stroke="currentColor" stroke-width="2.3"/>
+      <circle cx="32" cy="26" r="1.8" fill="currentColor"/>
+      <path d="M32 19.2v3.4M25.9 29.7l2.9-1.9M38.1 29.7l-2.9-1.9" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+      <path d="M10 38h44" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+    <!-- Oyun Atarisi level 1: İoz Atari Mini — plain upright arcade cabinet -->
+    <symbol id="icon-arcade-lvl1" viewBox="0 0 64 40">
+      <path d="M22 3h20l2.5 33h-25Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="24.5" y="5.5" width="15" height="4.5" rx="1" fill="currentColor" opacity=".25"/>
+      <rect x="24" y="12" width="16" height="12" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <rect x="25.5" y="13.5" width="13" height="9" fill="currentColor" opacity=".18"/>
+      <path d="M21.5 27h21" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="27" cy="31" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <circle cx="34" cy="31.8" r="1.6" fill="currentColor"/>
+      <circle cx="38" cy="31.8" r="1.6" fill="currentColor"/>
+      <path d="M18 38h28" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+    <!-- Oyun Atarisi level 2: İoz Atari Pro — wider cabinet, side speakers -->
+    <symbol id="icon-arcade-lvl2" viewBox="0 0 64 40">
+      <path d="M19 3h26l3 33h-32Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="22" y="5.3" width="20" height="4.6" rx="1" fill="currentColor" opacity=".28"/>
+      <rect x="21" y="12" width="22" height="12.5" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.9"/>
+      <rect x="22.6" y="13.5" width="18.8" height="9.5" fill="currentColor" opacity=".2"/>
+      <circle cx="19.5" cy="16" r="1.3" fill="currentColor" opacity=".8"/>
+      <circle cx="44.5" cy="16" r="1.3" fill="currentColor" opacity=".8"/>
+      <path d="M18.5 27.5h27" stroke="currentColor" stroke-width="1.7"/>
+      <circle cx="25.5" cy="32" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="33" cy="32.8" r="1.7" fill="currentColor"/>
+      <circle cx="37.5" cy="32.8" r="1.7" fill="currentColor"/>
+      <circle cx="42" cy="32.8" r="1.7" fill="currentColor"/>
+      <path d="M15 38h34" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </symbol>
+    <!-- Oyun Atarisi level 3: İoz Atari Deluxe — glow + curved marquee, twin joysticks -->
+    <symbol id="icon-arcade-lvl3" viewBox="0 0 64 40">
+      <defs>
+        <radialGradient id="arcGlow" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="currentColor" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="32" cy="18" rx="27" ry="17" fill="url(#arcGlow)"/>
+      <path d="M17 3.5h30c1 0 1.7.8 1.8 1.8L52 36H12l3.2-30.7c.1-1 .8-1.8 1.8-1.8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M20.5 6h23l1 5h-25Z" fill="currentColor" opacity=".3"/>
+      <rect x="19" y="13" width="26" height="13" rx="1.4" fill="none" stroke="currentColor" stroke-width="2"/>
+      <rect x="20.7" y="14.6" width="22.6" height="10" fill="currentColor" opacity=".22"/>
+      <path d="M16.5 28.5h31" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="23" cy="33" r="2.6" fill="none" stroke="currentColor" stroke-width="1.9"/>
+      <circle cx="41" cy="33" r="2.6" fill="none" stroke="currentColor" stroke-width="1.9"/>
+      <circle cx="31" cy="33.8" r="1.7" fill="currentColor"/>
+      <circle cx="35" cy="33.8" r="1.7" fill="currentColor"/>
+      <path d="M12 38h40" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
     </symbol>
     <!-- trophy for achievements -->
     <symbol id="icon-trophy" viewBox="0 0 24 24">
@@ -206,6 +297,12 @@
       <circle cx="10.4" cy="8" r="1" fill="currentColor"/>
       <circle cx="10.4" cy="12" r="1" fill="currentColor"/>
     </symbol>
+    <!-- Tatlı Otomatı -->
+    <symbol id="icon-candy" viewBox="0 0 24 24">
+      <path d="M8.6 9.9a3.3 3.3 0 0 1 4.7 0l.8.8a3.3 3.3 0 0 1 0 4.7l-.8.8a3.3 3.3 0 0 1-4.7 0l-.8-.8a3.3 3.3 0 0 1 0-4.7Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M8 9 4 6.5 5 10.8 3 12l2 1.2-1 4.3L8 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M16 15l4 2.5-1-4.3 2-1.2-2-1.2 1-4.3L16 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+    </symbol>
     <!-- Temizlikçi -->
     <symbol id="icon-broom" viewBox="0 0 24 24">
       <path d="M14.5 3.5 8 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -217,11 +314,11 @@
       <path d="M12 3.5l2.4 5 5.5.6-4.1 3.7 1.1 5.4L12 15.7l-4.9 2.5 1.1-5.4-4.1-3.7 5.5-.6L12 3.5Z"
         fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
     </symbol>
-    <!-- WhatsApp -->
-    <symbol id="icon-whatsapp" viewBox="0 0 24 24">
-      <path d="M12 3.5a8.4 8.4 0 0 0-7.2 12.7L3.5 20.5l4.4-1.2A8.4 8.4 0 1 0 12 3.5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-      <path d="M8.8 8.6c-.2.5-.5 1.1-.3 1.9.3 1.4 1.5 2.9 2.7 3.8 1.1.9 2.5 1.5 3.6 1.3.7-.1 1.4-.6 1.7-1.2.1-.3.1-.6 0-.8-.1-.2-1.5-.8-1.8-.9-.3-.1-.4-.1-.6.1-.2.2-.6.8-.8.9-.1.1-.3.1-.6 0-.8-.4-1.5-.9-2-1.6-.4-.5-.7-1.1-.8-1.3-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3.1-.4-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.6.4Z"
-        fill="currentColor" stroke="none"/>
+    <!-- Instagram: classic rounded-square camera glyph -->
+    <symbol id="icon-instagram" viewBox="0 0 24 24">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="17.1" cy="6.9" r="1.15" fill="currentColor"/>
     </symbol>
   </defs>
 </svg>
@@ -300,23 +397,36 @@
   <!-- WHAT'S NEW (v2 changelog) -->
   <div id="modal-changelog" class="modal" hidden>
     <div class="modal-card">
-      <div class="modal-head"><span data-i18n="changelog.title">Yenilikler — Sürüm 3.0</span></div>
+      <div class="modal-head"><span data-i18n="changelog.title">Yenilikler — Sürüm 5.0</span></div>
       <div class="modal-body">
         <p data-i18n="changelog.intro">Cafeni açtığından beri epey şey değişti, hepsi burada:</p>
         <ul class="changelog-list">
-          <li><svg class="i-16"><use href="#icon-desk-mini"/></svg><span><strong data-i18n="changelog.1.b">40 masa ve bilgisayar</strong> <span data-i18n="changelog.1.t">— kapasite bir kez daha ikiye katlandı.</span></span></li>
-          <li><svg class="i-16"><use href="#icon-gamepad-mini"/></svg><span><strong data-i18n="changelog.2.b">30 İOZ Playstion istasyonu</strong> <span data-i18n="changelog.2.t">— üç katına çıktı.</span></span></li>
-          <li><svg class="i-16"><use href="#icon-rebirth"/></svg><span><strong data-i18n="changelog.3.b">Yeniden Doğuş</strong> <span data-i18n="changelog.3.t">— işletmeni sıfırlayıp kalıcı gelir bonusu kazan.</span></span></li>
-          <li><svg class="i-16"><use href="#icon-shop-vip"/></svg><span><strong data-i18n="changelog.4.b">VIP Üyelik Programı</strong> <span data-i18n="changelog.4.t">— bazı müşteriler fiyat tanımaz, daha uzun kalır.</span></span></li>
-          <li><svg class="i-16"><use href="#icon-shop-fiber"/></svg><span><strong data-i18n="changelog.5.b">Fiber İnternet & Jeneratör</strong> <span data-i18n="changelog.5.t">— fiyat tavanını yükselt, giderleri azalt.</span></span></li>
-          <li><svg class="i-16"><use href="#icon-shop-aircon"/></svg><span><strong data-i18n="changelog.6.b">Klima & Sadakat Kartı</strong> <span data-i18n="changelog.6.t">— dükkan puanı ve ortalama kalış süresi artsın.</span></span></li>
-          <li><svg class="i-16"><use href="#icon-shop-megaphone"/></svg><span><strong data-i18n="changelog.7.b">Reklam Kampanyası</strong> <span data-i18n="changelog.7.t">— müşteri sabrı ve kuyruk kapasitesi arttı.</span></span></li>
-          <li><svg class="i-16"><use href="#icon-shop"/></svg><span><strong data-i18n="changelog.8.b">Dükkan resmen devrim geçirdi</strong> <span data-i18n="changelog.8.t">— 4 üründen 10 ürüne çıktı.</span></span></li>
+          <li><svg class="i-16"><use href="#icon-gamepad-mini"/></svg><span><strong data-i18n="changelog.1.b">Playstion, Araba Sim ve Atari'ye +40 seviye</strong> <span data-i18n="changelog.1.t">— artık çok daha uzun bir yükseltme yolu var.</span></span></li>
+          <li><svg class="i-16"><use href="#icon-desk-mini"/></svg><span><strong data-i18n="changelog.2.b">Donanım Parça Yükseltmeleri</strong> <span data-i18n="changelog.2.t">— bilgisayarların son seviyeye ulaşınca RAM, SSD, ekran kartı ve soğutma sistemiyle daha da güçlensin.</span></span></li>
+          <li><svg class="i-16"><use href="#icon-rebirth"/></svg><span><strong data-i18n="changelog.3.b">Rebirth bonusu 3 katına çıktı</strong> <span data-i18n="changelog.3.t">— her yeniden doğuş artık çok daha değerli.</span></span></li>
+          <li><svg class="i-16"><use href="#icon-play"/></svg><span><strong data-i18n="changelog.4.b">10 adet VIP Bilgisayar</strong> <span data-i18n="changelog.4.t">— reklam izleyerek ücretsiz kazanılıyor.</span></span></li>
+          <li><svg class="i-16"><use href="#icon-shop-camera"/></svg><span><strong data-i18n="changelog.5.b">Dükkana 2 yeni ürün</strong> <span data-i18n="changelog.5.t">— Güvenlik Kamera Sistemi ve Online Rezervasyon Sistemi.</span></span></li>
+          <li><svg class="i-16"><use href="#icon-instagram"/></svg><span><strong data-i18n="changelog.6.b">Instagram kanalımıza katıl</strong> <span data-i18n="changelog.6.t">— yeni içerikler ve kampanyalardan haberdar ol.</span></span></li>
         </ul>
       </div>
       <div class="changelog-footer">
         <button id="btn-close-changelog" class="btn btn-primary btn-block" disabled>Kapat (3)</button>
       </div>
+    </div>
+  </div>
+
+  <div id="modal-instagram" class="modal" hidden>
+    <div class="modal-card instagram-card">
+      <div class="instagram-hero">
+        <div class="instagram-icon-badge"><svg class="i-40"><use href="#icon-instagram"/></svg></div>
+        <div class="instagram-title" data-i18n="instagram.title">Bizi Instagram'da Takip Et</div>
+        <div class="instagram-sub" data-i18n="instagram.sub">Yeni güncellemeler, kampanyalar ve kamera arkası içerikler için kanalımıza katıl.</div>
+      </div>
+      <a id="btn-instagram-open" class="btn btn-primary btn-block instagram-open-btn"
+         href="https://www.instagram.com/channel/5TG4tWoKdokV4nti/" target="_blank" rel="noopener">
+        <svg class="i-16"><use href="#icon-instagram"/></svg> <span data-i18n="instagram.open">Kanala Katıl</span>
+      </a>
+      <button id="btn-instagram-close" class="btn-text-dismiss" data-i18n="instagram.notNow">Şimdi Değil</button>
     </div>
   </div>
 
@@ -347,6 +457,9 @@
       <button id="btn-open-vip" class="hud-icon-btn hud-vip-btn" aria-label="VIP">
         <svg class="i-18"><use href="#icon-shop-vip"/></svg>
       </button>
+      <button id="btn-open-shop-upgrade" class="hud-icon-btn hud-upgrade-btn" aria-label="Dükkan Geliştir">
+        <svg class="i-18"><use href="#icon-shop-upgrade"/></svg>
+      </button>
       <button id="btn-info" class="hud-icon-btn" aria-label="Bilgi">
         <svg class="i-18"><use href="#icon-info"/></svg>
       </button>
@@ -355,10 +468,12 @@
     <div class="sub-hud">
       <div class="sub-hud-item sub-hud-level"><svg class="i-12"><use href="#icon-trophy"/></svg><span id="stat-level">Lv 1</span></div>
       <div class="sub-hud-item sub-hud-rating" id="btn-open-rating"><svg class="i-12"><use href="#icon-star"/></svg><span id="stat-rating">7.0</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-desk-mini"/></svg><span id="stat-tables">0/20</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-monitor-mini"/></svg><span id="stat-computers">0/20</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-gamepad-mini"/></svg><span id="stat-ps">0/10</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-car-mini"/></svg><span id="stat-car">0/10</span></div>
+      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-desk-mini"/></svg><span id="stat-tables">0/60</span></div>
+      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-monitor-mini"/></svg><span id="stat-computers">0/60</span></div>
+      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-gamepad-mini"/></svg><span id="stat-ps">0/40</span></div>
+      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-car-mini"/></svg><span id="stat-car">0/30</span></div>
+      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-arcade-mini"/></svg><span id="stat-arcade">0/10</span></div>
+      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-play"/></svg><span id="stat-ad-pc">0/10</span></div>
       <div class="sub-hud-item"><svg class="i-12"><use href="#icon-user"/></svg><span id="stat-customers">0</span></div>
       <div class="sub-hud-item sub-hud-today"><svg class="i-12"><use href="#icon-coin"/></svg><span id="stat-today">0 ₺</span></div>
     </div>
@@ -370,7 +485,7 @@
         <div class="requests-head-right">
           <button id="btn-ad-bonus" class="ad-bonus-btn">
             <svg class="i-14"><use href="#icon-play"/></svg>
-            <span id="ad-bonus-label">+5.000 ₺</span>
+            <span id="ad-bonus-label">+3.000 ₺</span>
           </button>
           <span class="requests-count" id="requests-count">0</span>
         </div>
@@ -453,6 +568,12 @@
           <button id="btn-upgrade-station" class="btn-upgrade-station">
             <span id="upgrade-cost">— ₺</span>
           </button>
+        </div>
+
+        <div class="parts-upgrade-panel" id="parts-upgrade-panel" hidden>
+          <div class="parts-upgrade-head" data-i18n="parts.head">Donanım Parça Yükseltmeleri</div>
+          <p class="parts-upgrade-sub" data-i18n="parts.sub">En üst seviyeye ulaştı. Şimdi tek tek parçalarını yükselterek gelirini daha da artırabilirsin.</p>
+          <div id="parts-upgrade-list"></div>
         </div>
 
         <button id="btn-save-price" class="btn btn-primary btn-block" data-i18n="price.save">Kaydet</button>
@@ -578,6 +699,9 @@
         <button class="store-tab" data-tab="car">
           <svg class="i-16"><use href="#icon-car-mini"/></svg><span data-i18n="store.tabCar">Araba Sim</span>
         </button>
+        <button class="store-tab" data-tab="arcade">
+          <svg class="i-16"><use href="#icon-arcade-mini"/></svg><span data-i18n="store.tabArcade">Oyun Atarisi</span>
+        </button>
         <button class="store-tab" data-tab="vending">
           <svg class="i-16"><use href="#icon-drink"/></svg><span data-i18n="store.tabVending">Otomatlar</span>
         </button>
@@ -586,6 +710,9 @@
         </button>
         <button class="store-tab" data-tab="rebirth">
           <svg class="i-16"><use href="#icon-rebirth"/></svg><span data-i18n="store.tabRebirth">Rebirth</span>
+        </button>
+        <button class="store-tab" data-tab="upgrade">
+          <svg class="i-16"><use href="#icon-shop-upgrade"/></svg><span data-i18n="store.tabUpgrade">Dükkan Geliştir</span>
         </button>
       </div>
       <div class="modal-body">
@@ -602,6 +729,10 @@
           <div class="store-list" id="car-store-list"></div>
         </div>
 
+        <div class="store-tab-panel" data-tab-panel="arcade" hidden>
+          <div class="store-list" id="arcade-store-list"></div>
+        </div>
+
         <div class="store-tab-panel" data-tab-panel="vending" hidden>
           <div class="store-list" id="vending-store-list"></div>
         </div>
@@ -612,6 +743,10 @@
 
         <div class="store-tab-panel" data-tab-panel="rebirth" hidden>
           <div id="rebirth-store-list"></div>
+        </div>
+
+        <div class="store-tab-panel" data-tab-panel="upgrade" hidden>
+          <div id="shop-upgrade-store-list"></div>
         </div>
       </div>
     </div>
@@ -675,7 +810,7 @@
           </div>
           <div class="how-step">
             <span class="how-num">4</span>
-            <div><strong data-i18n="how.4.title">Büyü</strong><p data-i18n="how.4.desc">En fazla 20 masa ve 20 bilgisayar. Boş duran masa gider yazdırır, dengeyi koru.</p></div>
+            <div><strong data-i18n="how.4.title">Büyü</strong><p data-i18n="how.4.desc">En fazla 60 masa ve 60 bilgisayar. Boş duran masa gider yazdırır, dengeyi koru.</p></div>
           </div>
         </div>
 
@@ -780,6 +915,33 @@
             <div class="price-row"><span>İoz Racer GT</span><strong>1.500 ₺/sa</strong></div>
             <div class="price-row"><span>İoz Racer Elite</span><strong>3.000 ₺/sa</strong></div>
           </div>
+
+          <div class="store-section-head">
+            <svg class="i-18"><use href="#icon-arcade-mini"/></svg>
+            <span data-i18n="store.sectionArcade">İOZ Oyun Atarisi</span>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.investment">Yatırım</span><span data-i18n="price.amount">Tutar</span></div>
+            <div class="price-row"><span data-i18n="price.arcadeTable">Atari Dolabı</span><strong>3.750 ₺</strong></div>
+            <div class="price-row"><span data-i18n="price.arcadeConsole">İoz Atari Mini (ilk atari)</span><strong>4.500 ₺</strong></div>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.hwUpgrade">Donanım Yükseltmesi</span><span data-i18n="price.cost">Maliyet</span></div>
+            <div class="price-row"><span>Atari Mini → Atari Pro</span><strong>24.000 ₺</strong></div>
+            <div class="price-row"><span>Atari Pro → Atari Deluxe</span><strong>54.000 ₺</strong></div>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.dailyCost">Günlük gider</span><span data-i18n="price.amount">Tutar</span></div>
+            <div class="price-row"><span>İoz Atari Mini</span><strong class="neg">750 ₺</strong></div>
+            <div class="price-row"><span>İoz Atari Pro</span><strong class="neg">1.500 ₺</strong></div>
+            <div class="price-row"><span>İoz Atari Deluxe</span><strong class="neg">2.850 ₺</strong></div>
+          </div>
+          <div class="price-table">
+            <div class="price-row price-row-head"><span data-i18n="price.ceiling">Müşteri fiyat tavanı</span><span data-i18n="price.ceilingLimit">Üst sınır</span></div>
+            <div class="price-row"><span>İoz Atari Mini</span><strong>2.100 ₺/sa</strong></div>
+            <div class="price-row"><span>İoz Atari Pro</span><strong>4.500 ₺/sa</strong></div>
+            <div class="price-row"><span>İoz Atari Deluxe</span><strong>9.000 ₺/sa</strong></div>
+          </div>
         </div>
 
         <!-- TAB: achievements -->
@@ -807,21 +969,8 @@
           <a class="btn btn-block tiktok-follow-btn" href="https://www.tiktok.com/@iozgames" target="_blank" rel="noopener">
             <svg class="i-16"><use href="#icon-tiktok"/></svg> <span data-i18n="social.tiktok.open">TikTok'ta Aç</span>
           </a>
-          <button id="btn-tiktok-claim" class="btn btn-primary btn-block">300 ₺ Ödülünü Al</button>
-          <p class="settings-note" data-i18n="social.tiktok.note">Bizi takip et, ödülünü bir kereye mahsus oyun içinde alabilirsin.</p>
-
-          <div class="tiktok-card whatsapp-card">
-            <div class="tiktok-icon whatsapp-icon"><svg class="i-32"><use href="#icon-whatsapp"/></svg></div>
-            <div class="tiktok-info">
-              <div class="tiktok-title" data-i18n="social.whatsapp.title">İOZ Games Duyuru Kanalı</div>
-              <div class="tiktok-handle" data-i18n="social.whatsapp.handle">WhatsApp Kanalı</div>
-            </div>
-          </div>
-          <a class="btn btn-block whatsapp-follow-btn" href="https://whatsapp.com/channel/0029Vb82WyhDuMRYfuRRmc05" target="_blank" rel="noopener">
-            <svg class="i-16"><use href="#icon-whatsapp"/></svg> <span data-i18n="social.whatsapp.open">Kanala Katıl</span>
-          </a>
-          <button id="btn-whatsapp-claim" class="btn btn-primary btn-block">300 ₺ Ödülünü Al</button>
-          <p class="settings-note" data-i18n="social.whatsapp.note">Kanala katıl, ödülünü bir kereye mahsus oyun içinde alabilirsin.</p>
+          <button id="btn-tiktok-claim" class="btn btn-primary btn-block" disabled>300 ₺ Ödülünü Al</button>
+          <p class="settings-note" data-i18n="social.tiktok.note">Bizi takip et, uygulamaya geri dön ve ödülünü buradan al.</p>
 
           <div class="tiktok-card rate-us-card">
             <div class="tiktok-icon rate-us-icon"><svg class="i-32"><use href="#icon-star"/></svg></div>
@@ -830,8 +979,11 @@
               <div class="tiktok-handle" data-i18n="social.rateus.handle">Beğendiysen 5 yıldız bırak ⭐</div>
             </div>
           </div>
-          <button id="btn-rate-us" class="btn btn-primary btn-block">Değerlendir ve 200 ₺ Al</button>
-          <p class="settings-note" data-i18n="social.rateus.note">Play Store'u açar, değerlendirdikten sonra bir kereye mahsus ödülünü buradan alabilirsin.</p>
+          <a id="btn-rate-us-open" class="btn btn-block rate-us-open-btn" href="https://play.google.com/store/apps/details?id=com.iozgames.iozcafe" target="_blank" rel="noopener">
+            <svg class="i-16"><use href="#icon-star"/></svg> <span data-i18n="social.rateus.open">Play Store'da Değerlendir</span>
+          </a>
+          <button id="btn-rate-us-claim" class="btn btn-primary btn-block" disabled>200 ₺ Ödülünü Al</button>
+          <p class="settings-note" data-i18n="social.rateus.note">Değerlendir, uygulamaya geri dön ve ödülünü buradan al.</p>
         </div>
 
         <!-- TAB: app -->
