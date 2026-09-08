@@ -142,6 +142,22 @@
       "store.tabStaff": "Personel",
       "store.tabRebirth": "Rebirth",
       "store.tabUpgrade": "Dükkan Geliştir",
+      "store.tabCasino": "Kumarhane",
+      "casino.intro": "Dükkanına bir Blackjack masası kur — kısa molalarda oyna, günde 5 el hakkın var.",
+      "casino.open": "Blackjack Oyna",
+      "blackjack.title": "Blackjack",
+      "blackjack.playsLeft": "Bugün kalan el",
+      "blackjack.chooseBet": "Bahis miktarını seç ve eli aç.",
+      "blackjack.dealer": "Krupiye",
+      "blackjack.you": "Sen",
+      "blackjack.hit": "Kart Çek",
+      "blackjack.stand": "Dur",
+      "blackjack.playAgain": "Yeni El",
+      "blackjack.noPlaysLeft": "Bugünlük Hakkın Bitti",
+      "blackjack.resultWin": "Kazandın! +{amount} ₺",
+      "blackjack.resultBlackjack": "Blackjack! +{amount} ₺",
+      "blackjack.resultPush": "Berabere — bahsin iade edildi.",
+      "blackjack.resultLose": "Kaybettin. -{amount} ₺",
       "store.sectionVending": "Otomatlar",
       "store.sectionStaff": "Personel",
       "store.owned": "Alındı",
@@ -238,6 +254,11 @@
       "social.rewardClaimed": "Ödül Alındı ✓",
       "social.claimReward": "{amount} ₺ Ödülünü Al",
 
+      "app.soundTitle": "Ses Ayarları",
+      "app.musicLabel": "Arka Plan Müziği",
+      "app.sfxLabel": "Buton Sesleri",
+      "app.on": "Açık",
+      "app.off": "Kapalı",
       "app.legalNote": "Gizlilik Politikası ve Kullanım Şartları uygulama paketinin legal/ klasöründedir.",
       "app.dangerZone": "Tehlikeli Bölge",
       "app.resetBtn": "İşletmeyi Sıfırla",
@@ -279,6 +300,10 @@
       "vending.food.desc": "Saatte {rate} ₺ pasif gelir.",
       "vending.candy.name": "Tatlı Otomatı",
       "vending.candy.desc": "Saatte {rate} ₺ pasif gelir.",
+      "games.title": "Oyunlar",
+      "games.intro": "Bilgisayarlarına oyun yükle, her biri şubene kalıcı saatlik pasif gelir katsın.",
+      "games.rateDesc": "Saatte {rate} ₺ pasif gelir.",
+      "shopbar.games": "Oyunlar",
 
       "staff.cleaner.name": "Temizlikçi",
       "staff.cleaner.descHired": "Günlük {wage} ₺ maaş · dükkan puanını yükseltir.",
@@ -286,6 +311,8 @@
       "staff.fire": "Kovla",
 
       "vip.title": "VIP Üyelik",
+      "vip.buyShort": "VIP Satın Al",
+      "vip.memberShort": "VIP Üyesin ✓",
       "vip.heroTitle": "İşletmeni VIP Yap",
       "vip.benefit1": "Tüm kazançların 2 katına çıkar",
       "vip.benefit2": "Gün sonu reklamları tamamen kalkar",
@@ -314,11 +341,18 @@
       "bulk.apply": "Uygula",
       "bulk.applied": "{name} ({count} adet) fiyatı güncellendi",
       "shopbar.prices": "Fiyatlar",
+      "shopbar.newBranch": "Yeni Şube Aç",
+      "shopbar.goBranch2": "2. Şubeye Geç",
+      "shopbar.goBranch1": "1. Şubeye Geç",
+      "branch.openTitle": "Yeni Şube Aç",
+      "branch.openText": "1.000.000 ₺'ye ikinci bir şube açacaksın. Yeni şube sıfırdan başlayacak — aynı masa/bilgisayar/araba/atari düzeni ama tüm maliyetler 6 kat, tüm kazançların 3 katı olacak. Kasa bakiyeniz iki şubede de ortak kalır.",
+      "branch.openConfirm": "Şubeyi Aç",
 
       "toast.notEnoughMoney": "Yetersiz bütçe",
       "toast.stationFilledMeanwhile": "Masa {n} bu arada doldu",
       "toast.adBonusQuick": "+{amount} ₺ reklam bonusu!",
       "toast.adPcClaimed": "Yeni bir VIP bilgisayar kazandın!",
+      "toast.newBranchOpened": "Yeni şubeni açtın! Sıfırdan büyümeye başla.",
       "toast.adBonusDay": "Reklam bonusu: +{amount} ₺",
       "toast.priceTooHighCustomerLeft": "Fiyat çok yüksek, bekleyen müşteri gitti",
       "toast.maxTablesReached": "Maksimum masa sayısına ulaşıldı",
@@ -506,6 +540,22 @@
       "store.tabStaff": "Staff",
       "store.tabRebirth": "Rebirth",
       "store.tabUpgrade": "Upgrade Shop",
+      "store.tabCasino": "Casino",
+      "casino.intro": "Set up a Blackjack table in your shop — play quick rounds, 5 hands a day.",
+      "casino.open": "Play Blackjack",
+      "blackjack.title": "Blackjack",
+      "blackjack.playsLeft": "Hands left today",
+      "blackjack.chooseBet": "Choose your bet and deal the hand.",
+      "blackjack.dealer": "Dealer",
+      "blackjack.you": "You",
+      "blackjack.hit": "Hit",
+      "blackjack.stand": "Stand",
+      "blackjack.playAgain": "New Hand",
+      "blackjack.noPlaysLeft": "No Hands Left Today",
+      "blackjack.resultWin": "You won! +{amount} ₺",
+      "blackjack.resultBlackjack": "Blackjack! +{amount} ₺",
+      "blackjack.resultPush": "Push — your bet was returned.",
+      "blackjack.resultLose": "You lost. -{amount} ₺",
       "store.sectionVending": "Vending Machines",
       "store.sectionStaff": "Staff",
       "store.owned": "Owned",
@@ -602,6 +652,11 @@
       "social.rewardClaimed": "Reward Claimed ✓",
       "social.claimReward": "Claim {amount} ₺ Reward",
 
+      "app.soundTitle": "Sound Settings",
+      "app.musicLabel": "Background Music",
+      "app.sfxLabel": "Button Sounds",
+      "app.on": "On",
+      "app.off": "Off",
       "app.legalNote": "The Privacy Policy and Terms of Use are in the legal/ folder of the app package.",
       "app.dangerZone": "Danger Zone",
       "app.resetBtn": "Reset Business",
@@ -643,6 +698,10 @@
       "vending.food.desc": "{rate} ₺ passive income per hour.",
       "vending.candy.name": "Candy Vending Machine",
       "vending.candy.desc": "{rate} ₺ passive income per hour.",
+      "games.title": "Games",
+      "games.intro": "Install games on your computers — each one adds permanent hourly passive income to this branch.",
+      "games.rateDesc": "{rate} ₺ passive income per hour.",
+      "shopbar.games": "Games",
 
       "staff.cleaner.name": "Cleaner",
       "staff.cleaner.descHired": "{wage} ₺ daily wage · boosts your cafe rating.",
@@ -650,6 +709,8 @@
       "staff.fire": "Let Go",
 
       "vip.title": "VIP Membership",
+      "vip.buyShort": "Buy VIP",
+      "vip.memberShort": "VIP Member ✓",
       "vip.heroTitle": "Make Your Business VIP",
       "vip.benefit1": "Doubles all your earnings",
       "vip.benefit2": "Removes the end-of-day ad entirely",
@@ -678,11 +739,18 @@
       "bulk.apply": "Apply",
       "bulk.applied": "{name} ({count} units) price updated",
       "shopbar.prices": "Prices",
+      "shopbar.newBranch": "Open New Branch",
+      "shopbar.goBranch2": "Go to Branch 2",
+      "shopbar.goBranch1": "Go to Branch 1",
+      "branch.openTitle": "Open New Branch",
+      "branch.openText": "You'll open a second branch for 1,000,000 ₺. The new branch starts from scratch — same PC/PS/Car/Arcade lineup, but all costs are 6x and all earnings are 3x. Your cash balance stays shared between both branches.",
+      "branch.openConfirm": "Open the Branch",
 
       "toast.notEnoughMoney": "Not enough budget",
       "toast.stationFilledMeanwhile": "Table {n} got filled in the meantime",
       "toast.adBonusQuick": "+{amount} ₺ ad bonus!",
       "toast.adPcClaimed": "You earned a new VIP computer!",
+      "toast.newBranchOpened": "You opened a new branch! Start growing from scratch.",
       "toast.adBonusDay": "Ad bonus: +{amount} ₺",
       "toast.priceTooHighCustomerLeft": "Price too high, the waiting customer left",
       "toast.maxTablesReached": "Maximum number of tables reached",
@@ -864,7 +932,7 @@
     { id: "gpu", name: "Ekran Kartı Yükseltmesi", desc: "En yeni oyunlar bile ultra ayarda tam performans.", cost: 150000, bonusPct: 0.25 },
     { id: "cooling", name: "Sıvı Soğutma Sistemi", desc: "Sistem hiç ısınmaz, performans hep zirvede kalır.", cost: 45000, bonusPct: 0.10 }
   ];
-  function pcPartsCost(part) { return Math.round(part.cost * shopTierMultiplier()); }
+  function pcPartsCost(part) { return Math.round(part.cost * shopTierMultiplier() * branchCostMultiplier()); }
   function partsMultiplier(s) {
     if (!s || !s.parts) return 1;
     var m = 1;
@@ -1248,16 +1316,16 @@
     return stations;
   }
 
-  function freshState() {
+  // İkinci Şube: everything that belongs to ONE physical location — floor,
+  // day/clock, requests, that branch's own store upgrades, vending, staff,
+  // rating. Money, rebirths, Dükkan Geliştir tier, XP/level, achievements,
+  // VIP and social-reward claims are account-wide and live outside this.
+  function freshBranchLocalState() {
     return {
-      cafeName: "",
-      money: START_MONEY,
       stations: freshStations(),
-      totalCustomers: 0,
       day: 1,
       clockMin: DAY_OPEN_MIN,
       dayOver: false,
-      bankrupt: false,
       requests: [],
       nextRequestAtMin: DAY_OPEN_MIN + 4,
       reqSeq: 1,
@@ -1267,6 +1335,23 @@
         fiberInternet: false, airCon: false, vipProgram: false, loyaltyCard: false,
         generator: false, adCampaign: false, security: false, onlineReservation: false
       },
+      vending: { drink: false, food: false, candy: false },
+      vendingAccrued: 0,
+      staff: { cleaner: false },
+      rating: 7.0,
+      adBonusUsesToday: 0,
+      games: freshGamesFlags(),
+      gamesAccrued: 0,
+      blackjackPlaysToday: 0
+    };
+  }
+
+  function freshState() {
+    var s = {
+      cafeName: "",
+      money: START_MONEY,
+      totalCustomers: 0,
+      bankrupt: false,
       rebirths: 0,
       shopTier: 0,
       tiktokClaimed: false,
@@ -1275,20 +1360,136 @@
       level: 1,
       achievements: {},
       flawlessDayAchieved: false,
-      vending: { drink: false, food: false, candy: false },
-      vendingAccrued: 0,
-      staff: { cleaner: false },
-      rating: 7.0,
       rateUsClaimed: false,
-      adBonusUsesToday: 0,
       vip: false,
       dailyStreak: 0,
-      lastLoginDate: null
+      lastLoginDate: null,
+      branch: 1,
+      branch2Unlocked: false,
+      otherBranch: null
     };
+    var local = freshBranchLocalState();
+    for (var k in local) s[k] = local[k];
+    return s;
   }
 
   function save() {
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
+  }
+
+  // Pulled out of load() so the exact same healing logic can run on
+  // whichever branch's station array needs it — branch 1's (parsed.stations)
+  // and, once İkinci Şube exists, the parked branch's too.
+  function migrateStationsArray(stations) {
+    var pcStations = stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc; });
+    var adPcStations = stations.filter(function (s) { return s.isAdPc; });
+    var psStations = stations.filter(function (s) { return s.isPS; });
+    var carStations = stations.filter(function (s) { return s.isCar; });
+    var arcadeStations = stations.filter(function (s) { return s.isArcade; });
+    while (pcStations.length < MAX_STATIONS) {
+      pcStations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0, rate: DEFAULT_RATE,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0, parts: {}
+      });
+    }
+    pcStations.forEach(function (s) { if (!s.parts) s.parts = {}; });
+    while (adPcStations.length < AD_PC_STATION_COUNT) {
+      adPcStations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0, rate: DEFAULT_RATE,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0, parts: {}, isAdPc: true
+      });
+    }
+    adPcStations.forEach(function (s) { if (!s.parts) s.parts = {}; });
+    while (psStations.length < PS_STATION_COUNT) {
+      psStations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0, rate: PS_LEVELS[1].defaultRate,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0, isPS: true
+      });
+    }
+    while (carStations.length < CAR_STATION_COUNT) {
+      carStations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0, rate: CAR_LEVELS[1].defaultRate,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0, isCar: true
+      });
+    }
+    while (arcadeStations.length < ARCADE_STATION_COUNT) {
+      arcadeStations.push({
+        hasTable: false, hasComputer: false, computerLevel: 0, rate: ARCADE_LEVELS[1].defaultRate,
+        occupied: false, customerName: "", hoursBooked: 0,
+        sessionStartMin: 0, sessionEndMin: 0, payout: 0, isArcade: true
+      });
+    }
+    var merged = pcStations.slice(0, MAX_STATIONS)
+      .concat(adPcStations.slice(0, AD_PC_STATION_COUNT))
+      .concat(psStations.slice(0, PS_STATION_COUNT))
+      .concat(carStations.slice(0, CAR_STATION_COUNT))
+      .concat(arcadeStations.slice(0, ARCADE_STATION_COUNT));
+    if (merged.length !== MAX_STATIONS + AD_PC_STATION_COUNT + PS_STATION_COUNT + CAR_STATION_COUNT + ARCADE_STATION_COUNT) return null;
+    merged.forEach(function (s) {
+      if (typeof s.computerLevel !== "number") s.computerLevel = s.hasComputer ? 1 : 0;
+      if (typeof s.rate !== "number") {
+        s.rate = s.hasComputer ? levelsFor(s)[s.computerLevel].defaultRate : DEFAULT_RATE;
+      }
+      if (s.occupied) {
+        if (typeof s.agreedRate !== "number" || !s.agreedRate) s.agreedRate = s.rate;
+        if (typeof s.payout !== "number" || !s.payout) {
+          s.payout = Math.round((s.hoursBooked || 1) * s.agreedRate);
+        }
+      } else {
+        s.occupied = false; s.customerName = ""; s.hoursBooked = 0;
+        s.sessionStartMin = 0; s.sessionEndMin = 0; s.payout = 0; s.agreedRate = 0;
+      }
+    });
+    return merged;
+  }
+
+  function healShopFlags(shop) {
+    if (!shop) shop = {};
+    if (typeof shop.fastServe !== "boolean") shop.fastServe = false;
+    if (typeof shop.revenueBoost !== "boolean") shop.revenueBoost = false;
+    if (typeof shop.customerBoost !== "boolean") shop.customerBoost = false;
+    if (typeof shop.autoAccept !== "boolean") shop.autoAccept = false;
+    if (typeof shop.fiberInternet !== "boolean") shop.fiberInternet = false;
+    if (typeof shop.airCon !== "boolean") shop.airCon = false;
+    if (typeof shop.vipProgram !== "boolean") shop.vipProgram = false;
+    if (typeof shop.loyaltyCard !== "boolean") shop.loyaltyCard = false;
+    if (typeof shop.generator !== "boolean") shop.generator = false;
+    if (typeof shop.adCampaign !== "boolean") shop.adCampaign = false;
+    if (typeof shop.security !== "boolean") shop.security = false;
+    if (typeof shop.onlineReservation !== "boolean") shop.onlineReservation = false;
+    return shop;
+  }
+
+  function healBranchLocal(b) {
+    if (!b) return null;
+    var fixedStations = migrateStationsArray(b.stations || []);
+    if (!fixedStations) return null;
+    b.stations = fixedStations;
+    if (typeof b.day !== "number") b.day = 1;
+    if (typeof b.clockMin !== "number") b.clockMin = DAY_OPEN_MIN;
+    if (typeof b.dayOver !== "boolean") b.dayOver = false;
+    if (!Array.isArray(b.requests)) b.requests = [];
+    if (typeof b.nextRequestAtMin !== "number") b.nextRequestAtMin = b.clockMin + 4;
+    if (typeof b.reqSeq !== "number") b.reqSeq = 1;
+    if (!b.today) b.today = { served: 0, revenue: 0, lost: 0 };
+    b.shop = healShopFlags(b.shop);
+    if (!b.vending) b.vending = { drink: false, food: false, candy: false };
+    if (typeof b.vending.drink !== "boolean") b.vending.drink = false;
+    if (typeof b.vending.food !== "boolean") b.vending.food = false;
+    if (typeof b.vending.candy !== "boolean") b.vending.candy = false;
+    if (typeof b.vendingAccrued !== "number") b.vendingAccrued = 0;
+    if (!b.staff) b.staff = { cleaner: false };
+    if (typeof b.staff.cleaner !== "boolean") b.staff.cleaner = false;
+    if (typeof b.rating !== "number") b.rating = 7.0;
+    if (typeof b.adBonusUsesToday !== "number") b.adBonusUsesToday = 0;
+    b.games = healGamesFlags(b.games);
+    if (typeof b.gamesAccrued !== "number") b.gamesAccrued = 0;
+    if (typeof b.blackjackPlaysToday !== "number") b.blackjackPlaysToday = 0;
+    return b;
   }
 
   function load() {
@@ -1316,54 +1517,8 @@
       // independently. A save from any past version heals itself here with
       // zero lost progress, and this needs no further edits if any number
       // changes again later.
-      var pcStations = parsed.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc; });
-      var adPcStations = parsed.stations.filter(function (s) { return s.isAdPc; });
-      var psStations = parsed.stations.filter(function (s) { return s.isPS; });
-      var carStations = parsed.stations.filter(function (s) { return s.isCar; });
-      var arcadeStations = parsed.stations.filter(function (s) { return s.isArcade; });
-      while (pcStations.length < MAX_STATIONS) {
-        pcStations.push({
-          hasTable: false, hasComputer: false, computerLevel: 0, rate: DEFAULT_RATE,
-          occupied: false, customerName: "", hoursBooked: 0,
-          sessionStartMin: 0, sessionEndMin: 0, payout: 0, parts: {}
-        });
-      }
-      pcStations.forEach(function (s) { if (!s.parts) s.parts = {}; });
-      while (adPcStations.length < AD_PC_STATION_COUNT) {
-        adPcStations.push({
-          hasTable: false, hasComputer: false, computerLevel: 0, rate: DEFAULT_RATE,
-          occupied: false, customerName: "", hoursBooked: 0,
-          sessionStartMin: 0, sessionEndMin: 0, payout: 0, parts: {}, isAdPc: true
-        });
-      }
-      adPcStations.forEach(function (s) { if (!s.parts) s.parts = {}; });
-      while (psStations.length < PS_STATION_COUNT) {
-        psStations.push({
-          hasTable: false, hasComputer: false, computerLevel: 0, rate: PS_LEVELS[1].defaultRate,
-          occupied: false, customerName: "", hoursBooked: 0,
-          sessionStartMin: 0, sessionEndMin: 0, payout: 0, isPS: true
-        });
-      }
-      while (carStations.length < CAR_STATION_COUNT) {
-        carStations.push({
-          hasTable: false, hasComputer: false, computerLevel: 0, rate: CAR_LEVELS[1].defaultRate,
-          occupied: false, customerName: "", hoursBooked: 0,
-          sessionStartMin: 0, sessionEndMin: 0, payout: 0, isCar: true
-        });
-      }
-      while (arcadeStations.length < ARCADE_STATION_COUNT) {
-        arcadeStations.push({
-          hasTable: false, hasComputer: false, computerLevel: 0, rate: ARCADE_LEVELS[1].defaultRate,
-          occupied: false, customerName: "", hoursBooked: 0,
-          sessionStartMin: 0, sessionEndMin: 0, payout: 0, isArcade: true
-        });
-      }
-      parsed.stations = pcStations.slice(0, MAX_STATIONS)
-        .concat(adPcStations.slice(0, AD_PC_STATION_COUNT))
-        .concat(psStations.slice(0, PS_STATION_COUNT))
-        .concat(carStations.slice(0, CAR_STATION_COUNT))
-        .concat(arcadeStations.slice(0, ARCADE_STATION_COUNT));
-      if (parsed.stations.length !== MAX_STATIONS + AD_PC_STATION_COUNT + PS_STATION_COUNT + CAR_STATION_COUNT + ARCADE_STATION_COUNT) return null;
+      parsed.stations = migrateStationsArray(parsed.stations);
+      if (!parsed.stations) return null;
 
       // Fill in anything a older/partial save is missing so we never crash
       // on a field that didn't exist in a previous version.
@@ -1373,19 +1528,7 @@
       if (!parsed.today) parsed.today = { served: 0, revenue: 0, lost: 0 };
       if (!Array.isArray(parsed.requests)) parsed.requests = [];
       if (typeof parsed.nextRequestAtMin !== "number") parsed.nextRequestAtMin = parsed.clockMin + 4;
-      if (!parsed.shop) parsed.shop = { fastServe: false, revenueBoost: false, customerBoost: false, autoAccept: false };
-      if (typeof parsed.shop.fastServe !== "boolean") parsed.shop.fastServe = false;
-      if (typeof parsed.shop.revenueBoost !== "boolean") parsed.shop.revenueBoost = false;
-      if (typeof parsed.shop.customerBoost !== "boolean") parsed.shop.customerBoost = false;
-      if (typeof parsed.shop.autoAccept !== "boolean") parsed.shop.autoAccept = false;
-      if (typeof parsed.shop.fiberInternet !== "boolean") parsed.shop.fiberInternet = false;
-      if (typeof parsed.shop.airCon !== "boolean") parsed.shop.airCon = false;
-      if (typeof parsed.shop.vipProgram !== "boolean") parsed.shop.vipProgram = false;
-      if (typeof parsed.shop.loyaltyCard !== "boolean") parsed.shop.loyaltyCard = false;
-      if (typeof parsed.shop.generator !== "boolean") parsed.shop.generator = false;
-      if (typeof parsed.shop.adCampaign !== "boolean") parsed.shop.adCampaign = false;
-      if (typeof parsed.shop.security !== "boolean") parsed.shop.security = false;
-      if (typeof parsed.shop.onlineReservation !== "boolean") parsed.shop.onlineReservation = false;
+      parsed.shop = healShopFlags(parsed.shop);
       if (typeof parsed.rebirths !== "number") parsed.rebirths = 0;
       if (typeof parsed.shopTier !== "number") parsed.shopTier = 0;
       if (typeof parsed.tiktokClaimed !== "boolean") parsed.tiktokClaimed = false;
@@ -1404,28 +1547,24 @@
       if (typeof parsed.rating !== "number") parsed.rating = 7.0;
       if (typeof parsed.rateUsClaimed !== "boolean") parsed.rateUsClaimed = false;
       if (typeof parsed.adBonusUsesToday !== "number") parsed.adBonusUsesToday = 0;
+      parsed.games = healGamesFlags(parsed.games);
+      if (typeof parsed.gamesAccrued !== "number") parsed.gamesAccrued = 0;
+      if (typeof parsed.blackjackPlaysToday !== "number") parsed.blackjackPlaysToday = 0;
       if (typeof parsed.vip !== "boolean") parsed.vip = false;
       if (typeof parsed.dailyStreak !== "number") parsed.dailyStreak = 0;
       if (typeof parsed.lastLoginDate !== "string") parsed.lastLoginDate = null;
-
-      parsed.stations.forEach(function (s) {
-        if (typeof s.computerLevel !== "number") s.computerLevel = s.hasComputer ? 1 : 0;
-        if (typeof s.rate !== "number") {
-          s.rate = s.hasComputer ? levelsFor(s)[s.computerLevel].defaultRate : DEFAULT_RATE;
-        }
-        // FIX: a seated customer used to be wiped on reload, silently
-        // destroying money the player had already earned. The session is
-        // stored in in-game clock terms, so it can simply resume.
-        if (s.occupied) {
-          if (typeof s.agreedRate !== "number" || !s.agreedRate) s.agreedRate = s.rate;
-          if (typeof s.payout !== "number" || !s.payout) {
-            s.payout = Math.round((s.hoursBooked || 1) * s.agreedRate);
-          }
-        } else {
-          s.occupied = false; s.customerName = ""; s.hoursBooked = 0;
-          s.sessionStartMin = 0; s.sessionEndMin = 0; s.payout = 0; s.agreedRate = 0;
-        }
-      });
+      // İkinci Şube: older saves simply don't have these yet.
+      if (parsed.branch !== 1 && parsed.branch !== 2) parsed.branch = 1;
+      if (typeof parsed.branch2Unlocked !== "boolean") parsed.branch2Unlocked = false;
+      if (parsed.branch2Unlocked && parsed.otherBranch) {
+        parsed.otherBranch = healBranchLocal(parsed.otherBranch);
+        // If the parked branch somehow can't be healed, safest fallback is
+        // to treat the branch feature as not-yet-purchased rather than risk
+        // a broken parked state — nothing about branch 1 is affected.
+        if (!parsed.otherBranch) { parsed.branch2Unlocked = false; parsed.branch = 1; }
+      } else {
+        parsed.otherBranch = null;
+      }
 
       // Pending requests are stale on reload; start the day's queue clean.
       parsed.requests = [];
@@ -1535,7 +1674,6 @@
   var btnTiktokClaim = $("btn-tiktok-claim");
   var vipBadge = $("vip-badge");
   var btnOpenVip = $("btn-open-vip");
-  var btnOpenShopUpgrade = $("btn-open-shop-upgrade");
   var modalVip = $("modal-vip");
   var btnCloseVip = $("btn-close-vip");
   var btnBuyVip = $("btn-buy-vip");
@@ -1602,20 +1740,58 @@
   var SHOP_UPGRADE_COST = 300000;
   var SHOP_TIER_MULTIPLIER = 3.5;
   function shopTierMultiplier() { return (state && state.shopTier) ? SHOP_TIER_MULTIPLIER : 1; }
-  function tableCost() { return Math.round(TABLE_COST * shopTierMultiplier()); }
-  function computerCost() { return Math.round(COMPUTER_COST * shopTierMultiplier()); }
-  function psTableCost() { return Math.round(PS_TABLE_COST * shopTierMultiplier()); }
-  function psConsoleCost() { return Math.round(PS_CONSOLE_COST * shopTierMultiplier()); }
-  function carTableCost() { return Math.round(CAR_TABLE_COST * shopTierMultiplier()); }
-  function carConsoleCost() { return Math.round(CAR_CONSOLE_COST * shopTierMultiplier()); }
-  function arcadeTableCost() { return Math.round(ARCADE_TABLE_COST * shopTierMultiplier()); }
-  function arcadeConsoleCost() { return Math.round(ARCADE_CONSOLE_COST * shopTierMultiplier()); }
-  function upgradeCostFor(lvl) { return lvl.upgradeCost ? Math.round(lvl.upgradeCost * shopTierMultiplier()) : lvl.upgradeCost; }
+  // İkinci Şube: an entirely separate, parked floor/store you switch into.
+  // Every cost in it is 6x branch 1's; every bit of income from it is 3x.
+  // Stacks with (multiplies alongside) shopTierMultiplier/rebirthMultiplier/
+  // vipMultiplier — a maxed-out branch-2 station is meant to dwarf branch 1.
+  var NEW_BRANCH_COST = 1000000;
+  var BRANCH2_COST_MULTIPLIER = 6;
+  var BRANCH2_INCOME_MULTIPLIER = 3;
+  function branchCostMultiplier() { return (state && state.branch === 2) ? BRANCH2_COST_MULTIPLIER : 1; }
+  function branchIncomeMultiplier() { return (state && state.branch === 2) ? BRANCH2_INCOME_MULTIPLIER : 1; }
+  var PER_BRANCH_KEYS = [
+    "stations", "day", "clockMin", "dayOver", "requests", "nextRequestAtMin",
+    "reqSeq", "today", "shop", "vending", "vendingAccrued", "staff",
+    "rating", "adBonusUsesToday", "games", "gamesAccrued", "blackjackPlaysToday"
+  ];
+  // ---- Oyun Satın Alma: telifsiz/parodi isimli "oyunlar", her biri bir
+  // kereye mahsus satın alınıp o şubeye kalıcı saatlik pasif gelir ekler —
+  // otomatlarla birebir aynı mekanik (aynı çarpan zinciriyle hesaplanır).
+  // Her şubenin oyun kütüphanesi ayrıdır (state.games, PER_BRANCH_KEYS'te).
+  var GAMES_CATALOG = [
+    { id: "gte5", name: "Gte 5", genre: "Açık Dünya", cost: 10000, ratePerHour: 150, icon: "icon-game-openworld" },
+    { id: "monacraft", name: "Monacraft", genre: "Hayatta Kalma", cost: 25000, ratePerHour: 350, icon: "icon-game-survival" },
+    { id: "roblex", name: "Roblex", genre: "Yapım", cost: 45000, ratePerHour: 600, icon: "icon-game-build" },
+    { id: "pugmobile", name: "Pug Mobile", genre: "Hayatta Kalma", cost: 70000, ratePerHour: 900, icon: "icon-game-survival" },
+    { id: "pas2027", name: "PAS 2027", genre: "Futbol", cost: 100000, ratePerHour: 1300, icon: "icon-game-football" },
+    { id: "fofa2027", name: "FOFA 2027", genre: "Futbol", cost: 130000, ratePerHour: 1700, icon: "icon-game-football" },
+    { id: "volirant", name: "Volirant", genre: "Keskin Nişancı", cost: 160000, ratePerHour: 2100, icon: "icon-game-fps" },
+    { id: "efsaneligi", name: "Efsane Ligi", genre: "Strateji", cost: 200000, ratePerHour: 2600, icon: "icon-game-strategy" }
+  ];
+  function freshGamesFlags() {
+    var g = {};
+    GAMES_CATALOG.forEach(function (game) { g[game.id] = false; });
+    return g;
+  }
+  function healGamesFlags(games) {
+    if (!games) games = {};
+    GAMES_CATALOG.forEach(function (game) { if (typeof games[game.id] !== "boolean") games[game.id] = false; });
+    return games;
+  }
+  function tableCost() { return Math.round(TABLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function computerCost() { return Math.round(COMPUTER_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function psTableCost() { return Math.round(PS_TABLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function psConsoleCost() { return Math.round(PS_CONSOLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function carTableCost() { return Math.round(CAR_TABLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function carConsoleCost() { return Math.round(CAR_CONSOLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function arcadeTableCost() { return Math.round(ARCADE_TABLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function arcadeConsoleCost() { return Math.round(ARCADE_CONSOLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
+  function upgradeCostFor(lvl) { return lvl.upgradeCost ? Math.round(lvl.upgradeCost * shopTierMultiplier() * branchCostMultiplier()) : lvl.upgradeCost; }
 
   function dailyRunningCost() {
-    var total = DAILY_BASE_COST * shopTierMultiplier();
+    var total = DAILY_BASE_COST * shopTierMultiplier() * branchCostMultiplier();
     state.stations.forEach(function (s) {
-      if (s.hasComputer) total += (levelsFor(s)[s.computerLevel].dailyCost || 0) * shopTierMultiplier();
+      if (s.hasComputer) total += (levelsFor(s)[s.computerLevel].dailyCost || 0) * shopTierMultiplier() * branchCostMultiplier();
     });
     if (state.vending.drink) total += VENDING_DRINK_DAILY_COST;
     if (state.vending.food) total += VENDING_FOOD_DAILY_COST;
@@ -1634,6 +1810,159 @@
   }
 
   // ---------------------------------------------------------------- loading (4s)
+  // ---------------------------------------------------------------- ses motoru
+  // Tamamen kod içinde üretilen (Web Audio API osilatörleriyle sentezlenen),
+  // dışarıdan hiçbir ses dosyası yüklenmeyen — dolayısıyla %100 telifsiz —
+  // arka plan müziği ve buton tıklama efekti. Tarayıcıların "kullanıcı
+  // etkileşimi olmadan ses çalamaz" kuralına uymak için AudioContext ilk
+  // dokunuşta oluşturulur. Ayarlar > Uygulama sekmesinden açılıp kapanabilir,
+  // tercih cihazda saklanır.
+  var SoundEngine = (function () {
+    var ctx = null;
+    var musicEnabled = true;
+    var sfxEnabled = true;
+    var musicPlaying = false;
+    var musicTimer = null;
+    var masterGain = null;
+
+    try {
+      var savedMusic = localStorage.getItem("netcafe_music_on");
+      var savedSfx = localStorage.getItem("netcafe_sfx_on");
+      if (savedMusic !== null) musicEnabled = savedMusic === "1";
+      if (savedSfx !== null) sfxEnabled = savedSfx === "1";
+    } catch (e) { /* ignore */ }
+
+    function ensureCtx() {
+      if (ctx) return ctx;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      ctx = new AC();
+      masterGain = ctx.createGain();
+      masterGain.gain.value = 1;
+      masterGain.connect(ctx.destination);
+      return ctx;
+    }
+
+    // Yumuşak, sakin bir pentatonik arpej döngüsü — bir internet cafe'nin
+    // sakin çalışma ortamına uygun, uzun süre çalınca yormayan bir ton.
+    var MELODY = [0, 3, 5, 7, 10, 7, 5, 3, 0, 5, 7, 12, 10, 7, 5, 3];
+    var BASE_FREQ = 196.0; // G3
+    var SCALE_STEPS = [0, 2, 3, 5, 7, 9, 10, 12]; // minor pentatonic-ish, extended
+
+    function noteFreq(step) {
+      var octaveShift = Math.floor(step / SCALE_STEPS.length);
+      var idx = ((step % SCALE_STEPS.length) + SCALE_STEPS.length) % SCALE_STEPS.length;
+      var semitones = SCALE_STEPS[idx] + octaveShift * 12;
+      return BASE_FREQ * Math.pow(2, semitones / 12);
+    }
+
+    function playMusicStep(i) {
+      if (!musicPlaying || !musicEnabled) return;
+      var c = ensureCtx();
+      if (!c) return;
+      var freq = noteFreq(MELODY[i % MELODY.length]);
+      var t = c.currentTime;
+      var osc = c.createOscillator();
+      var gain = c.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.05, t + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+      osc.connect(gain);
+      gain.connect(masterGain);
+      osc.start(t);
+      osc.stop(t + 0.7);
+      // hafif bir alt oktav pad katmanı, sese biraz sıcaklık katar
+      var osc2 = c.createOscillator();
+      var gain2 = c.createGain();
+      osc2.type = "triangle";
+      osc2.frequency.value = freq / 2;
+      gain2.gain.setValueAtTime(0, t);
+      gain2.gain.linearRampToValueAtTime(0.025, t + 0.1);
+      gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.75);
+      osc2.connect(gain2);
+      gain2.connect(masterGain);
+      osc2.start(t);
+      osc2.stop(t + 0.8);
+
+      musicTimer = setTimeout(function () { playMusicStep(i + 1); }, 420);
+    }
+
+    function startMusic() {
+      if (musicPlaying || !musicEnabled) return;
+      var c = ensureCtx();
+      if (!c) return;
+      if (c.state === "suspended") c.resume();
+      musicPlaying = true;
+      playMusicStep(0);
+    }
+    function stopMusic() {
+      musicPlaying = false;
+      if (musicTimer) { clearTimeout(musicTimer); musicTimer = null; }
+    }
+
+    function click() {
+      if (!sfxEnabled) return;
+      var c = ensureCtx();
+      if (!c) return;
+      if (c.state === "suspended") c.resume();
+      var t = c.currentTime;
+      var osc = c.createOscillator();
+      var gain = c.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(720, t);
+      osc.frequency.exponentialRampToValueAtTime(340, t + 0.07);
+      gain.gain.setValueAtTime(0.045, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+      osc.connect(gain);
+      gain.connect(masterGain || ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.09);
+    }
+
+    function setMusicEnabled(v) {
+      musicEnabled = !!v;
+      try { localStorage.setItem("netcafe_music_on", musicEnabled ? "1" : "0"); } catch (e) {}
+      if (musicEnabled) startMusic(); else stopMusic();
+    }
+    function setSfxEnabled(v) {
+      sfxEnabled = !!v;
+      try { localStorage.setItem("netcafe_sfx_on", sfxEnabled ? "1" : "0"); } catch (e) {}
+    }
+
+    // İlk kullanıcı dokunuşunda sesi başlat (tarayıcı kuralı gereği).
+    var armed = false;
+    function armOnFirstTouch() {
+      if (armed) return;
+      armed = true;
+      ensureCtx();
+      if (musicEnabled) startMusic();
+      document.removeEventListener("pointerdown", armOnFirstTouch);
+    }
+    document.addEventListener("pointerdown", armOnFirstTouch, { once: true });
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stopMusic();
+      else if (musicEnabled) startMusic();
+    });
+
+    return {
+      click: click,
+      isMusicEnabled: function () { return musicEnabled; },
+      isSfxEnabled: function () { return sfxEnabled; },
+      setMusicEnabled: setMusicEnabled,
+      setSfxEnabled: setSfxEnabled
+    };
+  })();
+
+  // Her buton tıklamasında hafif bir "tık" sesi — tek bir delege dinleyici,
+  // her butona ayrı ayrı bağlanmaya gerek yok.
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest("button, .shop-tab, .settings-tab, .store-tab");
+    if (btn && !btn.disabled) SoundEngine.click();
+  });
+
   (function runLoader() {
     var duration = 4000;
     var startedAt = Date.now();
@@ -1785,6 +2114,11 @@
     statCustomers.textContent = state.totalCustomers;
     statToday.textContent = fmtMoney(state.today.revenue) + " ₺";
     if (vipBadge) vipBadge.hidden = !state.vip;
+    if (btnOpenVip) {
+      var vipBtnLabel = btnOpenVip.querySelector("span");
+      if (vipBtnLabel) vipBtnLabel.textContent = state.vip ? t("vip.memberShort") : t("vip.buyShort");
+    }
+    renderBranchButton();
 
     var tables = countHasTable();
     var computers = countHasComputer();
@@ -2137,7 +2471,7 @@
         if (state.vending.drink) perMin += VENDING_DRINK_RATE_PER_HOUR / 60;
         if (state.vending.food) perMin += VENDING_FOOD_RATE_PER_HOUR / 60;
         if (state.vending.candy) perMin += VENDING_CANDY_RATE_PER_HOUR / 60;
-        perMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier();
+        perMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * branchIncomeMultiplier();
         state.vendingAccrued += perMin * step;
         var whole = Math.floor(state.vendingAccrued);
         if (whole > 0) {
@@ -2147,13 +2481,32 @@
         }
       }
 
+      // oyunlar: otomatlarla birebir aynı pasif-gelir mekaniği, ayrı bir
+      // biriktirme havuzunda (state.gamesAccrued) tutulur.
+      if (state.games) {
+        var gamesPerMin = 0;
+        GAMES_CATALOG.forEach(function (game) {
+          if (state.games[game.id]) gamesPerMin += game.ratePerHour / 60;
+        });
+        if (gamesPerMin > 0) {
+          gamesPerMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * branchIncomeMultiplier();
+          state.gamesAccrued += gamesPerMin * step;
+          var gamesWhole = Math.floor(state.gamesAccrued);
+          if (gamesWhole > 0) {
+            state.gamesAccrued -= gamesWhole;
+            state.money += gamesWhole;
+            state.today.revenue += gamesWhole;
+          }
+        }
+      }
+
       // finish any completed sessions
       state.stations.forEach(function (s, idx) {
         if (!s.occupied) return;
         if (state.clockMin >= s.sessionEndMin) {
           // "Gelir Artışı" dükkan ürünü (+%20) ve Yeniden Doğuş kalıcı
           // bonusu (+%15/doğuş) net kazanca birlikte uygulanır.
-          var earned = s.payout * (state.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s);
+          var earned = s.payout * (state.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * branchIncomeMultiplier();
           earned = Math.round(earned);
           state.money += earned;
           state.today.revenue += earned;
@@ -2219,7 +2572,7 @@
       var rate = s.agreedRate || s.rate;
       var partial = Math.round(usedHours * rate);
       if (state.shop.revenueBoost) partial = Math.round(partial * 1.2);
-      partial = Math.round(partial * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s));
+      partial = Math.round(partial * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * branchIncomeMultiplier());
       state.money += partial;
       state.today.revenue += partial;
       state.today.served += 1;
@@ -2606,6 +2959,7 @@
     state.today = { served: 0, revenue: 0, lost: 0 };
     state.todayCosts = 0;
     state.adBonusUsesToday = 0;
+    state.blackjackPlaysToday = 0;
     state.requests = [];
     state.nextRequestAtMin = DAY_OPEN_MIN + 4;
     lastTickAt = Date.now();
@@ -2882,7 +3236,7 @@
       upgradePhoto.hidden = true;
       upgradeCarIcon.hidden = false;
       var lvlCls = (s.isArcade ? "arcade-lvl" : "car-lvl") + Math.min(level, 3);
-      upgradeCarIcon.className = "upgrade-photo upgrade-car-icon " + lvlCls;
+      upgradeCarIcon.setAttribute("class", "upgrade-photo upgrade-car-icon " + lvlCls);
       upgradeCarIcon.querySelector("use").setAttribute("href", "#" + levelsFor(s)[level].icon);
     } else {
       upgradeCarIcon.hidden = true;
@@ -3068,6 +3422,7 @@
     renderStaffSection();
     renderRebirthSection();
     renderShopUpgradeSection();
+    renderCasinoTab();
     modalStore.hidden = false;
   });
 
@@ -3083,20 +3438,6 @@
     });
   }
 
-  if (btnOpenShopUpgrade) {
-    btnOpenShopUpgrade.addEventListener("click", function () {
-      renderShop();
-      renderPsSection();
-      renderCarSection();
-      renderArcadeSection();
-      renderVendingSection();
-      renderStaffSection();
-      renderRebirthSection();
-      renderShopUpgradeSection();
-      modalStore.hidden = false;
-      switchStoreTab("upgrade");
-    });
-  }
 
   // ---- store modal tabs: one category visible at a time instead of six
   // stacked sections — everything still renders underneath, switching is
@@ -3568,6 +3909,274 @@
     }).join("");
   }
 
+  // ---------------------------------------------------------------- oyunlar (games)
+  var modalGames = $("modal-games");
+  var btnOpenGames = $("btn-open-games");
+  var btnCloseGames = $("btn-close-games");
+  var gamesList = $("games-list");
+
+  function renderGamesSection() {
+    if (!state || !gamesList) return;
+    gamesList.innerHTML = GAMES_CATALOG.map(function (game) {
+      var owned = !!state.games[game.id];
+      var cost = game.cost; // oyun fiyatları sabit kalır — otomatlar gibi
+      var canAfford = state.money >= cost;
+      return '<div class="store-item' + (owned ? " owned" : "") + '">' +
+        '<div class="store-item-icon"><svg class="i-28"><use href="#' + game.icon + '"/></svg></div>' +
+        '<div class="store-item-info">' +
+          '<div class="store-item-name">' + game.name + ' <span class="game-genre-tag">' + game.genre + '</span></div>' +
+          '<div class="store-item-desc">' + t("games.rateDesc", { rate: fmtMoney(game.ratePerHour) }) + '</div>' +
+        '</div>' +
+        (owned
+          ? '<div class="store-item-owned"><svg class="i-18"><use href="#icon-check"/></svg>' + t("store.installed") + '</div>'
+          : '<button class="games-buy-btn" data-id="' + game.id + '"' + (canAfford ? "" : " disabled") + '>' +
+              fmtMoney(cost) + ' ₺</button>') +
+      '</div>';
+    }).join("");
+  }
+
+  if (btnOpenGames) {
+    btnOpenGames.addEventListener("click", function () {
+      renderGamesSection();
+      modalGames.hidden = false;
+    });
+  }
+  if (btnCloseGames) {
+    btnCloseGames.addEventListener("click", function () { modalGames.hidden = true; });
+  }
+  if (modalGames) {
+    modalGames.addEventListener("click", function (e) { if (e.target === modalGames) modalGames.hidden = true; });
+  }
+  if (gamesList) {
+    gamesList.addEventListener("click", function (e) {
+      var btn = e.target.closest(".games-buy-btn");
+      if (!btn || btn.disabled) return;
+      var id = btn.dataset.id;
+      var game = GAMES_CATALOG.filter(function (g) { return g.id === id; })[0];
+      if (!game || state.games[id]) return;
+      if (state.money < game.cost) return showToast(t("toast.notEnoughMoney"));
+      state.money -= game.cost;
+      state.games[id] = true;
+      renderGamesSection();
+      renderHud();
+      save();
+      showToast(game.name + t("toast.installedSuffix"));
+    });
+  }
+
+  // ---------------------------------------------------------------- Blackjack (kumarhane)
+  // Gerçek kart mekaniği (gerçek Kart Çek/Dur seçimleri, gerçek patlama
+  // riski senin elinde) ama krupiyenin elini tamamlarken oyuncuyu ~%70
+  // oranında kazandıracak şekilde önceden belirlenmiş bir "sonuç kovası"na
+  // yönlendiriyoruz — krupiye kuralları (17'de durur) dışarıdan hep normal
+  // görünür, sadece o eşiğe ulaştıktan sonra hangi yöne çekileceği
+  // (patlat / oyuncunun altında bırak / eşitle) bu kovaya göre seçilir.
+  var BJ_MAX_PLAYS_PER_DAY = 5;
+  var BJ_BUCKET_WIN = 0.74;
+  var BJ_BUCKET_PUSH = 0.12; // remainder (0.14) is the lose bucket
+  var BJ_BET_OPTIONS = [1000, 5000, 25000, 100000];
+  var BJ_SUITS = ["♠", "♥", "♦", "♣"];
+  var bj = null; // { bet, bucket, player:[], dealer:[], over, playerStood }
+
+  function bjDrawCard() {
+    var rank = 1 + Math.floor(Math.random() * 13); // 1=A, 11/12/13=J/Q/K
+    var suit = BJ_SUITS[Math.floor(Math.random() * 4)];
+    return { rank: rank, suit: suit, value: Math.min(rank, 10), isAce: rank === 1 };
+  }
+  function bjRankLabel(rank) {
+    if (rank === 1) return "A";
+    if (rank === 11) return "J";
+    if (rank === 12) return "Q";
+    if (rank === 13) return "K";
+    return String(rank);
+  }
+  function bjHandValue(cards) {
+    var total = 0, aces = 0;
+    cards.forEach(function (c) { total += c.value; if (c.isAce) aces++; });
+    while (total > 21 && aces > 0) { total -= 10; aces--; }
+    return total;
+  }
+  function bjIsBlackjack(cards) { return cards.length === 2 && bjHandValue(cards) === 21; }
+
+  var modalBlackjack = $("modal-blackjack");
+  var btnCloseBlackjack = $("btn-close-blackjack");
+  var btnOpenCasino = $("btn-open-casino");
+  var bjBetScreen = $("bj-bet-screen");
+  var bjBetOptionsEl = $("bj-bet-options");
+  var bjTable = $("bj-table");
+  var bjDealerCardsEl = $("bj-dealer-cards");
+  var bjPlayerCardsEl = $("bj-player-cards");
+  var bjDealerTotalEl = $("bj-dealer-total");
+  var bjPlayerTotalEl = $("bj-player-total");
+  var bjResultEl = $("bj-result");
+  var bjActionsEl = $("bj-actions");
+  var btnBjHit = $("btn-bj-hit");
+  var btnBjStand = $("btn-bj-stand");
+  var btnBjAgain = $("btn-bj-again");
+  var bjPlaysLeftEl = $("bj-plays-left");
+  var casinoPlaysLeftEl = $("casino-plays-left");
+
+  function bjPlaysLeft() { return Math.max(0, BJ_MAX_PLAYS_PER_DAY - (state.blackjackPlaysToday || 0)); }
+
+  function renderCasinoTab() {
+    if (!casinoPlaysLeftEl || !state) return;
+    casinoPlaysLeftEl.textContent = bjPlaysLeft() + "/" + BJ_MAX_PLAYS_PER_DAY;
+    if (btnOpenCasino) btnOpenCasino.disabled = bjPlaysLeft() <= 0;
+  }
+
+  function bjRenderCardEl(card, hidden) {
+    var red = card.suit === "♥" || card.suit === "♦";
+    if (hidden) return '<div class="bj-card bj-card-back"></div>';
+    return '<div class="bj-card' + (red ? " bj-red" : "") + '">' +
+      '<span class="bj-card-rank">' + bjRankLabel(card.rank) + '</span>' +
+      '<span class="bj-card-suit">' + card.suit + '</span>' +
+    '</div>';
+  }
+
+  function bjRenderTable(revealDealer) {
+    bjDealerCardsEl.innerHTML = bj.dealer.map(function (c, i) {
+      return bjRenderCardEl(c, !revealDealer && i === 1);
+    }).join("");
+    bjPlayerCardsEl.innerHTML = bj.player.map(function (c) { return bjRenderCardEl(c, false); }).join("");
+    bjPlayerTotalEl.textContent = bjHandValue(bj.player);
+    bjDealerTotalEl.textContent = revealDealer ? bjHandValue(bj.dealer) : "?";
+  }
+
+  function bjStartHand(bet) {
+    if (bjPlaysLeft() <= 0) return;
+    if (state.money < bet) return showToast(t("toast.notEnoughMoney"));
+    state.money -= bet;
+    state.blackjackPlaysToday = (state.blackjackPlaysToday || 0) + 1;
+    var roll = Math.random();
+    var bucket = roll < BJ_BUCKET_WIN ? "win" : (roll < BJ_BUCKET_WIN + BJ_BUCKET_PUSH ? "push" : "lose");
+    bj = { bet: bet, bucket: bucket, player: [bjDrawCard(), bjDrawCard()], dealer: [bjDrawCard(), bjDrawCard()], over: false };
+    bjBetScreen.hidden = true;
+    bjTable.hidden = false;
+    bjResultEl.hidden = true;
+    bjActionsEl.hidden = false;
+    btnBjAgain.hidden = true;
+    renderHud();
+    renderCasinoTab();
+    if (bjPlaysLeftEl) bjPlaysLeftEl.textContent = bjPlaysLeft() + "/" + BJ_MAX_PLAYS_PER_DAY;
+    bjRenderTable(false);
+    save();
+    if (bjHandValue(bj.player) === 21) bjStand(); // natural blackjack — resolve immediately
+  }
+
+  function bjHit() {
+    if (!bj || bj.over) return;
+    bj.player.push(bjDrawCard());
+    var pv = bjHandValue(bj.player);
+    bjRenderTable(false);
+    if (pv > 21) bjFinish("lose", false);
+    else if (pv === 21) bjStand();
+  }
+
+  function bjStand() {
+    if (!bj || bj.over) return;
+    var pv = bjHandValue(bj.player);
+    // Krupiye 17'ye kadar gerçek/rastgele çeker — dışarıdan tamamen normal.
+    while (bjHandValue(bj.dealer) < 17) bj.dealer.push(bjDrawCard());
+    var dv = bjHandValue(bj.dealer);
+    var extra = 0;
+    if (bj.bucket === "win") {
+      while (dv <= 21 && dv >= pv && extra < 6) { bj.dealer.push(bjDrawCard()); dv = bjHandValue(bj.dealer); extra++; }
+    } else if (bj.bucket === "push") {
+      if (dv < pv && dv <= 21) {
+        var needed = pv - dv;
+        if (needed >= 1 && needed <= 10) { bj.dealer.push({ rank: needed === 1 ? 1 : needed, suit: BJ_SUITS[0], value: needed, isAce: needed === 1 }); dv = bjHandValue(bj.dealer); }
+      }
+    } else { // lose bucket — krupiye biraz daha agresif dursun (18), doğal sonucu kabul et
+      while (dv < 18 && dv <= 21) { bj.dealer.push(bjDrawCard()); dv = bjHandValue(bj.dealer); }
+      while (dv < pv && dv <= 21 && extra < 2) { bj.dealer.push(bjDrawCard()); dv = bjHandValue(bj.dealer); extra++; }
+    }
+    var outcome;
+    if (dv > 21) outcome = "win";
+    else if (dv > pv) outcome = "lose";
+    else if (dv < pv) outcome = "win";
+    else outcome = "push";
+    // Doğal oyuncu blackjack'i (ilk 2 kart 21) krupiyeninkiyle eşitse bile kazanır ve 1.5x öder.
+    var blackjackBonus = bjIsBlackjack(bj.player) && !bjIsBlackjack(bj.dealer);
+    if (blackjackBonus && outcome === "push") outcome = "win";
+    bjFinish(outcome, true, blackjackBonus);
+  }
+
+  function bjFinish(outcome, revealDealer, blackjackBonus) {
+    bj.over = true;
+    bjRenderTable(revealDealer);
+    var payout = 0;
+    var msgKey = "";
+    if (outcome === "win") {
+      payout = blackjackBonus ? Math.round(bj.bet * 2.5) : bj.bet * 2;
+      state.money += payout;
+      msgKey = blackjackBonus ? "blackjack.resultBlackjack" : "blackjack.resultWin";
+    } else if (outcome === "push") {
+      state.money += bj.bet;
+      msgKey = "blackjack.resultPush";
+    } else {
+      msgKey = "blackjack.resultLose";
+    }
+    bjResultEl.hidden = false;
+    bjResultEl.className = "bj-result bj-result-" + outcome;
+    var net = outcome === "win" ? (payout - bj.bet) : (outcome === "push" ? 0 : -bj.bet);
+    bjResultEl.textContent = t(msgKey, { amount: fmtMoney(Math.abs(net)) });
+    bjActionsEl.hidden = true;
+    btnBjAgain.hidden = false;
+    btnBjAgain.textContent = bjPlaysLeft() > 0 ? t("blackjack.playAgain") : t("blackjack.noPlaysLeft");
+    btnBjAgain.disabled = bjPlaysLeft() <= 0 || state.money < BJ_BET_OPTIONS[0];
+    renderHud();
+    renderCasinoTab();
+    checkAchievements();
+    save();
+  }
+
+  function renderBjBetOptions() {
+    if (!bjBetOptionsEl) return;
+    bjBetOptionsEl.innerHTML = BJ_BET_OPTIONS.map(function (amt) {
+      var can = state.money >= amt && bjPlaysLeft() > 0;
+      return '<button class="bj-bet-btn" data-amt="' + amt + '"' + (can ? "" : " disabled") + '>' + fmtMoney(amt) + ' ₺</button>';
+    }).join("");
+  }
+
+  function openBlackjackModal() {
+    if (!modalBlackjack) return;
+    bj = null;
+    bjBetScreen.hidden = false;
+    bjTable.hidden = true;
+    renderBjBetOptions();
+    if (bjPlaysLeftEl) bjPlaysLeftEl.textContent = bjPlaysLeft() + "/" + BJ_MAX_PLAYS_PER_DAY;
+    modalBlackjack.hidden = false;
+  }
+
+  if (btnOpenCasino) {
+    btnOpenCasino.addEventListener("click", function () {
+      if (bjPlaysLeft() <= 0) return;
+      modalStore.hidden = true;
+      openBlackjackModal();
+    });
+  }
+  if (btnCloseBlackjack) btnCloseBlackjack.addEventListener("click", function () { modalBlackjack.hidden = true; });
+  if (modalBlackjack) modalBlackjack.addEventListener("click", function (e) { if (e.target === modalBlackjack) modalBlackjack.hidden = true; });
+  if (bjBetOptionsEl) {
+    bjBetOptionsEl.addEventListener("click", function (e) {
+      var btn = e.target.closest(".bj-bet-btn");
+      if (!btn || btn.disabled) return;
+      bjStartHand(parseInt(btn.dataset.amt, 10));
+    });
+  }
+  if (btnBjHit) btnBjHit.addEventListener("click", bjHit);
+  if (btnBjStand) btnBjStand.addEventListener("click", bjStand);
+  if (btnBjAgain) {
+    btnBjAgain.addEventListener("click", function () {
+      if (bjPlaysLeft() <= 0) { modalBlackjack.hidden = true; return; }
+      bj = null;
+      bjBetScreen.hidden = false;
+      bjTable.hidden = true;
+      renderBjBetOptions();
+      if (bjPlaysLeftEl) bjPlaysLeftEl.textContent = bjPlaysLeft() + "/" + BJ_MAX_PLAYS_PER_DAY;
+    });
+  }
+
   // ---------------------------------------------------------------- otomatlar (vending)
   var VENDING_ITEMS = {
     drink: { cost: VENDING_DRINK_COST, rate: VENDING_DRINK_RATE_PER_HOUR, icon: "icon-drink", nameKey: "vending.drink.name", descKey: "vending.drink.desc" },
@@ -3677,7 +4286,10 @@
       whatsappClaimed: state.whatsappClaimed,
       rateUsClaimed: state.rateUsClaimed,
       shopTier: state.shopTier,
-      vip: state.vip
+      vip: state.vip,
+      branch: state.branch,
+      branch2Unlocked: state.branch2Unlocked,
+      otherBranch: state.otherBranch
     };
     state = freshState();
     state.cafeName = keep.cafeName;
@@ -3691,6 +4303,11 @@
     state.rebirths = newRebirths;
     state.shopTier = keep.shopTier;
     state.vip = keep.vip;
+    // Rebirth only resets the branch you're currently standing in — the
+    // OTHER branch (if İkinci Şube exists) sits parked and untouched.
+    state.branch = keep.branch;
+    state.branch2Unlocked = keep.branch2Unlocked;
+    state.otherBranch = keep.otherBranch;
 
     modalStore.hidden = true;
     renderFloor(); renderRequests(); renderHud();
@@ -3759,7 +4376,10 @@
       whatsappClaimed: state.whatsappClaimed,
       rateUsClaimed: state.rateUsClaimed,
       rebirths: state.rebirths,
-      vip: state.vip
+      vip: state.vip,
+      branch: state.branch,
+      branch2Unlocked: state.branch2Unlocked,
+      otherBranch: state.otherBranch
     };
     state = freshState();
     state.cafeName = keep.cafeName;
@@ -3773,6 +4393,11 @@
     state.rebirths = keep.rebirths;
     state.vip = keep.vip;
     state.shopTier = 1;
+    // Dükkan Geliştir only resets the branch you're currently standing in —
+    // the OTHER branch (if İkinci Şube exists) sits parked and untouched.
+    state.branch = keep.branch;
+    state.branch2Unlocked = keep.branch2Unlocked;
+    state.otherBranch = keep.otherBranch;
 
     modalStore.hidden = true;
     renderFloor(); renderRequests(); renderHud();
@@ -3819,6 +4444,82 @@
     var confirmBtn2 = $("btn-shop-upgrade-confirm");
     if (confirmBtn2) confirmBtn2.addEventListener("click", function () { doShopUpgrade(); });
   }
+
+  // ---------------------------------------------------------------- İkinci Şube
+  var btnBranch = $("btn-branch");
+  var branchBtnLabel = $("branch-btn-label");
+  var branchBtnPrice = $("branch-btn-price");
+
+  function renderBranchButton() {
+    if (!btnBranch || !state) return;
+    if (!state.branch2Unlocked) {
+      branchBtnLabel.textContent = t("shopbar.newBranch");
+      branchBtnPrice.hidden = false;
+      branchBtnPrice.textContent = fmtMoney(NEW_BRANCH_COST) + " ₺";
+      btnBranch.disabled = state.money < NEW_BRANCH_COST;
+    } else {
+      branchBtnLabel.textContent = state.branch === 2 ? t("shopbar.goBranch1") : t("shopbar.goBranch2");
+      branchBtnPrice.hidden = true;
+      btnBranch.disabled = false;
+    }
+  }
+
+  // Swap every branch-local field between the active state and the parked
+  // "other" branch. state.stations/state.shop/etc. ALWAYS represent
+  // whichever branch is currently on screen — nothing else in the game
+  // needs to know branches exist at all, it just keeps reading state.stations.
+  function switchBranch() {
+    if (!state.branch2Unlocked) return;
+    var parked = state.otherBranch;
+    var current = {};
+    PER_BRANCH_KEYS.forEach(function (k) { current[k] = state[k]; });
+    PER_BRANCH_KEYS.forEach(function (k) { state[k] = parked[k]; });
+    state.otherBranch = current;
+    state.branch = state.branch === 1 ? 2 : 1;
+    lastTickAt = Date.now();
+    renderFloor(); renderRequests(); renderHud();
+    renderBranchButton();
+    save();
+  }
+
+  function buyNewBranch() {
+    if (state.branch2Unlocked) { switchBranch(); return; }
+    if (state.money < NEW_BRANCH_COST) return showToast(t("toast.notEnoughMoney"));
+    state.money -= NEW_BRANCH_COST;
+    var freshBranch = freshBranchLocalState();
+    var current = {};
+    PER_BRANCH_KEYS.forEach(function (k) { current[k] = state[k]; });
+    state.otherBranch = current;
+    PER_BRANCH_KEYS.forEach(function (k) { state[k] = freshBranch[k]; });
+    state.branch = 2;
+    state.branch2Unlocked = true;
+    lastTickAt = Date.now();
+    renderFloor(); renderRequests(); renderHud();
+    renderBranchButton();
+    save();
+    showToast(t("toast.newBranchOpened"));
+  }
+
+  if (btnBranch) {
+    btnBranch.addEventListener("click", function () {
+      if (state.branch2Unlocked) { switchBranch(); return; }
+      if (state.money < NEW_BRANCH_COST) return showToast(t("toast.notEnoughMoney"));
+      if (modalBranch) modalBranch.hidden = false;
+    });
+  }
+  var modalBranch = $("modal-branch");
+  var btnBranchConfirm = $("btn-branch-confirm");
+  var btnBranchCancel = $("btn-branch-cancel");
+  if (btnBranchConfirm) {
+    btnBranchConfirm.addEventListener("click", function () {
+      if (modalBranch) modalBranch.hidden = true;
+      buyNewBranch();
+    });
+  }
+  if (btnBranchCancel) {
+    btnBranchCancel.addEventListener("click", function () { if (modalBranch) modalBranch.hidden = true; });
+  }
+
 
   // ---------------------------------------------------------------- dükkan puanı (rating modal)
   function renderRatingModal() {
@@ -3907,8 +4608,36 @@
     renderAchievementsTab();
     renderRateUsButtons();
     renderSettingsVersion();
+    renderSoundToggles();
     modalInfo.hidden = false;
   });
+
+  var btnToggleMusic = $("btn-toggle-music");
+  var btnToggleSfx = $("btn-toggle-sfx");
+  function renderSoundToggles() {
+    if (btnToggleMusic) {
+      var musicOn = SoundEngine.isMusicEnabled();
+      btnToggleMusic.textContent = musicOn ? t("app.on") : t("app.off");
+      btnToggleMusic.classList.toggle("is-off", !musicOn);
+    }
+    if (btnToggleSfx) {
+      var sfxOn = SoundEngine.isSfxEnabled();
+      btnToggleSfx.textContent = sfxOn ? t("app.on") : t("app.off");
+      btnToggleSfx.classList.toggle("is-off", !sfxOn);
+    }
+  }
+  if (btnToggleMusic) {
+    btnToggleMusic.addEventListener("click", function () {
+      SoundEngine.setMusicEnabled(!SoundEngine.isMusicEnabled());
+      renderSoundToggles();
+    });
+  }
+  if (btnToggleSfx) {
+    btnToggleSfx.addEventListener("click", function () {
+      SoundEngine.setSfxEnabled(!SoundEngine.isSfxEnabled());
+      renderSoundToggles();
+    });
+  }
 
   // settings tab switching
   Array.prototype.slice.call(document.querySelectorAll(".settings-tab")).forEach(function (tab) {
@@ -4029,6 +4758,20 @@
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) scheduleComebackNotification();
     else cancelComebackNotification();
+  });
+
+  // Uzun basınca "Google sitesi gibi" metin seçme / kopyala menüsü çıkmasın
+  // diye ikinci bir güvenlik katmanı (CSS'teki user-select:none her tarayıcı/
+  // WebView sürümünde yeterli olmayabiliyor). Gerçek giriş alanları
+  // (cafe adı vb.) hariç tutulur, oradaki normal seçim/yapıştır çalışmaya
+  // devam eder.
+  document.addEventListener("contextmenu", function (e) {
+    var tag = e.target && e.target.tagName;
+    if (tag !== "INPUT" && tag !== "TEXTAREA") e.preventDefault();
+  });
+  document.addEventListener("selectstart", function (e) {
+    var tag = e.target && e.target.tagName;
+    if (tag !== "INPUT" && tag !== "TEXTAREA") e.preventDefault();
   });
 
 })();
