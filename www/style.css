@@ -2714,3 +2714,21 @@ svg[class^="i-"]{ display:block; fill:none; }
   box-shadow:0 0 5px rgba(74,222,128,.8);
   flex-shrink:0;
 }
+
+.chat-status{
+  margin:0 14px 8px;
+  padding:8px 12px;
+  border-radius:10px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  flex-shrink:0;
+}
+.chat-status-info{
+  background:rgba(255,255,255,.05);
+  color:var(--text-muted);
+}
+.chat-status-error{
+  background:rgba(239,68,68,.15);
+  border:1px solid rgba(239,68,68,.4);
+  color:#fca5a5;
+}

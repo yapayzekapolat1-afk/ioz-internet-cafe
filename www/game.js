@@ -32,6 +32,12 @@
       "chat.send": "Gönder",
       "chat.comingSoon": "Sohbet yakında!",
       "chat.onlineTooltip": "Şu an aktif oyuncu sayısı",
+      "chat.connecting": "Bağlanıyor...",
+      "chat.errorSdk": "Sohbet yüklenemedi. İnternetini kontrol et.",
+      "chat.errorConn": "Bağlantı hatası",
+      "chat.errorOffline": "Bağlantı koptu, yeniden deneniyor...",
+      "chat.errorNotReady": "Henüz bağlanmadı, birazdan tekrar dene.",
+      "chat.errorSend": "Mesaj gönderilemedi",
       "setup.title": "Cafene bir isim ver",
       "setup.hint": "İşletmenin adı ekranın sol üstünde görünecek.",
       "setup.placeholder": "ör. Cyber Point",
@@ -444,6 +450,12 @@
       "chat.send": "Send",
       "chat.comingSoon": "Chat coming soon!",
       "chat.onlineTooltip": "Players currently online",
+      "chat.connecting": "Connecting...",
+      "chat.errorSdk": "Chat failed to load. Check your connection.",
+      "chat.errorConn": "Connection error",
+      "chat.errorOffline": "Connection lost, retrying...",
+      "chat.errorNotReady": "Not connected yet, try again shortly.",
+      "chat.errorSend": "Message failed to send",
       "setup.title": "Give your cafe a name",
       "setup.hint": "Your business name will show up in the top-left corner.",
       "setup.placeholder": "e.g. Cyber Point",
@@ -1709,17 +1721,37 @@
     });
   }
 
+  var chatStatusEl = null;
+  function setChatStatus(text, kind) {
+    if (!chatStatusEl) return;
+    chatStatusEl.textContent = text || "";
+    chatStatusEl.hidden = !text;
+    chatStatusEl.className = "chat-status" + (kind ? " chat-status-" + kind : "");
+  }
+
   function connectChat() {
     if (!CHAT_ENABLED || ablyClient || !state || !state.cafeName) return;
     ensureOnlineBadge();
+    setChatStatus(t("chat.connecting"), "info");
     loadAblySdk(function () {
       if (ablyClient) return; // aynı anda iki kez tetiklenmesin
+      if (!window.Ably) {
+        setChatStatus(t("chat.errorSdk"), "error");
+        return;
+      }
       try {
         ablyClient = new Ably.Realtime({ key: ABLY_API_KEY, clientId: getPlayerId() });
+        ablyClient.connection.on("connected", function () { setChatStatus("", null); });
+        ablyClient.connection.on("failed", function (stateChange) {
+          setChatStatus(t("chat.errorConn") + (stateChange && stateChange.reason ? " (" + stateChange.reason.message + ")" : ""), "error");
+        });
+        ablyClient.connection.on("suspended", function () {
+          setChatStatus(t("chat.errorOffline"), "error");
+        });
         chatChannel = ablyClient.channels.get(CHAT_CHANNEL_NAME);
         chatPresenceVipSent = !!state.vip;
         chatChannel.presence.enter({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent }, function (err) {
-          if (err) { /* internet hıçkırığı / yetki sorunu — sessizce yok say, oyunu bozma */ }
+          if (err) { setChatStatus(t("chat.errorConn") + " (" + err.message + ")", "error"); }
         });
         chatChannel.presence.subscribe(function () { updateOnlineCount(); });
         chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data); });
@@ -1730,7 +1762,9 @@
           });
         });
         updateOnlineCount();
-      } catch (e) { /* Ably yapılandırılamadı — sohbet sessizce devre dışı kalır */ }
+      } catch (e) {
+        setChatStatus(t("chat.errorConn") + " (" + (e && e.message ? e.message : e) + ")", "error");
+      }
     });
   }
 
@@ -1747,7 +1781,8 @@
 
   function sendChatMessage(text) {
     text = String(text || "").trim();
-    if (!text || !chatChannel || !state) return false;
+    if (!text || !state) return false;
+    if (!chatChannel) { setChatStatus(t("chat.errorNotReady"), "error"); return false; }
     var now = Date.now();
     if (now - lastChatSendAt < CHAT_MIN_INTERVAL_MS) return false;
     lastChatSendAt = now;
@@ -1756,8 +1791,10 @@
         name: String(state.cafeName).slice(0, 24),
         vip: !!state.vip,
         text: text.slice(0, CHAT_MAX_LEN)
-      }, function (err) { /* başarısız olursa sessizce yok say — mesaj listede görünmez, UI kilitlenmez */ });
-    } catch (e) { return false; }
+      }, function (err) {
+        if (err) setChatStatus(t("chat.errorSend") + " (" + err.message + ")", "error");
+      });
+    } catch (e) { setChatStatus(t("chat.errorSend") + " (" + (e && e.message ? e.message : e) + ")", "error"); return false; }
     return true;
   }
 
@@ -1774,6 +1811,7 @@
           '<div class="chat-modal-title">' + t("chat.title") + '</div>' +
           '<button class="chat-modal-close" id="btn-close-chat" type="button">&times;</button>' +
         "</div>" +
+        '<div class="chat-status" id="chat-status" hidden></div>' +
         '<div class="chat-list" id="chat-list"></div>' +
         '<div class="chat-compose">' +
           '<input class="chat-input" id="chat-input" type="text" maxlength="' + CHAT_MAX_LEN + '" placeholder="' + t("chat.placeholder") + '" />' +
@@ -1784,11 +1822,12 @@
     chatListEl = $("chat-list");
     chatInputEl = $("chat-input");
     chatSendBtnEl = $("chat-send-btn");
+    chatStatusEl = $("chat-status");
     modal.addEventListener("click", function (e) { if (e.target === modal) closeChat(); });
     $("btn-close-chat").addEventListener("click", closeChat);
     function trySend() {
       if (!chatInputEl.value.trim()) return;
-      if (!sendChatMessage(chatInputEl.value)) return; // 2sn dolmadan tekrar denenirse sessizce yok say
+      if (!sendChatMessage(chatInputEl.value)) return; // 2sn dolmadan tekrar denenirse ya da hazır değilse sessizce yok say (durum satırı zaten sebebini gösterir)
       chatInputEl.value = "";
     }
     chatSendBtnEl.addEventListener("click", trySend);
@@ -1802,6 +1841,7 @@
     if (!CHAT_ENABLED) { showToast(t("chat.comingSoon")); return; }
     ensureChatPanel();
     $("modal-chat").hidden = false;
+    if (!chatChannel) setChatStatus(t("chat.connecting"), "info");
     connectChat();
     if (chatInputEl) chatInputEl.focus();
   }
