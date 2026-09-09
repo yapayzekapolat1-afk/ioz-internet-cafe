@@ -2501,3 +2501,68 @@ svg[class^="i-"]{ display:block; fill:none; }
   background:transparent;
   color:var(--text-muted);
 }
+
+/* ================= GÜNCELLEMEDEN GEÇ ================= */
+/* Injected in JS onto the forced-update screen as a safety net — see
+   game.js. Deliberately understated (ghost/text style) so it never
+   competes visually with the primary "Şimdi Güncelle" button; it's an
+   escape hatch, not an invitation to skip real updates. */
+.btn-skip-update{
+  display:block;
+  margin:14px auto 0;
+  padding:10px 18px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text-muted);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  cursor:pointer;
+}
+.btn-skip-update:active{ opacity:.7; }
+
+/* ================= GÜÇ (POWER) ================= */
+/* Lives in the top-left HUD block, right under the money row — deliberately
+   fancier than the plain .sub-hud-item stat chips (gradient fill, glow,
+   animated bolt) so it reads as a special/prestige stat rather than just
+   another number. Injected in JS (see ensurePowerBadge in game.js) so it
+   works no matter what the surrounding HUD markup looks like. */
+.power-badge{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-top:5px;
+  padding:3px 9px 3px 7px;
+  border-radius:20px;
+  background:linear-gradient(90deg, rgba(139,92,246,.22), rgba(56,189,248,.22));
+  border:1px solid rgba(167,139,250,.55);
+  box-shadow:0 0 10px rgba(139,92,246,.35), inset 0 0 6px rgba(139,92,246,.15);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.2px;
+  color:#e4d9ff;
+  cursor:default;
+  width:fit-content;
+}
+.power-badge svg{
+  width:13px;
+  height:13px;
+  flex-shrink:0;
+  filter:drop-shadow(0 0 3px rgba(167,139,250,.9));
+}
+.power-badge svg .power-bolt-fill{
+  fill:url(#power-bolt-gradient);
+}
+.power-badge-value{
+  background:linear-gradient(90deg, #c4b5fd, #7dd3fc);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+@keyframes powerPulse{
+  0%, 100%{ box-shadow:0 0 10px rgba(139,92,246,.35), inset 0 0 6px rgba(139,92,246,.15); }
+  50%{ box-shadow:0 0 16px rgba(139,92,246,.6), inset 0 0 9px rgba(139,92,246,.3); }
+}
+.power-badge{ animation:powerPulse 2.6s ease-in-out infinite; }
+

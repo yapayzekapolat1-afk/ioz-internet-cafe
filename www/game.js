@@ -25,6 +25,8 @@
       "update.title": "Güncelleme Gerekli",
       "update.subtitle": "Oyunu oynamaya devam etmek için yeni sürümü indir.",
       "update.button": "Şimdi Güncelle",
+      "update.skip": "Şimdi Değil, Devam Et",
+      "power.tooltip": "Güç: her 100 ₺ harcama ve her 200 ₺ kazanç 1 Güç kazandırır.",
       "setup.title": "Cafene bir isim ver",
       "setup.hint": "İşletmenin adı ekranın sol üstünde görünecek.",
       "setup.placeholder": "ör. Cyber Point",
@@ -402,15 +404,21 @@
       "achv.top_tier_pc.name": "Donanım Ustası", "achv.top_tier_pc.desc": "Herhangi bir masayı İoz X 2030 seviyesine yükselt.",
       "achv.all_lvl3plus.name": "Filo Yenilendi", "achv.all_lvl3plus.desc": "Tüm bilgisayarların en az 3. seviyede olsun.",
       "achv.shop_first.name": "İlk Yatırım", "achv.shop_first.desc": "Dükkandan herhangi bir ürün satın al.",
-      "achv.shop_all.name": "Dükkan Koleksiyoncusu", "achv.shop_all.desc": "Dükkandaki 10 ürünü de satın al.",
+      "achv.shop_all.name": "Dükkan Koleksiyoncusu", "achv.shop_all.desc": "Dükkandaki 12 ürünü de satın al.",
       "achv.tiktok_follow.name": "TikTok Dostu", "achv.tiktok_follow.desc": "TikTok ödülünü talep et.",
       "achv.whatsapp_join.name": "Kanal Üyesi", "achv.whatsapp_join.desc": "WhatsApp kanalı ödülünü talep et.",
       "achv.ps_first.name": "Konsol Zamanı", "achv.ps_first.desc": "İlk İoz Playstion ünitesini kur.",
-      "achv.ps_both.name": "Playstion Salonu", "achv.ps_both.desc": "10 Playstion ünitesinin hepsini kur.",
+      "achv.ps_both.name": "Playstion Salonu", "achv.ps_both.desc": "40 Playstion ünitesinin hepsini kur.",
       "achv.ps_maxed.name": "Playstion Ustası", "achv.ps_maxed.desc": "Herhangi bir Playstion ünitesini 6. seriye yükselt.",
+      "achv.car_first.name": "Yarış Zamanı", "achv.car_first.desc": "İlk İoz Racer ünitesini kur.",
+      "achv.car_both.name": "Yarış Pisti", "achv.car_both.desc": "30 Racer ünitesinin hepsini kur.",
+      "achv.car_maxed.name": "Racer Ustası", "achv.car_maxed.desc": "Herhangi bir Racer ünitesini Elite seviyeye yükselt.",
+      "achv.arcade_first.name": "Atari Zamanı", "achv.arcade_first.desc": "İlk İoz Atari ünitesini kur.",
+      "achv.arcade_both.name": "Atari Salonu", "achv.arcade_both.desc": "10 Atari ünitesinin hepsini kur.",
+      "achv.arcade_maxed.name": "Atari Ustası", "achv.arcade_maxed.desc": "Herhangi bir Atari ünitesini Deluxe seviyeye yükselt.",
       "achv.flawless_day.name": "Kusursuz Gün", "achv.flawless_day.desc": "Hiç müşteri kaçırmadan bir günü kapat.",
-      "achv.vending_first.name": "Otomat Sahibi", "achv.vending_first.desc": "Bir içecek veya yiyecek otomatı kur.",
-      "achv.vending_both.name": "Tam Donanım", "achv.vending_both.desc": "Hem içecek hem yiyecek otomatını kur.",
+      "achv.vending_first.name": "Otomat Sahibi", "achv.vending_first.desc": "Bir içecek, yiyecek veya tatlı otomatı kur.",
+      "achv.vending_both.name": "Tam Donanım", "achv.vending_both.desc": "İçecek, yiyecek ve tatlı otomatlarının üçünü de kur.",
       "achv.cleaner_hired.name": "Pırıl Pırıl", "achv.cleaner_hired.desc": "Bir temizlikçi işe al.",
       "achv.rating_9.name": "Beğenilen Mekan", "achv.rating_9.desc": "Dükkan puanını 9.0'a çıkar.",
       "achv.rebirth_first.name": "Küllerinden Doğan", "achv.rebirth_first.desc": "İlk yeniden doğuşunu yap.",
@@ -424,6 +432,8 @@
       "update.title": "Update Required",
       "update.subtitle": "Download the new version to keep playing.",
       "update.button": "Update Now",
+      "update.skip": "Not Now, Continue",
+      "power.tooltip": "Power: every 100 ₺ spent and every 200 ₺ earned grants 1 Power.",
       "setup.title": "Give your cafe a name",
       "setup.hint": "Your business name will show up in the top-left corner.",
       "setup.placeholder": "e.g. Cyber Point",
@@ -800,15 +810,21 @@
       "achv.top_tier_pc.name": "Hardware Master", "achv.top_tier_pc.desc": "Upgrade any table to İoz X 2030.",
       "achv.all_lvl3plus.name": "Fleet Renewed", "achv.all_lvl3plus.desc": "Get every computer to at least level 3.",
       "achv.shop_first.name": "First Investment", "achv.shop_first.desc": "Buy any item from the store.",
-      "achv.shop_all.name": "Store Collector", "achv.shop_all.desc": "Buy all 10 items in the store.",
+      "achv.shop_all.name": "Store Collector", "achv.shop_all.desc": "Buy all 12 items in the store.",
       "achv.tiktok_follow.name": "TikTok Friend", "achv.tiktok_follow.desc": "Claim the TikTok reward.",
       "achv.whatsapp_join.name": "Channel Member", "achv.whatsapp_join.desc": "Claim the WhatsApp channel reward.",
       "achv.ps_first.name": "Game Time", "achv.ps_first.desc": "Set up your first İoz Playstion unit.",
-      "achv.ps_both.name": "Playstion Lounge", "achv.ps_both.desc": "Set up all 10 Playstion units.",
+      "achv.ps_both.name": "Playstion Lounge", "achv.ps_both.desc": "Set up all 40 Playstion units.",
       "achv.ps_maxed.name": "Playstion Master", "achv.ps_maxed.desc": "Upgrade any Playstion unit to series 6.",
+      "achv.car_first.name": "Race Time", "achv.car_first.desc": "Set up your first İoz Racer unit.",
+      "achv.car_both.name": "Racing Circuit", "achv.car_both.desc": "Set up all 30 Racer units.",
+      "achv.car_maxed.name": "Racer Master", "achv.car_maxed.desc": "Upgrade any Racer unit to Elite tier.",
+      "achv.arcade_first.name": "Arcade Time", "achv.arcade_first.desc": "Set up your first İoz Arcade unit.",
+      "achv.arcade_both.name": "Arcade Hall", "achv.arcade_both.desc": "Set up all 10 Arcade units.",
+      "achv.arcade_maxed.name": "Arcade Master", "achv.arcade_maxed.desc": "Upgrade any Arcade unit to Deluxe tier.",
       "achv.flawless_day.name": "Flawless Day", "achv.flawless_day.desc": "Close a day without turning away a single customer.",
-      "achv.vending_first.name": "Vending Owner", "achv.vending_first.desc": "Set up a drink or snack machine.",
-      "achv.vending_both.name": "Fully Equipped", "achv.vending_both.desc": "Set up both the drink and snack machines.",
+      "achv.vending_first.name": "Vending Owner", "achv.vending_first.desc": "Set up a drink, snack, or candy machine.",
+      "achv.vending_both.name": "Fully Equipped", "achv.vending_both.desc": "Set up all three vending machines: drink, snack, and candy.",
       "achv.cleaner_hired.name": "Spotless", "achv.cleaner_hired.desc": "Hire a cleaner.",
       "achv.rating_9.name": "Fan Favorite", "achv.rating_9.desc": "Get your cafe rating up to 9.0.",
       "achv.rebirth_first.name": "Risen from the Ashes", "achv.rebirth_first.desc": "Complete your first rebirth.",
@@ -1172,13 +1188,15 @@
       check: function (st) {
         var s = st.shop;
         return s.fastServe || s.revenueBoost || s.customerBoost || s.autoAccept ||
-               s.fiberInternet || s.airCon || s.vipProgram || s.loyaltyCard || s.generator || s.adCampaign;
+               s.fiberInternet || s.airCon || s.vipProgram || s.loyaltyCard || s.generator || s.adCampaign ||
+               s.security || s.onlineReservation;
       } },
     { id: "shop_all", xp: 1500,
       check: function (st) {
         var s = st.shop;
         return s.fastServe && s.revenueBoost && s.customerBoost && s.autoAccept &&
-               s.fiberInternet && s.airCon && s.vipProgram && s.loyaltyCard && s.generator && s.adCampaign;
+               s.fiberInternet && s.airCon && s.vipProgram && s.loyaltyCard && s.generator && s.adCampaign &&
+               s.security && s.onlineReservation;
       } },
     { id: "tiktok_follow", xp: 50,
       check: function (st) { return st.tiktokClaimed; } },
@@ -1198,13 +1216,39 @@
         return st.stations.some(function (s) { return s.isPS && s.computerLevel >= 5; });
       } },
 
+    { id: "car_first", xp: 150,
+      check: function (st) {
+        return st.stations.some(function (s) { return s.isCar && s.hasComputer; });
+      } },
+    { id: "car_both", xp: 400,
+      check: function (st) {
+        return st.stations.filter(function (s) { return s.isCar && s.hasComputer; }).length >= CAR_STATION_COUNT;
+      } },
+    { id: "car_maxed", xp: 500,
+      check: function (st) {
+        return st.stations.some(function (s) { return s.isCar && s.computerLevel >= 3; });
+      } },
+
+    { id: "arcade_first", xp: 150,
+      check: function (st) {
+        return st.stations.some(function (s) { return s.isArcade && s.hasComputer; });
+      } },
+    { id: "arcade_both", xp: 400,
+      check: function (st) {
+        return st.stations.filter(function (s) { return s.isArcade && s.hasComputer; }).length >= ARCADE_STATION_COUNT;
+      } },
+    { id: "arcade_maxed", xp: 500,
+      check: function (st) {
+        return st.stations.some(function (s) { return s.isArcade && s.computerLevel >= 3; });
+      } },
+
     { id: "flawless_day", xp: 200,
       check: function (st) { return st.flawlessDayAchieved === true; } },
 
     { id: "vending_first", xp: 100,
-      check: function (st) { return st.vending.drink || st.vending.food; } },
+      check: function (st) { return st.vending.drink || st.vending.food || st.vending.candy; } },
     { id: "vending_both", xp: 200,
-      check: function (st) { return st.vending.drink && st.vending.food; } },
+      check: function (st) { return st.vending.drink && st.vending.food && st.vending.candy; } },
     { id: "cleaner_hired", xp: 150,
       check: function (st) { return st.staff.cleaner; } },
     { id: "rating_9", xp: 500,
@@ -1249,6 +1293,45 @@
   var state = null;
   var tickHandle = null;
   var lastTickAt = 0;
+
+  // ---- save() optimizasyonu -------------------------------------------
+  // tick() saniyede 4 kez çalışıyor (TICK_MS=250) ve öncesinde HER
+  // tick'te save() çağrılıyordu — yani saniyede 4 kez JSON.stringify +
+  // localStorage.setItem. Kayıt dosyası büyüdükçe (çok istasyon,
+  // başarım, vs.) bu boşuna pil/CPU harcıyor; oysa 250ms'de bir ilerleme
+  // kaybetmeyi göze almanın hiçbir anlamı yok. saveThrottled() otomatik
+  // (tick kaynaklı) kayıtları en fazla saniyede 1'e indiriyor; kullanıcı
+  // etkileşimiyle tetiklenen tüm save() çağrıları (satın alma, gün
+  // kapanışı, vs.) DEĞİŞMEDEN aynı anda/gecikmesiz kalıyor — sadece
+  // arka plandaki "sürekli tekrar yaz" akışı yavaşlatıldı.
+  var SAVE_THROTTLE_MS = 1000;
+  var lastAutoSaveAt = 0;
+  var pendingAutoSaveTimer = null;
+  function saveThrottled() {
+    var now = Date.now();
+    var elapsed = now - lastAutoSaveAt;
+    if (elapsed >= SAVE_THROTTLE_MS) {
+      lastAutoSaveAt = now;
+      save();
+    } else if (!pendingAutoSaveTimer) {
+      pendingAutoSaveTimer = setTimeout(function () {
+        pendingAutoSaveTimer = null;
+        lastAutoSaveAt = Date.now();
+        save();
+      }, SAVE_THROTTLE_MS - elapsed);
+    }
+  }
+  // Uygulama arka plana atılırken/kapanırken bekleyen otomatik kaydı hemen
+  // diske yaz — throttle yüzünden son ~1 saniyelik ilerleme kaybolmasın.
+  function flushAutoSave() {
+    if (pendingAutoSaveTimer) { clearTimeout(pendingAutoSaveTimer); pendingAutoSaveTimer = null; }
+    if (state) { lastAutoSaveAt = Date.now(); save(); }
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) flushAutoSave();
+  });
+  window.addEventListener("pagehide", flushAutoSave);
+
   var editingStationIdx = null;
 
   function freshStations() {
@@ -1350,6 +1433,8 @@
     var s = {
       cafeName: "",
       money: START_MONEY,
+      totalEarned: 0,
+      totalSpent: 0,
       totalCustomers: 0,
       bankrupt: false,
       rebirths: 0,
@@ -1375,6 +1460,147 @@
 
   function save() {
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
+  }
+
+  // ---------------------------------------------------------------- güç (power)
+  // Adalet ilkesi: Güç, HARCANAN ve KAZANILAN paranın toplamından gelir —
+  // her 100 ₺ harcama = 1 Güç, her 200 ₺ kazanç = 1 Güç. Kimin ne zaman
+  // oynadığından bağımsız, tamamen "ne kadar oynadın / ne kadar ilerledin"
+  // ölçüsü. Bu yüzden state.money'ye yapılan HER değişiklik (kod içindeki
+  // onlarca farklı yerden — masa/bilgisayar alımı, müşteri geliri, reklam
+  // ödülü, günlük giriş ödülü, vs.) otomatik olarak sayılır; tek tek her
+  // "state.money +=" satırını bulup değiştirmek yerine, money'yi bir
+  // get/set çiftine çeviriyoruz (wireMoneyTracking) — hangi kod satırı
+  // parayı değiştirirse değiştirsin, kaçırılmaz.
+  var SPEND_PER_POWER = 100;
+  var EARN_PER_POWER = 200;
+
+  function powerCount(s) {
+    s = s || state;
+    if (!s) return 0;
+    var fromSpend = Math.floor((s.totalSpent || 0) / SPEND_PER_POWER);
+    var fromEarn = Math.floor((s.totalEarned || 0) / EARN_PER_POWER);
+    return fromSpend + fromEarn;
+  }
+
+  // Converts state.money from a plain field into a tracked accessor.
+  // Must be called on every object that becomes `state` (fresh, loaded,
+  // or after a rebirth/dükkan geliştir reset) — see the four call sites.
+  // Idempotent: calling it twice on the same object is harmless.
+  function wireMoneyTracking(s) {
+    if (!s || s.__moneyWired) return;
+    var current = typeof s.money === "number" ? s.money : 0;
+    if (typeof s.totalEarned !== "number") s.totalEarned = 0;
+    if (typeof s.totalSpent !== "number") s.totalSpent = 0;
+    Object.defineProperty(s, "money", {
+      enumerable: true,
+      configurable: true,
+      get: function () { return current; },
+      set: function (v) {
+        var delta = v - current;
+        current = v;
+        if (delta > 0) s.totalEarned += delta;
+        else if (delta < 0) s.totalSpent += -delta;
+      }
+    });
+    Object.defineProperty(s, "__moneyWired", { value: true, enumerable: false, configurable: true });
+  }
+
+  // Best-effort backfill for saves created before Güç existed. We have no
+  // transaction history to replay, so we reconstruct an ESTIMATE of
+  // lifetime spend from everything currently built/owned/unlocked (tables,
+  // computers by level, PS/araba/atari, dükkan ürünleri, vending, oyunlar,
+  // temizlikçi, dükkan geliştir, ikinci şube) plus a floor amount per
+  // rebirth (rebirth wipes the layout, but the spending that built it up
+  // before the reset really happened, so it shouldn't just vanish).
+  // Lifetime earned is then inferred from the accounting identity
+  // earned − spent = current balance, so nobody's estimate can come out
+  // negative or unfairly low just because they're currently low on cash.
+  // This runs ONCE per save (only when the fields are missing) — from
+  // then on, every ₺ is tracked exactly via wireMoneyTracking above.
+  function healPowerTotals(parsed) {
+    if (typeof parsed.totalSpent === "number" && typeof parsed.totalEarned === "number") return;
+
+    function multFor(branchNo) {
+      return (parsed.shopTier ? SHOP_TIER_MULTIPLIER : 1) * (branchNo === 2 ? BRANCH2_COST_MULTIPLIER : 1);
+    }
+    function stationsSpend(stations, branchNo) {
+      var m = multFor(branchNo), total = 0;
+      (stations || []).forEach(function (s) {
+        if (s.hasTable) {
+          if (s.isPS) total += PS_TABLE_COST * m;
+          else if (s.isCar) total += CAR_TABLE_COST * m;
+          else if (s.isArcade) total += ARCADE_TABLE_COST * m;
+          else if (!s.isAdPc) total += TABLE_COST * m;
+        }
+        if (s.hasComputer) {
+          var levels = s.isPS ? PS_LEVELS : s.isCar ? CAR_LEVELS : s.isArcade ? ARCADE_LEVELS : COMPUTER_LEVELS;
+          var base = s.isPS ? PS_CONSOLE_COST : s.isCar ? CAR_CONSOLE_COST : s.isArcade ? ARCADE_CONSOLE_COST : COMPUTER_COST;
+          total += base * m;
+          var lvl = s.computerLevel || 1;
+          for (var L = 1; L < lvl; L++) {
+            if (levels[L] && levels[L].upgradeCost) total += levels[L].upgradeCost * m;
+          }
+        }
+      });
+      return total;
+    }
+
+    var spend = stationsSpend(parsed.stations, parsed.branch || 1);
+    if (parsed.otherBranch && parsed.otherBranch.stations) {
+      spend += stationsSpend(parsed.otherBranch.stations, parsed.branch === 2 ? 1 : 2);
+    }
+    if (parsed.shop) {
+      SHOP_ITEMS.forEach(function (it) { if (parsed.shop[it.id]) spend += it.price; });
+    }
+    if (parsed.vending) {
+      if (parsed.vending.drink) spend += VENDING_DRINK_COST;
+      if (parsed.vending.food) spend += VENDING_FOOD_COST;
+      if (parsed.vending.candy) spend += VENDING_CANDY_COST;
+    }
+    if (parsed.games) {
+      GAMES_CATALOG.forEach(function (g) { if (parsed.games[g.id]) spend += g.cost; });
+    }
+    if (parsed.staff && parsed.staff.cleaner) spend += CLEANER_HIRE_COST;
+    if (parsed.shopTier) spend += SHOP_UPGRADE_COST;
+    if (parsed.branch2Unlocked) spend += NEW_BRANCH_COST;
+    // Her rebirth öncesi en az bir kez tüm istasyonlar (temel fiyatlarla)
+    // doldurulmuş olmalı — bu, rebirth'te silinen ama gerçekten harcanmış
+    // olan tutar için adil bir taban.
+    if (parsed.rebirths) {
+      spend += parsed.rebirths * (MAX_STATIONS * (TABLE_COST + COMPUTER_COST));
+    }
+
+    parsed.totalSpent = Math.max(0, Math.round(spend));
+    parsed.totalEarned = Math.max(0, Math.round(spend + (parsed.money || 0)));
+  }
+
+  // ---------------------------------------------------------------- güç badge (HUD)
+  var POWER_BOLT_SVG =
+    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+      '<defs><linearGradient id="power-bolt-gradient" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0%" stop-color="#c4b5fd"/><stop offset="100%" stop-color="#7dd3fc"/>' +
+      '</linearGradient></defs>' +
+      '<path class="power-bolt-fill" d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>' +
+    '</svg>';
+
+  var powerBadgeValueEl = null;
+  function ensurePowerBadge() {
+    if (powerBadgeValueEl) return;
+    var anchor = hudMoney;
+    var container = anchor ? (document.querySelector(".hud-id") || anchor.parentElement) : null;
+    if (!container) return;
+    var badge = document.createElement("div");
+    badge.className = "power-badge";
+    badge.title = t("power.tooltip");
+    badge.innerHTML = POWER_BOLT_SVG + '<span class="power-badge-value" id="power-badge-value">0</span>';
+    container.appendChild(badge);
+    powerBadgeValueEl = badge.querySelector("#power-badge-value");
+  }
+  function renderPower() {
+    if (!state) return;
+    ensurePowerBadge();
+    if (powerBadgeValueEl) powerBadgeValueEl.textContent = powerCount(state);
   }
 
   // Pulled out of load() so the exact same healing logic can run on
@@ -1568,6 +1794,12 @@
 
       // Pending requests are stale on reload; start the day's queue clean.
       parsed.requests = [];
+
+      // Güç (Power): lifetime-spend/lifetime-earn tracking. Added after a
+      // lot of players already had progress, so most saves won't have
+      // these fields yet — heal them with a fair, best-effort backfill
+      // instead of starting everyone at 0 (see healPowerTotals below).
+      healPowerTotals(parsed);
 
       // If this save was recovered from an older key name, write it back
       // under the current key right away and drop the old copy — from here
@@ -1809,6 +2041,43 @@
     });
   }
 
+  // "Güncellemeden Geç" — the update-required screen used to have no way
+  // out at all: if the remote version.json was ever ahead of what the
+  // player actually has installed (stale GitHub Pages cache, a staged
+  // Play Store rollout that hasn't reached everyone yet, or — the bug we
+  // just fixed at the source — version.json bumped before the release was
+  // really live), the player was stuck forever, because tapping "Şimdi
+  // Güncelle" just reopens the SAME Play Store page they already have.
+  // This button is injected in JS (not relying on any specific markup
+  // already existing in that screen) so it works regardless of the exact
+  // HTML shipped in www/index.html — it never blocks a legitimate update
+  // prompt, it's just a safety net so no one gets hard-locked out of a
+  // game they can already play.
+  var btnSkipUpdate = $("btn-skip-update");
+  function ensureSkipUpdateButton() {
+    if (!screenUpdateRequired) return;
+    if ($("btn-skip-update")) { btnSkipUpdate = $("btn-skip-update"); return; }
+    var container = btnUpdateNow ? btnUpdateNow.parentElement : screenUpdateRequired;
+    if (!container) container = screenUpdateRequired;
+    btnSkipUpdate = document.createElement("button");
+    btnSkipUpdate.id = "btn-skip-update";
+    btnSkipUpdate.type = "button";
+    btnSkipUpdate.className = "btn-skip-update";
+    btnSkipUpdate.textContent = t("update.skip");
+    container.appendChild(btnSkipUpdate);
+  }
+  ensureSkipUpdateButton();
+  if (btnSkipUpdate) {
+    btnSkipUpdate.addEventListener("click", function () {
+      // The player chose to go in anyway — treat this exactly like a
+      // normal cold start with updateRequired = false, just skip re-doing
+      // the update check itself.
+      updateRequired = false;
+      if (screenUpdateRequired) screenUpdateRequired.hidden = true;
+      enterGameAfterUpdateGate();
+    });
+  }
+
   // ---------------------------------------------------------------- loading (4s)
   // ---------------------------------------------------------------- ses motoru
   // Tamamen kod içinde üretilen (Web Audio API osilatörleriyle sentezlenen),
@@ -1981,34 +2250,43 @@
     requestAnimationFrame(step);
   })();
 
+  // Shared by the normal cold-start path AND the "Güncellemeden Geç" skip
+  // button — both end up doing exactly the same thing: load (or start) a
+  // save and boot into the game.
+  function enterGameAfterUpdateGate() {
+    showInstagramPopup();
+    setupStartMoney.textContent = fmtMoney(START_MONEY) + " ₺";
+    var existing = load();
+    if (existing && existing.cafeName) {
+      state = existing;
+      wireMoneyTracking(state);
+      startGameScreen();
+      maybeShowChangelog();
+      // Re-confirm VIP entitlement with Google Play (covers reinstalls /
+      // new devices — VIP isn't lost even if the local save is).
+      Billing.restore(function (isVip) {
+        if (isVip && !state.vip) {
+          state.vip = true;
+          save();
+          renderHud();
+          renderAdBonusButton();
+        }
+      });
+    } else {
+      screenSetup.hidden = false;
+      nameInput.focus();
+    }
+  }
+
   function afterLoad() {
     updateCheckPromise.then(function () {
       screenLoading.hidden = true;
       if (updateRequired) {
+        ensureSkipUpdateButton();
         screenUpdateRequired.hidden = false;
-        return; // the rest of the game never boots — no save is touched
+        return; // the rest of the game never boots unless the player skips
       }
-      showInstagramPopup();
-      setupStartMoney.textContent = fmtMoney(START_MONEY) + " ₺";
-      var existing = load();
-      if (existing && existing.cafeName) {
-        state = existing;
-        startGameScreen();
-        maybeShowChangelog();
-        // Re-confirm VIP entitlement with Google Play (covers reinstalls /
-        // new devices — VIP isn't lost even if the local save is).
-        Billing.restore(function (isVip) {
-          if (isVip && !state.vip) {
-            state.vip = true;
-            save();
-            renderHud();
-            renderAdBonusButton();
-          }
-        });
-      } else {
-        screenSetup.hidden = false;
-        nameInput.focus();
-      }
+      enterGameAfterUpdateGate();
     });
   }
 
@@ -2075,6 +2353,7 @@
     var name = nameInput.value.trim();
     if (!name) return;
     state = freshState();
+    wireMoneyTracking(state);
     state.cafeName = name;
     save();
     screenSetup.hidden = true;
@@ -2101,6 +2380,7 @@
   function renderHud() {
     checkAchievements();
     hudMoney.textContent = fmtMoney(state.money);
+    renderPower();
     hudTime.textContent = fmtClock(state.clockMin);
     hudDay.textContent = state.day;
     statTables.textContent = countHasTable() + "/" + MAX_STATIONS;
@@ -2545,7 +2825,8 @@
     if (requestsChanged) renderRequests();
     else updateRequestTimers();
     renderHud();
-    save();
+    refreshOpenStorePanelsIfNeeded();
+    saveThrottled();
   }
 
   function clearSession(s) {
@@ -3423,8 +3704,33 @@
     renderRebirthSection();
     renderShopUpgradeSection();
     renderCasinoTab();
+    lastStoreRenderMoney = state.money;
     modalStore.hidden = false;
   });
+
+  // FIX (mağaza arayüzü bayatlığı): dükkan modalı sadece AÇILIRKEN bir kez
+  // render ediliyordu. Ama tick() modal açıkken de çalışmaya devam ediyor
+  // (oyun duraklamıyor) — yani dükkan açıkken otomatlardan/oyunlardan pasif
+  // gelir birikebiliyor veya bir masa oturumu bitip para gelebiliyor. Sonuç:
+  // bir ürüne parası yetmediği için gri görünen buton, para artık yetse
+  // bile dükkanı kapatıp açana kadar HÂLÂ gri/tıklanamaz görünüyordu.
+  // tick() içinden, sadece para gerçekten değiştiğinde (gereksiz DOM
+  // güncellemesi olmasın diye) açık olan dükkan panellerini tazeliyoruz.
+  var lastStoreRenderMoney = null;
+  function refreshOpenStorePanelsIfNeeded() {
+    if (!modalStore || modalStore.hidden || !state) return;
+    if (state.money === lastStoreRenderMoney) return;
+    lastStoreRenderMoney = state.money;
+    renderShop();
+    renderPsSection();
+    renderCarSection();
+    renderArcadeSection();
+    renderVendingSection();
+    renderStaffSection();
+    renderRebirthSection();
+    renderShopUpgradeSection();
+    renderCasinoTab();
+  }
 
   function switchStoreTab(tab) {
     var storeTabsEl = $("store-tabs");
@@ -3929,7 +4235,7 @@
         '</div>' +
         (owned
           ? '<div class="store-item-owned"><svg class="i-18"><use href="#icon-check"/></svg>' + t("store.installed") + '</div>'
-          : '<button class="games-buy-btn" data-id="' + game.id + '"' + (canAfford ? "" : " disabled") + '>' +
+          : '<button class="store-item-buy games-buy-btn" data-id="' + game.id + '"' + (canAfford ? "" : " disabled") + '>' +
               fmtMoney(cost) + ' ₺</button>') +
       '</div>';
     }).join("");
@@ -4289,9 +4595,15 @@
       vip: state.vip,
       branch: state.branch,
       branch2Unlocked: state.branch2Unlocked,
-      otherBranch: state.otherBranch
+      otherBranch: state.otherBranch,
+      // Güç: rebirth resets the shop/cash, not lifetime spend/earn — that
+      // would otherwise wipe a veteran player's Güç back to (near) zero
+      // every time they prestige, which is the opposite of fair.
+      totalEarned: state.totalEarned,
+      totalSpent: state.totalSpent
     };
     state = freshState();
+    wireMoneyTracking(state);
     state.cafeName = keep.cafeName;
     state.totalCustomers = keep.totalCustomers;
     state.xp = keep.xp;
@@ -4308,6 +4620,8 @@
     state.branch = keep.branch;
     state.branch2Unlocked = keep.branch2Unlocked;
     state.otherBranch = keep.otherBranch;
+    state.totalEarned = keep.totalEarned;
+    state.totalSpent = keep.totalSpent;
 
     modalStore.hidden = true;
     renderFloor(); renderRequests(); renderHud();
@@ -4379,9 +4693,13 @@
       vip: state.vip,
       branch: state.branch,
       branch2Unlocked: state.branch2Unlocked,
-      otherBranch: state.otherBranch
+      otherBranch: state.otherBranch,
+      // Güç: preserved across the reset for the same reason as rebirth.
+      totalEarned: state.totalEarned,
+      totalSpent: state.totalSpent
     };
     state = freshState();
+    wireMoneyTracking(state);
     state.cafeName = keep.cafeName;
     state.totalCustomers = keep.totalCustomers;
     state.xp = keep.xp;
@@ -4398,6 +4716,13 @@
     state.branch = keep.branch;
     state.branch2Unlocked = keep.branch2Unlocked;
     state.otherBranch = keep.otherBranch;
+    state.totalEarned = keep.totalEarned;
+    state.totalSpent = keep.totalSpent;
+    // The 300.000 ₺ upgrade cost never goes through a normal "state.money -="
+    // (the whole balance gets wiped by the reset a moment later anyway), so
+    // it has to be added to Güç explicitly here or it would silently not
+    // count — that wouldn't be fair to a player who genuinely spent it.
+    state.totalSpent += SHOP_UPGRADE_COST;
 
     modalStore.hidden = true;
     renderFloor(); renderRequests(); renderHud();
