@@ -27,6 +27,11 @@
       "update.button": "Şimdi Güncelle",
       "update.skip": "Şimdi Değil, Devam Et",
       "power.tooltip": "Güç: her 100 ₺ harcama ve her 200 ₺ kazanç 1 Güç kazandırır.",
+      "chat.title": "Sohbet",
+      "chat.placeholder": "Mesaj yaz...",
+      "chat.send": "Gönder",
+      "chat.comingSoon": "Sohbet yakında!",
+      "chat.onlineTooltip": "Şu an aktif oyuncu sayısı",
       "setup.title": "Cafene bir isim ver",
       "setup.hint": "İşletmenin adı ekranın sol üstünde görünecek.",
       "setup.placeholder": "ör. Cyber Point",
@@ -434,6 +439,11 @@
       "update.button": "Update Now",
       "update.skip": "Not Now, Continue",
       "power.tooltip": "Power: every 100 ₺ spent and every 200 ₺ earned grants 1 Power.",
+      "chat.title": "Chat",
+      "chat.placeholder": "Type a message...",
+      "chat.send": "Send",
+      "chat.comingSoon": "Chat coming soon!",
+      "chat.onlineTooltip": "Players currently online",
       "setup.title": "Give your cafe a name",
       "setup.hint": "Your business name will show up in the top-left corner.",
       "setup.placeholder": "e.g. Cyber Point",
@@ -1603,6 +1613,218 @@
     if (powerBadgeValueEl) powerBadgeValueEl.textContent = powerCount(state);
   }
 
+  // ==================================================================
+  // SOHBET (canlı chat) + ANLIK AKTİF SAYISI — Ably ile
+  // ==================================================================
+  // DOLDURULMASI GEREKEN TEK YER — Ably hesabı açıp bir API key
+  // oluşturunca (publish + subscribe + presence + history yetkili) buraya
+  // yapıştır:
+  var ABLY_API_KEY = "3nsRqw.wIyZEg:EOoAE5ZRsMjOqy7C1thwdwiVIGD-3AdzDfQswLx9Al8";
+  var CHAT_ENABLED = ABLY_API_KEY !== "PASTE_BURAYA";
+  var CHAT_CHANNEL_NAME = "iozcafe-chat-global";
+  var CHAT_MIN_INTERVAL_MS = 2000; // istenen: 2 saniyede 1 mesaj
+  var CHAT_MAX_LEN = 140;
+  var CHAT_HISTORY_LIMIT = 50; // sohbet açıldığında kaç eski mesaj çekilsin
+
+  function escapeHtml(str) {
+    return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function getPlayerId() {
+    var id = null;
+    try { id = localStorage.getItem("netcafe_player_id"); } catch (e) {}
+    if (!id) {
+      id = "p_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
+      try { localStorage.setItem("netcafe_player_id", id); } catch (e) {}
+    }
+    return id;
+  }
+
+  // NOT (dürüstlük payı): bu 2 saniyelik sınır CLIENT tarafında uygulanıyor.
+  // Hesap/oturum sistemi olmadığı için (tıpkı Güç/skor tarafında olduğu
+  // gibi) bunu sunucu tarafında %100 zorlayamıyoruz — kodu değiştiren biri
+  // bu sınırı aşabilir. Gerçek bir "kimse hile yapamaz" garantisi için
+  // Ably Functions gibi sunucu taraflı bir doğrulama katmanı gerekir; şu an
+  // bunun kapsamda olmadığını bilerek ilerliyoruz.
+  var ablyClient = null;
+  var chatChannel = null;
+  var ablySdkLoading = false;
+  var onlineBadgeEl = null;
+  var onlineCountEl = null;
+  var chatListEl = null;
+  var lastChatSendAt = 0;
+  var chatPresenceVipSent = null;
+
+  function loadAblySdk(cb) {
+    if (window.Ably) return cb();
+    if (ablySdkLoading) {
+      window.addEventListener("ioz-ably-ready", function onReady() {
+        window.removeEventListener("ioz-ably-ready", onReady);
+        cb();
+      });
+      return;
+    }
+    ablySdkLoading = true;
+    var s = document.createElement("script");
+    s.src = "https://cdn.ably.com/lib/ably.min-2.js";
+    s.onload = function () { window.dispatchEvent(new Event("ioz-ably-ready")); };
+    s.onerror = function () { /* internet yok / CDN engelli — sohbet sessizce devre dışı kalır */ };
+    document.head.appendChild(s);
+  }
+
+  function chatVipHtml(vip) { return vip ? ' <span class="chat-vip-badge">VIP</span>' : ""; }
+  function chatNameHtml(name, vip) {
+    return '<span class="chat-name' + (vip ? " chat-name-vip" : "") + '">' + escapeHtml(name || "?") + "</span>" + chatVipHtml(vip);
+  }
+  function appendChatMessage(data) {
+    if (!chatListEl || !data) return;
+    var row = document.createElement("div");
+    row.className = "chat-row";
+    row.innerHTML = chatNameHtml(data.name, !!data.vip) + '<span class="chat-text">' + escapeHtml(data.text || "") + "</span>";
+    var wasAtBottom = chatListEl.scrollTop + chatListEl.clientHeight >= chatListEl.scrollHeight - 20;
+    chatListEl.appendChild(row);
+    while (chatListEl.children.length > CHAT_HISTORY_LIMIT) chatListEl.removeChild(chatListEl.firstChild);
+    if (wasAtBottom) chatListEl.scrollTop = chatListEl.scrollHeight;
+  }
+
+  function ensureOnlineBadge() {
+    if (onlineBadgeEl) return;
+    var container = document.querySelector(".hud-right");
+    if (!container) return;
+    var el = document.createElement("div");
+    el.className = "chat-online-badge";
+    el.title = t("chat.onlineTooltip");
+    el.innerHTML = '<span class="chat-online-dot"></span><span id="chat-online-count">0</span>';
+    container.appendChild(el);
+    onlineBadgeEl = el;
+    onlineCountEl = el.querySelector("#chat-online-count");
+  }
+  function updateOnlineCount() {
+    ensureOnlineBadge();
+    if (!chatChannel) return;
+    chatChannel.presence.get(function (err, members) {
+      if (err || !onlineCountEl) return;
+      onlineCountEl.textContent = members ? members.length : 0;
+    });
+  }
+
+  function connectChat() {
+    if (!CHAT_ENABLED || ablyClient || !state || !state.cafeName) return;
+    ensureOnlineBadge();
+    loadAblySdk(function () {
+      if (ablyClient) return; // aynı anda iki kez tetiklenmesin
+      try {
+        ablyClient = new Ably.Realtime({ key: ABLY_API_KEY, clientId: getPlayerId() });
+        chatChannel = ablyClient.channels.get(CHAT_CHANNEL_NAME);
+        chatPresenceVipSent = !!state.vip;
+        chatChannel.presence.enter({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent }, function (err) {
+          if (err) { /* internet hıçkırığı / yetki sorunu — sessizce yok say, oyunu bozma */ }
+        });
+        chatChannel.presence.subscribe(function () { updateOnlineCount(); });
+        chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data); });
+        chatChannel.history({ limit: CHAT_HISTORY_LIMIT, direction: "backwards" }, function (err, page) {
+          if (err || !page || !page.items) return;
+          page.items.slice().reverse().forEach(function (m) {
+            if (m.name === "msg") appendChatMessage(m.data);
+          });
+        });
+        updateOnlineCount();
+      } catch (e) { /* Ably yapılandırılamadı — sohbet sessizce devre dışı kalır */ }
+    });
+  }
+
+  // VIP durumu sonradan değişirse (VIP satın alınırsa) sohbetteki
+  // rozet/renk de canlı güncellensin diye presence bilgisini tazeler.
+  function maybeSyncChatVip() {
+    if (!chatChannel || !state) return;
+    if (chatPresenceVipSent === !!state.vip) return;
+    chatPresenceVipSent = !!state.vip;
+    try {
+      chatChannel.presence.update({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent }, function (err) { /* sessiz */ });
+    } catch (e) {}
+  }
+
+  function sendChatMessage(text) {
+    text = String(text || "").trim();
+    if (!text || !chatChannel || !state) return false;
+    var now = Date.now();
+    if (now - lastChatSendAt < CHAT_MIN_INTERVAL_MS) return false;
+    lastChatSendAt = now;
+    try {
+      chatChannel.publish("msg", {
+        name: String(state.cafeName).slice(0, 24),
+        vip: !!state.vip,
+        text: text.slice(0, CHAT_MAX_LEN)
+      }, function (err) { /* başarısız olursa sessizce yok say — mesaj listede görünmez, UI kilitlenmez */ });
+    } catch (e) { return false; }
+    return true;
+  }
+
+  var chatInputEl = null, chatSendBtnEl = null;
+  function ensureChatPanel() {
+    if ($("modal-chat")) return;
+    var modal = document.createElement("div");
+    modal.id = "modal-chat";
+    modal.className = "chat-modal-overlay";
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="chat-modal-box">' +
+        '<div class="chat-modal-head">' +
+          '<div class="chat-modal-title">' + t("chat.title") + '</div>' +
+          '<button class="chat-modal-close" id="btn-close-chat" type="button">&times;</button>' +
+        "</div>" +
+        '<div class="chat-list" id="chat-list"></div>' +
+        '<div class="chat-compose">' +
+          '<input class="chat-input" id="chat-input" type="text" maxlength="' + CHAT_MAX_LEN + '" placeholder="' + t("chat.placeholder") + '" />' +
+          '<button class="chat-send-btn" id="chat-send-btn" type="button">' + t("chat.send") + "</button>" +
+        "</div>" +
+      "</div>";
+    document.body.appendChild(modal);
+    chatListEl = $("chat-list");
+    chatInputEl = $("chat-input");
+    chatSendBtnEl = $("chat-send-btn");
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeChat(); });
+    $("btn-close-chat").addEventListener("click", closeChat);
+    function trySend() {
+      if (!chatInputEl.value.trim()) return;
+      if (!sendChatMessage(chatInputEl.value)) return; // 2sn dolmadan tekrar denenirse sessizce yok say
+      chatInputEl.value = "";
+    }
+    chatSendBtnEl.addEventListener("click", trySend);
+    chatInputEl.addEventListener("keydown", function (e) { if (e.key === "Enter") trySend(); });
+  }
+  function closeChat() {
+    var modal = $("modal-chat");
+    if (modal) modal.hidden = true;
+  }
+  function openChat() {
+    if (!CHAT_ENABLED) { showToast(t("chat.comingSoon")); return; }
+    ensureChatPanel();
+    $("modal-chat").hidden = false;
+    connectChat();
+    if (chatInputEl) chatInputEl.focus();
+  }
+
+  var CHAT_BOLT_SVG =
+    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+      '<path fill="currentColor" d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4v-4H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>' +
+    "</svg>";
+  function ensureChatButton() {
+    if ($("btn-open-chat")) return;
+    var anchor = btnOpenStore || btnOpenGames || btnOpenVip || btnInfo;
+    var container = anchor ? anchor.parentElement : null;
+    if (!container) return;
+    var btn = document.createElement("button");
+    btn.id = "btn-open-chat";
+    btn.type = "button";
+    btn.className = anchor.className; // alttaki diğer butonlarla aynı görünsün
+    btn.innerHTML = CHAT_BOLT_SVG;
+    btn.title = t("chat.title");
+    btn.addEventListener("click", openChat);
+    container.insertBefore(btn, anchor.nextSibling);
+  }
+
   // Pulled out of load() so the exact same healing logic can run on
   // whichever branch's station array needs it — branch 1's (parsed.stations)
   // and, once İkinci Şube exists, the parked branch's too.
@@ -2381,6 +2603,9 @@
     checkAchievements();
     hudMoney.textContent = fmtMoney(state.money);
     renderPower();
+    connectChat();
+    maybeSyncChatVip();
+    ensureChatButton();
     hudTime.textContent = fmtClock(state.clockMin);
     hudDay.textContent = state.day;
     statTables.textContent = countHasTable() + "/" + MAX_STATIONS;
