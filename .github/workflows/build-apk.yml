@@ -255,27 +255,32 @@ jobs:
           name: ioz-internet-cafe-release-apk
           path: android/app/build/outputs/apk/release/app-release.apk
 
-      - name: docs/version.json güncelle (zorunlu güncelleme kontrolü için)
+      - name: Bu build'in versionCode'unu ekrana yaz (docs/version.json BURADA güncellenmiyor artık)
         run: |
-          # Build başarıyla bitti demek ki bu versionCode artık gerçek,
-          # Play Store'a yüklenebilir bir sürüm — GitHub Pages'teki
-          # version.json'ı da buna göre güncelleyip repoya geri commit
-          # ediyoruz. Oyun her açılışta bu dosyayı okuyup kendi sürümüyle
-          # karşılaştırıyor (bkz. game.js: checkForUpdate).
-          mkdir -p docs
-          cat > docs/version.json <<VERSIONEOF
-          {
-            "latestVersionCode": ${{ github.run_number }},
-            "updateUrl": "https://play.google.com/store/apps/details?id=com.iozgames.iozcafe"
-          }
-          VERSIONEOF
-          cat docs/version.json
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/version.json
-          if git diff --staged --quiet; then
-            echo "version.json zaten güncel, commit atılmadı."
-          else
-            git commit -m "chore: latestVersionCode -> ${{ github.run_number }} [skip ci]"
-            git push origin HEAD:main
-          fi
+          # ÖNEMLİ — KÖK NEDEN DÜZELTMESİ:
+          # Eskiden bu adım, build başarıyla bittiği ANDA docs/version.json'ı
+          # (GitHub Pages'teki "zorunlu güncelleme" dosyası) bu run'ın
+          # versionCode'una yükseltiyordu. Sorun şu: bu workflow sadece
+          # imzalı APK/AAB üretip artifact olarak yüklüyor — Play Store'a
+          # OTOMATİK YAYINLAMIYOR. Play Console incelemesi/aşamalı yayın
+          # (staged rollout) saatler-günler sürebiliyor. Bu yüzden:
+          #   1) Build biter, docs/version.json hemen bu run'ın kodunu yazar.
+          #   2) Ama Play Store'da hâlâ ESKİ sürüm yayında.
+          #   3) O sırada oyunu YENİ İNDİREN biri Play Store'dan eski sürümü
+          #      alır, ama version.json zaten "daha yeni bir sürüm var" der.
+          #   4) Sonuç: yeni yükleyen biri, elinde zaten Play Store'daki EN
+          #      GÜNCEL sürüm olduğu halde "güncelle" ekranına takılır —
+          #      ve "Şimdi Güncelle" tuşu da onu aynı (eski) sürüme
+          #      götürdüğü için asla kurtulamaz.
+          #
+          # Çözüm: docs/version.json artık burada DEĞİL, ayrı ve MANUEL
+          # tetiklenen ".github/workflows/publish-version.yml" workflow'u
+          # ile güncelleniyor — sadece SEN Play Console'da yeni sürümün
+          # %100 yayında olduğunu gözünle gördükten SONRA elle çalıştır.
+          # Böylece version.json her zaman "gerçekten indirilebilir olan"
+          # sürümü gösterir, "az önce derlenmiş ama henüz yayınlanmamış"
+          # sürümü değil.
+          echo "Bu build'in versionCode'u: ${{ github.run_number }}"
+          echo "Play Store'da bu sürüm %100 yayına alındıktan SONRA:"
+          echo "  Actions > 'Yayını Duyur (version.json)' > Run workflow"
+          echo "  içine ${{ github.run_number }} yazıp çalıştırın."
