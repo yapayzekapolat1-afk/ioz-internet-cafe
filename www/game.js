@@ -1715,10 +1715,9 @@
   function updateOnlineCount() {
     ensureOnlineBadge();
     if (!chatChannel) return;
-    chatChannel.presence.get(function (err, members) {
-      if (err || !onlineCountEl) return;
-      onlineCountEl.textContent = members ? members.length : 0;
-    });
+    chatChannel.presence.get().then(function (members) {
+      if (onlineCountEl) onlineCountEl.textContent = members ? members.length : 0;
+    }).catch(function () { /* okuma başarısız olursa sayıyı olduğu gibi bırak */ });
   }
 
   var chatStatusEl = null;
@@ -1750,17 +1749,16 @@
         });
         chatChannel = ablyClient.channels.get(CHAT_CHANNEL_NAME);
         chatPresenceVipSent = !!state.vip;
-        chatChannel.presence.enter({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent }, function (err) {
-          if (err) { setChatStatus(t("chat.errorConn") + " (" + err.message + ")", "error"); }
-        });
+        chatChannel.presence.enter({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent })
+          .catch(function (err) { setChatStatus(t("chat.errorConn") + " (" + (err && err.message ? err.message : err) + ")", "error"); });
         chatChannel.presence.subscribe(function () { updateOnlineCount(); });
         chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data); });
-        chatChannel.history({ limit: CHAT_HISTORY_LIMIT, direction: "backwards" }, function (err, page) {
-          if (err || !page || !page.items) return;
+        chatChannel.history({ limit: CHAT_HISTORY_LIMIT, direction: "backwards" }).then(function (page) {
+          if (!page || !page.items) return;
           page.items.slice().reverse().forEach(function (m) {
             if (m.name === "msg") appendChatMessage(m.data);
           });
-        });
+        }).catch(function () { /* geçmiş yüklenemedi — chat yine de canlı çalışır */ });
         updateOnlineCount();
       } catch (e) {
         setChatStatus(t("chat.errorConn") + " (" + (e && e.message ? e.message : e) + ")", "error");
@@ -1774,9 +1772,8 @@
     if (!chatChannel || !state) return;
     if (chatPresenceVipSent === !!state.vip) return;
     chatPresenceVipSent = !!state.vip;
-    try {
-      chatChannel.presence.update({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent }, function (err) { /* sessiz */ });
-    } catch (e) {}
+    chatChannel.presence.update({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent })
+      .catch(function () { /* sessiz — bir sonraki değişiklikte tekrar denenir */ });
   }
 
   function sendChatMessage(text) {
@@ -1786,15 +1783,13 @@
     var now = Date.now();
     if (now - lastChatSendAt < CHAT_MIN_INTERVAL_MS) return false;
     lastChatSendAt = now;
-    try {
-      chatChannel.publish("msg", {
-        name: String(state.cafeName).slice(0, 24),
-        vip: !!state.vip,
-        text: text.slice(0, CHAT_MAX_LEN)
-      }, function (err) {
-        if (err) setChatStatus(t("chat.errorSend") + " (" + err.message + ")", "error");
-      });
-    } catch (e) { setChatStatus(t("chat.errorSend") + " (" + (e && e.message ? e.message : e) + ")", "error"); return false; }
+    chatChannel.publish("msg", {
+      name: String(state.cafeName).slice(0, 24),
+      vip: !!state.vip,
+      text: text.slice(0, CHAT_MAX_LEN)
+    }).catch(function (err) {
+      setChatStatus(t("chat.errorSend") + " (" + (err && err.message ? err.message : err) + ")", "error");
+    });
     return true;
   }
 
