@@ -1,0 +1,48 @@
+name: Yayını Duyur (version.json)
+
+# BU WORKFLOW'U NE ZAMAN ÇALIŞTIRMALISIN:
+# Sadece ve sadece Play Console'da yeni sürümün "Üretim" (Production)
+# aşamasında %100 yayında olduğunu KENDİ GÖZÜNLE gördükten SONRA.
+# Build APK workflow'u bittiği anda ÇALIŞTIRMA — Play Store incelemesi
+# ve aşamalı yayın (staged rollout) saatler/günler sürebilir; o sırada
+# çalıştırırsan, oyunu yeni indiren biri elinde Play Store'daki en güncel
+# sürüm olduğu halde "güncelle" ekranına takılır (tam da düzelttiğimiz
+# hata). Değer olarak, Build APK workflow'unun loglarında yazan
+# "Bu build'in versionCode'u: N" değerini gir.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_code:
+        description: "Play Store'da şu anda %100 YAYINDA olan versionCode (Build APK loglarındaki N)"
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Kodu indir
+        uses: actions/checkout@v4
+
+      - name: docs/version.json güncelle
+        run: |
+          mkdir -p docs
+          cat > docs/version.json <<VERSIONEOF
+          {
+            "latestVersionCode": ${{ github.event.inputs.version_code }},
+            "updateUrl": "https://play.google.com/store/apps/details?id=com.iozgames.iozcafe"
+          }
+          VERSIONEOF
+          cat docs/version.json
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/version.json
+          if git diff --staged --quiet; then
+            echo "version.json zaten güncel, commit atılmadı."
+          else
+            git commit -m "chore: latestVersionCode -> ${{ github.event.inputs.version_code }} (Play Store'da canlı) [skip ci]"
+            git push origin HEAD:main
+          fi
