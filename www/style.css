@@ -1302,26 +1302,6 @@ body{
   color:#2A1B00;
   font-weight:800;
 }
-.vip-or-divider{
-  text-align:center;
-  font-size:11px;
-  font-weight:700;
-  color:var(--text-muted);
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  margin:8px 0;
-}
-.vip-buy-btn-cash{
-  background:transparent;
-  border:1.5px solid var(--accent);
-  color:var(--accent);
-  font-weight:800;
-}
-.vip-buy-btn-cash:disabled{
-  opacity:.45;
-  border-color:var(--border);
-  color:var(--text-muted);
-}
 .vip-owned-box{
   display:flex;
   align-items:center;

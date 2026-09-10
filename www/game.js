@@ -332,14 +332,11 @@
       "vip.benefit2": "Gün sonu reklamları tamamen kalkar",
       "vip.benefit3": "Diğer tüm reklamlar da kaldırılır",
       "vip.benefit4": "Adının yanında altın VIP rozeti",
+      "vip.benefit5": "Anında kasana 1.000.000 ₺ hediye",
       "vip.buyBtn": "VIP OL",
-      "vip.or": "veya",
-      "vip.buyCashBtn": "Nakit ile VIP Ol",
-      "vip.cashNote": "Kasandan tek seferlik 1.000.000 ₺ düşülür, VIP kalıcı olarak aktif olur.",
-      "vip.notEnoughCash": "VIP için 1.000.000 ₺ birikimin yok.",
       "vip.alreadyOwned": "Zaten VIP üyesin, teşekkürler!",
       "vip.note": "Tek seferlik satın alma. Google Play hesabına bağlıdır, uygulamayı silsen bile korunur.",
-      "vip.purchased": "VIP üyeliğin aktif! Kazançların artık 3 katı 👑",
+      "vip.purchased": "VIP üyeliğin aktif! Kasana {amount} ₺ hediye eklendi, kazançların artık 3 katı 👑",
       "vip.purchaseFailed": "Satın alma tamamlanamadı, tekrar dene.",
       "vip.adFreeHint": "VIP üyesin, reklamsız devam ediyorsun 👑",
       "day.continueVip": "Sonraki Güne Geç",
@@ -754,14 +751,11 @@
       "vip.benefit2": "Removes the end-of-day ad entirely",
       "vip.benefit3": "Removes all other ads too",
       "vip.benefit4": "A gold VIP badge next to your name",
+      "vip.benefit5": "An instant 1,000,000 ₺ cash gift",
       "vip.buyBtn": "GO VIP",
-      "vip.or": "or",
-      "vip.buyCashBtn": "Go VIP with Cash",
-      "vip.cashNote": "1,000,000 ₺ is deducted from your till once, VIP stays active permanently.",
-      "vip.notEnoughCash": "You need 1,000,000 ₺ saved up for VIP.",
       "vip.alreadyOwned": "You're already VIP, thank you!",
       "vip.note": "One-time purchase. Tied to your Google Play account, kept even if you uninstall.",
-      "vip.purchased": "VIP membership active! Earnings are now 3x 👑",
+      "vip.purchased": "VIP membership active! {amount} ₺ added to your till, earnings are now 3x 👑",
       "vip.purchaseFailed": "Purchase couldn't be completed, try again.",
       "vip.adFreeHint": "You're VIP, continuing ad-free 👑",
       "day.continueVip": "Continue to Next Day",
@@ -2239,7 +2233,6 @@
   var modalVip = $("modal-vip");
   var btnCloseVip = $("btn-close-vip");
   var btnBuyVip = $("btn-buy-vip");
-  var btnBuyVipCash = $("btn-buy-vip-cash");
   var vipOwnedBox = $("vip-owned-box");
   var vipPriceLabel = $("vip-price-label");
   var modalDaily = $("modal-daily-reward");
@@ -2298,8 +2291,10 @@
   // kaynaklarına (masa/PS ödemesi + otomat geliri) revenueBoost ile birlikte
   // uygulanır.
   function rebirthMultiplier() { return 1 + (state.rebirthBonusPct || 0) / 100; }
-  // VIP: real-money one-time purchase (veya 1.000.000 ₺ nakit), tüm gelirleri 3 katına çıkarır.
+  // VIP: real-money one-time purchase, tüm gelirleri 3 katına çıkarır.
   function vipMultiplier() { return state.vip ? 3 : 1; }
+  // Gerçek parayla VIP alan oyuncuya anında verilen tek seferlik nakit hediye.
+  var VIP_PURCHASE_BONUS = 1000000;
   // Dükkan Geliştir: bir kerelik 300.000 ₺'lik satın alma. İşletmeyi
   // rebirth gibi sıfırlar (xp/seviye/başarım/toplam müşteri korunur) ama
   // kalıcı olarak tüm maliyetleri VE tüm geliri aynı oranda (3.5x)
@@ -3199,6 +3194,7 @@
 
     var structureChanged = false;
     var requestsChanged = false;
+    var activeDayJustEnded = false;
 
     if (!state.dayOver) {
       var activeMinutes = gameMinutes;
@@ -3208,7 +3204,13 @@
         var r = stepBranch(state, state.branch, step, true);
         if (r.structureChanged) structureChanged = true;
         if (r.requestsChanged) requestsChanged = true;
-        if (state.dayOver) return; // endDay() zaten kendi render/save/modal akışını çalıştırdı
+        // BUG FIX: burada eskiden doğrudan "return" ediliyordu — bu, aktif
+        // şubenin günü tam bu tick'te kapandığı anlarda, o tick'e denk
+        // gelen gerçek zamanı park edilmiş (İkinci Şube) hiç simüle
+        // etmeden atlıyordu (küçük ama gerçek bir zaman/gelir kaybıydı).
+        // Artık sadece aktif döngüden çıkıyoruz, park edilmiş şube
+        // simülasyonu her zaman aşağıda çalışıyor.
+        if (state.dayOver) { activeDayJustEnded = true; break; }
       }
     }
 
@@ -3228,6 +3230,14 @@
         stepBranch(ob, otherNo, obStep, false);
         guard++;
       }
+    }
+
+    if (activeDayJustEnded) {
+      // endDay() zaten kendi renderFloor/renderRequests/renderHud/save +
+      // iflas/gün-özeti akışını çalıştırdı — sadece İkinci Şube bu tick'te
+      // ek kazanç sağladıysa HUD'daki kasa rakamı güncel kalsın.
+      renderHud();
+      return;
     }
 
     if (structureChanged) renderFloor();
@@ -3535,16 +3545,10 @@
     }
   };
 
-  var VIP_CASH_PRICE = 1000000;
-
   function renderVipModal() {
     if (!state) return;
     var owned = !!state.vip;
     if (btnBuyVip) btnBuyVip.hidden = owned;
-    if (btnBuyVipCash) {
-      btnBuyVipCash.hidden = owned;
-      btnBuyVipCash.disabled = state.money < VIP_CASH_PRICE;
-    }
     if (vipOwnedBox) vipOwnedBox.hidden = !owned;
     // Show the real, localized Play Store price when available instead of
     // the hardcoded "100 ₺" placeholder (Google sets the local-currency
@@ -3577,30 +3581,21 @@
         btnBuyVip.disabled = false;
         if (success) {
           state.vip = true;
+          // İstenen özellik: VIP'i gerçek parayla satın alan oyuncuya
+          // ANINDA kasasına 1.000.000 ₺ hediye ekleniyor (bu, VIP'in
+          // Google Play'den restore edilmesinde TEKRAR verilmez — sadece
+          // gerçek, yeni bir satın alma anında bir kereliğine).
+          state.money += VIP_PURCHASE_BONUS;
           save();
           renderHud();
           renderVipModal();
           renderAdBonusButton();
           maybeSyncChatVip();
-          showToast(t("vip.purchased"));
+          showToast(t("vip.purchased", { amount: fmtMoney(VIP_PURCHASE_BONUS) }));
         } else {
           showToast(t("vip.purchaseFailed"));
         }
       });
-    });
-  }
-  if (btnBuyVipCash) {
-    btnBuyVipCash.addEventListener("click", function () {
-      if (!state || state.vip) return;
-      if (state.money < VIP_CASH_PRICE) { showToast(t("vip.notEnoughCash")); return; }
-      state.money -= VIP_CASH_PRICE;
-      state.vip = true;
-      save();
-      renderHud();
-      renderVipModal();
-      renderAdBonusButton();
-      maybeSyncChatVip();
-      showToast(t("vip.purchased"));
     });
   }
 
