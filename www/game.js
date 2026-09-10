@@ -1465,6 +1465,7 @@
       bankrupt: false,
       rebirths: 0,
       rebirthBonusPct: 0,
+      exploitPurgeChecked: true,
       shopTier: 0,
       tiktokClaimed: false,
       whatsappClaimed: false,
@@ -1501,6 +1502,11 @@
   // parayı değiştirirse değiştirsin, kaçırılmaz.
   var SPEND_PER_POWER = 100;
   var EARN_PER_POWER = 200;
+  // BİR KEZE MAHSUS istismar temizliği eşiği: rebirth sırasında 2. şube
+  // sıfırlanmadığı için bazı oyuncuların Gücü gerçek dışı şişmişti (bkz.
+  // enterGameAfterUpdateGate). Bu eşiğin üzerindeki kayıtlar bu
+  // güncellemede BİR KEZ sıfırlanır, altındakilere dokunulmaz.
+  var EXPLOIT_PURGE_POWER_THRESHOLD = 4000000;
 
   function powerCount(s) {
     s = s || state;
@@ -2078,8 +2084,12 @@
       // +%45 veriyordu. Zaten yapılmış doğuşları adil şekilde korumak için
       // (kimsenin bonusu geriye dönük azalmasın) bu sabit değeri bir kereliğine
       // yeni birikimli alana aktarıyoruz — bundan sonraki her doğuş artık
-      // money bazlı (her 1.000.000 ₺ için +%50) hesaplanır.
+      // money bazlı (her 1.000.000 ₺ için +%1) hesaplanır.
       if (typeof parsed.rebirthBonusPct !== "number") parsed.rebirthBonusPct = parsed.rebirths * 45;
+      // BİR KEZE MAHSUS istismar temizliği bayrağı: bu alan yoksa (eski bir
+      // kayıt), henüz kontrol edilmemiş demektir — enterGameAfterUpdateGate()
+      // bunu bir kere kontrol edip sonsuza dek true'ya çevirir (bkz. orada).
+      if (typeof parsed.exploitPurgeChecked !== "boolean") parsed.exploitPurgeChecked = false;
       if (typeof parsed.shopTier !== "number") parsed.shopTier = 0;
       if (typeof parsed.tiktokClaimed !== "boolean") parsed.tiktokClaimed = false;
       if (typeof parsed.whatsappClaimed !== "boolean") parsed.whatsappClaimed = false;
@@ -2596,6 +2606,33 @@
     setupStartMoney.textContent = fmtMoney(START_MONEY) + " ₺";
     var existing = load();
     if (existing && existing.cafeName) {
+      // BİR KEZE MAHSUS istismar temizliği: bu güncellemeden önce rebirth
+      // sırasında 2. şube sıfırlanmıyordu, bu da bazı oyuncuların parasının/
+      // Gücünün gerçek dışı şişmesine yol açtı. Bu kontrol her kayıt için
+      // SADECE BİR KEZ çalışır (exploitPurgeChecked bayrağıyla): şu anki
+      // Gücü eşiğin üzerinde olan kayıtlar sıfırlanır, altındakilere hiç
+      // dokunulmaz. Kontrol edildikten sonra bayrak kalıcı olarak true
+      // kalır — yani bundan SONRA dürüstçe eşiği geçen hiç kimse bir daha
+      // asla otomatik sıfırlanmaz.
+      var purged = false;
+      if (!existing.exploitPurgeChecked) {
+        if (powerCount(existing) > EXPLOIT_PURGE_POWER_THRESHOLD) {
+          existing = freshState();
+          purged = true;
+        }
+        existing.exploitPurgeChecked = true;
+      }
+      if (purged) {
+        // Tam bir sıfırlama: kayıt boş bir cafeName ile geldiği için,
+        // oyuncu tıpkı ilk kez açan biri gibi isim ekranından geçsin —
+        // yarım/isimsiz bir dükkanla ana ekrana düşmesin.
+        state = existing;
+        wireMoneyTracking(state);
+        save();
+        screenSetup.hidden = false;
+        nameInput.focus();
+        return;
+      }
       state = existing;
       wireMoneyTracking(state);
       startGameScreen();
@@ -5049,7 +5086,7 @@
   // seviye/XP, toplam müşteri sayısı ve sosyal ödül talepleri KORUNUR,
   // sadece kasa/masa/dükkan/gün sıfırlanır.
   var REBIRTH_MONEY_PER_UNIT = 1000000;
-  var REBIRTH_PCT_PER_UNIT = 50;
+  var REBIRTH_PCT_PER_UNIT = 1; // 2. sürümde %50'ydi — istismar + ekonomi patlamasına yol açtı, %1'e düşürüldü
 
   function canRebirth() {
     return countHasTable() >= MAX_STATIONS && countHasComputer() >= MAX_STATIONS && state.money >= REBIRTH_MONEY_PER_UNIT;
@@ -5080,7 +5117,6 @@
       vip: state.vip,
       branch: state.branch,
       branch2Unlocked: state.branch2Unlocked,
-      otherBranch: state.otherBranch,
       // Güç: rebirth resets the shop/cash, not lifetime spend/earn — that
       // would otherwise wipe a veteran player's Güç back to (near) zero
       // every time they prestige, which is the opposite of fair.
@@ -5101,11 +5137,16 @@
     state.rebirthBonusPct = newBonusPct;
     state.shopTier = keep.shopTier;
     state.vip = keep.vip;
-    // Rebirth only resets the branch you're currently standing in — the
-    // OTHER branch (if İkinci Şube exists) sits parked and untouched.
+    // BUG FIX: rebirth artık HER İKİ şubeyi de sıfırlıyor. Eskiden sadece
+    // aktif şube sıfırlanıyor, park edilmiş (İkinci) şube dokunulmadan
+    // kalıyordu — bu da rebirth attıktan hemen sonra diğer şubeye geçip
+    // zaten kurulu/dolu masalardan anında dev bir gelir toplayıp tekrar
+    // rebirth atmayı mümkün kılan bir istismar deliğiydi (paranın/gücün
+    // gerçek dışı şişmesinin sebebi buydu). Artık İkinci Şube varsa
+    // yepyeni/boş bir şube olarak sıfırlanıyor, tıpkı aktif şube gibi.
     state.branch = keep.branch;
     state.branch2Unlocked = keep.branch2Unlocked;
-    state.otherBranch = keep.otherBranch;
+    state.otherBranch = keep.branch2Unlocked ? freshBranchLocalState() : null;
     state.totalEarned = keep.totalEarned;
     state.totalSpent = keep.totalSpent;
 
@@ -5183,7 +5224,6 @@
       vip: state.vip,
       branch: state.branch,
       branch2Unlocked: state.branch2Unlocked,
-      otherBranch: state.otherBranch,
       // Güç: preserved across the reset for the same reason as rebirth.
       totalEarned: state.totalEarned,
       totalSpent: state.totalSpent
@@ -5202,11 +5242,11 @@
     state.rebirthBonusPct = keep.rebirthBonusPct;
     state.vip = keep.vip;
     state.shopTier = 1;
-    // Dükkan Geliştir only resets the branch you're currently standing in —
-    // the OTHER branch (if İkinci Şube exists) sits parked and untouched.
+    // BUG FIX: rebirth'teki aynı istismar deliği burada da vardı — artık
+    // İkinci Şube (varsa) burada da yepyeni/boş olarak sıfırlanıyor.
     state.branch = keep.branch;
     state.branch2Unlocked = keep.branch2Unlocked;
-    state.otherBranch = keep.otherBranch;
+    state.otherBranch = keep.branch2Unlocked ? freshBranchLocalState() : null;
     state.totalEarned = keep.totalEarned;
     state.totalSpent = keep.totalSpent;
     // The 300.000 ₺ upgrade cost never goes through a normal "state.money -="
