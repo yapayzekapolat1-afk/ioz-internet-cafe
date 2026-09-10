@@ -419,7 +419,6 @@ body{
   color:var(--text-muted);
   letter-spacing:.5px;
 }
-.sub-hud-today svg{ color:var(--gold) !important; }
 #stat-today{ color:var(--gold); }
 
 /* ---------- incoming customer requests ---------- */
@@ -752,20 +751,59 @@ body{
   white-space:nowrap;
 }
 
-.sub-hud{
+/* ---------- istatistikler: eski karışık sub-hud şeridi yerine tek bir
+   tıklanabilir özet çubuğu + ayrı bir modal ---------- */
+.stats-bar{
   display:flex;
-  flex-wrap:wrap;
-  gap:6px 10px;
-  padding:8px 16px;
-  z-index:2;
-}
-.sub-hud-item{
-  display:flex; align-items:center; gap:4px;
+  align-items:center;
+  gap:8px;
+  margin:6px 16px 0;
+  padding:8px 14px;
+  border-radius:12px;
+  background:linear-gradient(90deg, rgba(58,167,255,.14), rgba(181,101,240,.10));
+  border:1px solid var(--border);
+  color:var(--text);
   font-family:var(--font-mono);
-  font-size:10px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  z-index:2;
+  width:calc(100% - 32px);
+}
+.stats-bar svg{ color:var(--accent); flex-shrink:0; }
+.stats-bar span:first-of-type{ flex:1; text-align:left; }
+.stats-bar-chevron{ color:var(--text-muted); font-size:16px; font-weight:900; }
+.stats-bar:active{ transform:scale(.98); }
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px;
+}
+.stats-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  padding:14px 8px;
+  border-radius:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  text-align:center;
+}
+.stats-item svg{ color:var(--accent); }
+.stats-item-value{
+  font-family:var(--font-mono);
+  font-size:16px;
+  font-weight:800;
+  color:var(--text);
+}
+.stats-item-label{
+  font-size:10.5px;
   color:var(--text-muted);
 }
-.sub-hud-item svg{ color:var(--accent); opacity:.8; }
+.stats-item-tap{ cursor:pointer; }
+.stats-item-tap svg, .stats-item-tap .stats-item-value{ color:var(--gold); }
 
 /* ---------- floor grid ---------- */
 .floor{
@@ -966,13 +1004,16 @@ body{
   align-items:center;
   gap:3px;
   padding:9px 4px;
-  background:var(--panel);
+  background:linear-gradient(180deg, rgba(47,191,168,.10), var(--panel) 65%);
   border:1px solid var(--border);
+  border-bottom:2.5px solid var(--accent);
   border-radius:9px;
   color:var(--text);
   cursor:pointer;
   min-width:0;
+  transition:transform .1s ease, filter .1s ease;
 }
+.shop-btn:active{ transform:scale(.95); filter:brightness(1.2); }
 .shop-btn svg{ color:var(--accent); width:18px; height:18px; }
 .shop-btn-label{
   font-family:var(--font-display);
@@ -991,15 +1032,25 @@ body{
 .shop-btn:disabled{
   opacity:.35;
   cursor:not-allowed;
+  filter:none;
+  transform:none;
 }
 .shop-btn:disabled svg{ color:var(--text-muted); }
 #btn-upgrade-computer svg{ color:var(--gold); }
 #btn-upgrade-computer:disabled svg{ color:var(--text-muted); }
+/* Her alt bar butonunun kendi rengi var — artık hepsi aynı gri kutu gibi
+   durmuyor, arkaplan tonu + alt kenarlık ile de ayırt ediliyor. */
+.shop-btn-store{ background:linear-gradient(180deg, rgba(240,185,74,.14), var(--panel) 65%); border-bottom-color:var(--gold); }
 .shop-btn-store svg{ color:var(--gold); }
+.shop-btn-prices{ background:linear-gradient(180deg, rgba(47,191,168,.14), var(--panel) 65%); border-bottom-color:var(--accent); }
 .shop-btn-prices svg{ color:var(--accent); }
+.shop-btn-branch{ background:linear-gradient(180deg, rgba(183,140,255,.16), var(--panel) 65%); border-bottom-color:#B78CFF; }
 .shop-btn-branch svg{ color:#B78CFF; }
 .shop-btn-branch .shop-btn-price{ color:#B78CFF; }
+.shop-btn-games{ background:linear-gradient(180deg, rgba(255,143,177,.16), var(--panel) 65%); border-bottom-color:#FF8FB1; }
 .shop-btn-games svg{ color:#FF8FB1; }
+.shop-btn-chat{ background:linear-gradient(180deg, rgba(52,211,153,.16), var(--panel) 65%); border-bottom-color:#34D399; }
+.shop-btn-chat svg{ color:#34D399; }
 
 /* ---------- bulk price modal ---------- */
 .bulk-price-list{
@@ -1419,10 +1470,6 @@ body{
 }
 .rate-us-open-btn svg{ width:15px; height:15px; }
 
-/* ---------- sub-hud additions ---------- */
-.sub-hud-level{ color:var(--gold); }
-.sub-hud-level svg{ color:var(--gold); }
-
 /* ---------- İOZ Playstion badge + tile accents ---------- */
 .ps-badge{
   position:absolute;
@@ -1822,8 +1869,6 @@ body{
 }
 
 /* ---------- dükkan puanı (rating) ---------- */
-.sub-hud-rating{ color:var(--gold); cursor:pointer; }
-.sub-hud-rating svg{ color:var(--gold); }
 .rating-hero{
   display:flex;
   align-items:baseline;
@@ -1905,6 +1950,11 @@ body{
   border-radius:12px;
   background:linear-gradient(135deg, rgba(181,101,240,.12), rgba(58,167,255,.08));
   border:1px solid var(--border);
+}
+.casino-card{
+  background:linear-gradient(135deg, rgba(236,72,153,.14), rgba(250,204,21,.08));
+  border-color:rgba(236,72,153,.35);
+  margin-bottom:14px;
 }
 .rebirth-intro{
   font-size:12px;
@@ -2530,7 +2580,7 @@ svg[class^="i-"]{ display:block; fill:none; }
 
 /* ================= GÜÇ (POWER) ================= */
 /* Lives in the top-left HUD block, right under the money row — deliberately
-   fancier than the plain .sub-hud-item stat chips (gradient fill, glow,
+   fancier than the plain .stats-item stat chips (gradient fill, glow,
    animated bolt) so it reads as a special/prestige stat rather than just
    another number. Injected in JS (see ensurePowerBadge in game.js) so it
    works no matter what the surrounding HUD markup looks like. */
@@ -2743,14 +2793,20 @@ svg[class^="i-"]{ display:block; fill:none; }
   flex-shrink:0;
 }
 .chat-send-btn:active{ transform:scale(.96); }
+.chat-send-btn:disabled{
+  background:rgba(255,255,255,.08);
+  color:var(--text-muted);
+  cursor:default;
+  min-width:38px;
+  text-align:center;
+}
 
-/* Anlık aktif sayısı — sağ üstte, saat/gün bilgisinin yanına küçük ve sade
-   bir rozet olarak ekleniyor, mevcut .hud-right düzenini bozmuyor. */
+/* Anlık aktif sayısı — artık chat modal başlığında, isim ile kapatma
+   butonu arasında küçük ve sade bir rozet olarak gösteriliyor. */
 .chat-online-badge{
   display:inline-flex;
   align-items:center;
   gap:5px;
-  margin-top:4px;
   padding:2px 8px;
   border-radius:20px;
   background:rgba(255,255,255,.05);
@@ -2760,7 +2816,6 @@ svg[class^="i-"]{ display:block; fill:none; }
   font-weight:700;
   color:var(--text-muted);
   width:fit-content;
-  margin-left:auto;
 }
 .chat-online-dot{
   width:6px;

@@ -505,6 +505,17 @@
       </div>
       <div class="modal-body">
         <p class="store-intro" data-i18n="games.intro">Bilgisayarlarına oyun yükle, her biri şubene kalıcı saatlik pasif gelir katsın.</p>
+        <!-- Kumarhane artık Dükkan'da değil burada — o kalıcı bir yükseltme
+             değil, kısa molalarda oynanan bir mini oyun, Oyunlar'a daha uygun. -->
+        <div class="rebirth-card casino-card">
+          <p class="rebirth-intro" data-i18n="casino.intro">Dükkanına bir Blackjack masası kur — kısa molalarda oyna, günde 5 el hakkın var.</p>
+          <div class="rebirth-stats">
+            <div class="rebirth-stat"><span data-i18n="blackjack.playsLeft">Bugün kalan el</span><strong id="casino-plays-left">5/5</strong></div>
+          </div>
+          <button id="btn-open-casino" class="btn btn-primary btn-block">
+            <svg class="i-16"><use href="#icon-cards"/></svg> <span data-i18n="casino.open">Blackjack Oyna</span>
+          </button>
+        </div>
         <div id="games-list" class="store-list"></div>
       </div>
     </div>
@@ -579,18 +590,11 @@
       </button>
     </header>
 
-    <div class="sub-hud">
-      <div class="sub-hud-item sub-hud-level"><svg class="i-12"><use href="#icon-trophy"/></svg><span id="stat-level">Lv 1</span></div>
-      <div class="sub-hud-item sub-hud-rating" id="btn-open-rating"><svg class="i-12"><use href="#icon-star"/></svg><span id="stat-rating">7.0</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-desk-mini"/></svg><span id="stat-tables">0/60</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-monitor-mini"/></svg><span id="stat-computers">0/60</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-gamepad-mini"/></svg><span id="stat-ps">0/40</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-car-mini"/></svg><span id="stat-car">0/30</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-arcade-mini"/></svg><span id="stat-arcade">0/10</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-play"/></svg><span id="stat-ad-pc">0/10</span></div>
-      <div class="sub-hud-item"><svg class="i-12"><use href="#icon-user"/></svg><span id="stat-customers">0</span></div>
-      <div class="sub-hud-item sub-hud-today"><svg class="i-12"><use href="#icon-coin"/></svg><span id="stat-today">0 ₺</span></div>
-    </div>
+    <button class="stats-bar" id="btn-open-stats" type="button">
+      <svg class="i-14"><use href="#icon-trophy"/></svg>
+      <span data-i18n="stats.openLabel">İstatistikler</span>
+      <span class="stats-bar-chevron">›</span>
+    </button>
 
     <!-- INCOMING CUSTOMER REQUESTS -->
     <div class="requests" id="requests">
@@ -643,6 +647,30 @@
 
     <div class="toast-layer" id="toast-layer"></div>
   </section>
+
+  <!-- İSTATİSTİKLER (eskiden ana ekranda karışık bir şerit halindeydi) -->
+  <div id="modal-stats" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span data-i18n="stats.title">İstatistikler</span>
+        <button id="btn-close-stats" class="hud-icon-btn"><svg class="i-18"><use href="#icon-close"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <div class="stats-grid">
+          <div class="stats-item"><svg class="i-18"><use href="#icon-trophy"/></svg><div class="stats-item-value" id="stat-level">Lv 1</div><div class="stats-item-label" data-i18n="stats.level">Seviye</div></div>
+          <div class="stats-item stats-item-tap" id="btn-open-rating"><svg class="i-18"><use href="#icon-star"/></svg><div class="stats-item-value" id="stat-rating">7.0</div><div class="stats-item-label" data-i18n="stats.rating">Dükkan Puanı</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-desk-mini"/></svg><div class="stats-item-value" id="stat-tables">0/60</div><div class="stats-item-label" data-i18n="stats.tables">Masalar</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-monitor-mini"/></svg><div class="stats-item-value" id="stat-computers">0/60</div><div class="stats-item-label" data-i18n="stats.computers">Bilgisayarlar</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-gamepad-mini"/></svg><div class="stats-item-value" id="stat-ps">0/40</div><div class="stats-item-label" data-i18n="stats.ps">Playstation</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-car-mini"/></svg><div class="stats-item-value" id="stat-car">0/30</div><div class="stats-item-label" data-i18n="stats.car">Araba Sim</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-arcade-mini"/></svg><div class="stats-item-value" id="stat-arcade">0/10</div><div class="stats-item-label" data-i18n="stats.arcade">Oyun Atarisi</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-play"/></svg><div class="stats-item-value" id="stat-ad-pc">0/10</div><div class="stats-item-label" data-i18n="stats.adPc">Reklam PC</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-user"/></svg><div class="stats-item-value" id="stat-customers">0</div><div class="stats-item-label" data-i18n="stats.customers">Toplam Müşteri</div></div>
+          <div class="stats-item"><svg class="i-18"><use href="#icon-coin"/></svg><div class="stats-item-value" id="stat-today">0 ₺</div><div class="stats-item-label" data-i18n="stats.today">Bugünkü Kazanç</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- TOPLU FİYAT AYARI (bulk price by brand/level) -->
   <div id="modal-bulk-price" class="modal" hidden>
@@ -838,9 +866,6 @@
         <button class="store-tab" data-tab="upgrade">
           <svg class="i-16"><use href="#icon-shop-upgrade"/></svg><span data-i18n="store.tabUpgrade">Dükkan Geliştir</span>
         </button>
-        <button class="store-tab" data-tab="casino">
-          <svg class="i-16"><use href="#icon-cards"/></svg><span data-i18n="store.tabCasino">Kumarhane</span>
-        </button>
       </div>
       <div class="modal-body">
         <div class="store-tab-panel is-active" data-tab-panel="pc">
@@ -874,17 +899,6 @@
 
         <div class="store-tab-panel" data-tab-panel="upgrade" hidden>
           <div id="shop-upgrade-store-list"></div>
-        </div>
-        <div class="store-tab-panel" data-tab-panel="casino" hidden>
-          <div class="rebirth-card">
-            <p class="rebirth-intro" data-i18n="casino.intro">Dükkanına bir Blackjack masası kur — kısa molalarda oyna, günde 5 el hakkın var.</p>
-            <div class="rebirth-stats">
-              <div class="rebirth-stat"><span data-i18n="blackjack.playsLeft">Bugün kalan el</span><strong id="casino-plays-left">5/5</strong></div>
-            </div>
-            <button id="btn-open-casino" class="btn btn-primary btn-block">
-              <svg class="i-16"><use href="#icon-cards"/></svg> <span data-i18n="casino.open">Blackjack Oyna</span>
-            </button>
-          </div>
         </div>
       </div>
     </div>

@@ -61,6 +61,18 @@
       "changelog.closeWithCount": "Kapat ({n})",
 
       "hud.day": "Gün",
+      "stats.openLabel": "İstatistikler",
+      "stats.title": "İstatistikler",
+      "stats.level": "Seviye",
+      "stats.rating": "Dükkan Puanı",
+      "stats.tables": "Masalar",
+      "stats.computers": "Bilgisayarlar",
+      "stats.ps": "Playstation",
+      "stats.car": "Araba Sim",
+      "stats.arcade": "Oyun Atarisi",
+      "stats.adPc": "Reklam PC",
+      "stats.customers": "Toplam Müşteri",
+      "stats.today": "Bugünkü Kazanç",
       "requests.title": "Gelen İstekler",
       "requests.empty": "Şu an bekleyen müşteri yok",
       "shopbar.addTable": "Masa Ekle",
@@ -481,6 +493,18 @@
       "changelog.closeWithCount": "Close ({n})",
 
       "hud.day": "Day",
+      "stats.openLabel": "Statistics",
+      "stats.title": "Statistics",
+      "stats.level": "Level",
+      "stats.rating": "Shop Rating",
+      "stats.tables": "Tables",
+      "stats.computers": "Computers",
+      "stats.ps": "PlayStation",
+      "stats.car": "Car Sim",
+      "stats.arcade": "Arcade",
+      "stats.adPc": "Ad PC",
+      "stats.customers": "Total Customers",
+      "stats.today": "Today's Earnings",
       "requests.title": "Incoming Requests",
       "requests.empty": "No customers waiting right now",
       "shopbar.addTable": "Add Table",
@@ -1673,7 +1697,6 @@
   var ablyClient = null;
   var chatChannel = null;
   var ablySdkLoading = false;
-  var onlineBadgeEl = null;
   var onlineCountEl = null;
   var onlineCount = 0;
   var chatListEl = null;
@@ -1747,21 +1770,9 @@
     chatProfileEl.hidden = false;
   }
 
-  function ensureOnlineBadge() {
-    if (onlineBadgeEl) return;
-    var container = document.querySelector(".hud-right");
-    if (!container) return;
-    var el = document.createElement("div");
-    el.className = "chat-online-badge";
-    el.title = t("chat.onlineTooltip");
-    el.innerHTML = '<span class="chat-online-dot"></span><span id="chat-online-count">0</span>';
-    container.appendChild(el);
-    onlineBadgeEl = el;
-    onlineCountEl = el.querySelector("#chat-online-count");
-  }
   function setOnlineCount(n) {
-    ensureOnlineBadge();
     onlineCount = Math.max(0, n);
+    if (!onlineCountEl) onlineCountEl = $("chat-online-count");
     if (onlineCountEl) onlineCountEl.textContent = onlineCount;
   }
   // OKUMA MALİYETİ NOTU: eskiden her presence olayında (birileri girip
@@ -1866,6 +1877,7 @@
       '<div class="chat-modal-box">' +
         '<div class="chat-modal-head">' +
           '<div class="chat-modal-title">' + t("chat.title") + '</div>' +
+          '<div class="chat-online-badge" title="' + t("chat.onlineTooltip") + '"><span class="chat-online-dot"></span><span id="chat-online-count">0</span></div>' +
           '<button class="chat-modal-close" id="btn-close-chat" type="button">&times;</button>' +
         "</div>" +
         '<div class="chat-status" id="chat-status" hidden></div>' +
@@ -1887,10 +1899,34 @@
       openChatProfile(nameEl.dataset.name, nameEl.dataset.vip === "1", parseInt(nameEl.dataset.power, 10) || 0);
     });
     $("btn-close-chat").addEventListener("click", closeChat);
+    var sendLockIv = null;
+    var sendBtnLabel = t("chat.send");
+    // "gerekirse 2 saniyede bir yazabilsinler kilitlensin" — cooldown
+    // sadece sessizce reddetmesin, gönder butonu görünür şekilde kilitlenip
+    // geri sayım göstersin, oyuncu neden gönderemediğini anlasın.
+    function lockSendBtn() {
+      if (sendLockIv) clearInterval(sendLockIv);
+      chatSendBtnEl.disabled = true;
+      var msLeft = CHAT_MIN_INTERVAL_MS - (Date.now() - lastChatSendAt);
+      function tickLock() {
+        msLeft = CHAT_MIN_INTERVAL_MS - (Date.now() - lastChatSendAt);
+        if (msLeft <= 0) {
+          clearInterval(sendLockIv);
+          sendLockIv = null;
+          chatSendBtnEl.disabled = false;
+          chatSendBtnEl.textContent = sendBtnLabel;
+          return;
+        }
+        chatSendBtnEl.textContent = Math.ceil(msLeft / 1000) + "s";
+      }
+      tickLock();
+      sendLockIv = setInterval(tickLock, 200);
+    }
     function trySend() {
       if (!chatInputEl.value.trim()) return;
-      if (!sendChatMessage(chatInputEl.value)) return; // 2sn dolmadan tekrar denenirse ya da hazır değilse sessizce yok say (durum satırı zaten sebebini gösterir)
+      if (!sendChatMessage(chatInputEl.value)) { lockSendBtn(); return; } // 2sn dolmadan tekrar denenirse ya da hazır değilse kilitle, durum satırı zaten sebebini gösterir
       chatInputEl.value = "";
+      lockSendBtn();
     }
     chatSendBtnEl.addEventListener("click", trySend);
     chatInputEl.addEventListener("keydown", function (e) { if (e.key === "Enter") trySend(); });
@@ -1920,8 +1956,12 @@
     var btn = document.createElement("button");
     btn.id = "btn-open-chat";
     btn.type = "button";
-    btn.className = anchor.className; // alttaki diğer butonlarla aynı görünsün
-    btn.innerHTML = CHAT_BOLT_SVG;
+    // BUG FIX: eskiden anchor.className kopyalanıyordu — bu, chat butonunun
+    // yanlışlıkla "Dükkan" butonunun altın rengini miras almasına sebep
+    // oluyordu. Artık kendi yeşil kimliği var, diğer alt bar butonlarıyla
+    // aynı boyut/düzeni koruyor (.shop-btn) ama karışmıyor.
+    btn.className = "shop-btn shop-btn-chat";
+    btn.innerHTML = CHAT_BOLT_SVG + '<span class="shop-btn-label">' + t("chat.title") + "</span>";
     btn.title = t("chat.title");
     btn.addEventListener("click", openChat);
     container.insertBefore(btn, anchor.nextSibling);
@@ -2188,6 +2228,9 @@
   var modalRating = $("modal-rating");
   var btnCloseRating = $("btn-close-rating");
   var ratingHeroNum = $("rating-hero-num");
+  var btnOpenStats = $("btn-open-stats");
+  var modalStats = $("modal-stats");
+  var btnCloseStats = $("btn-close-stats");
   var ratingBreakdown = $("rating-breakdown");
   var vendingStoreList = $("vending-store-list");
   var staffStoreList = $("staff-store-list");
@@ -2321,6 +2364,21 @@
   var BRANCH2_INCOME_MULTIPLIER = 3;
   function branchCostMultiplierFor(branchNo) { return branchNo === 2 ? BRANCH2_COST_MULTIPLIER : 1; }
   function branchIncomeMultiplierFor(branchNo) { return branchNo === 2 ? BRANCH2_INCOME_MULTIPLIER : 1; }
+
+  // BUG FIX: masa kartlarında ve gelen isteklerde her zaman s.rate (oyuncunun
+  // belirlediği ÇIPLAK/ham fiyat) gösteriliyordu — rebirth/VIP/dükkan
+  // geliştir/gelir artışı gibi bonuslar bakiyeye doğru yansısa da, ekrandaki
+  // "₺/sa" yazısı hep sabit kalıyordu (oyuncu rebirth atınca "%1 arttı ama
+  // hâlâ 55 ₺/sa yazıyor" diye şikayet etmişti). Bu fonksiyon, GERÇEKTE eline
+  // geçecek olan (stepBranch/endDay'de kullanılanla BİREBİR aynı çarpan
+  // zincirine sahip) saatlik tutarı hesaplar — fiyat SLIDER'ı hâlâ ham
+  // s.rate üzerinde çalışır (o senin belirlediğin fiyat), ama bilgilendirme
+  // amaçlı her yer artık bu fonksiyonu kullanır.
+  function effectiveStationRate(s) {
+    var branchNo = (state && state.branch === 2) ? 2 : 1;
+    var boost = (state && state.shop && state.shop.revenueBoost) ? 1.2 : 1;
+    return Math.round(s.rate * boost * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * branchIncomeMultiplierFor(branchNo));
+  }
   function branchCostMultiplier() { return branchCostMultiplierFor(state && state.branch); }
   function branchIncomeMultiplier() { return branchIncomeMultiplierFor(state && state.branch); }
   // Aktif olarak durduğun şubenin numarası neyse, "diğer" (park edilmiş)
@@ -2756,7 +2814,15 @@
     checkAchievements();
     hudMoney.textContent = fmtMoney(state.money);
     renderPower();
-    connectChat();
+    // BUG FIX + OKUMA AZALTMA: connectChat() buradan kaldırıldı. Eskiden
+    // her oyuncu (chate hiç basmasa bile) oyunu açar açmaz Ably'ye
+    // bağlanıyordu — hem eş zamanlı bağlantı kotasını hem de her mesajın
+    // fan-out maliyetini gereksiz yere şişiriyordu (ilk günden 15K okuma
+    // bunun sonucu). Ayrıca chatListEl henüz oluşturulmadığı için o anda
+    // çekilen geçmiş mesajlar sessizce kayboluyordu — "son 20 mesaj
+    // görünmüyor" hatasının asıl sebebi buydu. Artık connectChat() SADECE
+    // openChat() içinden çağrılıyor (chat paneli zaten oluşturulmuş
+    // olarak) — hem gereksiz bağlantı kalmıyor hem geçmiş doğru yükleniyor.
     maybeSyncChatVip();
     ensureChatButton();
     hudTime.textContent = fmtClock(state.clockMin);
@@ -2870,7 +2936,7 @@
           (s.isVip ? '<span class="station-vip-badge">★</span>' : "") +
           stationVisualMarkup(s) +
           '<span class="station-label">' + label + '</span>' +
-          '<span class="station-rate">' + s.rate + ' ₺/sa</span>' +
+          '<span class="station-rate">' + effectiveStationRate(s) + ' ₺/sa</span>' +
           (s.occupied
             ? '<div class="occupant"><svg class="i-12"><use href="#icon-user"/></svg></div>' +
               '<div class="session-bar"><div class="session-fill" data-bar="' + idx + '"></div></div>'
@@ -2909,7 +2975,8 @@
 
     list.forEach(function (r) {
       var st = state.stations[r.stationIdx];
-      var total = r.hours * st.rate;
+      var effRate = effectiveStationRate(st);
+      var total = r.hours * effRate;
       var left = r.expiresAtMin - state.clockMin;
       var pct = Math.max(0, Math.min(100, (left / currentPatience()) * 100));
 
@@ -2920,7 +2987,7 @@
         '<div class="req-avatar"><svg><use href="#icon-user"/></svg></div>' +
         '<div class="req-info">' +
           '<div class="req-line1">' + r.name + ' — Masa ' + (r.stationIdx + 1) + '</div>' +
-          '<div class="req-line2">' + r.hours + ' saat · ' + st.rate + ' ₺/sa · ' +
+          '<div class="req-line2">' + r.hours + ' saat · ' + effRate + ' ₺/sa · ' +
             '<span class="req-total">' + total + ' ₺</span></div>' +
         '</div>' +
         '<div class="req-actions">' +
@@ -4212,7 +4279,6 @@
     renderStaffSection();
     renderRebirthSection();
     renderShopUpgradeSection();
-    renderCasinoTab();
     lastStoreRenderMoney = state.money;
     modalStore.hidden = false;
   });
@@ -4238,7 +4304,6 @@
     renderStaffSection();
     renderRebirthSection();
     renderShopUpgradeSection();
-    renderCasinoTab();
   }
 
   function switchStoreTab(tab) {
@@ -4753,6 +4818,7 @@
   if (btnOpenGames) {
     btnOpenGames.addEventListener("click", function () {
       renderGamesSection();
+      renderCasinoTab(); // Kumarhane kartı artık Dükkan'da değil, Oyunlar modalinde
       modalGames.hidden = false;
     });
   }
@@ -5401,10 +5467,15 @@
 
   btnOpenRating.addEventListener("click", function () {
     renderRatingModal();
+    modalStats.hidden = true; // istatistikler içinden açılıyor, üst üste binmesin
     modalRating.hidden = false;
   });
   btnCloseRating.addEventListener("click", function () { modalRating.hidden = true; });
   modalRating.addEventListener("click", function (e) { if (e.target === modalRating) modalRating.hidden = true; });
+
+  btnOpenStats.addEventListener("click", function () { modalStats.hidden = false; });
+  btnCloseStats.addEventListener("click", function () { modalStats.hidden = true; });
+  modalStats.addEventListener("click", function (e) { if (e.target === modalStats) modalStats.hidden = true; });
 
   // ---------------------------------------------------------------- fx
   function spawnIncomePop(stationIdx, amount) {
