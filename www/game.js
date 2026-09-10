@@ -215,11 +215,12 @@
       "shop.onlineReservation.desc": "Müşteriler önceden yer ayırtır — cafene gelen trafiği kalıcı olarak +%25 daha artırır.",
 
       "rebirth.title": "Yeniden Doğuş",
-      "rebirth.intro": "İşletmeni sıfırlayıp kalıcı bir bonusla yeniden başla. Bonus, yapılan her yeniden doğuşla birikir.",
+      "rebirth.intro": "İşletmeni sıfırlayıp kalıcı bir bonusla yeniden başla. Bonus, birikimine göre hesaplanır ve her yeniden doğuşla üst üste birikir — sınırsız.",
       "rebirth.currentBonus": "Mevcut kalıcı bonus",
       "rebirth.count": "Yeniden doğuş sayısı",
       "rebirth.locked": "Kilitli — {req}",
-      "rebirth.lockedReq": "Tüm masa/bilgisayarları kur ve {day}. güne ulaş",
+      "rebirth.lockedReq": "Tüm masa/bilgisayarları kur ve {amount} birikime ulaş",
+      "rebirth.rule": "Her {amount} birikim için kalıcı +%{pct} gelir bonusu kazanırsın.",
       "rebirth.button": "Yeniden Doğ",
       "rebirth.confirmTitle": "Emin misin?",
       "rebirth.confirmText": "Kasan, masaların, bilgisayarların, dükkan yükseltmelerin ve gün sayacın sıfırlanacak. Karşılığında kalıcı olarak +%{pct} gelir bonusu kazanacaksın. Başarımların, seviyen ve toplam müşteri sayın korunur. Bu işlem geri alınamaz.",
@@ -327,14 +328,18 @@
       "vip.buyShort": "VIP Satın Al",
       "vip.memberShort": "VIP Üyesin ✓",
       "vip.heroTitle": "İşletmeni VIP Yap",
-      "vip.benefit1": "Tüm kazançların 2 katına çıkar",
+      "vip.benefit1": "Tüm kazançların 3 katına çıkar",
       "vip.benefit2": "Gün sonu reklamları tamamen kalkar",
       "vip.benefit3": "Diğer tüm reklamlar da kaldırılır",
       "vip.benefit4": "Adının yanında altın VIP rozeti",
       "vip.buyBtn": "VIP OL",
+      "vip.or": "veya",
+      "vip.buyCashBtn": "Nakit ile VIP Ol",
+      "vip.cashNote": "Kasandan tek seferlik 1.000.000 ₺ düşülür, VIP kalıcı olarak aktif olur.",
+      "vip.notEnoughCash": "VIP için 1.000.000 ₺ birikimin yok.",
       "vip.alreadyOwned": "Zaten VIP üyesin, teşekkürler!",
       "vip.note": "Tek seferlik satın alma. Google Play hesabına bağlıdır, uygulamayı silsen bile korunur.",
-      "vip.purchased": "VIP üyeliğin aktif! Kazançların artık 2 katı 👑",
+      "vip.purchased": "VIP üyeliğin aktif! Kazançların artık 3 katı 👑",
       "vip.purchaseFailed": "Satın alma tamamlanamadı, tekrar dene.",
       "vip.adFreeHint": "VIP üyesin, reklamsız devam ediyorsun 👑",
       "day.continueVip": "Sonraki Güne Geç",
@@ -632,11 +637,12 @@
       "shop.onlineReservation.desc": "Customers book ahead — permanently increases your incoming customer traffic by another +25%.",
 
       "rebirth.title": "Rebirth",
-      "rebirth.intro": "Reset your business for a permanent bonus. The bonus stacks with every rebirth.",
+      "rebirth.intro": "Reset your business for a permanent bonus. The bonus is based on your savings and stacks with every rebirth — unlimited.",
       "rebirth.currentBonus": "Current permanent bonus",
       "rebirth.count": "Rebirths",
       "rebirth.locked": "Locked — {req}",
-      "rebirth.lockedReq": "Build every table/computer and reach day {day}",
+      "rebirth.lockedReq": "Build every table/computer and save up {amount}",
+      "rebirth.rule": "You gain a permanent +{pct}% revenue bonus for every {amount} saved.",
       "rebirth.button": "Rebirth",
       "rebirth.confirmTitle": "Are you sure?",
       "rebirth.confirmText": "Your cash, tables, computers, store upgrades and day counter will all reset. In exchange you'll permanently gain +{pct}% revenue. Your achievements, level and total customer count are kept. This cannot be undone.",
@@ -744,14 +750,18 @@
       "vip.buyShort": "Buy VIP",
       "vip.memberShort": "VIP Member ✓",
       "vip.heroTitle": "Make Your Business VIP",
-      "vip.benefit1": "Doubles all your earnings",
+      "vip.benefit1": "Triples all your earnings",
       "vip.benefit2": "Removes the end-of-day ad entirely",
       "vip.benefit3": "Removes all other ads too",
       "vip.benefit4": "A gold VIP badge next to your name",
       "vip.buyBtn": "GO VIP",
+      "vip.or": "or",
+      "vip.buyCashBtn": "Go VIP with Cash",
+      "vip.cashNote": "1,000,000 ₺ is deducted from your till once, VIP stays active permanently.",
+      "vip.notEnoughCash": "You need 1,000,000 ₺ saved up for VIP.",
       "vip.alreadyOwned": "You're already VIP, thank you!",
       "vip.note": "One-time purchase. Tied to your Google Play account, kept even if you uninstall.",
-      "vip.purchased": "VIP membership active! Earnings are now 2x 👑",
+      "vip.purchased": "VIP membership active! Earnings are now 3x 👑",
       "vip.purchaseFailed": "Purchase couldn't be completed, try again.",
       "vip.adFreeHint": "You're VIP, continuing ad-free 👑",
       "day.continueVip": "Continue to Next Day",
@@ -1294,8 +1304,8 @@
   // bekler ve aynı anda daha fazla istek kuyrukta tutulabilir — daha az
   // müşteri kaybı demek. Tek yerden okunur ki her kullanım noktası aynı
   // (varsa yükseltilmiş) değeri görsün.
-  function currentPatience() { return state.shop.adCampaign ? PATIENCE_GAME_MIN + 10 : PATIENCE_GAME_MIN; }
-  function currentMaxPending() { return state.shop.adCampaign ? MAX_PENDING_REQUESTS + 2 : MAX_PENDING_REQUESTS; }
+  function currentPatience(b) { b = b || state; return b.shop.adCampaign ? PATIENCE_GAME_MIN + 10 : PATIENCE_GAME_MIN; }
+  function currentMaxPending(b) { b = b || state; return b.shop.adCampaign ? MAX_PENDING_REQUESTS + 2 : MAX_PENDING_REQUESTS; }
 
   // Hourly demand curve (index = hour 0..23). Mirrors a real internet
   // cafe: dead in the morning, busy after school, peak at night.
@@ -1460,6 +1470,7 @@
       totalCustomers: 0,
       bankrupt: false,
       rebirths: 0,
+      rebirthBonusPct: 0,
       shopTier: 0,
       tiktokClaimed: false,
       whatsappClaimed: false,
@@ -1636,7 +1647,7 @@
   var CHAT_CHANNEL_NAME = "iozcafe-chat-global";
   var CHAT_MIN_INTERVAL_MS = 2000; // istenen: 2 saniyede 1 mesaj
   var CHAT_MAX_LEN = 140;
-  var CHAT_HISTORY_LIMIT = 50; // sohbet açıldığında kaç eski mesaj çekilsin
+  var CHAT_HISTORY_LIMIT = 20; // sohbet açıldığında kaç eski mesaj çekilsin
 
   function escapeHtml(str) {
     return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
@@ -1664,6 +1675,7 @@
   var ablySdkLoading = false;
   var onlineBadgeEl = null;
   var onlineCountEl = null;
+  var onlineCount = 0;
   var chatListEl = null;
   var lastChatSendAt = 0;
   var chatPresenceVipSent = null;
@@ -1686,18 +1698,53 @@
   }
 
   function chatVipHtml(vip) { return vip ? ' <span class="chat-vip-badge">VIP</span>' : ""; }
-  function chatNameHtml(name, vip) {
-    return '<span class="chat-name' + (vip ? " chat-name-vip" : "") + '">' + escapeHtml(name || "?") + "</span>" + chatVipHtml(vip);
+  // İsim artık tıklanabilir bir profil kartı açıyor — güç ve VIP durumu
+  // mesajın kendi içinde taşındığı için (data-power/data-vip) ekstra bir
+  // ağ isteği gerekmiyor.
+  function chatNameHtml(name, vip, power) {
+    return '<span class="chat-name' + (vip ? " chat-name-vip" : "") +
+      '" data-chat-profile="1" data-name="' + escapeHtml(name || "?") +
+      '" data-power="' + (power || 0) + '" data-vip="' + (vip ? "1" : "0") + '">' +
+      escapeHtml(name || "?") + "</span>" + chatVipHtml(vip);
   }
   function appendChatMessage(data) {
     if (!chatListEl || !data) return;
     var row = document.createElement("div");
     row.className = "chat-row";
-    row.innerHTML = chatNameHtml(data.name, !!data.vip) + '<span class="chat-text">' + escapeHtml(data.text || "") + "</span>";
+    row.innerHTML = chatNameHtml(data.name, !!data.vip, data.power) + '<span class="chat-text">' + escapeHtml(data.text || "") + "</span>";
     var wasAtBottom = chatListEl.scrollTop + chatListEl.clientHeight >= chatListEl.scrollHeight - 20;
     chatListEl.appendChild(row);
     while (chatListEl.children.length > CHAT_HISTORY_LIMIT) chatListEl.removeChild(chatListEl.firstChild);
     if (wasAtBottom) chatListEl.scrollTop = chatListEl.scrollHeight;
+  }
+
+  // ---- Oyuncu profil kartı: chat'te bir isme tıklayınca açılır.
+  var chatProfileEl = null;
+  function ensureChatProfileCard() {
+    if (chatProfileEl) return;
+    var el = document.createElement("div");
+    el.id = "chat-profile-card";
+    el.className = "chat-profile-overlay";
+    el.hidden = true;
+    el.innerHTML =
+      '<div class="chat-profile-box">' +
+        '<div class="chat-profile-name" id="chat-profile-name"></div>' +
+        '<div class="chat-profile-power">' + POWER_BOLT_SVG + '<span id="chat-profile-power">0</span></div>' +
+      '</div>';
+    document.body.appendChild(el);
+    el.addEventListener("click", function () { el.hidden = true; });
+    chatProfileEl = el;
+  }
+  function openChatProfile(name, vip, power) {
+    ensureChatProfileCard();
+    var nameEl = $("chat-profile-name");
+    if (nameEl) {
+      nameEl.innerHTML = escapeHtml(name || "?") + (vip ? ' <span class="chat-vip-badge">VIP</span>' : "");
+      nameEl.className = "chat-profile-name" + (vip ? " chat-name-vip" : "");
+    }
+    var powerEl = $("chat-profile-power");
+    if (powerEl) powerEl.textContent = power || 0;
+    chatProfileEl.hidden = false;
   }
 
   function ensureOnlineBadge() {
@@ -1712,12 +1759,26 @@
     onlineBadgeEl = el;
     onlineCountEl = el.querySelector("#chat-online-count");
   }
-  function updateOnlineCount() {
+  function setOnlineCount(n) {
     ensureOnlineBadge();
-    if (!chatChannel) return;
-    chatChannel.presence.get().then(function (members) {
-      if (onlineCountEl) onlineCountEl.textContent = members ? members.length : 0;
-    }).catch(function () { /* okuma başarısız olursa sayıyı olduğu gibi bırak */ });
+    onlineCount = Math.max(0, n);
+    if (onlineCountEl) onlineCountEl.textContent = onlineCount;
+  }
+  // OKUMA MALİYETİ NOTU: eskiden her presence olayında (birileri girip
+  // çıktıkça) channel.presence.get() ile TÜM üye listesi yeniden çekiliyordu
+  // — çok oyunculu bir anda bu, aylık Ably okuma kotasını hızla tüketirdi.
+  // Artık hiç .get() çağrılmıyor: presence.subscribe() zaten kanala
+  // bağlanır bağlanmaz o an odada olan HERKES için birer "present" olayı
+  // yolluyor (senkronizasyon), biz de bunu yerel sayaçta +1/-1 olarak
+  // biriktiriyoruz — sıfır ekstra okuma ile aynı doğrulukta anlık sayı.
+  function handlePresenceEvent(member) {
+    if (!member) return;
+    if (member.action === "enter" || member.action === "present") {
+      setOnlineCount(onlineCount + 1);
+    } else if (member.action === "leave" || member.action === "absent") {
+      setOnlineCount(onlineCount - 1);
+    }
+    // "update" (ör. VIP durumu değişti) sayıyı etkilemez.
   }
 
   var chatStatusEl = null;
@@ -1749,9 +1810,10 @@
         });
         chatChannel = ablyClient.channels.get(CHAT_CHANNEL_NAME);
         chatPresenceVipSent = !!state.vip;
+        onlineCount = 0;
+        chatChannel.presence.subscribe(handlePresenceEvent);
         chatChannel.presence.enter({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent })
           .catch(function (err) { setChatStatus(t("chat.errorConn") + " (" + (err && err.message ? err.message : err) + ")", "error"); });
-        chatChannel.presence.subscribe(function () { updateOnlineCount(); });
         chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data); });
         chatChannel.history({ limit: CHAT_HISTORY_LIMIT, direction: "backwards" }).then(function (page) {
           if (!page || !page.items) return;
@@ -1759,7 +1821,6 @@
             if (m.name === "msg") appendChatMessage(m.data);
           });
         }).catch(function () { /* geçmiş yüklenemedi — chat yine de canlı çalışır */ });
-        updateOnlineCount();
       } catch (e) {
         setChatStatus(t("chat.errorConn") + " (" + (e && e.message ? e.message : e) + ")", "error");
       }
@@ -1786,6 +1847,7 @@
     chatChannel.publish("msg", {
       name: String(state.cafeName).slice(0, 24),
       vip: !!state.vip,
+      power: powerCount(state),
       text: text.slice(0, CHAT_MAX_LEN)
     }).catch(function (err) {
       setChatStatus(t("chat.errorSend") + " (" + (err && err.message ? err.message : err) + ")", "error");
@@ -1819,6 +1881,11 @@
     chatSendBtnEl = $("chat-send-btn");
     chatStatusEl = $("chat-status");
     modal.addEventListener("click", function (e) { if (e.target === modal) closeChat(); });
+    chatListEl.addEventListener("click", function (e) {
+      var nameEl = e.target.closest("[data-chat-profile]");
+      if (!nameEl) return;
+      openChatProfile(nameEl.dataset.name, nameEl.dataset.vip === "1", parseInt(nameEl.dataset.power, 10) || 0);
+    });
     $("btn-close-chat").addEventListener("click", closeChat);
     function trySend() {
       if (!chatInputEl.value.trim()) return;
@@ -2013,6 +2080,12 @@
       if (typeof parsed.nextRequestAtMin !== "number") parsed.nextRequestAtMin = parsed.clockMin + 4;
       parsed.shop = healShopFlags(parsed.shop);
       if (typeof parsed.rebirths !== "number") parsed.rebirths = 0;
+      // ESKİ KURAL -> YENİ KURAL geçişi: eskiden her yeniden doğuş sabit
+      // +%45 veriyordu. Zaten yapılmış doğuşları adil şekilde korumak için
+      // (kimsenin bonusu geriye dönük azalmasın) bu sabit değeri bir kereliğine
+      // yeni birikimli alana aktarıyoruz — bundan sonraki her doğuş artık
+      // money bazlı (her 1.000.000 ₺ için +%50) hesaplanır.
+      if (typeof parsed.rebirthBonusPct !== "number") parsed.rebirthBonusPct = parsed.rebirths * 45;
       if (typeof parsed.shopTier !== "number") parsed.shopTier = 0;
       if (typeof parsed.tiktokClaimed !== "boolean") parsed.tiktokClaimed = false;
       if (typeof parsed.whatsappClaimed !== "boolean") parsed.whatsappClaimed = false;
@@ -2166,6 +2239,7 @@
   var modalVip = $("modal-vip");
   var btnCloseVip = $("btn-close-vip");
   var btnBuyVip = $("btn-buy-vip");
+  var btnBuyVipCash = $("btn-buy-vip-cash");
   var vipOwnedBox = $("vip-owned-box");
   var vipPriceLabel = $("vip-price-label");
   var modalDaily = $("modal-daily-reward");
@@ -2202,8 +2276,9 @@
   // kalıcı olarak +%25 yükseltir — müşteriler daha pahalı fiyata da razı
   // olur. Tek yerden hesaplanır ki fiyat kaydırıcısı, geri bildirim metni
   // ve müşteri kabul mantığı hep aynı tavanı görsün.
-  function effectiveMaxAccept(lvl) {
-    return state.shop.fiberInternet ? Math.round(lvl.maxAcceptRate * 1.25) : lvl.maxAcceptRate;
+  function effectiveMaxAccept(lvl, b) {
+    b = b || state;
+    return b.shop.fiberInternet ? Math.round(lvl.maxAcceptRate * 1.25) : lvl.maxAcceptRate;
   }
 
   function countHasTable() { return state.stations.filter(function (s) { return !s.isPS && !s.isCar && !s.isArcade && !s.isAdPc && s.hasTable; }).length; }
@@ -2216,12 +2291,15 @@
   function countArcadeWithConsole() { return state.stations.filter(function (s) { return s.isArcade && s.hasComputer; }).length; }
   function countAdPcWithComputer() { return state.stations.filter(function (s) { return s.isAdPc && s.hasComputer; }).length; }
 
-  // Yeniden Doğuş kalıcı bonusu: her yeniden doğuşta +%15, kalıcı olarak
-  // birikir. Tüm gelir kaynaklarına (masa/PS ödemesi + otomat geliri)
-  // revenueBoost ile birlikte uygulanır.
-  function rebirthMultiplier() { return 1 + state.rebirths * 0.45; }
-  // VIP: real-money one-time purchase, doubles every income source.
-  function vipMultiplier() { return state.vip ? 2 : 1; }
+  // Yeniden Doğuş kalıcı bonusu: artık gün şartı yok, sabit yüzde de yok —
+  // her doğuşta o ana kadar biriktirdiğin her 1.000.000 ₺ için +%50 kalıcı
+  // bonus kazanılır (REBIRTH_MONEY_PER_UNIT / REBIRTH_PCT_PER_UNIT), ve bu
+  // sınırsız şekilde üst üste birikir (state.rebirthBonusPct). Tüm gelir
+  // kaynaklarına (masa/PS ödemesi + otomat geliri) revenueBoost ile birlikte
+  // uygulanır.
+  function rebirthMultiplier() { return 1 + (state.rebirthBonusPct || 0) / 100; }
+  // VIP: real-money one-time purchase (veya 1.000.000 ₺ nakit), tüm gelirleri 3 katına çıkarır.
+  function vipMultiplier() { return state.vip ? 3 : 1; }
   // Dükkan Geliştir: bir kerelik 300.000 ₺'lik satın alma. İşletmeyi
   // rebirth gibi sıfırlar (xp/seviye/başarım/toplam müşteri korunur) ama
   // kalıcı olarak tüm maliyetleri VE tüm geliri aynı oranda (3.5x)
@@ -2236,8 +2314,13 @@
   var NEW_BRANCH_COST = 1000000;
   var BRANCH2_COST_MULTIPLIER = 6;
   var BRANCH2_INCOME_MULTIPLIER = 3;
-  function branchCostMultiplier() { return (state && state.branch === 2) ? BRANCH2_COST_MULTIPLIER : 1; }
-  function branchIncomeMultiplier() { return (state && state.branch === 2) ? BRANCH2_INCOME_MULTIPLIER : 1; }
+  function branchCostMultiplierFor(branchNo) { return branchNo === 2 ? BRANCH2_COST_MULTIPLIER : 1; }
+  function branchIncomeMultiplierFor(branchNo) { return branchNo === 2 ? BRANCH2_INCOME_MULTIPLIER : 1; }
+  function branchCostMultiplier() { return branchCostMultiplierFor(state && state.branch); }
+  function branchIncomeMultiplier() { return branchIncomeMultiplierFor(state && state.branch); }
+  // Aktif olarak durduğun şubenin numarası neyse, "diğer" (park edilmiş)
+  // şube her zaman onun tam tersidir — sadece 2 şube olduğu için basitçe hesaplanır.
+  function otherBranchNumber() { return (state && state.branch === 2) ? 1 : 2; }
   var PER_BRANCH_KEYS = [
     "stations", "day", "clockMin", "dayOver", "requests", "nextRequestAtMin",
     "reqSeq", "today", "shop", "vending", "vendingAccrued", "staff",
@@ -2277,18 +2360,21 @@
   function arcadeConsoleCost() { return Math.round(ARCADE_CONSOLE_COST * shopTierMultiplier() * branchCostMultiplier()); }
   function upgradeCostFor(lvl) { return lvl.upgradeCost ? Math.round(lvl.upgradeCost * shopTierMultiplier() * branchCostMultiplier()) : lvl.upgradeCost; }
 
-  function dailyRunningCost() {
-    var total = DAILY_BASE_COST * shopTierMultiplier() * branchCostMultiplier();
-    state.stations.forEach(function (s) {
-      if (s.hasComputer) total += (levelsFor(s)[s.computerLevel].dailyCost || 0) * shopTierMultiplier() * branchCostMultiplier();
+  function dailyRunningCost(b, branchNo) {
+    b = b || state;
+    branchNo = branchNo || (state && state.branch);
+    var costMult = branchCostMultiplierFor(branchNo);
+    var total = DAILY_BASE_COST * shopTierMultiplier() * costMult;
+    b.stations.forEach(function (s) {
+      if (s.hasComputer) total += (levelsFor(s)[s.computerLevel].dailyCost || 0) * shopTierMultiplier() * costMult;
     });
-    if (state.vending.drink) total += VENDING_DRINK_DAILY_COST;
-    if (state.vending.food) total += VENDING_FOOD_DAILY_COST;
-    if (state.vending.candy) total += VENDING_CANDY_DAILY_COST;
-    if (state.staff.cleaner) total += CLEANER_DAILY_WAGE;
+    if (b.vending.drink) total += VENDING_DRINK_DAILY_COST;
+    if (b.vending.food) total += VENDING_FOOD_DAILY_COST;
+    if (b.vending.candy) total += VENDING_CANDY_DAILY_COST;
+    if (b.staff.cleaner) total += CLEANER_DAILY_WAGE;
     // "Jeneratör / Enerji Verimliliği" dükkan ürünü: tüm günlük gideri
     // kalıcı olarak %25 azaltır.
-    if (state.shop.generator) total = Math.round(total * 0.75);
+    if (b.shop.generator) total = Math.round(total * 0.75);
     return total;
   }
 
@@ -2832,10 +2918,11 @@
   // Willingness to pay: a customer compares the station's hourly rate to
   // what that class of machine is worth to them. Cheap = always accepted,
   // above the ceiling = they simply never ask for that table.
-  function customerWantsStation(s) {
+  function customerWantsStation(s, b) {
+    b = b || state;
     if (!s.hasTable || !s.hasComputer || s.occupied) return false;
     var lvl = levelsFor(s)[s.computerLevel];
-    var ceiling = effectiveMaxAccept(lvl);
+    var ceiling = effectiveMaxAccept(lvl, b);
     if (s.rate > ceiling) return false;
     var fair = lvl.defaultRate;
     if (s.rate <= fair) return true;
@@ -2844,42 +2931,48 @@
     return Math.random() > over * 0.85;
   }
 
-  function scheduleNextRequest() {
-    var hour = Math.floor((state.clockMin % 1440) / 60);
+  function scheduleNextRequest(b) {
+    b = b || state;
+    var hour = Math.floor((b.clockMin % 1440) / 60);
     var demand = DEMAND_BY_HOUR[hour] || 0.2;
     // Foot traffic scales with how big the cafe is. This used to use a
     // log curve, which capped total demand so hard that tables 6-10 earned
     // almost nothing (5 tables and 10 tables both served ~25 customers a
     // day) — the last 1000 TL of expansion paid for itself in 16 days and
     // was effectively a trap. Linear scaling makes every table worth buying.
-    var ready = state.stations.filter(function (s) { return s.hasTable && s.hasComputer; }).length;
+    var ready = b.stations.filter(function (s) { return s.hasTable && s.hasComputer; }).length;
     var sizeBoost = 1 + Math.max(0, ready - 1) * 0.38;
     // "Müşteri Verimliliği" dükkan ürünü: +%50 müşteri trafiği (aralığı
     // kısaltarak daha sık istek üretir).
-    if (state.shop.customerBoost) sizeBoost *= 1.5;
-    if (state.shop.onlineReservation) sizeBoost *= 1.25;
+    if (b.shop.customerBoost) sizeBoost *= 1.5;
+    if (b.shop.onlineReservation) sizeBoost *= 1.25;
     var gap = MAX_GAP_GAME_MIN / (demand * sizeBoost);
     gap = Math.max(MIN_GAP_GAME_MIN, Math.min(MAX_GAP_GAME_MIN, gap));
     // jitter so arrivals never feel metronomic
     gap = gap * (0.65 + Math.random() * 0.7);
-    state.nextRequestAtMin = state.clockMin + gap;
+    b.nextRequestAtMin = b.clockMin + gap;
   }
 
-  function tryCreateRequest() {
-    if (state.requests.length >= currentMaxPending()) { scheduleNextRequest(); return; }
+  // İkinci Şube: b parametresi verilmezse aktif şube (state) üzerinde
+  // çalışır — eskisiyle birebir aynı davranış. Parametre verilirse (park
+  // edilmiş şube), aynı mantık o şubenin kendi verisi üzerinde işler; tick()
+  // artık bunu her iki şube için de çağırıyor (bkz. stepBranch).
+  function tryCreateRequest(b) {
+    b = b || state;
+    if (b.requests.length >= currentMaxPending(b)) { scheduleNextRequest(b); return; }
 
     // "VIP Üyelik Programı" dükkan ürünü: gelen müşterilerin %15'i VIP
     // olarak gelir — fiyat tavanını hiç umursamaz, en pahalı masaya bile
     // oturur. Bu yüzden VIP için aday listesi normal fiyat/istek
     // filtresinden (customerWantsStation) tamamen ayrı hesaplanır.
-    var isVip = state.shop.vipProgram && Math.random() < 0.15;
+    var isVip = b.shop.vipProgram && Math.random() < 0.15;
 
     var candidates = [];
-    state.stations.forEach(function (s, idx) {
-      if (state.requests.some(function (r) { return r.stationIdx === idx; })) return; // already requested
+    b.stations.forEach(function (s, idx) {
+      if (b.requests.some(function (r) { return r.stationIdx === idx; })) return; // already requested
       if (isVip) {
         if (s.hasTable && s.hasComputer && !s.occupied) candidates.push(idx);
-      } else if (customerWantsStation(s)) {
+      } else if (customerWantsStation(s, b)) {
         candidates.push(idx);
       }
     });
@@ -2887,31 +2980,32 @@
     if (candidates.length === 0) {
       // Someone walked in and found nothing suitable — that's a lost customer,
       // but only count it if the cafe actually has working stations.
-      var anyReady = state.stations.some(function (s) { return s.hasTable && s.hasComputer; });
-      if (anyReady) state.today.lost += 1;
-      scheduleNextRequest();
+      var anyReady = b.stations.some(function (s) { return s.hasTable && s.hasComputer; });
+      if (anyReady) b.today.lost += 1;
+      scheduleNextRequest(b);
       return;
     }
 
     var stationIdx = randPick(candidates);
     // "Sadakat Kart Sistemi" dükkan ürünü ve VIP müşteriler daha uzun
     // oturur — 2-4 saat yerine normalde 1-3 saat.
-    var longStay = isVip || state.shop.loyaltyCard;
+    var longStay = isVip || b.shop.loyaltyCard;
     var hours = (longStay ? 2 : 1) + Math.floor(Math.random() * 3);
-    var newId = state.reqSeq++;
-    state.requests.push({
+    var newId = b.reqSeq++;
+    b.requests.push({
       id: newId,
       name: randPick(FIRST_NAMES),
       stationIdx: stationIdx,
       hours: hours,
       isVip: isVip,
-      expiresAtMin: state.clockMin + currentPatience()
+      expiresAtMin: b.clockMin + currentPatience(b)
     });
-    scheduleNextRequest();
+    scheduleNextRequest(b);
 
     // "Otomatik Kabul" dükkan ürünü: istek oluşur oluşmaz otomatik onaylanır,
-    // oyuncunun her seferinde dokunmasına gerek kalmaz.
-    if (state.shop.autoAccept) approveRequest(newId);
+    // oyuncunun her seferinde dokunmasına gerek kalmaz. Park edilmiş şube
+    // için de (autoAccept açıksa) sessizce, UI'sız uygulanır.
+    if (b.shop.autoAccept) approveRequestInBranch(b, newId);
   }
 
   // ---------------------------------------------------------------- request actions
@@ -2930,35 +3024,55 @@
     return -1;
   }
 
-  function approveRequest(id) {
-    var i = findRequest(id);
-    if (i < 0) return;
-    var r = state.requests[i];
-    var s = state.stations[r.stationIdx];
+  // Saf mutasyon: sadece b.requests/b.stations üzerinde çalışır, hiçbir
+  // UI/render/save çağrısı yapmaz. Hem aktif şubedeki gerçek onay tıklaması
+  // (approveRequest) hem de park edilmiş şubedeki "Otomatik Kabul" oto-onayı
+  // (tryCreateRequest içinden) bunu kullanır — mantık tek yerde, iki kere
+  // yazılmamış olur.
+  function approveRequestInBranch(b, id) {
+    var i = -1;
+    for (var k = 0; k < b.requests.length; k++) { if (b.requests[k].id === id) { i = k; break; } }
+    if (i < 0) return false;
+    var r = b.requests[i];
+    var s = b.stations[r.stationIdx];
 
     if (s.occupied) {
       // the table filled up while this request was waiting
-      state.requests.splice(i, 1);
-      state.today.lost += 1;
-      renderRequests();
-      showToast(t("toast.stationFilledMeanwhile", { n: r.stationIdx + 1 }));
-      return;
+      b.requests.splice(i, 1);
+      b.today.lost += 1;
+      return false;
     }
 
     s.occupied = true;
     s.customerName = r.name;
     s.hoursBooked = r.hours;
     s.isVip = !!r.isVip;
-    s.sessionStartMin = state.clockMin;
+    s.sessionStartMin = b.clockMin;
     // "Hızlı Servis" dükkan ürünü: müşteri hâlâ r.hours karşılığını öder
     // (fiyatlandırma/ekonomi değişmez) ama masada gerçekte geçirdiği süre
     // yarıya iner, yani masa çok daha hızlı boşalıp yeni müşteri alır.
-    var durationMin = r.hours * 60 * (state.shop.fastServe ? 0.5 : 1);
-    s.sessionEndMin = state.clockMin + durationMin;
+    var durationMin = r.hours * 60 * (b.shop.fastServe ? 0.5 : 1);
+    s.sessionEndMin = b.clockMin + durationMin;
     s.agreedRate = s.rate;              // locked in at approval time
     s.payout = r.hours * s.agreedRate;
 
-    state.requests.splice(i, 1);
+    b.requests.splice(i, 1);
+    return true;
+  }
+
+  function approveRequest(id) {
+    var i = findRequest(id);
+    if (i < 0) return;
+    var r = state.requests[i];
+    var s = state.stations[r.stationIdx];
+    if (s.occupied) {
+      state.requests.splice(i, 1);
+      state.today.lost += 1;
+      renderRequests();
+      showToast(t("toast.stationFilledMeanwhile", { n: r.stationIdx + 1 }));
+      return;
+    }
+    approveRequestInBranch(state, id);
     renderRequests();
     renderFloor();
     renderHud();
@@ -2982,11 +3096,99 @@
   // in bounded slices so every arrival window is actually evaluated.
   var MAX_STEP_GAME_MIN = 10;
 
+  // Bir "adım" (step, oyun-içi dakika) kadar TEK bir şubeyi ilerletir:
+  // otomat/oyun pasif geliri, biten oturumların ödemesi, süresi geçen
+  // isteklerin düşmesi, yeni müşteri gelişleri. b = o şubenin kendi
+  // (branch-local) verisi — aktif şube için doğrudan `state`in kendisi,
+  // park edilmiş şube için `state.otherBranch`. branchNo, hangi şubenin
+  // maliyet/gelir çarpanının uygulanacağını belirler (İkinci Şube 6x
+  // maliyet / 3x gelir). isActive=false olduğunda hiçbir UI/animasyon
+  // tetiklenmez ve gün kapanışı sessizce (reklamsız) bir sonraki güne
+  // geçer — bu sayede İkinci Şube, sen birinci şubedeyken de gerçek
+  // zamanlı ve aynı hızda para kazanmaya devam eder.
+  function stepBranch(b, branchNo, step, isActive) {
+    var structureChanged = false;
+    var requestsChanged = false;
+    var incomeMult = branchIncomeMultiplierFor(branchNo);
+    b.clockMin += step;
+
+    // otomatlar: saatlik pasif gelir, dakikaya bölünüp biriktirilir
+    if (b.vending.drink || b.vending.food || b.vending.candy) {
+      var perMin = 0;
+      if (b.vending.drink) perMin += VENDING_DRINK_RATE_PER_HOUR / 60;
+      if (b.vending.food) perMin += VENDING_FOOD_RATE_PER_HOUR / 60;
+      if (b.vending.candy) perMin += VENDING_CANDY_RATE_PER_HOUR / 60;
+      perMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * incomeMult;
+      b.vendingAccrued += perMin * step;
+      var whole = Math.floor(b.vendingAccrued);
+      if (whole > 0) {
+        b.vendingAccrued -= whole;
+        state.money += whole;
+        b.today.revenue += whole;
+      }
+    }
+
+    // oyunlar: otomatlarla birebir aynı pasif-gelir mekaniği
+    if (b.games) {
+      var gamesPerMin = 0;
+      GAMES_CATALOG.forEach(function (game) {
+        if (b.games[game.id]) gamesPerMin += game.ratePerHour / 60;
+      });
+      if (gamesPerMin > 0) {
+        gamesPerMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * incomeMult;
+        b.gamesAccrued += gamesPerMin * step;
+        var gamesWhole = Math.floor(b.gamesAccrued);
+        if (gamesWhole > 0) {
+          b.gamesAccrued -= gamesWhole;
+          state.money += gamesWhole;
+          b.today.revenue += gamesWhole;
+        }
+      }
+    }
+
+    // finish any completed sessions
+    b.stations.forEach(function (s, idx) {
+      if (!s.occupied) return;
+      if (b.clockMin >= s.sessionEndMin) {
+        var earned = s.payout * (b.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * incomeMult;
+        earned = Math.round(earned);
+        state.money += earned;
+        b.today.revenue += earned;
+        b.today.served += 1;
+        state.totalCustomers += 1;
+        if (isActive) spawnIncomePop(idx, earned); // park edilmişse kimse bakmıyor, animasyon boşuna
+        clearSession(s);
+        structureChanged = true;
+      }
+    });
+
+    // expire requests the player (or auto-accept) ignored too long
+    var before = b.requests.length;
+    b.requests = b.requests.filter(function (r) { return b.clockMin < r.expiresAtMin; });
+    if (b.requests.length !== before) {
+      b.today.lost += (before - b.requests.length);
+      requestsChanged = true;
+    }
+
+    // new arrivals (only while open)
+    while (b.clockMin < DAY_CLOSE_MIN && b.clockMin >= b.nextRequestAtMin) {
+      tryCreateRequest(b);
+      requestsChanged = true;
+    }
+
+    if (b.clockMin >= DAY_CLOSE_MIN) {
+      if (isActive) endDay();
+      else endDayParked(b, branchNo);
+    }
+
+    return { structureChanged: structureChanged, requestsChanged: requestsChanged };
+  }
+
   function tick() {
     var now = Date.now();
     var realDelta = (now - lastTickAt) / 1000;
     lastTickAt = now;
-    if (state.dayOver || state.bankrupt) return; // paused
+    if (state.bankrupt) return; // paused — iflas ekranında hiçbir şube ilerlemez
 
     var gameMinutes = realDelta * GAME_MINUTES_PER_SECOND;
     // Never simulate more than one full business day in one go, otherwise a
@@ -2998,85 +3200,33 @@
     var structureChanged = false;
     var requestsChanged = false;
 
-    while (gameMinutes > 0 && !state.dayOver) {
-      var step = Math.min(MAX_STEP_GAME_MIN, gameMinutes);
-      gameMinutes -= step;
-      state.clockMin += step;
-
-      // otomatlar: saatlik pasif gelir, dakikaya bölünüp biriktirilir
-      // (küçük step'lerde sürekli sıfıra yuvarlanmasın diye kalan pay
-      // state.vendingAccrued'da tutulur, hiç kayıp olmaz)
-      if (state.vending.drink || state.vending.food || state.vending.candy) {
-        var perMin = 0;
-        if (state.vending.drink) perMin += VENDING_DRINK_RATE_PER_HOUR / 60;
-        if (state.vending.food) perMin += VENDING_FOOD_RATE_PER_HOUR / 60;
-        if (state.vending.candy) perMin += VENDING_CANDY_RATE_PER_HOUR / 60;
-        perMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * branchIncomeMultiplier();
-        state.vendingAccrued += perMin * step;
-        var whole = Math.floor(state.vendingAccrued);
-        if (whole > 0) {
-          state.vendingAccrued -= whole;
-          state.money += whole;
-          state.today.revenue += whole;
-        }
+    if (!state.dayOver) {
+      var activeMinutes = gameMinutes;
+      while (activeMinutes > 0 && !state.dayOver) {
+        var step = Math.min(MAX_STEP_GAME_MIN, activeMinutes);
+        activeMinutes -= step;
+        var r = stepBranch(state, state.branch, step, true);
+        if (r.structureChanged) structureChanged = true;
+        if (r.requestsChanged) requestsChanged = true;
+        if (state.dayOver) return; // endDay() zaten kendi render/save/modal akışını çalıştırdı
       }
+    }
 
-      // oyunlar: otomatlarla birebir aynı pasif-gelir mekaniği, ayrı bir
-      // biriktirme havuzunda (state.gamesAccrued) tutulur.
-      if (state.games) {
-        var gamesPerMin = 0;
-        GAMES_CATALOG.forEach(function (game) {
-          if (state.games[game.id]) gamesPerMin += game.ratePerHour / 60;
-        });
-        if (gamesPerMin > 0) {
-          gamesPerMin *= rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * branchIncomeMultiplier();
-          state.gamesAccrued += gamesPerMin * step;
-          var gamesWhole = Math.floor(state.gamesAccrued);
-          if (gamesWhole > 0) {
-            state.gamesAccrued -= gamesWhole;
-            state.money += gamesWhole;
-            state.today.revenue += gamesWhole;
-          }
-        }
-      }
-
-      // finish any completed sessions
-      state.stations.forEach(function (s, idx) {
-        if (!s.occupied) return;
-        if (state.clockMin >= s.sessionEndMin) {
-          // "Gelir Artışı" dükkan ürünü (+%20) ve Yeniden Doğuş kalıcı
-          // bonusu (+%15/doğuş) net kazanca birlikte uygulanır.
-          var earned = s.payout * (state.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * branchIncomeMultiplier();
-          earned = Math.round(earned);
-          state.money += earned;
-          state.today.revenue += earned;
-          state.today.served += 1;
-          state.totalCustomers += 1;
-          spawnIncomePop(idx, earned);
-          clearSession(s);
-          structureChanged = true;
-        }
-      });
-
-      // expire requests the player ignored too long
-      var before = state.requests.length;
-      state.requests = state.requests.filter(function (r) {
-        return state.clockMin < r.expiresAtMin;
-      });
-      if (state.requests.length !== before) {
-        state.today.lost += (before - state.requests.length);
-        requestsChanged = true;
-      }
-
-      // new arrivals (only while open)
-      while (state.clockMin < DAY_CLOSE_MIN && state.clockMin >= state.nextRequestAtMin) {
-        tryCreateRequest();
-        requestsChanged = true;
-      }
-
-      if (state.clockMin >= DAY_CLOSE_MIN) {
-        endDay();
-        return;
+    // İkinci Şube artık park edilmişken de gerçek zamanlı ve aynı hızda
+    // çalışmaya devam eder (aynı realDelta'dan türetilen gameMinutes
+    // kullanılır) — sen 1. şubedeyken 2. şube de, tam tersi de dahil,
+    // eş zamanlı kazanmaya devam eder. Gün kapanışına gelirse kimse orada
+    // olmadığı için reklam/özet gösterilmeden sessizce bir sonraki güne geçer.
+    if (state.branch2Unlocked && state.otherBranch) {
+      var ob = state.otherBranch;
+      var otherNo = otherBranchNumber();
+      var obMinutes = gameMinutes;
+      var guard = 0; // olağanüstü uzun bir arka plan atlamasına karşı güvenlik sınırı
+      while (obMinutes > 0 && guard < 500) {
+        var obStep = Math.min(MAX_STEP_GAME_MIN, obMinutes);
+        obMinutes -= obStep;
+        stepBranch(ob, otherNo, obStep, false);
+        guard++;
       }
     }
 
@@ -3098,6 +3248,52 @@
     s.sessionEndMin = 0;
     s.payout = 0;
     s.agreedRate = 0;
+  }
+
+  // Park edilmiş şube gün sonuna geldiğinde çağrılır (bkz. stepBranch).
+  // endDay() ile birebir aynı hesap akışını izler (oturan müşterilerin
+  // kısmi ödemesi, kaybedilen müşteriler, puan güncellemesi, günlük
+  // gider) — TEK FARKI: hiçbir modal/reklam gösterilemez (oyuncu o şubede
+  // değil) ve gün otomatik olarak hemen açılır, böylece şube gerçekten
+  // "arkada" çalışmaya devam eder, oyuncunun geri dönüp "devam et"
+  // demesini beklemez.
+  function endDayParked(b, branchNo) {
+    var incomeMult = branchIncomeMultiplierFor(branchNo);
+    b.stations.forEach(function (s) {
+      if (!s.occupied) return;
+      var usedHours = Math.max(0, (DAY_CLOSE_MIN - s.sessionStartMin) / 60);
+      var rate = s.agreedRate || s.rate;
+      var partial = Math.round(usedHours * rate);
+      if (b.shop.revenueBoost) partial = Math.round(partial * 1.2);
+      partial = Math.round(partial * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * incomeMult);
+      state.money += partial;
+      b.today.revenue += partial;
+      b.today.served += 1;
+      state.totalCustomers += 1;
+      clearSession(s);
+    });
+
+    b.today.lost += b.requests.length;
+    b.requests = [];
+
+    var totalToday = b.today.served + b.today.lost;
+    var lostRatio = totalToday > 0 ? b.today.lost / totalToday : 0;
+    var cleanBonus = b.staff.cleaner ? 1.5 : -1.5;
+    var comfortBonus = (b.shop.airCon ? 1.0 : 0) + (b.shop.security ? 0.5 : 0);
+    var target = Math.max(0, Math.min(10, 7 + cleanBonus + comfortBonus - lostRatio * 4));
+    b.rating = Math.max(0, Math.min(10, b.rating * 0.75 + target * 0.25));
+
+    var costs = dailyRunningCost(b, branchNo);
+    state.money -= costs;
+    b.todayCosts = costs;
+
+    b.day += 1;
+    b.clockMin = DAY_OPEN_MIN;
+    b.dayOver = false;
+    b.today = { served: 0, revenue: 0, lost: 0 };
+    b.adBonusUsesToday = 0;
+    b.blackjackPlaysToday = 0;
+    b.nextRequestAtMin = DAY_OPEN_MIN + 4;
   }
 
   // ---------------------------------------------------------------- day cycle
@@ -3339,10 +3535,16 @@
     }
   };
 
+  var VIP_CASH_PRICE = 1000000;
+
   function renderVipModal() {
     if (!state) return;
     var owned = !!state.vip;
     if (btnBuyVip) btnBuyVip.hidden = owned;
+    if (btnBuyVipCash) {
+      btnBuyVipCash.hidden = owned;
+      btnBuyVipCash.disabled = state.money < VIP_CASH_PRICE;
+    }
     if (vipOwnedBox) vipOwnedBox.hidden = !owned;
     // Show the real, localized Play Store price when available instead of
     // the hardcoded "100 ₺" placeholder (Google sets the local-currency
@@ -3379,11 +3581,26 @@
           renderHud();
           renderVipModal();
           renderAdBonusButton();
+          maybeSyncChatVip();
           showToast(t("vip.purchased"));
         } else {
           showToast(t("vip.purchaseFailed"));
         }
       });
+    });
+  }
+  if (btnBuyVipCash) {
+    btnBuyVipCash.addEventListener("click", function () {
+      if (!state || state.vip) return;
+      if (state.money < VIP_CASH_PRICE) { showToast(t("vip.notEnoughCash")); return; }
+      state.money -= VIP_CASH_PRICE;
+      state.vip = true;
+      save();
+      renderHud();
+      renderVipModal();
+      renderAdBonusButton();
+      maybeSyncChatVip();
+      showToast(t("vip.purchased"));
     });
   }
 
@@ -4828,20 +5045,33 @@
   }
 
   // ---------------------------------------------------------------- yeniden doğuş (rebirth)
-  // Prestige mekaniği: tüm masa/bilgisayarları kurup 20. güne ulaşan
-  // oyuncu, işletmesini sıfırlayıp kalıcı bir gelir bonusu karşılığında
-  // yeniden başlayabilir. Bonus (+%15/doğuş) kalıcıdır ve birikir —
-  // başarımlar, seviye/XP, toplam müşteri sayısı ve sosyal ödül talepleri
-  // KORUNUR, sadece kasa/masa/dükkan/gün sıfırlanır.
-  var REBIRTH_MIN_DAY = 20;
+  // Prestige mekaniği: tüm masa/bilgisayarları kurup en az REBIRTH_MONEY_PER_UNIT
+  // biriktiren oyuncu, işletmesini sıfırlayıp kalıcı bir gelir bonusu
+  // karşılığında yeniden başlayabilir. Artık gün şartı YOK — sadece birikim
+  // şartı var. Bonus her doğuşta o anki kasadaki her tam
+  // REBIRTH_MONEY_PER_UNIT için +%REBIRTH_PCT_PER_UNIT olarak hesaplanır ve
+  // state.rebirthBonusPct'te SINIRSIZ şekilde üst üste birikir — başarımlar,
+  // seviye/XP, toplam müşteri sayısı ve sosyal ödül talepleri KORUNUR,
+  // sadece kasa/masa/dükkan/gün sıfırlanır.
+  var REBIRTH_MONEY_PER_UNIT = 1000000;
+  var REBIRTH_PCT_PER_UNIT = 50;
 
   function canRebirth() {
-    return countHasTable() >= MAX_STATIONS && countHasComputer() >= MAX_STATIONS && state.day >= REBIRTH_MIN_DAY;
+    return countHasTable() >= MAX_STATIONS && countHasComputer() >= MAX_STATIONS && state.money >= REBIRTH_MONEY_PER_UNIT;
+  }
+
+  // Bir sonraki doğuşun ne kadar bonus vereceği — mevcut kasadaki her tam
+  // 1.000.000 ₺ için +%50. Kasa 1.000.000'ın altındaysa 0 döner (henüz
+  // doğulamaz zaten).
+  function pendingRebirthGainPct() {
+    var units = Math.floor((state.money || 0) / REBIRTH_MONEY_PER_UNIT);
+    return units * REBIRTH_PCT_PER_UNIT;
   }
 
   function doRebirth() {
     if (!canRebirth()) return;
     var newRebirths = state.rebirths + 1;
+    var newBonusPct = (state.rebirthBonusPct || 0) + pendingRebirthGainPct();
     var keep = {
       cafeName: state.cafeName,
       totalCustomers: state.totalCustomers,
@@ -4873,6 +5103,7 @@
     state.whatsappClaimed = keep.whatsappClaimed;
     state.rateUsClaimed = keep.rateUsClaimed;
     state.rebirths = newRebirths;
+    state.rebirthBonusPct = newBonusPct;
     state.shopTier = keep.shopTier;
     state.vip = keep.vip;
     // Rebirth only resets the branch you're currently standing in — the
@@ -4886,27 +5117,30 @@
     modalStore.hidden = true;
     renderFloor(); renderRequests(); renderHud();
     save();
-    showToast(t("rebirth.done", { pct: newRebirths * 45 }));
+    showToast(t("rebirth.done", { pct: newBonusPct }));
   }
 
   function renderRebirthSection() {
     if (!state || !rebirthStoreList) return;
     var eligible = canRebirth();
-    var curPct = state.rebirths * 45;
-    var nextPct = (state.rebirths + 1) * 45;
+    var curPct = state.rebirthBonusPct || 0;
+    var nextGain = pendingRebirthGainPct();
+    var nextPct = curPct + nextGain;
+    var amountLabel = fmtMoney(REBIRTH_MONEY_PER_UNIT) + " ₺";
     var html =
       '<div class="rebirth-card">' +
         '<p class="rebirth-intro">' + t("rebirth.intro") + '</p>' +
+        '<p class="rebirth-intro">' + t("rebirth.rule", { amount: amountLabel, pct: REBIRTH_PCT_PER_UNIT }) + '</p>' +
         '<div class="rebirth-stats">' +
           '<div class="rebirth-stat"><span>' + t("rebirth.currentBonus") + '</span><strong>+%' + curPct + '</strong></div>' +
           '<div class="rebirth-stat"><span>' + t("rebirth.count") + '</span><strong>' + state.rebirths + '</strong></div>' +
         '</div>' +
         (eligible
           ? '<button id="btn-rebirth" class="btn btn-primary btn-block"><svg class="i-16"><use href="#icon-rebirth"/></svg> ' +
-              t("rebirth.button") + ' (+%' + nextPct + ')</button>'
-          : '<div class="rebirth-locked">' + t("rebirth.locked", { req: t("rebirth.lockedReq", { day: REBIRTH_MIN_DAY }) }) + '</div>') +
+              t("rebirth.button") + ' (+%' + nextGain + ')</button>'
+          : '<div class="rebirth-locked">' + t("rebirth.locked", { req: t("rebirth.lockedReq", { amount: amountLabel }) }) + '</div>') +
         '<div id="rebirth-confirm-box" class="rebirth-confirm-box" hidden>' +
-          '<p class="rebirth-confirm-text">' + t("rebirth.confirmText", { pct: nextPct }) + '</p>' +
+          '<p class="rebirth-confirm-text">' + t("rebirth.confirmText", { pct: nextGain }) + '</p>' +
           '<div class="rebirth-confirm-actions">' +
             '<button id="btn-rebirth-cancel" class="btn-reset-cancel">' + t("rebirth.confirmCancel") + '</button>' +
             '<button id="btn-rebirth-confirm" class="btn-reset-confirm">' + t("rebirth.confirmYes") + '</button>' +
@@ -4950,6 +5184,7 @@
       whatsappClaimed: state.whatsappClaimed,
       rateUsClaimed: state.rateUsClaimed,
       rebirths: state.rebirths,
+      rebirthBonusPct: state.rebirthBonusPct,
       vip: state.vip,
       branch: state.branch,
       branch2Unlocked: state.branch2Unlocked,
@@ -4969,6 +5204,7 @@
     state.whatsappClaimed = keep.whatsappClaimed;
     state.rateUsClaimed = keep.rateUsClaimed;
     state.rebirths = keep.rebirths;
+    state.rebirthBonusPct = keep.rebirthBonusPct;
     state.vip = keep.vip;
     state.shopTier = 1;
     // Dükkan Geliştir only resets the branch you're currently standing in —
@@ -5053,6 +5289,9 @@
   // "other" branch. state.stations/state.shop/etc. ALWAYS represent
   // whichever branch is currently on screen — nothing else in the game
   // needs to know branches exist at all, it just keeps reading state.stations.
+  // NOT a freeze/thaw anymore: tick() (via stepBranch) keeps BOTH branches'
+  // clocks/customers/income running in real time regardless of which one is
+  // on screen — switching only changes which one is rendered.
   function switchBranch() {
     if (!state.branch2Unlocked) return;
     var parked = state.otherBranch;

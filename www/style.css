@@ -68,8 +68,15 @@ body{
 
 @media (min-width:560px){
   #app{
-    height:min(100dvh, 900px);
-    max-height:900px;
+    /* Eskiden max-height:900px + max-width (üst kuraldan miras) 480px'e
+       sabitliydi — bir tablette (özellikle uzun boylu, dikey ekranlarda)
+       bu, ekranın çoğunu boş/siyah bırakıp oyunu ortada minicik bir kutu
+       gibi gösteriyordu. Şimdi hem yükseklik hem genişlik tavanı,
+       gerçek ekran boyutuna göre çok daha cömert — telefonda görünüm
+       aynı kalırken tablette çerçeve gerçekten büyüyor. */
+    height:min(96dvh, 1100px);
+    max-height:1100px;
+    max-width:620px;
     aspect-ratio:9/19.5;
     border-radius:32px;
     border:1px solid var(--border);
@@ -1294,6 +1301,26 @@ body{
   background:linear-gradient(90deg, var(--gold), #ffe08a);
   color:#2A1B00;
   font-weight:800;
+}
+.vip-or-divider{
+  text-align:center;
+  font-size:11px;
+  font-weight:700;
+  color:var(--text-muted);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin:8px 0;
+}
+.vip-buy-btn-cash{
+  background:transparent;
+  border:1.5px solid var(--accent);
+  color:var(--accent);
+  font-weight:800;
+}
+.vip-buy-btn-cash:disabled{
+  opacity:.45;
+  border-color:var(--border);
+  color:var(--text-muted);
 }
 .vip-owned-box{
   display:flex;
@@ -2637,7 +2664,9 @@ svg[class^="i-"]{ display:block; fill:none; }
   font-weight:800;
   color:var(--accent);
   margin-right:5px;
+  cursor:pointer;
 }
+.chat-name:active{ opacity:.7; }
 /* VIP: özel isim rengi + sarı rozet, isteneni birebir karşılıyor */
 .chat-name-vip{
   color:#ffd166;
@@ -2655,6 +2684,53 @@ svg[class^="i-"]{ display:block; fill:none; }
   vertical-align:middle;
 }
 .chat-text{ color:var(--text); }
+
+/* ---------- chat: tıklanabilir oyuncu profil kartı ---------- */
+.chat-profile-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9500;
+  background:rgba(8,6,16,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.chat-profile-box{
+  min-width:220px;
+  max-width:300px;
+  padding:20px 22px;
+  border-radius:16px;
+  background:linear-gradient(180deg, #1a1530, #120e22);
+  border:1px solid var(--border);
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  text-align:center;
+}
+.chat-profile-name{
+  font-family:var(--font-display);
+  font-size:17px;
+  font-weight:800;
+  color:var(--text);
+}
+.chat-profile-name.chat-name-vip{ color:#ffd166; }
+.chat-profile-power{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  border-radius:20px;
+  background:rgba(196,181,253,.1);
+  border:1px solid var(--border);
+  font-family:var(--font-mono);
+  font-weight:800;
+  font-size:14px;
+  color:var(--text);
+}
+.chat-profile-power svg{ width:16px; height:16px; }
 .chat-compose{
   display:flex;
   gap:8px;
