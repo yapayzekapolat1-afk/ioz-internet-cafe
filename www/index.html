@@ -616,32 +616,9 @@
     <main class="floor" id="floor"></main>
 
     <footer class="shop-bar">
-      <button id="btn-buy-table" class="shop-btn">
-        <svg class="i-20"><use href="#icon-desk-mini"/></svg>
-        <span class="shop-btn-label" data-i18n="shopbar.addTable">Masa Ekle</span>
-        <span class="shop-btn-price" id="price-table">100 ₺</span>
-      </button>
-      <button id="btn-buy-computer" class="shop-btn">
-        <svg class="i-20"><use href="#icon-monitor-mini"/></svg>
-        <span class="shop-btn-label" data-i18n="shopbar.addComputer">Bilgisayar Ekle</span>
-        <span class="shop-btn-price" id="price-computer">100 ₺</span>
-      </button>
-      <button id="btn-open-store" class="shop-btn shop-btn-store">
+      <button id="btn-open-business" class="shop-btn shop-btn-business">
         <svg class="i-20"><use href="#icon-shop"/></svg>
-        <span class="shop-btn-label" data-i18n="shopbar.store">Dükkan</span>
-      </button>
-      <button id="btn-open-bulk-price" class="shop-btn shop-btn-prices">
-        <svg class="i-20"><use href="#icon-price-tag"/></svg>
-        <span class="shop-btn-label" data-i18n="shopbar.prices">Fiyatlar</span>
-      </button>
-      <button id="btn-branch" class="shop-btn shop-btn-branch">
-        <svg class="i-20"><use href="#icon-branch"/></svg>
-        <span class="shop-btn-label" id="branch-btn-label" data-i18n="shopbar.newBranch">Yeni Şube Aç</span>
-        <span class="shop-btn-price" id="branch-btn-price">1.000.000 ₺</span>
-      </button>
-      <button id="btn-open-games" class="shop-btn shop-btn-games">
-        <svg class="i-20"><use href="#icon-games"/></svg>
-        <span class="shop-btn-label" data-i18n="shopbar.games">Oyunlar</span>
+        <span class="shop-btn-label" data-i18n="business.openLabel">İşletmem</span>
       </button>
     </footer>
 
@@ -667,6 +644,52 @@
           <div class="stats-item"><svg class="i-18"><use href="#icon-play"/></svg><div class="stats-item-value" id="stat-ad-pc">0/10</div><div class="stats-item-label" data-i18n="stats.adPc">Reklam PC</div></div>
           <div class="stats-item"><svg class="i-18"><use href="#icon-user"/></svg><div class="stats-item-value" id="stat-customers">0</div><div class="stats-item-label" data-i18n="stats.customers">Toplam Müşteri</div></div>
           <div class="stats-item"><svg class="i-18"><use href="#icon-coin"/></svg><div class="stats-item-value" id="stat-today">0 ₺</div><div class="stats-item-label" data-i18n="stats.today">Bugünkü Kazanç</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- İŞLETMEM — eskiden alt barda dağınık 6 buton (Masa Ekle, Bilgisayar
+       Ekle, Dükkan, Fiyatlar, Yeni Şube, Oyunlar) vardı, hepsi burada
+       toplandı. Chat kasıtlı olarak burada DEĞİL — ayrı, kendi butonuyla
+       kalıyor (ana ekran sade dursun ama chat bağlantı maliyeti herkese
+       otomatik açılmasın). İçerideki her buton AYNI id'leri kullanıyor,
+       yani mevcut tüm tıklama/fiyat-güncelleme mantığı hiç değişmeden çalışıyor. -->
+  <div id="modal-business" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span data-i18n="business.title">İşletmem</span>
+        <button id="btn-close-business" class="hud-icon-btn"><svg class="i-18"><use href="#icon-close"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <div class="business-grid">
+          <button id="btn-buy-table" class="business-item">
+            <svg class="i-24"><use href="#icon-desk-mini"/></svg>
+            <span class="business-item-label" data-i18n="shopbar.addTable">Masa Ekle</span>
+            <span class="business-item-price" id="price-table">100 ₺</span>
+          </button>
+          <button id="btn-buy-computer" class="business-item">
+            <svg class="i-24"><use href="#icon-monitor-mini"/></svg>
+            <span class="business-item-label" data-i18n="shopbar.addComputer">Bilgisayar Ekle</span>
+            <span class="business-item-price" id="price-computer">100 ₺</span>
+          </button>
+          <button id="btn-open-store" class="business-item business-item-store">
+            <svg class="i-24"><use href="#icon-shop"/></svg>
+            <span class="business-item-label" data-i18n="shopbar.store">Dükkan</span>
+          </button>
+          <button id="btn-open-bulk-price" class="business-item business-item-prices">
+            <svg class="i-24"><use href="#icon-price-tag"/></svg>
+            <span class="business-item-label" data-i18n="shopbar.prices">Fiyatlar</span>
+          </button>
+          <button id="btn-branch" class="business-item business-item-branch">
+            <svg class="i-24"><use href="#icon-branch"/></svg>
+            <span class="business-item-label" id="branch-btn-label" data-i18n="shopbar.newBranch">Yeni Şube Aç</span>
+            <span class="business-item-price" id="branch-btn-price">1.000.000 ₺</span>
+          </button>
+          <button id="btn-open-games" class="business-item business-item-games">
+            <svg class="i-24"><use href="#icon-games"/></svg>
+            <span class="business-item-label" data-i18n="shopbar.games">Oyunlar</span>
+          </button>
         </div>
       </div>
     </div>

@@ -73,6 +73,8 @@
       "stats.adPc": "Reklam PC",
       "stats.customers": "Toplam Müşteri",
       "stats.today": "Bugünkü Kazanç",
+      "business.openLabel": "İşletmem",
+      "business.title": "İşletmem",
       "requests.title": "Gelen İstekler",
       "requests.empty": "Şu an bekleyen müşteri yok",
       "shopbar.addTable": "Masa Ekle",
@@ -505,6 +507,8 @@
       "stats.adPc": "Ad PC",
       "stats.customers": "Total Customers",
       "stats.today": "Today's Earnings",
+      "business.openLabel": "My Business",
+      "business.title": "My Business",
       "requests.title": "Incoming Requests",
       "requests.empty": "No customers waiting right now",
       "shopbar.addTable": "Add Table",
@@ -1450,15 +1454,15 @@
   }
 
   // İkinci Şube: everything that belongs to ONE physical location — floor,
-  // day/clock, requests, that branch's own store upgrades, vending, staff,
-  // rating. Money, rebirths, Dükkan Geliştir tier, XP/level, achievements,
-  // VIP and social-reward claims are account-wide and live outside this.
+  // requests, that branch's own store upgrades, vending, staff, rating.
+  // Money, rebirths, Dükkan Geliştir tier, XP/level, achievements, VIP and
+  // social-reward claims are account-wide and live outside this. Gün/saat
+  // (day/clockMin/dayOver) de artık BURADA DEĞİL — iki şube ayrı ayrı
+  // takvimlere sahip olmak anlamsızdı (biri Gün 5 iken diğeri Gün 2 gibi),
+  // artık TEK VE PAYLAŞILAN bir işletme takvimi var (bkz. freshState()).
   function freshBranchLocalState() {
     return {
       stations: freshStations(),
-      day: 1,
-      clockMin: DAY_OPEN_MIN,
-      dayOver: false,
       requests: [],
       nextRequestAtMin: DAY_OPEN_MIN + 4,
       reqSeq: 1,
@@ -1503,7 +1507,12 @@
       lastLoginDate: null,
       branch: 1,
       branch2Unlocked: false,
-      otherBranch: null
+      otherBranch: null,
+      // TEK, paylaşılan işletme takvimi — her iki şube de aynı gün/saati
+      // paylaşır (bkz. PER_BRANCH_KEYS'te artık day/clockMin/dayOver yok).
+      day: 1,
+      clockMin: DAY_OPEN_MIN,
+      dayOver: false
     };
     var local = freshBranchLocalState();
     for (var k in local) s[k] = local[k];
@@ -1802,7 +1811,6 @@
 
   function connectChat() {
     if (!CHAT_ENABLED || ablyClient || !state || !state.cafeName) return;
-    ensureOnlineBadge();
     setChatStatus(t("chat.connecting"), "info");
     loadAblySdk(function () {
       if (ablyClient) return; // aynı anda iki kez tetiklenmesin
@@ -1950,7 +1958,11 @@
     "</svg>";
   function ensureChatButton() {
     if ($("btn-open-chat")) return;
-    var anchor = btnOpenStore || btnOpenGames || btnOpenVip || btnInfo;
+    // BUG FIX: btnOpenStore/btnOpenGames artık footer'da değil, "İşletmem"
+    // hub modalinin İÇİNDE (gizli) — onlara sabitlemeye devam etseydik chat
+    // butonu görünmeyen bir modalin içine eklenirdi. Artık footer'da kalan
+    // tek buton olan btnOpenBusiness'e sabitleniyor.
+    var anchor = btnOpenBusiness || btnOpenVip || btnInfo;
     var container = anchor ? anchor.parentElement : null;
     if (!container) return;
     var btn = document.createElement("button");
@@ -2059,11 +2071,12 @@
     var fixedStations = migrateStationsArray(b.stations || []);
     if (!fixedStations) return null;
     b.stations = fixedStations;
-    if (typeof b.day !== "number") b.day = 1;
-    if (typeof b.clockMin !== "number") b.clockMin = DAY_OPEN_MIN;
-    if (typeof b.dayOver !== "boolean") b.dayOver = false;
+    // NOT: day/clockMin/dayOver artık burada İYİLEŞTİRİLMİYOR — o alanlar
+    // artık şube-bazlı değil, paylaşılan (state.day/clockMin/dayOver).
+    // Eski bir kayıttan miras kalan b.day/b.clockMin/b.dayOver varsa
+    // zararsızdır, hiçbir yerde okunmaz.
     if (!Array.isArray(b.requests)) b.requests = [];
-    if (typeof b.nextRequestAtMin !== "number") b.nextRequestAtMin = b.clockMin + 4;
+    if (typeof b.nextRequestAtMin !== "number") b.nextRequestAtMin = DAY_OPEN_MIN + 4;
     if (typeof b.reqSeq !== "number") b.reqSeq = 1;
     if (!b.today) b.today = { served: 0, revenue: 0, lost: 0 };
     b.shop = healShopFlags(b.shop);
@@ -2114,6 +2127,7 @@
       // on a field that didn't exist in a previous version.
       if (typeof parsed.day !== "number") parsed.day = 1;
       if (typeof parsed.clockMin !== "number") parsed.clockMin = DAY_OPEN_MIN;
+      if (typeof parsed.dayOver !== "boolean") parsed.dayOver = false;
       if (typeof parsed.reqSeq !== "number") parsed.reqSeq = 1;
       if (!parsed.today) parsed.today = { served: 0, revenue: 0, lost: 0 };
       if (!Array.isArray(parsed.requests)) parsed.requests = [];
@@ -2280,6 +2294,9 @@
   var modalStore = $("modal-store");
   var btnCloseStore = $("btn-close-store");
   var storeList = $("store-list");
+  var btnOpenBusiness = $("btn-open-business");
+  var modalBusiness = $("modal-business");
+  var btnCloseBusiness = $("btn-close-business");
   var btnTiktokClaim = $("btn-tiktok-claim");
   var vipBadge = $("vip-badge");
   var btnOpenVip = $("btn-open-vip");
@@ -2384,8 +2401,10 @@
   // Aktif olarak durduğun şubenin numarası neyse, "diğer" (park edilmiş)
   // şube her zaman onun tam tersidir — sadece 2 şube olduğu için basitçe hesaplanır.
   function otherBranchNumber() { return (state && state.branch === 2) ? 1 : 2; }
+  // NOT: day/clockMin/dayOver artık burada değil — iki şube TEK bir
+  // paylaşılan takvimi kullanıyor (bkz. freshState() yorumu).
   var PER_BRANCH_KEYS = [
-    "stations", "day", "clockMin", "dayOver", "requests", "nextRequestAtMin",
+    "stations", "requests", "nextRequestAtMin",
     "reqSeq", "today", "shop", "vending", "vendingAccrued", "staff",
     "rating", "adBonusUsesToday", "games", "gamesAccrued", "blackjackPlaysToday"
   ];
@@ -3032,7 +3051,7 @@
 
   function scheduleNextRequest(b) {
     b = b || state;
-    var hour = Math.floor((b.clockMin % 1440) / 60);
+    var hour = Math.floor((state.clockMin % 1440) / 60);
     var demand = DEMAND_BY_HOUR[hour] || 0.2;
     // Foot traffic scales with how big the cafe is. This used to use a
     // log curve, which capped total demand so hard that tables 6-10 earned
@@ -3049,14 +3068,18 @@
     gap = Math.max(MIN_GAP_GAME_MIN, Math.min(MAX_GAP_GAME_MIN, gap));
     // jitter so arrivals never feel metronomic
     gap = gap * (0.65 + Math.random() * 0.7);
-    b.nextRequestAtMin = b.clockMin + gap;
+    b.nextRequestAtMin = state.clockMin + gap;
   }
 
   // İkinci Şube: b parametresi verilmezse aktif şube (state) üzerinde
   // çalışır — eskisiyle birebir aynı davranış. Parametre verilirse (park
   // edilmiş şube), aynı mantık o şubenin kendi verisi üzerinde işler; tick()
   // artık bunu her iki şube için de çağırıyor (bkz. stepBranch).
-  function tryCreateRequest(b) {
+  // forceAutoAccept: park edilmiş şube için tick() tarafından true geçilir —
+  // oyuncu orada olmadığı için "Otomatik Kabul" yükseltmesi alınmamış olsa
+  // bile müşteri kendiliğinden oturtulur (aksi halde "2. şube aynı anda
+  // gelir sağlamıyor" hissi doğardı).
+  function tryCreateRequest(b, forceAutoAccept) {
     b = b || state;
     if (b.requests.length >= currentMaxPending(b)) { scheduleNextRequest(b); return; }
 
@@ -3097,14 +3120,14 @@
       stationIdx: stationIdx,
       hours: hours,
       isVip: isVip,
-      expiresAtMin: b.clockMin + currentPatience(b)
+      expiresAtMin: state.clockMin + currentPatience(b)
     });
     scheduleNextRequest(b);
 
     // "Otomatik Kabul" dükkan ürünü: istek oluşur oluşmaz otomatik onaylanır,
     // oyuncunun her seferinde dokunmasına gerek kalmaz. Park edilmiş şube
-    // için de (autoAccept açıksa) sessizce, UI'sız uygulanır.
-    if (b.shop.autoAccept) approveRequestInBranch(b, newId);
+    // için ise koşulsuz uygulanır (forceAutoAccept) — sessizce, UI'sız.
+    if (b.shop.autoAccept || forceAutoAccept) approveRequestInBranch(b, newId);
   }
 
   // ---------------------------------------------------------------- request actions
@@ -3146,12 +3169,12 @@
     s.customerName = r.name;
     s.hoursBooked = r.hours;
     s.isVip = !!r.isVip;
-    s.sessionStartMin = b.clockMin;
+    s.sessionStartMin = state.clockMin;
     // "Hızlı Servis" dükkan ürünü: müşteri hâlâ r.hours karşılığını öder
     // (fiyatlandırma/ekonomi değişmez) ama masada gerçekte geçirdiği süre
     // yarıya iner, yani masa çok daha hızlı boşalıp yeni müşteri alır.
     var durationMin = r.hours * 60 * (b.shop.fastServe ? 0.5 : 1);
-    s.sessionEndMin = b.clockMin + durationMin;
+    s.sessionEndMin = state.clockMin + durationMin;
     s.agreedRate = s.rate;              // locked in at approval time
     s.payout = r.hours * s.agreedRate;
 
@@ -3201,15 +3224,21 @@
   // (branch-local) verisi — aktif şube için doğrudan `state`in kendisi,
   // park edilmiş şube için `state.otherBranch`. branchNo, hangi şubenin
   // maliyet/gelir çarpanının uygulanacağını belirler (İkinci Şube 6x
-  // maliyet / 3x gelir). isActive=false olduğunda hiçbir UI/animasyon
-  // tetiklenmez ve gün kapanışı sessizce (reklamsız) bir sonraki güne
-  // geçer — bu sayede İkinci Şube, sen birinci şubedeyken de gerçek
-  // zamanlı ve aynı hızda para kazanmaya devam eder.
+  // maliyet / 3x gelir).
+  // ÖNEMLİ: gün/saat (state.clockMin/state.day/state.dayOver) artık PAYLAŞILAN
+  // — burada İLERLETİLMİYOR, tick() bunu bir kere yapıp her iki şubeyi de
+  // aynı ana göre işliyor. "İki şubenin günü/saati farklı, anlamsız" sorunu
+  // buydu — artık tek bir işletme takvimi var.
+  // Park edilmiş (isActive=false) şube, "Otomatik Kabul" yükseltmesi
+  // alınmamış olsa bile gelen her müşteriyi kendiliğinden kabul eder —
+  // oyuncu zaten orada değil, elle onaylaması mümkün değil; aksi halde
+  // "2. şube aynı anda gelir sağlamıyor" hissi doğardı. Otomatik Kabul
+  // yükseltmesi, sadece İÇİNDE OLDUĞUN (aktif) şubede anlam taşımaya
+  // devam ediyor.
   function stepBranch(b, branchNo, step, isActive) {
     var structureChanged = false;
     var requestsChanged = false;
     var incomeMult = branchIncomeMultiplierFor(branchNo);
-    b.clockMin += step;
 
     // otomatlar: saatlik pasif gelir, dakikaya bölünüp biriktirilir
     if (b.vending.drink || b.vending.food || b.vending.candy) {
@@ -3248,7 +3277,7 @@
     // finish any completed sessions
     b.stations.forEach(function (s, idx) {
       if (!s.occupied) return;
-      if (b.clockMin >= s.sessionEndMin) {
+      if (state.clockMin >= s.sessionEndMin) {
         var earned = s.payout * (b.shop.revenueBoost ? 1.2 : 1) * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * incomeMult;
         earned = Math.round(earned);
         state.money += earned;
@@ -3263,86 +3292,66 @@
 
     // expire requests the player (or auto-accept) ignored too long
     var before = b.requests.length;
-    b.requests = b.requests.filter(function (r) { return b.clockMin < r.expiresAtMin; });
+    b.requests = b.requests.filter(function (r) { return state.clockMin < r.expiresAtMin; });
     if (b.requests.length !== before) {
       b.today.lost += (before - b.requests.length);
       requestsChanged = true;
     }
 
     // new arrivals (only while open)
-    while (b.clockMin < DAY_CLOSE_MIN && b.clockMin >= b.nextRequestAtMin) {
-      tryCreateRequest(b);
+    while (state.clockMin < DAY_CLOSE_MIN && state.clockMin >= b.nextRequestAtMin) {
+      tryCreateRequest(b, !isActive);
       requestsChanged = true;
-    }
-
-    if (b.clockMin >= DAY_CLOSE_MIN) {
-      if (isActive) endDay();
-      else endDayParked(b, branchNo);
     }
 
     return { structureChanged: structureChanged, requestsChanged: requestsChanged };
   }
 
+  // ANTI-CHEAT + "arka planda çalışmaya devam etmesin": normalde tick() her
+  // 250ms'de bir çalışır, yani iki çağrı arası gerçek zaman farkı hep çok
+  // küçüktür. Bu farkın anormal derecede büyük çıkması (saatin ileri/geri
+  // oynatılması YA DA uygulamanın uzun süre arka planda/kapalı kalması)
+  // artık simüle EDİLMİYOR — o boşluk sessizce atlanır, oyun tam olarak
+  // "bakmadığın an duruyor" gibi davranır. Bu hem "tarihi ilerletip oyunun
+  // içine ediyorlar" istismarını kapatır hem de arka plan ilerlemesini
+  // istenen şekilde durdurur.
+  var MAX_TICK_REAL_GAP_SEC = 10;
+
   function tick() {
     var now = Date.now();
     var realDelta = (now - lastTickAt) / 1000;
     lastTickAt = now;
+    if (realDelta < 0 || realDelta > MAX_TICK_REAL_GAP_SEC) return;
     if (state.bankrupt) return; // paused — iflas ekranında hiçbir şube ilerlemez
+    if (state.dayOver) return; // paylaşılan gün kapandı, oyuncu "devam et"i bekleniyor — hiçbir şube ilerlemez
 
     var gameMinutes = realDelta * GAME_MINUTES_PER_SECOND;
-    // Never simulate more than one full business day in one go, otherwise a
-    // phone left off overnight would grind through hundreds of steps.
-    if (gameMinutes > (DAY_CLOSE_MIN - DAY_OPEN_MIN)) {
-      gameMinutes = DAY_CLOSE_MIN - DAY_OPEN_MIN;
-    }
 
     var structureChanged = false;
     var requestsChanged = false;
-    var activeDayJustEnded = false;
+    var dayJustEnded = false;
 
-    if (!state.dayOver) {
-      var activeMinutes = gameMinutes;
-      while (activeMinutes > 0 && !state.dayOver) {
-        var step = Math.min(MAX_STEP_GAME_MIN, activeMinutes);
-        activeMinutes -= step;
-        var r = stepBranch(state, state.branch, step, true);
-        if (r.structureChanged) structureChanged = true;
-        if (r.requestsChanged) requestsChanged = true;
-        // BUG FIX: burada eskiden doğrudan "return" ediliyordu — bu, aktif
-        // şubenin günü tam bu tick'te kapandığı anlarda, o tick'e denk
-        // gelen gerçek zamanı park edilmiş (İkinci Şube) hiç simüle
-        // etmeden atlıyordu (küçük ama gerçek bir zaman/gelir kaybıydı).
-        // Artık sadece aktif döngüden çıkıyoruz, park edilmiş şube
-        // simülasyonu her zaman aşağıda çalışıyor.
-        if (state.dayOver) { activeDayJustEnded = true; break; }
+    while (gameMinutes > 0 && !state.dayOver) {
+      var step = Math.min(MAX_STEP_GAME_MIN, gameMinutes);
+      gameMinutes -= step;
+      state.clockMin += step; // TEK, PAYLAŞILAN saat — her iki şube de aynı ana bakıyor
+
+      var r = stepBranch(state, state.branch, step, true);
+      if (r.structureChanged) structureChanged = true;
+      if (r.requestsChanged) requestsChanged = true;
+
+      if (state.branch2Unlocked && state.otherBranch) {
+        stepBranch(state.otherBranch, otherBranchNumber(), step, false);
+      }
+
+      if (state.clockMin >= DAY_CLOSE_MIN) {
+        dayJustEnded = true;
+        endDay(); // hem aktif hem park edilmiş şubeyi birlikte kapatır, tek bir modal gösterir
+        break;
       }
     }
 
-    // İkinci Şube artık park edilmişken de gerçek zamanlı ve aynı hızda
-    // çalışmaya devam eder (aynı realDelta'dan türetilen gameMinutes
-    // kullanılır) — sen 1. şubedeyken 2. şube de, tam tersi de dahil,
-    // eş zamanlı kazanmaya devam eder. Gün kapanışına gelirse kimse orada
-    // olmadığı için reklam/özet gösterilmeden sessizce bir sonraki güne geçer.
-    if (state.branch2Unlocked && state.otherBranch) {
-      var ob = state.otherBranch;
-      var otherNo = otherBranchNumber();
-      var obMinutes = gameMinutes;
-      var guard = 0; // olağanüstü uzun bir arka plan atlamasına karşı güvenlik sınırı
-      while (obMinutes > 0 && guard < 500) {
-        var obStep = Math.min(MAX_STEP_GAME_MIN, obMinutes);
-        obMinutes -= obStep;
-        stepBranch(ob, otherNo, obStep, false);
-        guard++;
-      }
-    }
-
-    if (activeDayJustEnded) {
-      // endDay() zaten kendi renderFloor/renderRequests/renderHud/save +
-      // iflas/gün-özeti akışını çalıştırdı — sadece İkinci Şube bu tick'te
-      // ek kazanç sağladıysa HUD'daki kasa rakamı güncel kalsın.
-      renderHud();
-      return;
-    }
+    if (dayJustEnded) return; // endDay() zaten kendi render/save/modal akışını çalıştırdı
 
     if (structureChanged) renderFloor();
     else updateSessionBars();
@@ -3364,14 +3373,11 @@
     s.agreedRate = 0;
   }
 
-  // Park edilmiş şube gün sonuna geldiğinde çağrılır (bkz. stepBranch).
-  // endDay() ile birebir aynı hesap akışını izler (oturan müşterilerin
-  // kısmi ödemesi, kaybedilen müşteriler, puan güncellemesi, günlük
-  // gider) — TEK FARKI: hiçbir modal/reklam gösterilemez (oyuncu o şubede
-  // değil) ve gün otomatik olarak hemen açılır, böylece şube gerçekten
-  // "arkada" çalışmaya devam eder, oyuncunun geri dönüp "devam et"
-  // demesini beklemez.
-  function endDayParked(b, branchNo) {
+  // Bir şubenin gün-sonu hesaplaşması: oturan müşterilerin kısmi ödemesi,
+  // kaybedilen müşteriler, puan güncellemesi, günlük gider — ve o şubenin
+  // "bugün" sayaçlarının sıfırlanması. Gün/saatin kendisine DOKUNMAZ (o
+  // artık paylaşılan, bkz. endDay()).
+  function settleBranchForDayEnd(b, branchNo) {
     var incomeMult = branchIncomeMultiplierFor(branchNo);
     b.stations.forEach(function (s) {
       if (!s.occupied) return;
@@ -3401,9 +3407,6 @@
     state.money -= costs;
     b.todayCosts = costs;
 
-    b.day += 1;
-    b.clockMin = DAY_OPEN_MIN;
-    b.dayOver = false;
     b.today = { served: 0, revenue: 0, lost: 0 };
     b.adBonusUsesToday = 0;
     b.blackjackPlaysToday = 0;
@@ -3411,47 +3414,22 @@
   }
 
   // ---------------------------------------------------------------- day cycle
+  // BUG FIX: eskiden sadece aktif şube kapanıyordu, İkinci Şube (varsa)
+  // kendi bağımsız takviminde sessizce ilerlemeye devam ediyordu — iki şube
+  // farklı gün/saatlerde olabiliyordu, bu da "anlamsız" ve kafa karıştırıcıydı.
+  // Artık gün TEK bir olay: kapanış anında HER İKİ şube birden hesaplaşır,
+  // tek bir gün-özeti/reklam ekranı gösterilir, ikisi de aynı anda yeni güne açılır.
   function endDay() {
-    state.clockMin = DAY_CLOSE_MIN;
     state.dayOver = true;
 
-    // customers still seated at closing pay for the time they actually used,
-    // FIX: billed at the rate they agreed to, not whatever the price is now
-    state.stations.forEach(function (s) {
-      if (!s.occupied) return;
-      var usedHours = Math.max(0, (DAY_CLOSE_MIN - s.sessionStartMin) / 60);
-      var rate = s.agreedRate || s.rate;
-      var partial = Math.round(usedHours * rate);
-      if (state.shop.revenueBoost) partial = Math.round(partial * 1.2);
-      partial = Math.round(partial * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * branchIncomeMultiplier());
-      state.money += partial;
-      state.today.revenue += partial;
-      state.today.served += 1;
-      state.totalCustomers += 1;
-      clearSession(s);
-    });
-
-    // people still waiting at the door go home
-    state.today.lost += state.requests.length;
-    state.requests = [];
-
-    // "Kusursuz Gün" başarımı: bugün hiç müşteri kaçırmadan kapandı mı?
+    // "Kusursuz Gün" başarımı: sadece o an İÇİNDE OLDUĞUN (aktif) şubenin
+    // bugünkü performansına bakılır — settle'dan ÖNCE okunmalı, yoksa sıfırlanmış olur.
     state.flawlessDayAchieved = state.today.lost === 0 && state.today.served > 0;
 
-    // Dükkan puanı (0-10): kaybedilen müşteri oranı, temizlikçi ve klima
-    // durumuna göre günlük bir hedef puan hesaplanır, mevcut puanla
-    // harmanlanır (EMA) — tek kötü/iyi gün puanı aniden sıçratmaz.
-    var totalToday = state.today.served + state.today.lost;
-    var lostRatio = totalToday > 0 ? state.today.lost / totalToday : 0;
-    var cleanBonus = state.staff.cleaner ? 1.5 : -1.5;
-    var comfortBonus = (state.shop.airCon ? 1.0 : 0) + (state.shop.security ? 0.5 : 0);
-    var target = 7 + cleanBonus + comfortBonus - lostRatio * 4;
-    target = Math.max(0, Math.min(10, target));
-    state.rating = Math.max(0, Math.min(10, state.rating * 0.75 + target * 0.25));
-
-    var costs = dailyRunningCost();
-    state.money -= costs;
-    state.todayCosts = costs;
+    settleBranchForDayEnd(state, state.branch);
+    if (state.branch2Unlocked && state.otherBranch) {
+      settleBranchForDayEnd(state.otherBranch, otherBranchNumber());
+    }
 
     renderFloor();
     renderRequests();
@@ -3914,6 +3892,7 @@
   if (btnOpenBulkPrice) {
     btnOpenBulkPrice.addEventListener("click", function () {
       renderBulkPriceModal();
+      if (modalBusiness) modalBusiness.hidden = true; // İşletmem içinden açılıyor, üst üste binmesin
       modalBulkPrice.hidden = false;
     });
   }
@@ -4280,6 +4259,7 @@
     renderRebirthSection();
     renderShopUpgradeSection();
     lastStoreRenderMoney = state.money;
+    if (modalBusiness) modalBusiness.hidden = true; // İşletmem içinden açılıyor, üst üste binmesin
     modalStore.hidden = false;
   });
 
@@ -4819,6 +4799,7 @@
     btnOpenGames.addEventListener("click", function () {
       renderGamesSection();
       renderCasinoTab(); // Kumarhane kartı artık Dükkan'da değil, Oyunlar modalinde
+      if (modalBusiness) modalBusiness.hidden = true; // İşletmem içinden açılıyor, üst üste binmesin
       modalGames.hidden = false;
     });
   }
@@ -5390,9 +5371,11 @@
   // "other" branch. state.stations/state.shop/etc. ALWAYS represent
   // whichever branch is currently on screen — nothing else in the game
   // needs to know branches exist at all, it just keeps reading state.stations.
-  // NOT a freeze/thaw anymore: tick() (via stepBranch) keeps BOTH branches'
-  // clocks/customers/income running in real time regardless of which one is
-  // on screen — switching only changes which one is rendered.
+  // Gün/saat (state.day/clockMin/dayOver) artık PAYLAŞILAN — bu swap'a hiç
+  // dahil değil, iki şube de aynı takvimi paylaşıyor. tick() (via stepBranch)
+  // her iki şubenin müşteri/gelirini de gerçek zamanlı ilerletmeye devam
+  // eder, hangisinin ekranda olduğundan bağımsız — switch sadece hangisinin
+  // render edildiğini değiştirir.
   function switchBranch() {
     if (!state.branch2Unlocked) return;
     var parked = state.otherBranch;
@@ -5429,6 +5412,7 @@
     btnBranch.addEventListener("click", function () {
       if (state.branch2Unlocked) { switchBranch(); return; }
       if (state.money < NEW_BRANCH_COST) return showToast(t("toast.notEnoughMoney"));
+      if (modalBusiness) modalBusiness.hidden = true; // İşletmem içinden açılıyor, üst üste binmesin
       if (modalBranch) modalBranch.hidden = false;
     });
   }
@@ -5476,6 +5460,15 @@
   btnOpenStats.addEventListener("click", function () { modalStats.hidden = false; });
   btnCloseStats.addEventListener("click", function () { modalStats.hidden = true; });
   modalStats.addEventListener("click", function (e) { if (e.target === modalStats) modalStats.hidden = true; });
+
+  if (btnOpenBusiness) {
+    btnOpenBusiness.addEventListener("click", function () {
+      renderBranchButton();
+      modalBusiness.hidden = false;
+    });
+  }
+  if (btnCloseBusiness) btnCloseBusiness.addEventListener("click", function () { modalBusiness.hidden = true; });
+  if (modalBusiness) modalBusiness.addEventListener("click", function (e) { if (e.target === modalBusiness) modalBusiness.hidden = true; });
 
   // ---------------------------------------------------------------- fx
   function spawnIncomePop(stationIdx, amount) {
