@@ -1812,6 +1812,12 @@
   function connectChat() {
     if (!CHAT_ENABLED || ablyClient || !state || !state.cafeName) return;
     setChatStatus(t("chat.connecting"), "info");
+    // Bağlantı kurulana kadar Gönder'i devre dışı bırak — "henüz bağlanmadı"
+    // hatası aslında bir arıza değil, sadece bağlantı tamamlanmadan (Ably
+    // SDK'sı ilk kez CDN'den iniyor + Realtime bağlantısı kuruluyor — bu
+    // bir-iki saniye sürebilir) gönder'e basılırsa çıkıyordu. Artık buton
+    // zaten basılamaz durumda olduğu için bu senaryo oluşamıyor.
+    if (chatSendBtnEl) chatSendBtnEl.disabled = true;
     loadAblySdk(function () {
       if (ablyClient) return; // aynı anda iki kez tetiklenmesin
       if (!window.Ably) {
@@ -1820,7 +1826,10 @@
       }
       try {
         ablyClient = new Ably.Realtime({ key: ABLY_API_KEY, clientId: getPlayerId() });
-        ablyClient.connection.on("connected", function () { setChatStatus("", null); });
+        ablyClient.connection.on("connected", function () {
+          setChatStatus("", null);
+          if (chatSendBtnEl) chatSendBtnEl.disabled = false;
+        });
         ablyClient.connection.on("failed", function (stateChange) {
           setChatStatus(t("chat.errorConn") + (stateChange && stateChange.reason ? " (" + stateChange.reason.message + ")" : ""), "error");
         });
