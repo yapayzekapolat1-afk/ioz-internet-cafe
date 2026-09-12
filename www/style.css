@@ -1691,6 +1691,32 @@ body{
 }
 .ps-action-btn:active:not(:disabled){ transform:scale(.96); }
 
+/* BUG FIX: bu butona hiç stil verilmemişti — tarayıcının çıplak varsayılan
+   buton görünümüyle duruyordu (renksiz/biçimsiz), diğer dükkan aksiyon
+   butonlarıyla (.ps-action-btn) aynı dile getirildi, ana kategori olduğu
+   için teal (accent) renk kullanıldı. */
+.pc-bulk-upgrade-btn{
+  flex-shrink:0;
+  padding:9px 12px;
+  border-radius:8px;
+  border:none;
+  background:var(--accent);
+  color:#08211d;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.pc-bulk-upgrade-btn:disabled{
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  cursor:not-allowed;
+}
+.pc-bulk-upgrade-btn:active:not(:disabled){ transform:scale(.96); }
+.store-section-head-divider{ margin-top:22px; }
+
 /* ---------- İOZ Araba Simülasyonu (car sim) ---------- */
 .car-badge{
   position:absolute;

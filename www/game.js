@@ -157,6 +157,9 @@
       "bankrupt.restart": "Yeniden Başla",
 
       "store.title": "Dükkan",
+      "pcBulk.sectionTitle": "Bilgisayar Ekle / Geliştir",
+      "pcBulk.singleNote": "Tek tek yükseltmek istersen masana dokunup oradan da yükseltebilirsin — burası hepsini birden yükseltmek için.",
+      "pcBulk.otherUpgrades": "Diğer Kalıcı Yükseltmeler",
       "pcBulk.intro": "Bilgisayarlarını tek yerden toplu yükselt.",
       "pcBulk.allMaxed": "Tüm bilgisayarların zaten maksimum seviyede (veya henüz kurulu bilgisayarın yok).",
       "pcBulk.desc": "Adet başı {unit} — hepsi için toplam {total}",
@@ -630,6 +633,9 @@
       "bankrupt.restart": "Start Over",
 
       "store.title": "Store",
+      "pcBulk.sectionTitle": "Add / Upgrade Computers",
+      "pcBulk.singleNote": "Want to upgrade one at a time? Tap a station on the floor instead — this section upgrades all of them at once.",
+      "pcBulk.otherUpgrades": "Other Permanent Upgrades",
       "pcBulk.intro": "Upgrade all your computers from one place.",
       "pcBulk.allMaxed": "All your computers are already maxed out (or you don't have any built yet).",
       "pcBulk.desc": "{unit} each — {total} total",
@@ -1989,6 +1995,14 @@
   ];
   var ADMIN_USERNAME = "IOZGAMES";
   var ADMIN_PASSWORD = "polat4735.P";
+  // BUG FIX: Türkçe klavyede/otomatik büyük harfte "İOZGAMES" yazınca
+  // noktalı büyük İ (U+0130) üretilebiliyor, ama sabit değer düz Latin I
+  // (U+0049) ile yazılmış — bu ikisi "===" ile asla eşleşmiyordu, yönetici
+  // girişi bu yüzden HİÇ çalışmıyordu. normalizeAdminUsername() ikisini de
+  // aynı düz Latin forma çevirip karşılaştırıyor.
+  function normalizeAdminUsername(s) {
+    return String(s || "").trim().replace(/İ/g, "I").replace(/ı/g, "i").toUpperCase();
+  }
   var moderationCheckedAt = 0;
   var moderationChecking = false;
 
@@ -6214,7 +6228,7 @@
     var loggedIn = !!(state && state.adminLoggedIn);
     btnAdminLoginToggle.hidden = loggedIn;
     if (adminLoggedInBox) adminLoggedInBox.hidden = !loggedIn;
-    if (!loggedIn && adminLoginForm) adminLoginForm.hidden = true;
+    if (adminLoginForm) adminLoginForm.hidden = true; // giriş yapılsın ya da yapılmasın, her render'da formu kapat — açık kalması sadece toggle ile
   }
   if (btnAdminLoginToggle) {
     btnAdminLoginToggle.addEventListener("click", function () {
@@ -6224,9 +6238,9 @@
   }
   if (btnAdminLoginSubmit) {
     btnAdminLoginSubmit.addEventListener("click", function () {
-      var u = (adminUsernameInput && adminUsernameInput.value || "").trim();
+      var u = normalizeAdminUsername(adminUsernameInput && adminUsernameInput.value);
       var p = (adminPasswordInput && adminPasswordInput.value || "");
-      if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
+      if (u === normalizeAdminUsername(ADMIN_USERNAME) && p === ADMIN_PASSWORD) {
         state.adminLoggedIn = true;
         save();
         if (adminUsernameInput) adminUsernameInput.value = "";
