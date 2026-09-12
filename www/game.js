@@ -1926,6 +1926,7 @@
     var listEl = $("leaderboard-list");
     var statusEl = $("leaderboard-status");
     if (!listEl) return;
+    wireLeaderboardProfileClicks();
     if (statusEl) { statusEl.hidden = false; statusEl.textContent = t("leaderboard.loading"); statusEl.className = "chat-status chat-status-info"; }
     fetchLeaderboard(function (list, wasFresh) {
       if (!list || list.length === 0) {
@@ -1940,9 +1941,18 @@
   // Sıralamadaki bir satıra tıklayınca da (chattekiyle birebir aynı) profil
   // kartı açılıyor — "sıralamadakilere de mute/ban uygulayabilelim" isteği
   // bu sayede karşılanıyor, admin/moderatör aksiyonları oradan da erişilebilir.
-  (function wireLeaderboardProfileClicks() {
+  // BUG FIX: bu, script'in en başında (henüz $ fonksiyonu tanımlanmadan önce)
+  // hemen çalışan bir IIFE'ydi — bu yüzden "$ is not a function" hatasıyla
+  // script'in tamamı çöküyor, bu da runLoader()'ın hiç başlayamamasına ve
+  // giriş yükleme ekranının SONSUZA KADAR takılı kalmasına sebep oluyordu.
+  // Artık lazy: sadece renderLeaderboard() ilk çağrıldığında (yani sıralama
+  // gerçekten açıldığında, $ çoktan tanımlanmış olduğunda) bir kereliğine bağlanıyor.
+  var leaderboardClicksWired = false;
+  function wireLeaderboardProfileClicks() {
+    if (leaderboardClicksWired) return;
     var listEl = $("leaderboard-list");
     if (!listEl) return;
+    leaderboardClicksWired = true;
     listEl.addEventListener("click", function (e) {
       var row = e.target.closest("[data-chat-profile]");
       if (!row) return;
@@ -1955,7 +1965,7 @@
         row.dataset.mod === "1"
       );
     });
-  })();
+  }
 
   // ---------------------------------------------------------------- moderasyon (mute/ban/mod/vip)
   // Sıralamayla BİREBİR AYNI mimari: gerçek bir sunucu/veritabanı yok, admin
