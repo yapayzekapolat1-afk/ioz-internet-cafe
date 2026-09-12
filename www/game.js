@@ -157,6 +157,11 @@
       "bankrupt.restart": "Yeniden Başla",
 
       "store.title": "Dükkan",
+      "pcBulk.intro": "Bilgisayarlarını tek yerden toplu yükselt.",
+      "pcBulk.allMaxed": "Tüm bilgisayarların zaten maksimum seviyede (veya henüz kurulu bilgisayarın yok).",
+      "pcBulk.desc": "Adet başı {unit} — hepsi için toplam {total}",
+      "pcBulk.upgradeAllBtn": "Hepsini Yükselt",
+      "pcBulk.upgraded": "{n} bilgisayar yükseltildi!",
       "store.intro": "Kalıcı yükseltmeler satın al, işletmeni büyüt.",
       "store.sectionPs": "İOZ Playstion",
       "store.sectionCar": "İOZ Araba Simülasyonu",
@@ -332,6 +337,41 @@
       "games.intro": "Bilgisayarlarına oyun yükle, her biri şubene kalıcı saatlik pasif gelir katsın.",
       "games.rateDesc": "Saatte {rate} ₺ pasif gelir.",
       "shopbar.games": "Oyunlar",
+      "shopbar.leaderboard": "Sıralama",
+      "leaderboard.title": "Sıralama — İlk 200",
+      "leaderboard.intro": "Güç'e göre sıralanmış ilk 200 işletme. Liste en fazla 3 saatte bir güncellenir.",
+      "leaderboard.loading": "Sıralama yükleniyor…",
+      "leaderboard.empty": "Henüz sıralama verisi yok, birazdan tekrar dene.",
+      "mod.mute10": "10 dk",
+      "mod.mute60": "1 sa",
+      "mod.mute1d": "1 gün",
+      "mod.mute7d": "7 gün",
+      "mod.mutedMsg": "Susturuldun, {time} sonra tekrar yazabilirsin.",
+      "mod.bannedMsg": "Sohbetten yasaklandın.",
+      "mod.youWereMuted": "Bir yönetici seni {time} boyunca susturdu.",
+      "mod.youWereBanned": "Bir yönetici seni sohbetten yasakladı.",
+      "admin.actGiveVip": "VIP Ver",
+      "admin.actMakeMod": "Moderatör Yap",
+      "admin.actRemoveMod": "Moderatörlüğü Al",
+      "admin.actUnmute": "Susturmayı Kaldır",
+      "admin.actBan": "Yasakla",
+      "admin.actUnban": "Yasağı Kaldır",
+      "admin.muted": "{name} susturuldu.",
+      "admin.unmuted": "{name} için susturma kaldırıldı.",
+      "admin.banned": "{name} yasaklandı.",
+      "admin.unbanned": "{name} için yasak kaldırıldı.",
+      "admin.vipGranted": "{name} artık VIP.",
+      "admin.modGranted": "{name} moderatör yapıldı.",
+      "admin.modRemoved": "{name} için moderatörlük kaldırıldı.",
+      "admin.youGotVip": "Bir yönetici sana VIP verdi! 👑",
+      "admin.loginLink": "Yönetici Girişi",
+      "admin.username": "Kullanıcı adı",
+      "admin.password": "Şifre",
+      "admin.loginBtn": "Giriş Yap",
+      "admin.loginError": "Kullanıcı adı veya şifre hatalı.",
+      "admin.loggedInAs": "Yönetici olarak giriş yaptın (IOZGAMES)",
+      "admin.logout": "Çıkış Yap",
+      "admin.loginSuccess": "Yönetici girişi başarılı.",
 
       "staff.cleaner.name": "Temizlikçi",
       "staff.cleaner.descHired": "Günlük {wage} ₺ maaş · dükkan puanını yükseltir.",
@@ -590,6 +630,11 @@
       "bankrupt.restart": "Start Over",
 
       "store.title": "Store",
+      "pcBulk.intro": "Upgrade all your computers from one place.",
+      "pcBulk.allMaxed": "All your computers are already maxed out (or you don't have any built yet).",
+      "pcBulk.desc": "{unit} each — {total} total",
+      "pcBulk.upgradeAllBtn": "Upgrade All",
+      "pcBulk.upgraded": "{n} computers upgraded!",
       "store.intro": "Buy permanent upgrades and grow your business.",
       "store.sectionPs": "İOZ Playstion",
       "store.sectionCar": "İOZ Araba Simülasyonu",
@@ -765,6 +810,41 @@
       "games.intro": "Install games on your computers — each one adds permanent hourly passive income to this branch.",
       "games.rateDesc": "{rate} ₺ passive income per hour.",
       "shopbar.games": "Games",
+      "shopbar.leaderboard": "Leaderboard",
+      "leaderboard.title": "Leaderboard — Top 200",
+      "leaderboard.intro": "Top 200 businesses ranked by Power. Updates at most every 3 hours.",
+      "leaderboard.loading": "Loading leaderboard…",
+      "leaderboard.empty": "No leaderboard data yet, try again shortly.",
+      "mod.mute10": "10 min",
+      "mod.mute60": "1 hr",
+      "mod.mute1d": "1 day",
+      "mod.mute7d": "7 days",
+      "mod.mutedMsg": "You're muted, you can write again in {time}.",
+      "mod.bannedMsg": "You've been banned from chat.",
+      "mod.youWereMuted": "A moderator muted you for {time}.",
+      "mod.youWereBanned": "A moderator banned you from chat.",
+      "admin.actGiveVip": "Give VIP",
+      "admin.actMakeMod": "Make Moderator",
+      "admin.actRemoveMod": "Remove Moderator",
+      "admin.actUnmute": "Remove Mute",
+      "admin.actBan": "Ban",
+      "admin.actUnban": "Remove Ban",
+      "admin.muted": "{name} was muted.",
+      "admin.unmuted": "{name}'s mute was removed.",
+      "admin.banned": "{name} was banned.",
+      "admin.unbanned": "{name}'s ban was removed.",
+      "admin.vipGranted": "{name} is now VIP.",
+      "admin.modGranted": "{name} was made a moderator.",
+      "admin.modRemoved": "{name}'s moderator status was removed.",
+      "admin.youGotVip": "A moderator gave you VIP! 👑",
+      "admin.loginLink": "Admin Login",
+      "admin.username": "Username",
+      "admin.password": "Password",
+      "admin.loginBtn": "Log In",
+      "admin.loginError": "Wrong username or password.",
+      "admin.loggedInAs": "Logged in as admin (IOZGAMES)",
+      "admin.logout": "Log Out",
+      "admin.loginSuccess": "Admin login successful.",
 
       "staff.cleaner.name": "Cleaner",
       "staff.cleaner.descHired": "{wage} ₺ daily wage · boosts your cafe rating.",
@@ -1510,6 +1590,16 @@
       otherBranch: null,
       // TEK, paylaşılan işletme takvimi — her iki şube de aynı gün/saati
       // paylaşır (bkz. PER_BRANCH_KEYS'te artık day/clockMin/dayOver yok).
+      // Sıralama: bu cihazın skorunu en son ne zaman Ably'ye yayınladığı —
+      // yeni oyuncu için 0, yani bir sonraki fırsatta hemen yayınlar.
+      lastLeaderboardPublishAt: 0,
+      // Moderasyon: mute/ban/moderatör durumu Ably'den senkronize edilir
+      // (bkz. checkModerationStatus). Yönetici girişi ise SADECE bu cihaza
+      // özeldir, senkronize edilmez — şifreyle bu cihazda giriş yapılır.
+      mutedUntil: 0,
+      banned: false,
+      isModerator: false,
+      adminLoggedIn: false,
       day: 1,
       clockMin: DAY_OPEN_MIN,
       dayOver: false
@@ -1729,28 +1819,288 @@
     document.head.appendChild(s);
   }
 
-  function chatVipHtml(vip) { return vip ? ' <span class="chat-vip-badge">VIP</span>' : ""; }
-  // İsim artık tıklanabilir bir profil kartı açıyor — güç ve VIP durumu
-  // mesajın kendi içinde taşındığı için (data-power/data-vip) ekstra bir
-  // ağ isteği gerekmiyor.
-  function chatNameHtml(name, vip, power) {
-    return '<span class="chat-name' + (vip ? " chat-name-vip" : "") +
-      '" data-chat-profile="1" data-name="' + escapeHtml(name || "?") +
-      '" data-power="' + (power || 0) + '" data-vip="' + (vip ? "1" : "0") + '">' +
-      escapeHtml(name || "?") + "</span>" + chatVipHtml(vip);
+  // ---------------------------------------------------------------- sıralama (leaderboard)
+  // İstek: "sadece aktiflerden olmasın, tüm cihazları okuyan bir güç
+  // olmalı" + "supabase filan önerme" — yani canlı Ably presence (sadece o
+  // an bağlı olanlar) YETERSİZ, ama tam bir veritabanı da istenmiyor.
+  // Çözüm: Ably'nin KENDİSİNİ hafif bir "son skor" deposu gibi kullanmak.
+  // Her cihaz, en fazla 3 saatte bir, kendi Güç'ünü AYRI bir kanala REST
+  // ile (Ably.Rest — bağlantı AÇIK TUTMADAN, tek seferlik bir HTTP isteği)
+  // yayınlıyor. Sıralamayı görüntüleyen taraf da aynı kanalın Ably Free
+  // planının izin verdiği son 24 saatlik geçmişini okuyup, her cihaz
+  // (clientId) için EN SON mesajı alıyor — o cihazın en güncel Gücü. Tüm
+  // hesaplama İSTEMCİ TARAFINDA yapılıyor, sunucu/veritabanı yok. Hem
+  // yayın hem okuma 3 saatte bir sınırlandığı için Ably kotası yorulmuyor.
+  var LEADERBOARD_CHANNEL_NAME = "iozcafe-leaderboard";
+  var LEADERBOARD_INTERVAL_MS = 3 * 60 * 60 * 1000; // 3 saat
+  var LEADERBOARD_TOP_N = 200;
+  var leaderboardCache = null;
+  var leaderboardCacheAt = 0;
+  var leaderboardFetching = false;
+
+  function getAblyRest() {
+    if (!window.Ably) return null;
+    try { return new Ably.Rest({ key: ABLY_API_KEY, clientId: getPlayerId() }); } catch (e) { return null; }
   }
-  function appendChatMessage(data) {
+
+  function maybePublishLeaderboardScore() {
+    if (!CHAT_ENABLED || !state || !state.cafeName) return;
+    var now = Date.now();
+    if (state.lastLeaderboardPublishAt && (now - state.lastLeaderboardPublishAt) < LEADERBOARD_INTERVAL_MS) return;
+    state.lastLeaderboardPublishAt = now; // ağ gecikmesi sırasında tekrar tekrar denemesin diye hemen işaretle
+    loadAblySdk(function () {
+      var rest = getAblyRest();
+      if (!rest) return;
+      try {
+        // NOT: clientId burada AYRI bir parametre olarak verilmiyor — Ably
+        // publish(name, data) imzası bunu desteklemiyor. Bunun yerine
+        // client'ın kendisi clientId ile oluşturuldu (getAblyRest), Ably
+        // bu kimliği yayınlanan her mesaja otomatik ekliyor — chat'teki
+        // Realtime bağlantısıyla birebir aynı desen.
+        rest.channels.get(LEADERBOARD_CHANNEL_NAME).publish(
+          "score",
+          { name: String(state.cafeName).slice(0, 24), power: powerCount(state), vip: !!state.vip, isAdmin: !!state.adminLoggedIn, isMod: !!state.isModerator }
+        );
+      } catch (e) { /* olmadı, bir sonraki 3 saatlik periyotta tekrar denenir */ }
+    });
+  }
+
+  // Sıralamayı hesaplar: cache 3 saatten tazeyse onu döndürür (ekstra Ably
+  // okuması yapmaz), değilse kanalın geçmişini okuyup her clientId için en
+  // güncel skoru alır, Güç'e göre sıralar, ilk 200'ü döndürür.
+  function fetchLeaderboard(cb) {
+    var now = Date.now();
+    if (leaderboardCache && (now - leaderboardCacheAt) < LEADERBOARD_INTERVAL_MS) { cb(leaderboardCache, false); return; }
+    if (leaderboardFetching) { cb(leaderboardCache, false); return; }
+    leaderboardFetching = true;
+    loadAblySdk(function () {
+      var rest = getAblyRest();
+      if (!rest) { leaderboardFetching = false; cb(leaderboardCache, false); return; }
+      var latestByClient = {};
+      function consume(items) {
+        (items || []).forEach(function (m) {
+          var cid = m.clientId;
+          if (!cid || !m.data) return;
+          var existing = latestByClient[cid];
+          if (!existing || m.timestamp > existing.ts) {
+            latestByClient[cid] = { cid: cid, name: m.data.name, power: m.data.power || 0, vip: !!m.data.vip, isAdmin: !!m.data.isAdmin, isMod: !!m.data.isMod, ts: m.timestamp };
+          }
+        });
+      }
+      function finish() {
+        var list = Object.keys(latestByClient).map(function (cid) { return latestByClient[cid]; });
+        list.sort(function (a, b) { return b.power - a.power; });
+        list = list.slice(0, LEADERBOARD_TOP_N);
+        leaderboardCache = list;
+        leaderboardCacheAt = Date.now();
+        leaderboardFetching = false;
+        cb(list, true);
+      }
+      function walk(page, depth) {
+        consume(page.items);
+        if (depth >= 4 || !page.hasNext()) { finish(); return; }
+        page.next().then(function (nextPage) {
+          if (!nextPage) { finish(); return; }
+          walk(nextPage, depth + 1);
+        }).catch(finish);
+      }
+      rest.channels.get(LEADERBOARD_CHANNEL_NAME)
+        .history({ limit: 500, direction: "backwards" })
+        .then(function (page) { walk(page, 0); })
+        .catch(function () { leaderboardFetching = false; cb(leaderboardCache, false); });
+    });
+  }
+
+  function leaderboardRowHtml(entry, rank) {
+    var isTop3 = rank <= 3;
+    return '<div class="leaderboard-row' + (isTop3 ? " leaderboard-top3" : "") + '" data-chat-profile="1" data-name="' + escapeHtml(entry.name || "?") +
+      '" data-power="' + (entry.power || 0) + '" data-vip="' + (entry.vip ? "1" : "0") +
+      '" data-client-id="' + escapeHtml(entry.cid || "") + '" data-admin="' + (entry.isAdmin ? "1" : "0") + '" data-mod="' + (entry.isMod ? "1" : "0") + '">' +
+      '<span class="leaderboard-rank">#' + rank + '</span>' +
+      '<span class="leaderboard-name' + (entry.isAdmin ? " chat-name-admin" : (entry.isMod ? " chat-name-mod" : (entry.vip ? " leaderboard-name-vip" : ""))) + '">' + escapeHtml(entry.name || "?") + chatVipHtml(entry.vip, entry.isAdmin, entry.isMod) + '</span>' +
+      '<span class="leaderboard-power">' + POWER_BOLT_SVG + Math.round(entry.power || 0) + '</span>' +
+    '</div>';
+  }
+
+  function renderLeaderboard() {
+    var listEl = $("leaderboard-list");
+    var statusEl = $("leaderboard-status");
+    if (!listEl) return;
+    if (statusEl) { statusEl.hidden = false; statusEl.textContent = t("leaderboard.loading"); statusEl.className = "chat-status chat-status-info"; }
+    fetchLeaderboard(function (list, wasFresh) {
+      if (!list || list.length === 0) {
+        listEl.innerHTML = '<div class="leaderboard-empty">' + t("leaderboard.empty") + '</div>';
+        if (statusEl) { statusEl.hidden = false; statusEl.textContent = t("leaderboard.empty"); statusEl.className = "chat-status chat-status-info"; }
+        return;
+      }
+      if (statusEl) statusEl.hidden = true;
+      listEl.innerHTML = list.map(function (entry, i) { return leaderboardRowHtml(entry, i + 1); }).join("");
+    });
+  }
+  // Sıralamadaki bir satıra tıklayınca da (chattekiyle birebir aynı) profil
+  // kartı açılıyor — "sıralamadakilere de mute/ban uygulayabilelim" isteği
+  // bu sayede karşılanıyor, admin/moderatör aksiyonları oradan da erişilebilir.
+  (function wireLeaderboardProfileClicks() {
+    var listEl = $("leaderboard-list");
+    if (!listEl) return;
+    listEl.addEventListener("click", function (e) {
+      var row = e.target.closest("[data-chat-profile]");
+      if (!row) return;
+      openChatProfile(
+        row.dataset.name,
+        row.dataset.vip === "1",
+        parseInt(row.dataset.power, 10) || 0,
+        row.dataset.clientId || "",
+        row.dataset.admin === "1",
+        row.dataset.mod === "1"
+      );
+    });
+  })();
+
+  // ---------------------------------------------------------------- moderasyon (mute/ban/mod/vip)
+  // Sıralamayla BİREBİR AYNI mimari: gerçek bir sunucu/veritabanı yok, admin
+  // aksiyonları (mute/ban/mod/vip ver) ayrı bir kanala (MODERATION_CHANNEL_NAME)
+  // Ably.Rest ile (bağlantı açık tutmadan) yayınlanıyor. Her cihaz, chate her
+  // açılışta (ve en fazla MODERATION_CHECK_INTERVAL_MS'de bir) bu kanalın
+  // geçmişini okuyup KENDİ clientId'sini hedefleyen aksiyonları buluyor, en
+  // yeniden geriye doğru uygulayıp kendi mute/ban/mod/vip durumunu güncelliyor.
+  // NOT (dürüstlük payı): Ably Free planında geçmiş en fazla 24 saat
+  // saklanıyor. Kısa/orta vadeli mute'lar (dakikalar-saatler) bu pencerede
+  // sorunsuz çalışır; ama günler süren bir mute ya da kalıcı bir ban, 24
+  // saatten sonra geçmişten düşüp teknik olarak "unutulabilir" — gerçek bir
+  // veritabanı olmadan bunun %100 garantisi yok, bunu bilerek ilerliyoruz.
+  var MODERATION_CHANNEL_NAME = "iozcafe-moderation";
+  var MODERATION_CHECK_INTERVAL_MS = 10 * 60 * 1000; // 10 dakika
+  var MUTE_DURATION_OPTIONS = [
+    { minutes: 10, labelKey: "mod.mute10" },
+    { minutes: 60, labelKey: "mod.mute60" },
+    { minutes: 60 * 24, labelKey: "mod.mute1d" },
+    { minutes: 60 * 24 * 7, labelKey: "mod.mute7d" }
+  ];
+  var ADMIN_USERNAME = "IOZGAMES";
+  var ADMIN_PASSWORD = "polat4735.P";
+  var moderationCheckedAt = 0;
+  var moderationChecking = false;
+
+  function publishModerationAction(type, target, extra) {
+    loadAblySdk(function () {
+      var rest = getAblyRest();
+      if (!rest) return;
+      var payload = { type: type, target: target };
+      if (extra) { for (var k in extra) payload[k] = extra[k]; }
+      try { rest.channels.get(MODERATION_CHANNEL_NAME).publish("action", payload); } catch (e) { /* olmadı */ }
+    });
+  }
+
+  // Kendi durumumu (mute/ban/mod/vip) günceller — sadece BENİ (getPlayerId())
+  // hedefleyen aksiyonlara bakar, zaman sırasına göre en son durumu çıkarır.
+  function checkModerationStatus(force, cb) {
+    cb = cb || function () {};
+    var now = Date.now();
+    if (!force && moderationCheckedAt && (now - moderationCheckedAt) < MODERATION_CHECK_INTERVAL_MS) { cb(); return; }
+    if (moderationChecking) { cb(); return; }
+    moderationChecking = true;
+    loadAblySdk(function () {
+      var rest = getAblyRest();
+      if (!rest) { moderationChecking = false; cb(); return; }
+      var myId = getPlayerId();
+      var mine = [];
+      function consume(items) {
+        (items || []).forEach(function (m) {
+          if (!m.data || m.data.target !== myId) return;
+          mine.push({ type: m.data.type, until: m.data.until, ts: m.timestamp });
+        });
+      }
+      function finish() {
+        mine.sort(function (a, b) { return a.ts - b.ts; }); // eskiden yeniye, en son durum kazanır
+        var muted = 0, banned = false, isMod = false, vipGranted = false;
+        mine.forEach(function (e) {
+          if (e.type === "mute") muted = e.until || 0;
+          else if (e.type === "unmute") muted = 0;
+          else if (e.type === "ban") banned = true;
+          else if (e.type === "unban") banned = false;
+          else if (e.type === "mod") isMod = true;
+          else if (e.type === "unmod") isMod = false;
+          else if (e.type === "vip") vipGranted = true;
+        });
+        moderationCheckedAt = Date.now();
+        moderationChecking = false;
+        if (state) {
+          var wasMuted = state.mutedUntil > Date.now();
+          state.mutedUntil = muted;
+          state.banned = banned;
+          state.isModerator = isMod;
+          if (vipGranted && !state.vip) {
+            state.vip = true;
+            renderVipModal();
+            renderAdBonusButton();
+            showToast(t("admin.youGotVip"));
+          }
+          if (!wasMuted && muted > Date.now()) showToast(t("mod.youWereMuted", { time: fmtRemainingTime(muted - Date.now()) }));
+          if (banned) showToast(t("mod.youWereBanned"));
+          save();
+        }
+        cb();
+      }
+      function walk(page, depth) {
+        consume(page.items);
+        if (depth >= 4 || !page.hasNext()) { finish(); return; }
+        page.next().then(function (nextPage) {
+          if (!nextPage) { finish(); return; }
+          walk(nextPage, depth + 1);
+        }).catch(finish);
+      }
+      rest.channels.get(MODERATION_CHANNEL_NAME)
+        .history({ limit: 500, direction: "backwards" })
+        .then(function (page) { walk(page, 0); })
+        .catch(function () { moderationChecking = false; cb(); });
+    });
+  }
+
+  // "10 dakika", "2 saat", "3 gün" gibi kaba bir kalan-süre metni — mute
+  // geri sayımı için, oyun içi saatle (fmtClock) karıştırılmasın diye ayrı.
+  function fmtRemainingTime(ms) {
+    var mins = Math.ceil(ms / 60000);
+    if (mins < 60) return mins + " dk";
+    var hours = Math.ceil(mins / 60);
+    if (hours < 24) return hours + " sa";
+    var days = Math.ceil(hours / 24);
+    return days + " gün";
+  }
+
+  function chatVipHtml(vip, isAdmin, isMod) {
+    if (isAdmin) return ' <span class="chat-admin-badge">👑 ADMIN</span>';
+    if (isMod) return ' <span class="chat-mod-badge">MOD</span>';
+    return vip ? ' <span class="chat-vip-badge">VIP</span>' : "";
+  }
+  // İsim artık tıklanabilir bir profil kartı açıyor — güç/VIP/admin/mod
+  // durumu mesajın kendi içinde taşındığı için (data-power/data-vip/
+  // data-admin/data-mod/data-client-id) ekstra bir ağ isteği gerekmiyor.
+  function chatNameHtml(name, vip, power, clientId, isAdmin, isMod) {
+    var cls = "chat-name" + (isAdmin ? " chat-name-admin" : (isMod ? " chat-name-mod" : (vip ? " chat-name-vip" : "")));
+    return '<span class="' + cls +
+      '" data-chat-profile="1" data-name="' + escapeHtml(name || "?") +
+      '" data-power="' + (power || 0) + '" data-vip="' + (vip ? "1" : "0") +
+      '" data-client-id="' + escapeHtml(clientId || "") +
+      '" data-admin="' + (isAdmin ? "1" : "0") + '" data-mod="' + (isMod ? "1" : "0") + '">' +
+      escapeHtml(name || "?") + "</span>" + chatVipHtml(vip, isAdmin, isMod);
+  }
+  function appendChatMessage(data, clientId) {
     if (!chatListEl || !data) return;
     var row = document.createElement("div");
     row.className = "chat-row";
-    row.innerHTML = chatNameHtml(data.name, !!data.vip, data.power) + '<span class="chat-text">' + escapeHtml(data.text || "") + "</span>";
+    row.innerHTML = chatNameHtml(data.name, !!data.vip, data.power, clientId, !!data.isAdmin, !!data.isMod) +
+      '<span class="chat-text">' + escapeHtml(data.text || "") + "</span>";
     var wasAtBottom = chatListEl.scrollTop + chatListEl.clientHeight >= chatListEl.scrollHeight - 20;
     chatListEl.appendChild(row);
     while (chatListEl.children.length > CHAT_HISTORY_LIMIT) chatListEl.removeChild(chatListEl.firstChild);
     if (wasAtBottom) chatListEl.scrollTop = chatListEl.scrollHeight;
   }
 
-  // ---- Oyuncu profil kartı: chat'te bir isme tıklayınca açılır.
+  // ---- Oyuncu profil kartı: chat'te (veya Sıralama'da) bir isme
+  // tıklayınca açılır. Admin/moderatör girişi yapılmışsa ve hedef admin
+  // değilse, altında moderasyon aksiyonları (Sustur/Yasakla/VIP Ver/
+  // Moderatör Yap) gösterilir.
   var chatProfileEl = null;
   function ensureChatProfileCard() {
     if (chatProfileEl) return;
@@ -1762,21 +2112,91 @@
       '<div class="chat-profile-box">' +
         '<div class="chat-profile-name" id="chat-profile-name"></div>' +
         '<div class="chat-profile-power">' + POWER_BOLT_SVG + '<span id="chat-profile-power">0</span></div>' +
+        '<div class="chat-profile-actions" id="chat-profile-actions" hidden></div>' +
       '</div>';
     document.body.appendChild(el);
-    el.addEventListener("click", function () { el.hidden = true; });
+    el.addEventListener("click", function (e) {
+      var actBtn = e.target.closest(".chat-admin-action");
+      if (actBtn) { e.stopPropagation(); handleAdminAction(actBtn.dataset.act, actBtn.dataset.minutes); return; }
+      if (e.target === el) el.hidden = true;
+    });
     chatProfileEl = el;
   }
-  function openChatProfile(name, vip, power) {
+  function openChatProfile(name, vip, power, clientId, isAdmin, isMod) {
     ensureChatProfileCard();
     var nameEl = $("chat-profile-name");
     if (nameEl) {
-      nameEl.innerHTML = escapeHtml(name || "?") + (vip ? ' <span class="chat-vip-badge">VIP</span>' : "");
-      nameEl.className = "chat-profile-name" + (vip ? " chat-name-vip" : "");
+      nameEl.innerHTML = escapeHtml(name || "?") + chatVipHtml(vip, isAdmin, isMod);
+      nameEl.className = "chat-profile-name" + (isAdmin ? " chat-name-admin" : (isMod ? " chat-name-mod" : (vip ? " chat-name-vip" : "")));
     }
     var powerEl = $("chat-profile-power");
     if (powerEl) powerEl.textContent = power || 0;
+
+    var actionsEl = $("chat-profile-actions");
+    if (actionsEl) {
+      // Moderasyon butonları SADECE şu durumda gösterilir: bakan taraf
+      // admin ya da moderatörse, VE hedef admin DEĞİLSE (admin kimseye
+      // dokunulamaz — "kaldırılamaz" isteğinin karşılığı), VE hedef
+      // kendisi değilse (kendini susturamaz/yasaklayamaz).
+      var viewerCanAct = (state.adminLoggedIn || state.isModerator) && clientId && clientId !== getPlayerId() && !isAdmin;
+      if (!viewerCanAct) {
+        actionsEl.hidden = true;
+        actionsEl.innerHTML = "";
+      } else {
+        actionsEl.hidden = false;
+        var html = "";
+        if (state.adminLoggedIn) {
+          html += '<button class="chat-admin-action" data-act="vip">' + t("admin.actGiveVip") + '</button>';
+          html += '<button class="chat-admin-action" data-act="' + (isMod ? "unmod" : "mod") + '">' + (isMod ? t("admin.actRemoveMod") : t("admin.actMakeMod")) + '</button>';
+        }
+        html += '<div class="chat-admin-mute-row">' +
+          MUTE_DURATION_OPTIONS.map(function (opt) {
+            return '<button class="chat-admin-action chat-admin-mute-btn" data-act="mute" data-minutes="' + opt.minutes + '">' + t(opt.labelKey) + '</button>';
+          }).join("") +
+        '</div>';
+        html += '<button class="chat-admin-action" data-act="unmute">' + t("admin.actUnmute") + '</button>';
+        if (state.adminLoggedIn) {
+          html += '<button class="chat-admin-action chat-admin-danger" data-act="ban">' + t("admin.actBan") + '</button>';
+          html += '<button class="chat-admin-action" data-act="unban">' + t("admin.actUnban") + '</button>';
+        }
+        actionsEl.innerHTML = html;
+        actionsEl.dataset.targetId = clientId;
+        actionsEl.dataset.targetName = name || "?";
+      }
+    }
     chatProfileEl.hidden = false;
+  }
+
+  function handleAdminAction(act, minutesStr) {
+    var actionsEl = $("chat-profile-actions");
+    if (!actionsEl) return;
+    var targetId = actionsEl.dataset.targetId;
+    var targetName = actionsEl.dataset.targetName;
+    if (!targetId) return;
+    if (act === "mute") {
+      var minutes = parseInt(minutesStr, 10) || 60;
+      publishModerationAction("mute", targetId, { until: Date.now() + minutes * 60000 });
+      showToast(t("admin.muted", { name: targetName }));
+    } else if (act === "unmute") {
+      publishModerationAction("unmute", targetId);
+      showToast(t("admin.unmuted", { name: targetName }));
+    } else if (act === "ban") {
+      publishModerationAction("ban", targetId);
+      showToast(t("admin.banned", { name: targetName }));
+    } else if (act === "unban") {
+      publishModerationAction("unban", targetId);
+      showToast(t("admin.unbanned", { name: targetName }));
+    } else if (act === "vip") {
+      publishModerationAction("vip", targetId);
+      showToast(t("admin.vipGranted", { name: targetName }));
+    } else if (act === "mod") {
+      publishModerationAction("mod", targetId);
+      showToast(t("admin.modGranted", { name: targetName }));
+    } else if (act === "unmod") {
+      publishModerationAction("unmod", targetId);
+      showToast(t("admin.modRemoved", { name: targetName }));
+    }
+    if (chatProfileEl) chatProfileEl.hidden = true;
   }
 
   function setOnlineCount(n) {
@@ -1842,11 +2262,11 @@
         chatChannel.presence.subscribe(handlePresenceEvent);
         chatChannel.presence.enter({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent })
           .catch(function (err) { setChatStatus(t("chat.errorConn") + " (" + (err && err.message ? err.message : err) + ")", "error"); });
-        chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data); });
+        chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data, msg.clientId); });
         chatChannel.history({ limit: CHAT_HISTORY_LIMIT, direction: "backwards" }).then(function (page) {
           if (!page || !page.items) return;
           page.items.slice().reverse().forEach(function (m) {
-            if (m.name === "msg") appendChatMessage(m.data);
+            if (m.name === "msg") appendChatMessage(m.data, m.clientId);
           });
         }).catch(function () { /* geçmiş yüklenemedi — chat yine de canlı çalışır */ });
       } catch (e) {
@@ -1869,6 +2289,17 @@
     text = String(text || "").trim();
     if (!text || !state) return false;
     if (!chatChannel) { setChatStatus(t("chat.errorNotReady"), "error"); return false; }
+    // Mute/Ban: susturulmuş veya yasaklı bir oyuncu mesaj gönderemez.
+    // checkModerationStatus() periyodik olarak state.mutedUntil/banned'i
+    // güncel tutuyor (bkz. openChat() ve chate her açılışta çağrısı).
+    // Yönetici (adminLoggedIn) bu kontrolden muaf — "kaldırılamaz" isteği.
+    if (!state.adminLoggedIn) {
+      if (state.banned) { setChatStatus(t("mod.bannedMsg"), "error"); return false; }
+      if (state.mutedUntil && Date.now() < state.mutedUntil) {
+        setChatStatus(t("mod.mutedMsg", { time: fmtRemainingTime(state.mutedUntil - Date.now()) }), "error");
+        return false;
+      }
+    }
     var now = Date.now();
     if (now - lastChatSendAt < CHAT_MIN_INTERVAL_MS) return false;
     lastChatSendAt = now;
@@ -1876,6 +2307,12 @@
       name: String(state.cafeName).slice(0, 24),
       vip: !!state.vip,
       power: powerCount(state),
+      // Admin/moderatör rozetleri kendi cihazının bildiği duruma göre
+      // mesajın kendisine ekleniyor (aynı chate güvenme modeli VIP'te de
+      // var — gerçek bir hesap sistemi olmadığı için %100 sunucu tarafı
+      // doğrulama yok, ama admin girişi şifreyle korunuyor).
+      isAdmin: !!state.adminLoggedIn,
+      isMod: !!state.isModerator,
       text: text.slice(0, CHAT_MAX_LEN)
     }).catch(function (err) {
       setChatStatus(t("chat.errorSend") + " (" + (err && err.message ? err.message : err) + ")", "error");
@@ -1913,7 +2350,14 @@
     chatListEl.addEventListener("click", function (e) {
       var nameEl = e.target.closest("[data-chat-profile]");
       if (!nameEl) return;
-      openChatProfile(nameEl.dataset.name, nameEl.dataset.vip === "1", parseInt(nameEl.dataset.power, 10) || 0);
+      openChatProfile(
+        nameEl.dataset.name,
+        nameEl.dataset.vip === "1",
+        parseInt(nameEl.dataset.power, 10) || 0,
+        nameEl.dataset.clientId || "",
+        nameEl.dataset.admin === "1",
+        nameEl.dataset.mod === "1"
+      );
     });
     $("btn-close-chat").addEventListener("click", closeChat);
     var sendLockIv = null;
@@ -1958,6 +2402,10 @@
     $("modal-chat").hidden = false;
     if (!chatChannel) setChatStatus(t("chat.connecting"), "info");
     connectChat();
+    checkModerationStatus(false, function () {
+      if (state.banned) setChatStatus(t("mod.bannedMsg"), "error");
+      else if (state.mutedUntil && Date.now() < state.mutedUntil) setChatStatus(t("mod.mutedMsg", { time: fmtRemainingTime(state.mutedUntil - Date.now()) }), "error");
+    });
     if (chatInputEl) chatInputEl.focus();
   }
 
@@ -2137,6 +2585,11 @@
       if (typeof parsed.day !== "number") parsed.day = 1;
       if (typeof parsed.clockMin !== "number") parsed.clockMin = DAY_OPEN_MIN;
       if (typeof parsed.dayOver !== "boolean") parsed.dayOver = false;
+      if (typeof parsed.lastLeaderboardPublishAt !== "number") parsed.lastLeaderboardPublishAt = 0;
+      if (typeof parsed.mutedUntil !== "number") parsed.mutedUntil = 0;
+      if (typeof parsed.banned !== "boolean") parsed.banned = false;
+      if (typeof parsed.isModerator !== "boolean") parsed.isModerator = false;
+      if (typeof parsed.adminLoggedIn !== "boolean") parsed.adminLoggedIn = false;
       if (typeof parsed.reqSeq !== "number") parsed.reqSeq = 1;
       if (!parsed.today) parsed.today = { served: 0, revenue: 0, lost: 0 };
       if (!Array.isArray(parsed.requests)) parsed.requests = [];
@@ -2306,6 +2759,9 @@
   var btnOpenBusiness = $("btn-open-business");
   var modalBusiness = $("modal-business");
   var btnCloseBusiness = $("btn-close-business");
+  var btnOpenLeaderboard = $("btn-open-leaderboard");
+  var modalLeaderboard = $("modal-leaderboard");
+  var btnCloseLeaderboard = $("btn-close-leaderboard");
   var btnTiktokClaim = $("btn-tiktok-claim");
   var vipBadge = $("vip-badge");
   var btnOpenVip = $("btn-open-vip");
@@ -2390,21 +2846,6 @@
   var BRANCH2_INCOME_MULTIPLIER = 3;
   function branchCostMultiplierFor(branchNo) { return branchNo === 2 ? BRANCH2_COST_MULTIPLIER : 1; }
   function branchIncomeMultiplierFor(branchNo) { return branchNo === 2 ? BRANCH2_INCOME_MULTIPLIER : 1; }
-
-  // BUG FIX: masa kartlarında ve gelen isteklerde her zaman s.rate (oyuncunun
-  // belirlediği ÇIPLAK/ham fiyat) gösteriliyordu — rebirth/VIP/dükkan
-  // geliştir/gelir artışı gibi bonuslar bakiyeye doğru yansısa da, ekrandaki
-  // "₺/sa" yazısı hep sabit kalıyordu (oyuncu rebirth atınca "%1 arttı ama
-  // hâlâ 55 ₺/sa yazıyor" diye şikayet etmişti). Bu fonksiyon, GERÇEKTE eline
-  // geçecek olan (stepBranch/endDay'de kullanılanla BİREBİR aynı çarpan
-  // zincirine sahip) saatlik tutarı hesaplar — fiyat SLIDER'ı hâlâ ham
-  // s.rate üzerinde çalışır (o senin belirlediğin fiyat), ama bilgilendirme
-  // amaçlı her yer artık bu fonksiyonu kullanır.
-  function effectiveStationRate(s) {
-    var branchNo = (state && state.branch === 2) ? 2 : 1;
-    var boost = (state && state.shop && state.shop.revenueBoost) ? 1.2 : 1;
-    return Math.round(s.rate * boost * rebirthMultiplier() * vipMultiplier() * shopTierMultiplier() * partsMultiplier(s) * branchIncomeMultiplierFor(branchNo));
-  }
   function branchCostMultiplier() { return branchCostMultiplierFor(state && state.branch); }
   function branchIncomeMultiplier() { return branchIncomeMultiplierFor(state && state.branch); }
   // Aktif olarak durduğun şubenin numarası neyse, "diğer" (park edilmiş)
@@ -2570,7 +3011,7 @@
       osc.type = "sine";
       osc.frequency.value = freq;
       gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.05, t + 0.08);
+      gain.gain.linearRampToValueAtTime(0.16, t + 0.08);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
       osc.connect(gain);
       gain.connect(masterGain);
@@ -2582,7 +3023,7 @@
       osc2.type = "triangle";
       osc2.frequency.value = freq / 2;
       gain2.gain.setValueAtTime(0, t);
-      gain2.gain.linearRampToValueAtTime(0.025, t + 0.1);
+      gain2.gain.linearRampToValueAtTime(0.08, t + 0.1);
       gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.75);
       osc2.connect(gain2);
       gain2.connect(masterGain);
@@ -2616,7 +3057,7 @@
       osc.type = "square";
       osc.frequency.setValueAtTime(720, t);
       osc.frequency.exponentialRampToValueAtTime(340, t + 0.07);
-      gain.gain.setValueAtTime(0.045, t);
+      gain.gain.setValueAtTime(0.07, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
       osc.connect(gain);
       gain.connect(masterGain || ctx.destination);
@@ -2690,6 +3131,16 @@
   function enterGameAfterUpdateGate() {
     showInstagramPopup();
     setupStartMoney.textContent = fmtMoney(START_MONEY) + " ₺";
+    // "ilk açılışta chat çalışmıyor, kapatıp açınca çalışıyor" şikayetinin
+    // asıl sebebi: chate ilk kez basıldığında Ably SDK'sı CDN'den indirilip
+    // çalıştırılıyordu, bu da 1-2 saniye sürebiliyordu — kullanıcı o kısa
+    // sürede pes edip paneli kapatıyor, indirme arka planda bitince
+    // (görünmeden) tamamlanıyor, tekrar açınca "şimdi çalıştı" gibi
+    // görünüyordu. Artık SDK dosyası oyun açılır açılmaz (gerçek bir Ably
+    // bağlantısı KURMADAN, sadece kütüphane dosyasını indirerek) arka
+    // planda hazırlanıyor — chate ilk basıldığında indirme zaten bitmiş
+    // oluyor, bağlantı neredeyse anında kuruluyor.
+    if (CHAT_ENABLED) loadAblySdk(function () {});
     var existing = load();
     if (existing && existing.cafeName) {
       // BİR KEZE MAHSUS istismar temizliği: bu güncellemeden önce rebirth
@@ -2853,6 +3304,13 @@
     // olarak) — hem gereksiz bağlantı kalmıyor hem geçmiş doğru yükleniyor.
     maybeSyncChatVip();
     ensureChatButton();
+    // Sıralama: chate hiç girmesen bile Gücün en fazla 3 saatte bir
+    // (Ably.Rest ile, bağlantı açık tutmadan) yayınlanır — "sadece
+    // aktiflerden olmasın, tüm cihazları okusun" isteği bu sayede
+    // karşılanıyor. maybePublishLeaderboardScore() kendi 3 saatlik
+    // zamanlayıcısını kontrol ettiği için burada her çağrıldığında
+    // gerçekten ağ isteği atmıyor.
+    maybePublishLeaderboardScore();
     hudTime.textContent = fmtClock(state.clockMin);
     hudDay.textContent = state.day;
     statTables.textContent = countHasTable() + "/" + MAX_STATIONS;
@@ -2964,7 +3422,7 @@
           (s.isVip ? '<span class="station-vip-badge">★</span>' : "") +
           stationVisualMarkup(s) +
           '<span class="station-label">' + label + '</span>' +
-          '<span class="station-rate">' + effectiveStationRate(s) + ' ₺/sa</span>' +
+          '<span class="station-rate">' + s.rate + ' ₺/sa</span>' +
           (s.occupied
             ? '<div class="occupant"><svg class="i-12"><use href="#icon-user"/></svg></div>' +
               '<div class="session-bar"><div class="session-fill" data-bar="' + idx + '"></div></div>'
@@ -3003,8 +3461,7 @@
 
     list.forEach(function (r) {
       var st = state.stations[r.stationIdx];
-      var effRate = effectiveStationRate(st);
-      var total = r.hours * effRate;
+      var total = r.hours * st.rate;
       var left = r.expiresAtMin - state.clockMin;
       var pct = Math.max(0, Math.min(100, (left / currentPatience()) * 100));
 
@@ -3015,7 +3472,7 @@
         '<div class="req-avatar"><svg><use href="#icon-user"/></svg></div>' +
         '<div class="req-info">' +
           '<div class="req-line1">' + r.name + ' — Masa ' + (r.stationIdx + 1) + '</div>' +
-          '<div class="req-line2">' + r.hours + ' saat · ' + effRate + ' ₺/sa · ' +
+          '<div class="req-line2">' + r.hours + ' saat · ' + st.rate + ' ₺/sa · ' +
             '<span class="req-total">' + total + ' ₺</span></div>' +
         '</div>' +
         '<div class="req-actions">' +
@@ -3416,7 +3873,13 @@
     state.money -= costs;
     b.todayCosts = costs;
 
-    b.today = { served: 0, revenue: 0, lost: 0 };
+    // BUG FIX: "bugün"ün (today) sıfırlanması BURADAN kaldırıldı — bu
+    // fonksiyon endDay() içinde, showDaySummary() GÖSTERİLMEDEN ÖNCE
+    // çalışıyordu, yani "kaç müşteri geldi/kaçtı" rakamları ekrana hiç
+    // yansımadan sıfırlanmış oluyordu ("gün sonunda kaç müşteri gelmiş
+    // yazmıyor" hatasının asıl sebebi buydu). Artık bu sıfırlama, oyuncu
+    // gün özetini görüp "devam et"e bastıktan SONRA, advanceToNextDay()
+    // içinde yapılıyor (hem aktif hem park edilmiş şube için).
     b.adBonusUsesToday = 0;
     b.blackjackPlaysToday = 0;
     b.nextRequestAtMin = DAY_OPEN_MIN + 4;
@@ -3806,6 +4269,13 @@
     state.blackjackPlaysToday = 0;
     state.requests = [];
     state.nextRequestAtMin = DAY_OPEN_MIN + 4;
+    // İkinci Şube'nin "bugün" sayaçları da burada sıfırlanıyor — gün özeti
+    // ekranı artık her iki şubenin dünkü rakamlarını da doğru gösterebiliyor
+    // (settleBranchForDayEnd bunları artık sıfırlamıyor, bkz. oradaki not).
+    if (state.branch2Unlocked && state.otherBranch) {
+      state.otherBranch.today = { served: 0, revenue: 0, lost: 0 };
+      state.otherBranch.todayCosts = 0;
+    }
     lastTickAt = Date.now();
     renderFloor();
     renderRequests();
@@ -4237,6 +4707,73 @@
     { id: "onlineReservation", price: 45000, icon: "icon-shop-reservation" }
   ];
 
+  // "Bilgisayar Geliştir tek yerden olmuyor" — PS/Araba Sim/Atari'nin
+  // aksine, düzenli bilgisayar istasyonları MAX_STATIONS'a kadar (60 tane)
+  // olabildiği için PS'teki gibi HER istasyonu tek tek listelemek
+  // (60 satır) kullanışsız olurdu. Bunun yerine "Fiyatlar" araçındaki gibi
+  // aynı seviyedeki bilgisayarları GRUPLAYIP tek dokunuşla hepsini birden
+  // yükseltiyoruz — kaç tanesine parası yetiyorsa o kadarını yükseltir.
+  var computerBulkList = $("computer-bulk-list");
+
+  function renderComputerBulkSection() {
+    if (!state || !computerBulkList) return;
+    var groups = {}; // computerLevel -> { level, count }
+    state.stations.forEach(function (s) {
+      if (s.isPS || s.isCar || s.isArcade || s.isAdPc) return; // bunların kendi sekmesi var
+      if (!s.hasTable || !s.hasComputer) return;
+      var lvl = COMPUTER_LEVELS[s.computerLevel];
+      if (!lvl || !lvl.upgradeCost) return; // zaten maksimum seviyede
+      if (!groups[s.computerLevel]) groups[s.computerLevel] = { level: s.computerLevel, count: 0 };
+      groups[s.computerLevel].count++;
+    });
+    var keys = Object.keys(groups).sort(function (a, b) { return a - b; });
+    if (keys.length === 0) {
+      computerBulkList.innerHTML = '<div class="store-item-desc" style="padding:6px 4px 14px;">' + t("pcBulk.allMaxed") + '</div>';
+      return;
+    }
+    computerBulkList.innerHTML = keys.map(function (key) {
+      var g = groups[key];
+      var cur = COMPUTER_LEVELS[g.level];
+      var next = COMPUTER_LEVELS[g.level + 1];
+      var unitCost = upgradeCostFor(cur);
+      var totalCost = unitCost * g.count;
+      return '<div class="store-item">' +
+        '<div class="store-item-icon"><svg class="i-28"><use href="#icon-desk-mini"/></svg></div>' +
+        '<div class="store-item-info">' +
+          '<div class="store-item-name">' + g.count + ' × ' + cur.name + ' → ' + next.name + '</div>' +
+          '<div class="store-item-desc">' + t("pcBulk.desc", { unit: fmtMoney(unitCost) + " ₺", total: fmtMoney(totalCost) + " ₺" }) + '</div>' +
+        '</div>' +
+        '<button class="pc-bulk-upgrade-btn" data-level="' + g.level + '"' + (state.money < unitCost ? " disabled" : "") + '>' + t("pcBulk.upgradeAllBtn") + '</button>' +
+      '</div>';
+    }).join("");
+  }
+
+  if (computerBulkList) {
+    computerBulkList.addEventListener("click", function (e) {
+      var btn = e.target.closest(".pc-bulk-upgrade-btn");
+      if (!btn || btn.disabled) return;
+      var level = parseInt(btn.dataset.level, 10);
+      var upgraded = 0;
+      state.stations.forEach(function (s) {
+        if (s.isPS || s.isCar || s.isArcade || s.isAdPc) return;
+        if (!s.hasTable || !s.hasComputer || s.computerLevel !== level) return;
+        var cur = COMPUTER_LEVELS[s.computerLevel];
+        if (!cur || !cur.upgradeCost) return;
+        var cost = upgradeCostFor(cur);
+        if (state.money < cost) return; // parası kalmadı, sıradaki tur/gruba geç
+        state.money -= cost;
+        s.computerLevel += 1;
+        s.rate = Math.max(s.rate, COMPUTER_LEVELS[s.computerLevel].defaultRate);
+        upgraded++;
+      });
+      renderComputerBulkSection();
+      renderFloor();
+      renderHud();
+      save();
+      showToast(upgraded > 0 ? t("pcBulk.upgraded", { n: upgraded }) : t("toast.notEnoughMoney"));
+    });
+  }
+
   function renderShop() {
     if (!state) return;
     storeList.innerHTML = SHOP_ITEMS.map(function (item) {
@@ -4259,6 +4796,7 @@
   }
 
   btnOpenStore.addEventListener("click", function () {
+    renderComputerBulkSection();
     renderShop();
     renderPsSection();
     renderCarSection();
@@ -4285,6 +4823,7 @@
     if (!modalStore || modalStore.hidden || !state) return;
     if (state.money === lastStoreRenderMoney) return;
     lastStoreRenderMoney = state.money;
+    renderComputerBulkSection();
     renderShop();
     renderPsSection();
     renderCarSection();
@@ -5479,6 +6018,16 @@
   if (btnCloseBusiness) btnCloseBusiness.addEventListener("click", function () { modalBusiness.hidden = true; });
   if (modalBusiness) modalBusiness.addEventListener("click", function (e) { if (e.target === modalBusiness) modalBusiness.hidden = true; });
 
+  if (btnOpenLeaderboard) {
+    btnOpenLeaderboard.addEventListener("click", function () {
+      if (modalBusiness) modalBusiness.hidden = true; // İşletmem içinden açılıyor, üst üste binmesin
+      if (modalLeaderboard) modalLeaderboard.hidden = false;
+      renderLeaderboard();
+    });
+  }
+  if (btnCloseLeaderboard) btnCloseLeaderboard.addEventListener("click", function () { modalLeaderboard.hidden = true; });
+  if (modalLeaderboard) modalLeaderboard.addEventListener("click", function (e) { if (e.target === modalLeaderboard) modalLeaderboard.hidden = true; });
+
   // ---------------------------------------------------------------- fx
   function spawnIncomePop(stationIdx, amount) {
     var el = floor.children[stationIdx];
@@ -5541,6 +6090,7 @@
     renderRateUsButtons();
     renderSettingsVersion();
     renderSoundToggles();
+    renderAdminLoginUi();
     modalInfo.hidden = false;
   });
 
@@ -5638,6 +6188,54 @@
     screenSetup.hidden = false;
     nameInput.focus();
   });
+
+  // ---------------------------------------------------------------- yönetici girişi
+  var btnAdminLoginToggle = $("btn-admin-login-toggle");
+  var adminLoginForm = $("admin-login-form");
+  var adminUsernameInput = $("admin-username");
+  var adminPasswordInput = $("admin-password");
+  var btnAdminLoginSubmit = $("btn-admin-login-submit");
+  var adminLoginError = $("admin-login-error");
+  var adminLoggedInBox = $("admin-logged-in-box");
+  var btnAdminLogout = $("btn-admin-logout");
+
+  function renderAdminLoginUi() {
+    if (!btnAdminLoginToggle) return;
+    var loggedIn = !!(state && state.adminLoggedIn);
+    btnAdminLoginToggle.hidden = loggedIn;
+    if (adminLoggedInBox) adminLoggedInBox.hidden = !loggedIn;
+    if (!loggedIn && adminLoginForm) adminLoginForm.hidden = true;
+  }
+  if (btnAdminLoginToggle) {
+    btnAdminLoginToggle.addEventListener("click", function () {
+      if (adminLoginForm) adminLoginForm.hidden = !adminLoginForm.hidden;
+      if (adminLoginError) adminLoginError.hidden = true;
+    });
+  }
+  if (btnAdminLoginSubmit) {
+    btnAdminLoginSubmit.addEventListener("click", function () {
+      var u = (adminUsernameInput && adminUsernameInput.value || "").trim();
+      var p = (adminPasswordInput && adminPasswordInput.value || "");
+      if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
+        state.adminLoggedIn = true;
+        save();
+        if (adminUsernameInput) adminUsernameInput.value = "";
+        if (adminPasswordInput) adminPasswordInput.value = "";
+        if (adminLoginError) adminLoginError.hidden = true;
+        renderAdminLoginUi();
+        showToast(t("admin.loginSuccess"));
+      } else if (adminLoginError) {
+        adminLoginError.hidden = false;
+      }
+    });
+  }
+  if (btnAdminLogout) {
+    btnAdminLogout.addEventListener("click", function () {
+      state.adminLoggedIn = false;
+      save();
+      renderAdminLoginUi();
+    });
+  }
 
   // ---------------------------------------------------------------- local notifications (daily comeback reminder)
   // Uses Capacitor's OFFICIAL @capacitor/local-notifications plugin — a

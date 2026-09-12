@@ -690,7 +690,31 @@
             <svg class="i-24"><use href="#icon-games"/></svg>
             <span class="business-item-label" data-i18n="shopbar.games">Oyunlar</span>
           </button>
+          <button id="btn-open-leaderboard" class="business-item business-item-leaderboard">
+            <svg class="i-24"><use href="#icon-trophy"/></svg>
+            <span class="business-item-label" data-i18n="shopbar.leaderboard">Sıralama</span>
+          </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIRALAMA — Güç'e göre ilk 200, tüm cihazlardan (sadece o an chate
+       bağlı olanlardan değil). Ably presence yerine: her cihaz en fazla 3
+       saatte bir kendi skorunu ayrı bir kanala REST ile (bağlantı açmadan)
+       yayınlıyor; burası da o kanalın son 24 saatlik geçmişinden her cihaz
+       için en güncel skoru okuyup sıralıyor — istemci tarafında, sunucu/
+       veritabanı olmadan. Liste de en fazla 3 saatte bir yeniden hesaplanır. -->
+  <div id="modal-leaderboard" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span data-i18n="leaderboard.title">Sıralama — İlk 200</span>
+        <button id="btn-close-leaderboard" class="hud-icon-btn"><svg class="i-18"><use href="#icon-close"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <p class="store-intro" data-i18n="leaderboard.intro">Güç'e göre sıralanmış ilk 200 işletme. Liste en fazla 3 saatte bir güncellenir.</p>
+        <div id="leaderboard-status" class="chat-status" hidden></div>
+        <div id="leaderboard-list" class="leaderboard-list"></div>
       </div>
     </div>
   </div>
@@ -892,6 +916,8 @@
       </div>
       <div class="modal-body">
         <div class="store-tab-panel is-active" data-tab-panel="pc">
+          <p class="store-intro" data-i18n="pcBulk.intro">Bilgisayarlarını tek yerden toplu yükselt.</p>
+          <div class="store-list" id="computer-bulk-list"></div>
           <p class="store-intro" data-i18n="store.intro">Kalıcı yükseltmeler satın al, işletmeni büyüt.</p>
           <div class="store-list" id="store-list"></div>
         </div>
@@ -1190,6 +1216,23 @@
                 <button id="btn-reset-cancel" class="btn-reset-cancel" data-i18n="app.resetCancel">Vazgeç</button>
                 <button id="btn-reset-confirm" class="btn-reset-confirm" data-i18n="app.resetConfirm">Evet, Sıfırla</button>
               </div>
+            </div>
+          </div>
+
+          <!-- Yönetici Girişi: sıradan oyuncular için görünmez bir "özellik"
+               değil, sadece göze çarpmayan bir bağlantı — ama herkes
+               görebilir/tıklayabilir, güvenlik şifreyle sağlanıyor. -->
+          <div class="admin-login-zone">
+            <button id="btn-admin-login-toggle" class="admin-login-link" data-i18n="admin.loginLink">Yönetici Girişi</button>
+            <div id="admin-login-form" class="admin-login-form" hidden>
+              <input type="text" id="admin-username" class="admin-login-input" data-i18n-placeholder="admin.username" placeholder="Kullanıcı adı" autocomplete="off" autocapitalize="off">
+              <input type="password" id="admin-password" class="admin-login-input" data-i18n-placeholder="admin.password" placeholder="Şifre" autocomplete="off">
+              <button id="btn-admin-login-submit" class="btn btn-primary btn-block" data-i18n="admin.loginBtn">Giriş Yap</button>
+              <p id="admin-login-error" class="admin-login-error" hidden data-i18n="admin.loginError">Kullanıcı adı veya şifre hatalı.</p>
+            </div>
+            <div id="admin-logged-in-box" class="admin-logged-in-box" hidden>
+              <span data-i18n="admin.loggedInAs">Yönetici olarak giriş yaptın (IOZGAMES)</span>
+              <button id="btn-admin-logout" data-i18n="admin.logout">Çıkış Yap</button>
             </div>
           </div>
         </div>
