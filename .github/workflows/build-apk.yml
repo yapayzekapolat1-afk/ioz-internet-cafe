@@ -155,6 +155,20 @@ jobs:
             sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="com.android.vending.BILLING" />#' "$MANIFEST"
           fi
 
+      - name: Ekranı yatay (landscape) kilitle
+        run: |
+          # 3D yeniden yapımı yatay ekran için tasarlanıyor. Web tarafındaki
+          # screen.orientation.lock() denemesi tarayıcı desteğine bağlı ve
+          # garantisiz — asıl garanti bu native manifest ayarı. `cap add
+          # android` her build'de MainActivity'yi taze üretir, bu yüzden bu
+          # adım her seferinde tekrar uygulanmalı (idempotent: grep -q ile
+          # zaten eklenmişse tekrar eklemez).
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if ! grep -q 'android:screenOrientation="landscape"' "$MANIFEST"; then
+            sed -i 's#android:name=".MainActivity"#android:screenOrientation="landscape"\n            android:name=".MainActivity"#' "$MANIFEST"
+          fi
+          grep -A 3 "MainActivity" "$MANIFEST" | head -6
+
       - name: Uygulama ikonunu yerleştir (tek kaynak resimden 5 boyuta otomatik böl)
         run: |
           # android-icons/ klasöründe artık tek bir kaynak resim var: icon.png.
