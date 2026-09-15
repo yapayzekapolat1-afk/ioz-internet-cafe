@@ -1,4 +1,11 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* KRİTİK DÜZELTME: aşağıdaki #id kuralları (ör. #ad-overlay, #portrait-overlay,
+   #chat-panel) "display: flex" verdiği için tarayıcının [hidden] kuralını
+   (specificity: 10) ID seçicisi (specificity: 100) yenip eziyordu — sonuç:
+   JS "hidden=true" yapsa da bu overlay'ler HER ZAMAN görünür kalıyordu ve
+   oyunu bloke ediyordu ("reklam yükleniyor" ekranında takılı kalma budur).
+   !important ile bunu kesin olarak düzeltiyoruz. */
+[hidden] { display: none !important; }
 html, body {
   margin: 0; padding: 0; width: 100%; height: 100%;
   background: #000; overflow: hidden;
