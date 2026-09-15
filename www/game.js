@@ -495,7 +495,11 @@
       "achv.rebirth_5.name": "Efsane İşletmeci", "achv.rebirth_5.desc": "5 kez yeniden doğ.",
 
       "notif.comebackTitle": "İşletmen seni bekliyor!",
-      "notif.comebackBody": "{name} bir süredir kapalı. Gel bak, yeni müşteriler seni bekliyor 🎮"
+      "notif.comebackBody": "{name} bir süredir kapalı. Gel bak, yeni müşteriler seni bekliyor 🎮",
+
+      "forceReset.title": "Ekonomi Sıfırlandı",
+      "forceReset.body": "Oyun ekonomisinde bir dengesizlik tespit edildi ve tüm oyuncuların ilerlemesi, adil bir başlangıç için sıfırlandı. Anlayışın için teşekkürler — yeni işletmen seni bekliyor!",
+      "forceReset.continue": "Devam Et"
     },
     en: {
       "boot.subtitle": "Business Simulation",
@@ -971,7 +975,11 @@
       "achv.rebirth_5.name": "Legendary Operator", "achv.rebirth_5.desc": "Rebirth 5 times.",
 
       "notif.comebackTitle": "Your business is waiting!",
-      "notif.comebackBody": "{name} has been closed for a while. Come back — new customers are waiting 🎮"
+      "notif.comebackBody": "{name} has been closed for a while. Come back — new customers are waiting 🎮",
+
+      "forceReset.title": "Economy Reset",
+      "forceReset.body": "An imbalance was found in the game economy, so all players' progress was reset for a fair restart. Thanks for understanding — your new business awaits!",
+      "forceReset.continue": "Continue"
     }
   };
 
@@ -1221,6 +1229,23 @@
   var updateRequired = false;
   var pendingUpdateUrl = PLAY_STORE_URL;
 
+  // ---- uzaktan zorunlu sıfırlama (force reset) --------------------------
+  // "Herkesin hesabı sıfırlansın" gibi bir ihtiyaç için: version.json'a
+  // "forceResetId" adında bir alan eklenirse (ör: "reset-2026-09-15"),
+  // bu id'yi daha önce görmemiş her cihaz oyunu bir SONRAKİ açılışında
+  // localStorage'daki kaydını SİLER ve sıfırdan başlar — tek seferlik,
+  // sessiz değil: kısa bir bilgi ekranı gösterilir. Görülen id
+  // netcafe_last_reset_ack anahtarında saklanır, aynı id ikinci kez
+  // tetiklenmez. version.json'da forceResetId yoksa hiçbir şey olmaz.
+  // ÖNEMLİ SINIRLAMA: bu kontrol app-version.json + REMOTE_VERSION_URL
+  // içeren BU KOD zaten cihazda kurulu olmalı. Play Store'da şu an yayında
+  // olan sürümde bu blok yoksa (ör. hiç bu kontrolü içermeyen eski bir
+  // build ise), o kullanıcılar bu güncellemeyi YÜKLEMEDEN sıfırlanmaz —
+  // uzaktan "sihirli değnek" yok, güncelleme yayınlanmadan mevcut yüklü
+  // uygulamalara dokunulamaz.
+  var FORCE_RESET_ACK_KEY = "netcafe_last_reset_ack";
+  var pendingForceResetId = null;
+
   function checkForUpdate() {
     return fetch("app-version.json")
       .then(function (r) { return r.json(); })
@@ -1235,11 +1260,45 @@
               updateRequired = true;
               pendingUpdateUrl = remote.updateUrl || PLAY_STORE_URL;
             }
+            if (remote && remote.forceResetId) {
+              var seen = null;
+              try { seen = localStorage.getItem(FORCE_RESET_ACK_KEY); } catch (e) {}
+              if (seen !== remote.forceResetId) pendingForceResetId = remote.forceResetId;
+            }
           });
       })
       .catch(function () { /* fail open — see note above */ });
   }
   var updateCheckPromise = checkForUpdate();
+
+  // enterGameAfterUpdateGate() içinde, oyun ekranı açılmadan HEMEN önce
+  // çağrılır. true dönerse çağıran taraf oyunu başlatmaz — sıfırlama
+  // ekranı kendi devam butonuyla oyunu başlatır.
+  function applyPendingForceResetIfAny(onDone) {
+    if (!pendingForceResetId) { onDone(); return; }
+    var idToAck = pendingForceResetId;
+    try {
+      LEGACY_SAVE_KEYS.concat([SAVE_KEY]).forEach(function (k) { localStorage.removeItem(k); });
+      localStorage.setItem(FORCE_RESET_ACK_KEY, idToAck);
+    } catch (e) { /* localStorage yoksa zaten yapacak bir şey yok */ }
+    showForceResetScreen(onDone);
+  }
+
+  function showForceResetScreen(onContinue) {
+    var overlay = document.createElement("div");
+    overlay.className = "force-reset-overlay";
+    overlay.innerHTML =
+      '<div class="force-reset-box">' +
+        '<h2>' + t("forceReset.title") + '</h2>' +
+        '<p>' + t("forceReset.body") + '</p>' +
+        '<button id="btn-force-reset-continue" class="btn btn-primary btn-block">' + t("forceReset.continue") + '</button>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    document.getElementById("btn-force-reset-continue").addEventListener("click", function () {
+      overlay.remove();
+      onContinue();
+    });
+  }
 
   // ---- günlük giriş ödülü (daily login reward) -----------------------
   // 7-day cycle, day 7 is the biggest reward, then it loops back to day 1.
@@ -1247,6 +1306,7 @@
   // the app once per day regardless of how far the in-game clock got.
   var DAILY_REWARDS = [300, 500, 800, 1200, 1800, 2500, 5000];
   var pendingDailyRewardDay = null; // set by checkDailyReward(), consumed by claim button
+  var pendingDailyRewardTrustedMs = 0; // getTrustedNow() sonucu — sonraki gap kontrolü için saklanır
 
   function todayDateStr() {
     var d = new Date();
@@ -1591,6 +1651,7 @@
       vip: false,
       dailyStreak: 0,
       lastLoginDate: null,
+      lastClaimEpochMs: 0,
       branch: 1,
       branch2Unlocked: false,
       otherBranch: null,
@@ -1615,8 +1676,28 @@
     return s;
   }
 
+  // ---- basit bütünlük imzası (kaba hile-önleme) --------------------------
+  // Amaç: birinin dosya yöneticisi/metin düzenleyiciyle localStorage'daki
+  // JSON'u açıp "money": 500 yazan yeri "money": 999999999 yapması gibi en
+  // YAYGIN, en basit hileyi yakalamak. APK decompile edilip bu algoritma
+  // bulunursa bu da atlatılabilir — %100 koruma diye bir şey YOK, bu sadece
+  // günlük/kolay hileyi zorlaştırıyor. Şimdilik uyumsuzluk sadece
+  // state.integrityFlagged=true olarak işaretleniyor (sessizce, oyuncuyu
+  // engellemeden) — bir süre gözlemleyip güvenip güvenmediğimize göre
+  // ileride otomatik sıfırlamaya çevrilebilir.
+  var INTEGRITY_SALT = "iozcafe-v6-9fQ2";
+  function computeIntegrityHash(s) {
+    var payload = [s.money || 0, s.totalEarned || 0, s.totalSpent || 0, s.rebirths || 0, s.rebirthBonusPct || 0, s.vip ? 1 : 0, s.shopTier ? 1 : 0, INTEGRITY_SALT].join("|");
+    var h = 5381;
+    for (var i = 0; i < payload.length; i++) h = ((h * 33) ^ payload.charCodeAt(i)) >>> 0;
+    return h.toString(36);
+  }
+
   function save() {
-    try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
+    try {
+      state.__integrity = computeIntegrityHash(state);
+      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    } catch (e) { /* ignore */ }
   }
 
   // ---------------------------------------------------------------- güç (power)
@@ -1801,6 +1882,7 @@
   // bunun kapsamda olmadığını bilerek ilerliyoruz.
   var ablyClient = null;
   var chatChannel = null;
+  var moderationLiveChannel = null;
   var ablySdkLoading = false;
   var onlineCountEl = null;
   var onlineCount = 0;
@@ -1837,8 +1919,62 @@
   // (clientId) için EN SON mesajı alıyor — o cihazın en güncel Gücü. Tüm
   // hesaplama İSTEMCİ TARAFINDA yapılıyor, sunucu/veritabanı yok. Hem
   // yayın hem okuma 3 saatte bir sınırlandığı için Ably kotası yorulmuyor.
+  // ---- KALICI sıralama deposu (opsiyonel) --------------------------------
+  // SORUN: Ably'nin geçmişi (history) gerçek bir veritabanı değil, sadece
+  // ücretsiz planda 24 saatlik geçici bir tampon. 24 saat oyunu açmayan
+  // oyuncunun skoru bu yüzden sıralamadan tamamen düşüyordu ("sadece
+  // aktifler görünüyor" şikayetinin GERÇEK sebebi buydu, kodun bir hatası
+  // değildi — mimarinin doğal sınırıydı).
+  // ÇÖZÜM: ücretsiz bir Firebase Realtime Database (sunucu KURMANA gerek
+  // yok, sadece bir proje açıp URL'sini buraya yapıştırman yeterli).
+  // Orada her oyuncunun skoru kendi clientId'siyle KALICI olarak saklanır,
+  // asla süresi dolmaz/silinmez — oyuncu 1 yıl oyunu açmasa bile sıralamada
+  // kalır. Doldurmazsan (PASTE_BURAYA bırakırsan) sistem otomatik olarak
+  // eski Ably-geçmişi yöntemine döner (aktif olmayanlar yine görünmez).
+  // Kurulum: firebase.google.com/console → proje oluştur → "Realtime
+  // Database" → "test modunda başlat" → verilen URL'yi (https://PROJE-ADI-
+  // default-rtdb.REGION.firebasedatabase.app) aşağıya yapıştır.
+  var FIREBASE_DB_URL = "PASTE_BURAYA";
+  var FIREBASE_LEADERBOARD_ENABLED = !!FIREBASE_DB_URL && FIREBASE_DB_URL !== "PASTE_BURAYA";
+  function firebaseUrl(path) {
+    return FIREBASE_DB_URL.replace(/\/$/, "") + path + ".json";
+  }
+  function publishLeaderboardFirebase(entry) {
+    fetch(firebaseUrl("/leaderboard/" + encodeURIComponent(getPlayerId())), {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(entry)
+    }).catch(function () { /* çevrimdışı — bir sonraki fırsatta tekrar denenir */ });
+  }
+  function fetchLeaderboardFirebase(cb) {
+    fetch(firebaseUrl("/leaderboard"))
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var list = Object.keys(data || {}).map(function (cid) {
+          var e = data[cid] || {};
+          return { cid: cid, name: e.name, power: e.power || 0, vip: !!e.vip, isAdmin: !!e.isAdmin, isMod: !!e.isMod };
+        });
+        list.sort(function (a, b) { return b.power - a.power; });
+        list = list.slice(0, LEADERBOARD_TOP_N);
+        leaderboardCache = list;
+        leaderboardCacheAt = Date.now();
+        leaderboardFetching = false;
+        cb(list, true);
+      })
+      .catch(function () { leaderboardFetching = false; cb(leaderboardCache, false); });
+  }
+
   var LEADERBOARD_CHANNEL_NAME = "iozcafe-leaderboard";
-  var LEADERBOARD_INTERVAL_MS = 3 * 60 * 60 * 1000; // 3 saat
+  // İSTENDİ: 3 saatlik kural tamamen kaldırıldı — skor artık her uygun
+  // fırsatta anında yayınlanır/okunur. LEADERBOARD_MIN_REPUBLISH_MS SADECE
+  // aynı anda birden fazla ekranın/olayın üst üste ağ isteği göndermesini
+  // engelleyen küçük bir teknik kilit — "tazelik kuralı" değil. Bunu 0'a
+  // çekersen de çalışır, sadece gereksiz çoklu istek riskini artırır.
+  // NOT: bu, Ably kotasını (özellikle ücretsiz planda) çok daha hızlı
+  // tüketir — 2K+ oyuncu sık sık sıralamayı açıp para kazandıkça yayın
+  // sayısı ciddi artar. Kota aşımı yaşarsan bu değeri tekrar yükseltmemiz
+  // gerekebilir.
+  var LEADERBOARD_MIN_REPUBLISH_MS = 5 * 1000;
   var LEADERBOARD_TOP_N = 200;
   var leaderboardCache = null;
   var leaderboardCacheAt = 0;
@@ -1852,8 +1988,12 @@
   function maybePublishLeaderboardScore() {
     if (!CHAT_ENABLED || !state || !state.cafeName) return;
     var now = Date.now();
-    if (state.lastLeaderboardPublishAt && (now - state.lastLeaderboardPublishAt) < LEADERBOARD_INTERVAL_MS) return;
+    if (state.lastLeaderboardPublishAt && (now - state.lastLeaderboardPublishAt) < LEADERBOARD_MIN_REPUBLISH_MS) return;
     state.lastLeaderboardPublishAt = now; // ağ gecikmesi sırasında tekrar tekrar denemesin diye hemen işaretle
+    if (FIREBASE_LEADERBOARD_ENABLED) {
+      publishLeaderboardFirebase({ name: String(state.cafeName).slice(0, 24), power: powerCount(state), vip: !!state.vip, isAdmin: !!state.adminLoggedIn, isMod: !!state.isModerator });
+      return;
+    }
     loadAblySdk(function () {
       var rest = getAblyRest();
       if (!rest) return;
@@ -1875,10 +2015,12 @@
   // okuması yapmaz), değilse kanalın geçmişini okuyup her clientId için en
   // güncel skoru alır, Güç'e göre sıralar, ilk 200'ü döndürür.
   function fetchLeaderboard(cb) {
-    var now = Date.now();
-    if (leaderboardCache && (now - leaderboardCacheAt) < LEADERBOARD_INTERVAL_MS) { cb(leaderboardCache, false); return; }
+    // İSTENDİ: artık cache süresi yok — sıralama her açıldığında taze çekilir.
+    // leaderboardFetching sadece aynı anda iki istek atılmasını önler (çift
+    // tıklama vs.), bir "tazelik kuralı" değil.
     if (leaderboardFetching) { cb(leaderboardCache, false); return; }
     leaderboardFetching = true;
+    if (FIREBASE_LEADERBOARD_ENABLED) { fetchLeaderboardFirebase(cb); return; }
     loadAblySdk(function () {
       var rest = getAblyRest();
       if (!rest) { leaderboardFetching = false; cb(leaderboardCache, false); return; }
@@ -1923,7 +2065,7 @@
       '" data-power="' + (entry.power || 0) + '" data-vip="' + (entry.vip ? "1" : "0") +
       '" data-client-id="' + escapeHtml(entry.cid || "") + '" data-admin="' + (entry.isAdmin ? "1" : "0") + '" data-mod="' + (entry.isMod ? "1" : "0") + '">' +
       '<span class="leaderboard-rank">#' + rank + '</span>' +
-      '<span class="leaderboard-name' + (entry.isAdmin ? " chat-name-admin" : (entry.isMod ? " chat-name-mod" : (entry.vip ? " leaderboard-name-vip" : ""))) + '">' + escapeHtml(entry.name || "?") + chatVipHtml(entry.vip, entry.isAdmin, entry.isMod) + '</span>' +
+      '<span class="leaderboard-name' + (entry.isAdmin ? " chat-name-admin" : (entry.isMod ? " chat-name-mod" : (entry.vip ? " leaderboard-name-vip" : ""))) + '">' + escapeHtml(entry.name || "?") + (shortTag(entry.cid) ? '<span class="chat-name-tag">#' + shortTag(entry.cid) + '</span>' : "") + chatVipHtml(entry.vip, entry.isAdmin, entry.isMod) + '</span>' +
       '<span class="leaderboard-power">' + POWER_BOLT_SVG + Math.round(entry.power || 0) + '</span>' +
     '</div>';
   }
@@ -2083,6 +2225,44 @@
 
   // "10 dakika", "2 saat", "3 gün" gibi kaba bir kalan-süre metni — mute
   // geri sayımı için, oyun içi saatle (fmtClock) karıştırılmasın diye ayrı.
+  // Canlı (Realtime) moderasyon uygulayıcı — chate her açılıştan itibaren
+  // ablyClient zaten açık kaldığı için (bkz. connectChat), bir admin/mod
+  // "Sustur"a bastığı ANDA bu event tetiklenir; 10 dakikalık polling
+  // (checkModerationStatus) sadece chate hiç girmemiş / bağlantısı kopmuş
+  // oyuncular için bir yedek/güvenlik ağı olarak kalır.
+  function handleLiveModerationAction(msg) {
+    var data = msg && msg.data;
+    if (!data || data.target !== getPlayerId() || !state) return;
+    if (data.type === "mute") {
+      var wasMuted = state.mutedUntil > Date.now();
+      state.mutedUntil = data.until || 0;
+      if (!wasMuted && state.mutedUntil > Date.now()) {
+        showToast(t("mod.youWereMuted", { time: fmtRemainingTime(state.mutedUntil - Date.now()) }));
+        setChatStatus(t("mod.mutedMsg", { time: fmtRemainingTime(state.mutedUntil - Date.now()) }), "error");
+      }
+    } else if (data.type === "unmute") {
+      state.mutedUntil = 0;
+      setChatStatus("", null);
+    } else if (data.type === "ban") {
+      state.banned = true;
+      showToast(t("mod.youWereBanned"));
+      setChatStatus(t("mod.bannedMsg"), "error");
+    } else if (data.type === "unban") {
+      state.banned = false;
+      setChatStatus("", null);
+    } else if (data.type === "mod") {
+      state.isModerator = true;
+    } else if (data.type === "unmod") {
+      state.isModerator = false;
+    } else if (data.type === "vip" && !state.vip) {
+      state.vip = true;
+      renderVipModal();
+      renderAdBonusButton();
+      showToast(t("admin.youGotVip"));
+    }
+    save();
+  }
+
   function fmtRemainingTime(ms) {
     var mins = Math.ceil(ms / 60000);
     if (mins < 60) return mins + " dk";
@@ -2090,6 +2270,20 @@
     if (hours < 24) return hours + " sa";
     var days = Math.ceil(hours / 24);
     return days + " gün";
+  }
+
+  // İSTEK: hesap/şifre sistemi olmadığı için herkes istediği takma adı
+  // kullanabiliyor, aynı ismi kullanan iki oyuncu birbirine karışabiliyordu
+  // (özellikle moderasyonda — "yanlış Ahmet"i susturmak gibi). Gerçek bir
+  // kayıt sistemi bir sunucu/veritabanı gerektirir (kapsam dışı, aşağıdaki
+  // özet mesajında ayrıca anlatılıyor); bunun yerine her isme cihaza özel,
+  // kalıcı KISA bir etiket ekliyoruz (clientId'nin son 4 karakteri) — aynı
+  // isimli iki oyuncu artık görsel olarak ayırt edilebiliyor ve moderasyon
+  // zaten clientId'yi hedeflediği için (isim değil) bu tamamen güvenilir.
+  function shortTag(clientId) {
+    if (!clientId) return "";
+    var c = String(clientId).replace(/[^a-zA-Z0-9]/g, "");
+    return c ? c.slice(-4).toUpperCase() : "";
   }
 
   function chatVipHtml(vip, isAdmin, isMod) {
@@ -2102,12 +2296,13 @@
   // data-admin/data-mod/data-client-id) ekstra bir ağ isteği gerekmiyor.
   function chatNameHtml(name, vip, power, clientId, isAdmin, isMod) {
     var cls = "chat-name" + (isAdmin ? " chat-name-admin" : (isMod ? " chat-name-mod" : (vip ? " chat-name-vip" : "")));
+    var tag = shortTag(clientId);
     return '<span class="' + cls +
       '" data-chat-profile="1" data-name="' + escapeHtml(name || "?") +
       '" data-power="' + (power || 0) + '" data-vip="' + (vip ? "1" : "0") +
       '" data-client-id="' + escapeHtml(clientId || "") +
       '" data-admin="' + (isAdmin ? "1" : "0") + '" data-mod="' + (isMod ? "1" : "0") + '">' +
-      escapeHtml(name || "?") + "</span>" + chatVipHtml(vip, isAdmin, isMod);
+      escapeHtml(name || "?") + (tag ? '<span class="chat-name-tag">#' + tag + '</span>' : "") + "</span>" + chatVipHtml(vip, isAdmin, isMod);
   }
   function appendChatMessage(data, clientId) {
     if (!chatListEl || !data) return;
@@ -2287,12 +2482,24 @@
         chatChannel.presence.enter({ name: String(state.cafeName).slice(0, 24), vip: chatPresenceVipSent })
           .catch(function (err) { setChatStatus(t("chat.errorConn") + " (" + (err && err.message ? err.message : err) + ")", "error"); });
         chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data, msg.clientId); });
+        // Chate her açılıştan itibaren (bağlantı kapanana kadar) moderasyon
+        // aksiyonlarını CANLI dinle — mute/ban/vip artık admin'in basmasıyla
+        // aynı anda uygulanır, 10 dakikalık polling'i beklemez.
+        if (!moderationLiveChannel) {
+          moderationLiveChannel = ablyClient.channels.get(MODERATION_CHANNEL_NAME);
+          moderationLiveChannel.subscribe("action", handleLiveModerationAction);
+        }
         chatChannel.history({ limit: CHAT_HISTORY_LIMIT, direction: "backwards" }).then(function (page) {
           if (!page || !page.items) return;
+          // Eğer burası hep boş dönüyorsa (page.items.length === 0) kod
+          // sorunu değil, Ably panelinde bu kanal için "Persist all
+          // messages" kuralı KAPALI demektir — açık değilse mesajlar 2
+          // dakikadan uzun saklanmaz ve geçmiş hep boş gelir.
+          if (page.items.length === 0) console.warn("[iOZ Cafe] Chat geçmişi boş döndü — Ably panelinde '" + CHAT_CHANNEL_NAME + "' kanalı için 'Persist all messages' kuralını kontrol et.");
           page.items.slice().reverse().forEach(function (m) {
             if (m.name === "msg") appendChatMessage(m.data, m.clientId);
           });
-        }).catch(function () { /* geçmiş yüklenemedi — chat yine de canlı çalışır */ });
+        }).catch(function (err) { console.warn("[iOZ Cafe] Chat geçmişi çekilemedi:", err); });
       } catch (e) {
         setChatStatus(t("chat.errorConn") + " (" + (e && e.message ? e.message : e) + ")", "error");
       }
@@ -2426,7 +2633,7 @@
     $("modal-chat").hidden = false;
     if (!chatChannel) setChatStatus(t("chat.connecting"), "info");
     connectChat();
-    checkModerationStatus(false, function () {
+    checkModerationStatus(true, function () {
       if (state.banned) setChatStatus(t("mod.bannedMsg"), "error");
       else if (state.mutedUntil && Date.now() < state.mutedUntil) setChatStatus(t("mod.mutedMsg", { time: fmtRemainingTime(state.mutedUntil - Date.now()) }), "error");
     });
@@ -2592,6 +2799,13 @@
       if (!raw) return null;
       var parsed = JSON.parse(raw);
       if (!parsed || !parsed.stations) return null;
+      // Bütünlük kontrolü: sadece bu güncellemeden SONRA yazılmış kayıtlarda
+      // __integrity alanı var — eski kayıtları cezalandırmıyoruz, sadece
+      // bundan sonra oluşan kayıtları izliyoruz. Şu an sadece işaretliyor,
+      // otomatik silmiyor (bkz. save() yanındaki not).
+      if (typeof parsed.__integrity === "string" && parsed.__integrity !== computeIntegrityHash(parsed)) {
+        parsed.integrityFlagged = true;
+      }
       // MIGRATION: the PC pool, the Reklamla Kazanılan VIP Bilgisayar pool,
       // the İOZ Playstion pool, the İOZ Araba Simülasyonu pool and the İOZ
       // Oyun Atarisi pool have all grown/appeared over updates. Rather than
@@ -2653,6 +2867,7 @@
       if (typeof parsed.vip !== "boolean") parsed.vip = false;
       if (typeof parsed.dailyStreak !== "number") parsed.dailyStreak = 0;
       if (typeof parsed.lastLoginDate !== "string") parsed.lastLoginDate = null;
+      if (typeof parsed.lastClaimEpochMs !== "number") parsed.lastClaimEpochMs = 0;
       // İkinci Şube: older saves simply don't have these yet.
       if (parsed.branch !== 1 && parsed.branch !== 2) parsed.branch = 1;
       if (typeof parsed.branch2Unlocked !== "boolean") parsed.branch2Unlocked = false;
@@ -3222,7 +3437,7 @@
         screenUpdateRequired.hidden = false;
         return; // the rest of the game never boots unless the player skips
       }
-      enterGameAfterUpdateGate();
+      applyPendingForceResetIfAny(enterGameAfterUpdateGate);
     });
   }
 
@@ -4178,20 +4393,49 @@
   }
 
   // ---------------------------------------------------------------- daily login reward
+  // İSTİSMAR: cihazın sistem saatini bir gün ileri alıp günlük ödülü
+  // arka arkaya toplamak mümkündü, çünkü kontrol sadece cihazın KENDİ
+  // Date() nesnesine bakıyordu — güvenilmez bir kaynak. Artık, çevrimiçiysek
+  // Ably'nin sunucu saatini (rest.time(), cihazdan bağımsız, sahtesi
+  // yapılamaz) gerçeklik kontrolü olarak kullanıyoruz: son ödül alımı
+  // üzerinden GERÇEKTEN en az ~20 saat geçmemişse (saat ileri alınmış olsun
+  // ya da olmasın) ödül açılmaz. Çevrimdışıysak bu kontrol yapılamaz —
+  // dürüstçe belirtelim: internetsiz oynanan bir idle oyunda cihaz saatine
+  // %100 bağımlı olmadan bunu çözmenin başka yolu yok; bu yine de eskisine
+  // göre çok daha zor istismar edilir hale getiriyor (art arda hızlı hile
+  // için oyuncunun her seferinde interneti de kapatması gerekir).
+  var DAILY_REWARD_MIN_REAL_GAP_MS = 20 * 60 * 60 * 1000; // 20 saat
+
+  function getTrustedNow(cb) {
+    if (!CHAT_ENABLED) { cb(Date.now(), false); return; }
+    loadAblySdk(function () {
+      var rest = getAblyRest();
+      if (!rest || !rest.time) { cb(Date.now(), false); return; }
+      rest.time().then(function (serverMs) { cb(serverMs, true); }).catch(function () { cb(Date.now(), false); });
+    });
+  }
+
   function checkDailyReward() {
     var today = todayDateStr();
     if (state.lastLoginDate === today) return; // already claimed today, stay quiet
 
-    var yesterday = dateStrDaysAgo(1);
-    var nextDay;
-    if (state.lastLoginDate === yesterday) {
-      nextDay = (state.dailyStreak % 7) + 1; // continues the streak, loops after day 7
-    } else {
-      nextDay = 1; // first login ever, or a gap of 2+ days — streak resets
-    }
-    pendingDailyRewardDay = nextDay;
-    renderDailyRewardModal();
-    modalDaily.hidden = false;
+    getTrustedNow(function (trustedMs, wasTrusted) {
+      if (wasTrusted && state.lastClaimEpochMs) {
+        var elapsed = trustedMs - state.lastClaimEpochMs;
+        if (elapsed < DAILY_REWARD_MIN_REAL_GAP_MS) return; // saat oynanmış olabilir — gerçek süre dolmadı, sessizce çık
+      }
+      var yesterday = dateStrDaysAgo(1);
+      var nextDay;
+      if (state.lastLoginDate === yesterday) {
+        nextDay = (state.dailyStreak % 7) + 1; // continues the streak, loops after day 7
+      } else {
+        nextDay = 1; // first login ever, or a gap of 2+ days — streak resets
+      }
+      pendingDailyRewardDay = nextDay;
+      pendingDailyRewardTrustedMs = trustedMs;
+      renderDailyRewardModal();
+      modalDaily.hidden = false;
+    });
   }
 
   function renderDailyRewardModal() {
@@ -4220,6 +4464,7 @@
       state.money += amount;
       state.dailyStreak = pendingDailyRewardDay;
       state.lastLoginDate = todayDateStr();
+      state.lastClaimEpochMs = pendingDailyRewardTrustedMs || Date.now();
       pendingDailyRewardDay = null;
       save();
       renderHud();
@@ -5707,16 +5952,36 @@
   var REBIRTH_MONEY_PER_UNIT = 1000000;
   var REBIRTH_PCT_PER_UNIT = 1; // 2. sürümde %50'ydi — istismar + ekonomi patlamasına yol açtı, %1'e düşürüldü
 
+  // BUG/DENGE SORUNU (BULUNDU): pendingRebirthGainPct DOĞRUSALDI —
+  // kasadaki her 1.000.000 ₺ için sabit +%1. Bu, "doğmadan önce ne kadar
+  // çok biriktirirsen o kadar çok bonus" demekti; bonus da TÜM geliri kalıcı
+  // çarptığı için (rebirthMultiplier), bir sonraki birikim daha hızlı
+  // oluyor, bir sonraki doğuş daha da büyük bonus veriyor — sınırsız,
+  // kontrolsüz katlanan bir döngü. Kullanıcının bahsettiği "sonsuzluk para"
+  // hissi büyük ölçüde buradan geliyordu (hile değil, tavansız tasarımdı).
+  // DÜZELTME: kazanç artık birikimin KAREKÖKÜYLE ölçekleniyor (azalan
+  // getiri — çok daha fazla biriktirmek hâlâ işe yarar ama katbekat değil)
+  // ve tek bir doğuşta kazanılabilecek bonus MAX_REBIRTH_GAIN_PCT ile
+  // sınırlandı. Ayrıca ömür boyu toplam bonus da MAX_LIFETIME_REBIRTH_PCT
+  // ile sınırlandı — sayılar büyümeye devam eder ama bir noktadan sonra
+  // anlamsızlaşıp "sonsuzluğa" gitmez. Bu tamamen bir denge/tasarım kararı,
+  // istersen sayıları birlikte ayarlayabiliriz.
+  var MAX_REBIRTH_GAIN_PCT = 150;      // tek doğuşta en fazla bu kadar bonus kazanılır
+  var MAX_LIFETIME_REBIRTH_PCT = 5000; // toplam bonus hiçbir zaman bunu geçemez (x51 gelir tavanı)
+
   function canRebirth() {
     return countHasTable() >= MAX_STATIONS && countHasComputer() >= MAX_STATIONS && state.money >= REBIRTH_MONEY_PER_UNIT;
   }
 
-  // Bir sonraki doğuşun ne kadar bonus vereceği — mevcut kasadaki her tam
-  // 1.000.000 ₺ için +%50. Kasa 1.000.000'ın altındaysa 0 döner (henüz
-  // doğulamaz zaten).
+  // Bir sonraki doğuşun ne kadar bonus vereceği — artık DOĞRUSAL değil,
+  // birikimin karekökü ile ölçekleniyor (azalan getiri) ve tavana çarpıyor.
   function pendingRebirthGainPct() {
     var units = Math.floor((state.money || 0) / REBIRTH_MONEY_PER_UNIT);
-    return units * REBIRTH_PCT_PER_UNIT;
+    if (units < 1) return 0;
+    var raw = Math.floor(Math.sqrt(units) * REBIRTH_PCT_PER_UNIT * 10); // *10: sqrt küçük sayılarda çok cılız kalmasın
+    var capped = Math.min(raw, MAX_REBIRTH_GAIN_PCT);
+    var roomLeft = Math.max(0, MAX_LIFETIME_REBIRTH_PCT - (state.rebirthBonusPct || 0));
+    return Math.min(capped, roomLeft);
   }
 
   function doRebirth() {
