@@ -10,16 +10,22 @@
   //   - Hızlı reklam bonusu: +3000 ₺, günde 3 kez
   //   - VIP: gerçek Google Play satın alımı (BillingBridge.kt, native)
   //   - Online chat: Ably (eski game.js ile birebir aynı kanal/mantık)
-  // Henüz YOK: dükkan eşyaları, admin paneli, sıralama — bunlar ayrı, sıradaki
-  // adımlarda eklenecek. "Mevcut oyunu sil" talimatı üzerine tüm eski
-  // ekonomi/rebirth/istasyon kodu KALDIRILDI.
+  //   - Dükkan: masa/sandalye/bilgisayar (25₺'den) — üçü tamamlanınca bir
+  //     istasyon kurulup 3D odaya yerleştiriliyor, biri eksikse kurulum
+  //     başarısız oluyor (hiçbir şey harcanmaz)
+  // Henüz YOK: admin paneli, sıralama, istasyonlardan gelir kazanma mantığı
+  // — bunlar ayrı, sıradaki adımlarda eklenecek. "Mevcut oyunu sil"
+  // talimatı üzerine tüm eski ekonomi/rebirth/istasyon kodu KALDIRILDI.
   // =========================================================================
 
   function $(id) { return document.getElementById(id); }
 
   // ---- sabitler -----------------------------------------------------------
-  var ROOM_W = 12, ROOM_D = 12, ROOM_H = 3.2;
+  var ROOM_W = 12, ROOM_D = 12, ROOM_H = 4.6; // tavan yükseltildi (3.2 → 4.6), boy oranı için
   var PLAYER_MARGIN = 0.45;
+  var EYE_HEIGHT = 1.7; // ortalama göz hizası — tavanla makul bir baş üstü boşluğu bırakır
+  var WALK_BOB_AMOUNT = 0.045;
+  var WALK_BOB_SPEED = 9;
   var MOVE_SPEED = 3.4;
   var ACCENT = 0x2fbfa8;
 
@@ -34,8 +40,21 @@
   var AD_QUICK_KEY = "netcafe3d_ad_quick_uses";
   var PLAYER_ID_KEY = "netcafe_player_id"; // eski oyunla AYNI anahtar — kimlik sürekliliği
   var PLAYER_NAME_KEY = "netcafe3d_player_name";
+  var INVENTORY_KEY = "netcafe3d_inventory"; // {sandalye,masa,bilgisayar} — henüz istasyona dönüşmemiş envanter
+  var STATIONS_KEY = "netcafe3d_stations"; // kurulmuş (masa+sandalye+bilgisayar tamamlanmış) istasyon sayısı
 
-  var ABLY_API_KEY = "ABLY_API_KEY_BURAYA"; // gerçek anahtarını buraya yapıştır
+  // ---- dükkan --------------------------------------------------------
+  // İSTENDİ: masa/sandalye/bilgisayar ayrı ayrı satın alınıyor (25₺'den),
+  // ama bir istasyon SADECE üçü de envanterde varsa kurulabiliyor — biri
+  // eksikse "kurulum başarısız" (bkz. buildStation()).
+  var SHOP_ITEMS = [
+    { id: "sandalye", name: "Sandalye", price: 25, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>' },
+    { id: "masa", name: "Masa", price: 25, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>' },
+    { id: "bilgisayar", name: "Bilgisayar", price: 25, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>' }
+  ];
+  var STATION_SLOTS_MAX = 6; // oda genişliğine göre arka duvara sığan slot sayısı — dolunca sıradaki adımda oda büyütülür/duvar eklenir
+
+  var ABLY_API_KEY = "3nsRqw.wIyZEg:EOoAE5ZRsMjOqy7C1thwdwiVIGD-3AdzDfQswLx9Al8"; // eski oyunla aynı gerçek anahtar
   var CHAT_CHANNEL_NAME = "iozcafe-chat-global";
   var MODERATION_CHANNEL_NAME = "iozcafe-moderation";
   var CHAT_HISTORY_LIMIT = 20;
@@ -121,7 +140,75 @@
     $("btn-ad-quick").disabled = adQuickLeft <= 0;
   }
 
-  var actionMsgTimer = null;
+  // ---- dükkan (envanter + istasyon kurma) --------------------------------
+  var inventory = { sandalye: 0, masa: 0, bilgisayar: 0 };
+  try {
+    var savedInv = JSON.parse(localStorage.getItem(INVENTORY_KEY) || "null");
+    if (savedInv) inventory = savedInv;
+  } catch (e) {}
+  var stationsBuilt = readNum(STATIONS_KEY, 0);
+
+  function saveInventory() { try { localStorage.setItem(INVENTORY_KEY, JSON.stringify(inventory)); } catch (e) {} }
+
+  function renderShop() {
+    var wrap = $("shop-items");
+    wrap.innerHTML = "";
+    SHOP_ITEMS.forEach(function (item) {
+      var row = document.createElement("div");
+      row.className = "shop-item";
+      row.innerHTML =
+        '<div class="shop-item-info"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg>' +
+        '<span>' + item.name + '</span><span class="shop-item-owned">(' + inventory[item.id] + ' adet)</span></div>' +
+        '<button data-id="' + item.id + '">' + item.price + ' ₺</button>';
+      wrap.appendChild(row);
+    });
+    wrap.querySelectorAll("button[data-id]").forEach(function (btn) {
+      btn.addEventListener("click", function () { buyShopItem(btn.getAttribute("data-id")); });
+    });
+    var canBuild = inventory.sandalye >= 1 && inventory.masa >= 1 && inventory.bilgisayar >= 1;
+    var buildBtn = $("btn-build-station");
+    buildBtn.disabled = !canBuild || stationsBuilt >= STATION_SLOTS_MAX;
+    buildBtn.textContent = stationsBuilt >= STATION_SLOTS_MAX
+      ? "Oda dolu (" + stationsBuilt + "/" + STATION_SLOTS_MAX + ")"
+      : "İstasyon Kur (1 Masa + 1 Sandalye + 1 Bilgisayar)";
+  }
+
+  function shopStatus(text) {
+    var el = $("shop-status");
+    el.textContent = text || "";
+    if (text) setTimeout(function () { if (el.textContent === text) el.textContent = ""; }, 2200);
+  }
+
+  function buyShopItem(id) {
+    var item = SHOP_ITEMS.filter(function (i) { return i.id === id; })[0];
+    if (!item) return;
+    if (money < item.price) { shopStatus("Yetersiz bakiye."); return; }
+    setMoney(money - item.price);
+    inventory[id] = (inventory[id] || 0) + 1;
+    saveInventory();
+    renderShop();
+  }
+
+  // Bir istasyon SADECE masa+sandalye+bilgisayarın ÜÇÜ de envanterde varsa
+  // kurulur — biri eksikse kurulum başarısız olur, hiçbir şey harcanmaz.
+  function buildStation() {
+    if (stationsBuilt >= STATION_SLOTS_MAX) { shopStatus("Oda dolu — yeni istasyon için yer yok."); return; }
+    if (inventory.sandalye < 1 || inventory.masa < 1 || inventory.bilgisayar < 1) {
+      shopStatus("Kurulum başarısız: masa, sandalye ve bilgisayarın hepsi gerekli.");
+      return;
+    }
+    inventory.sandalye -= 1; inventory.masa -= 1; inventory.bilgisayar -= 1;
+    saveInventory();
+    placeStationInRoom(stationsBuilt);
+    stationsBuilt += 1;
+    writeNum(STATIONS_KEY, stationsBuilt);
+    renderShop();
+    shopStatus("İstasyon kuruldu!");
+  }
+
+  $("btn-build-station").addEventListener("click", buildStation);
+
+
   function showActionMsg(text) {
     var el = $("action-msg");
     el.textContent = text; el.hidden = false;
@@ -309,6 +396,10 @@
     $("btn-chat-toggle").hidden = false;
   });
 
+  // ---- dükkan (placeholder — içerik sıradaki adımda gelecek) -------------
+  $("btn-shop").addEventListener("click", function () { $("shop-panel").hidden = false; renderShop(); });
+  $("btn-shop-close").addEventListener("click", function () { $("shop-panel").hidden = true; });
+
   // =========================================================================
   // Three.js sahnesi
   // =========================================================================
@@ -320,7 +411,7 @@
   scene.fog = new THREE.Fog(0x0b1014, 9, 20);
 
   var camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100);
-  camera.position.set(0, 1.65, 3.2);
+  camera.position.set(0, EYE_HEIGHT, 3.2);
 
   var renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
@@ -381,6 +472,75 @@
     scene.add(trim);
   });
 
+  // ---- istasyon (masa + sandalye + bilgisayar) — basit low-poly gruplar --
+  // Arka duvar boyunca, aralarında boşluk bırakarak diziliyor. Bilgisayar
+  // ekranı odaya (oyuncuya) bakacak şekilde yerleştirildi, sandalye masanın
+  // önünde (oda tarafında) duruyor — gerçek bir internet cafe düzeni gibi.
+  var deskMat = new THREE.MeshStandardMaterial({ color: 0x5b4636, roughness: 0.8 });
+  var chairMat = new THREE.MeshStandardMaterial({ color: 0x2a2f34, roughness: 0.7 });
+  var monitorMat = new THREE.MeshStandardMaterial({ color: 0x0d1114, roughness: 0.5 });
+  var screenMat = new THREE.MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.6 });
+
+  function buildStationGroup() {
+    var g = new THREE.Group();
+
+    // masa
+    var top = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.05, 0.55), deskMat);
+    top.position.set(0, 0.75, 0);
+    g.add(top);
+    [[-0.45, -0.22], [0.45, -0.22], [-0.45, 0.22], [0.45, 0.22]].forEach(function (p) {
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.75, 0.05), deskMat);
+      leg.position.set(p[0], 0.375, p[1]);
+      g.add(leg);
+    });
+
+    // bilgisayar (masanın üstünde, ekran odaya/+Z'ye bakıyor)
+    var monitor = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.04), monitorMat);
+    monitor.position.set(0, 1.0, -0.12);
+    g.add(monitor);
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.24), screenMat);
+    screen.position.set(0, 1.0, -0.095);
+    g.add(screen);
+    var stand = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.1, 0.06), monitorMat);
+    stand.position.set(0, 0.83, -0.12);
+    g.add(stand);
+    var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.02, 0.12), monitorMat);
+    keyboard.position.set(0, 0.78, 0.1);
+    g.add(keyboard);
+
+    // sandalye (masanın önünde, oda tarafında)
+    var seat = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.05, 0.38), chairMat);
+    seat.position.set(0, 0.45, 0.7);
+    g.add(seat);
+    var back = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.4, 0.05), chairMat);
+    back.position.set(0, 0.65, 0.87);
+    g.add(back);
+    [[-0.16, 0.55], [0.16, 0.55], [-0.16, 0.85], [0.16, 0.85]].forEach(function (p) {
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.45, 0.04), chairMat);
+      leg.position.set(p[0], 0.225, p[1]);
+      g.add(leg);
+    });
+
+    return g;
+  }
+
+  function stationSlotPosition(index) {
+    // arka duvar boyunca, ortadan dışa doğru eşit aralıklı slotlar
+    var spacing = 1.9;
+    var offset = (index - (STATION_SLOTS_MAX - 1) / 2) * spacing;
+    return { x: offset, z: -HD + 0.9 };
+  }
+
+  function placeStationInRoom(index) {
+    var pos = stationSlotPosition(index);
+    var g = buildStationGroup();
+    g.position.set(pos.x, 0, pos.z);
+    scene.add(g);
+  }
+
+  // Sayfa yeniden açıldığında daha önce kurulmuş istasyonları geri koy
+  for (var si = 0; si < stationsBuilt; si++) placeStationInRoom(si);
+
   function handleResize() {
     width = mount.clientWidth; height = mount.clientHeight;
     camera.aspect = width / height;
@@ -429,8 +589,42 @@
   joystickBase.addEventListener("pointercancel", stickPointerUp);
   joystickBase.addEventListener("pointerleave", stickPointerUp);
 
+  // ---- etrafa bakma (look-around) ----------------------------------------
+  // Boş 3D alana (joystick/butonların ÜZERİNE değil) parmakla sürükleyerek
+  // bakış yönünü değiştirir. Joystick ayrı bir elementte kendi pointer'ını
+  // yakaladığı için (setPointerCapture) iki parmak aynı anda çakışmadan
+  // çalışır: biri hareket, diğeri bakış.
+  camera.rotation.order = "YXZ";
+  var yaw = 0, pitch = 0;
+  var LOOK_SENS = 0.0035;
+  var PITCH_LIMIT = Math.PI / 2 - 0.05;
+  var lookPointerId = null, lookLastX = 0, lookLastY = 0;
+
+  mount.style.touchAction = "none";
+  mount.addEventListener("pointerdown", function (e) {
+    if (lookPointerId !== null) return;
+    lookPointerId = e.pointerId;
+    lookLastX = e.clientX; lookLastY = e.clientY;
+    try { mount.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  mount.addEventListener("pointermove", function (e) {
+    if (e.pointerId !== lookPointerId) return;
+    var dx = e.clientX - lookLastX, dy = e.clientY - lookLastY;
+    lookLastX = e.clientX; lookLastY = e.clientY;
+    yaw -= dx * LOOK_SENS;
+    pitch -= dy * LOOK_SENS;
+    pitch = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, pitch));
+    camera.rotation.y = yaw;
+    camera.rotation.x = pitch;
+  });
+  function lookPointerEnd(e) { if (e.pointerId === lookPointerId) lookPointerId = null; }
+  mount.addEventListener("pointerup", lookPointerEnd);
+  mount.addEventListener("pointercancel", lookPointerEnd);
+  mount.addEventListener("pointerleave", lookPointerEnd);
+
   // ---- döngü ----
   var last = performance.now();
+  var walkPhase = 0;
   function tick(now) {
     var dt = Math.min(0.05, (now - last) / 1000);
     last = now;
@@ -441,16 +635,36 @@
       my = (keys["w"] || keys["arrowup"] ? 1 : 0) - (keys["s"] || keys["arrowdown"] ? 1 : 0);
     }
 
-    if (mx !== 0 || my !== 0) {
+    var isMoving = mx !== 0 || my !== 0;
+
+    if (isMoving) {
       var len = Math.hypot(mx, my) || 1;
-      var nx = (mx / len) * Math.min(1, len);
-      var ny = (my / len) * Math.min(1, len);
-      camera.position.x -= nx * MOVE_SPEED * dt;
-      camera.position.z -= ny * MOVE_SPEED * dt;
+      var nx = (mx / len) * Math.min(1, len); // sağ (+) / sol (-) — kameraya göre
+      var ny = (my / len) * Math.min(1, len); // ileri (+) / geri (-) — kameraya göre
+
+      // Hareket artık SABİT dünya eksenine değil, kameranın o anki bakış
+      // yönüne (yaw) göre hesaplanıyor — böylece "sağ/ileri" her zaman
+      // ekranda gördüğün sağ/ileri ile eşleşiyor, bakış döndükçe de doğru
+      // kalıyor. (Önceki sürümdeki sağ/sol tersliği buradan kaynaklanıyordu.)
+      var fwdX = -Math.sin(yaw), fwdZ = -Math.cos(yaw);
+      var rightX = Math.cos(yaw), rightZ = -Math.sin(yaw);
+
+      camera.position.x += (rightX * nx + fwdX * ny) * MOVE_SPEED * dt;
+      camera.position.z += (rightZ * nx + fwdZ * ny) * MOVE_SPEED * dt;
+
       var limX = HW - PLAYER_MARGIN, limZ = HD - PLAYER_MARGIN;
       camera.position.x = Math.max(-limX, Math.min(limX, camera.position.x));
       camera.position.z = Math.max(-limZ, Math.min(limZ, camera.position.z));
+
+      // Yürüme animasyonu (baş sallanması) — sadece hareket ederken
+      walkPhase += dt * WALK_BOB_SPEED;
+    } else {
+      // Duruyorsan yumuşakça göz hizasına geri dön
+      walkPhase += dt * WALK_BOB_SPEED;
+      if (Math.abs(Math.sin(walkPhase)) < 0.05) walkPhase = 0;
     }
+    var bob = isMoving ? Math.abs(Math.sin(walkPhase)) * WALK_BOB_AMOUNT : Math.sin(walkPhase) * WALK_BOB_AMOUNT * 0.3;
+    camera.position.y = EYE_HEIGHT + bob;
 
     renderer.render(scene, camera);
     requestAnimationFrame(tick);
@@ -463,4 +677,5 @@
   setVip(vip);
   setAdQuickLeft(adQuickLeft);
   updateChatInputState();
+  renderShop();
 })();
