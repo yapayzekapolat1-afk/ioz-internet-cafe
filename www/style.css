@@ -34,12 +34,12 @@ html, body {
   padding: 7px 12px;
   font-size: 12px;
 }
-.top-right { position: fixed; top: 12px; right: 12px; z-index: 20; }
-
-#hud-topleft {
-  position: fixed; top: 12px; left: 12px; z-index: 20;
-  display: flex; gap: 8px; align-items: center;
+#hud-top {
+  position: fixed; top: 10px; left: 10px; right: 10px; z-index: 20;
+  display: flex; gap: 6px; align-items: center; flex-wrap: nowrap;
+  overflow-x: auto; padding-bottom: 2px;
 }
+#hud-top .pill, #hud-top button { white-space: nowrap; flex-shrink: 0; }
 #hud-money { color: #6ee7b7; }
 #hud-money span { color: #fff; margin-left: 2px; }
 #hud-day { color: rgba(255,255,255,0.75); font-weight: 400; }
@@ -47,22 +47,21 @@ html, body {
 .vip-on { background: rgba(251,191,36,0.9); color: #000; border: none; font-weight: 700; }
 
 #action-msg.toast {
-  position: fixed; top: 58px; right: 12px; z-index: 20;
+  position: fixed; top: 52px; right: 10px; z-index: 20;
   background: rgba(0,0,0,0.7);
 }
 
-#hud-actions {
-  position: fixed; top: 64px; left: 12px; z-index: 20;
-  display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
-}
 .action-btn {
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.15);
   color: #fff; font-weight: 500;
+  padding: 7px 12px; font-size: 12px;
 }
 .action-btn:disabled { opacity: 0.3; }
 #btn-ad-quick { background: rgba(16,185,129,0.9); color: #000; border: none; font-weight: 700; }
 #btn-ad-quick:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
+#btn-light.light-on { color: #fde68a; }
+#btn-light.light-off { color: rgba(255,255,255,0.35); }
 
 #portrait-overlay {
   position: fixed; inset: 0; z-index: 50;
@@ -98,19 +97,6 @@ html, body {
 }
 #joystick-base.active #joystick-stick { transition: none; }
 
-#btn-action {
-  position: fixed; right: 24px; bottom: 24px; z-index: 15;
-  width: 64px; height: 64px; border-radius: 50%;
-  background: rgba(47,191,168,0.85); border: 1px solid rgba(255,255,255,0.2);
-  font-size: 24px;
-}
-#btn-action:active { transform: scale(0.95); }
-
-#btn-chat-toggle {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20;
-  background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); color: #fff;
-}
-
 #chat-panel {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; height: 52%;
   background: rgba(0,0,0,0.88); backdrop-filter: blur(6px);
@@ -123,6 +109,7 @@ html, body {
   color: #fff; font-size: 14px; font-weight: 600;
 }
 .chat-header button { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 16px; }
+.chat-active { color: #6ee7b7; font-size: 11px; font-weight: 500; margin-left: 6px; }
 #chat-name-row { padding: 8px 12px; }
 #chat-name-input, #chat-input {
   width: 100%; background: rgba(255,255,255,0.1); border: none; outline: none;
@@ -148,7 +135,7 @@ html, body {
 /* ---- SVG ikonlar ---- */
 .icon { width: 15px; height: 15px; flex-shrink: 0; vertical-align: -2px; }
 .icon-lg { width: 24px; height: 24px; }
-.pill-btn, .pill.action-btn, #btn-chat-toggle, #btn-vip {
+.pill-btn, .pill.action-btn, #btn-vip {
   display: inline-flex; align-items: center; gap: 6px;
 }
 .icon-btn {
@@ -156,8 +143,6 @@ html, body {
   display: flex; align-items: center; justify-content: center;
   padding: 4px;
 }
-#btn-action { display: flex; align-items: center; justify-content: center; color: rgba(0,0,0,0.8); }
-#btn-action .icon { width: 22px; height: 22px; }
 
 /* ---- dükkan paneli (chat-panel ile aynı görsel dil) ---- */
 #shop-panel {
@@ -189,4 +174,15 @@ html, body {
 .shop-item button:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
 .build-btn { margin: 10px 12px 12px; text-align: center; justify-content: center; }
 
+/* ---- yerleştirme (masa/sandalye/bilgisayar döndür + konumlandır) ---- */
+#placement-toolbar {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 25;
+  display: flex; gap: 8px; align-items: center;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+  padding: 8px 10px;
+}
+.placement-hint { color: rgba(255,255,255,0.6); font-size: 11px; padding: 0 4px; max-width: 160px; }
+#btn-place-confirm.confirm { background: rgba(16,185,129,0.9); color: #000; border: none; font-weight: 700; }
+#btn-place-cancel.cancel { background: rgba(239,68,68,0.25); border-color: rgba(239,68,68,0.4); }
 

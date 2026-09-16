@@ -48,11 +48,11 @@
   // ama bir istasyon SADECE üçü de envanterde varsa kurulabiliyor — biri
   // eksikse "kurulum başarısız" (bkz. buildStation()).
   var SHOP_ITEMS = [
-    { id: "sandalye", name: "Sandalye", price: 25, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>' },
-    { id: "masa", name: "Masa", price: 25, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>' },
-    { id: "bilgisayar", name: "Bilgisayar", price: 25, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>' }
+    { id: "sandalye", name: "iOZ Old Sandalye", price: 25, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>' },
+    { id: "masa", name: "iOZ Old Masa", price: 25, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>' },
+    { id: "bilgisayar", name: "iOZ Old 1980", price: 25, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>' }
   ];
-  var STATION_SLOTS_MAX = 6; // oda genişliğine göre arka duvara sığan slot sayısı — dolunca sıradaki adımda oda büyütülür/duvar eklenir
+  var STATION_SLOTS_MAX = 10; // odadaki toplam istasyon üst sınırı (kalabalık olmasın diye) — istenirse artırılabilir
 
   var ABLY_API_KEY = "3nsRqw.wIyZEg:EOoAE5ZRsMjOqy7C1thwdwiVIGD-3AdzDfQswLx9Al8"; // eski oyunla aynı gerçek anahtar
   var CHAT_CHANNEL_NAME = "iozcafe-chat-global";
@@ -146,9 +146,17 @@
     var savedInv = JSON.parse(localStorage.getItem(INVENTORY_KEY) || "null");
     if (savedInv) inventory = savedInv;
   } catch (e) {}
-  var stationsBuilt = readNum(STATIONS_KEY, 0);
+  // Artık sabit slot değil — her istasyonun kendi {x,z,rotY} konumu var,
+  // çünkü masa/sandalye/bilgisayarı istediğimiz yere kendimiz yerleştirip
+  // döndürebiliyoruz (bkz. enterPlacementMode).
+  var stations = [];
+  try {
+    var savedStations = JSON.parse(localStorage.getItem(STATIONS_KEY) || "null");
+    if (Array.isArray(savedStations)) stations = savedStations;
+  } catch (e) {}
 
   function saveInventory() { try { localStorage.setItem(INVENTORY_KEY, JSON.stringify(inventory)); } catch (e) {} }
+  function saveStations() { try { localStorage.setItem(STATIONS_KEY, JSON.stringify(stations)); } catch (e) {} }
 
   function renderShop() {
     var wrap = $("shop-items");
@@ -167,9 +175,9 @@
     });
     var canBuild = inventory.sandalye >= 1 && inventory.masa >= 1 && inventory.bilgisayar >= 1;
     var buildBtn = $("btn-build-station");
-    buildBtn.disabled = !canBuild || stationsBuilt >= STATION_SLOTS_MAX;
-    buildBtn.textContent = stationsBuilt >= STATION_SLOTS_MAX
-      ? "Oda dolu (" + stationsBuilt + "/" + STATION_SLOTS_MAX + ")"
+    buildBtn.disabled = !canBuild || stations.length >= STATION_SLOTS_MAX;
+    buildBtn.textContent = stations.length >= STATION_SLOTS_MAX
+      ? "Oda dolu (" + stations.length + "/" + STATION_SLOTS_MAX + ")"
       : "İstasyon Kur (1 Masa + 1 Sandalye + 1 Bilgisayar)";
   }
 
@@ -190,20 +198,20 @@
   }
 
   // Bir istasyon SADECE masa+sandalye+bilgisayarın ÜÇÜ de envanterde varsa
-  // kurulur — biri eksikse kurulum başarısız olur, hiçbir şey harcanmaz.
+  // kurulabilir — biri eksikse kurulum başarısız olur, hiçbir şey harcanmaz.
+  // Üçü de varsa harcanır ve YERLEŞTİRME MODU açılır (bkz. enterPlacementMode,
+  // aşağıda Three.js bölümünde) — konum/döndürme kendimiz seçiyoruz.
   function buildStation() {
-    if (stationsBuilt >= STATION_SLOTS_MAX) { shopStatus("Oda dolu — yeni istasyon için yer yok."); return; }
+    if (stations.length >= STATION_SLOTS_MAX) { shopStatus("Oda dolu — yeni istasyon için yer yok."); return; }
     if (inventory.sandalye < 1 || inventory.masa < 1 || inventory.bilgisayar < 1) {
       shopStatus("Kurulum başarısız: masa, sandalye ve bilgisayarın hepsi gerekli.");
       return;
     }
     inventory.sandalye -= 1; inventory.masa -= 1; inventory.bilgisayar -= 1;
     saveInventory();
-    placeStationInRoom(stationsBuilt);
-    stationsBuilt += 1;
-    writeNum(STATIONS_KEY, stationsBuilt);
     renderShop();
-    shopStatus("İstasyon kuruldu!");
+    $("shop-panel").hidden = true;
+    enterPlacementMode();
   }
 
   $("btn-build-station").addEventListener("click", buildStation);
@@ -251,18 +259,9 @@
     });
   });
 
-  $("btn-action").addEventListener("click", function () {
-    showActionMsg("Etkileşim (yakında)");
-  });
-
-  // ---- tam ekran + yatay kilit -----------------------------------------
-  $("btn-fullscreen").addEventListener("click", function () {
-    var el = document.documentElement;
-    if (el.requestFullscreen) el.requestFullscreen().catch(function () {});
-    if (window.screen && screen.orientation && screen.orientation.lock) {
-      screen.orientation.lock("landscape").catch(function () {});
-    }
-  });
+  // İSTENDİ: manuel "tam ekran" ve sağ alttaki genel "aksiyon" butonu
+  // kaldırıldı — tam ekran zaten native tarafta (MainActivity.java) otomatik
+  // uygulanıyor, ayrı bir butona gerek yoktu.
 
   function checkOrientation() {
     $("portrait-overlay").hidden = window.innerHeight <= window.innerWidth;
@@ -327,6 +326,17 @@
         chatChannel = ablyClient.channels.get(CHAT_CHANNEL_NAME);
         chatChannel.subscribe("msg", function (msg) { appendChatMessage(msg.data, msg.clientId); });
 
+        // Aktif sayaç — kaç kişi şu an sohbete bağlı (Ably presence)
+        function refreshPresenceCount() {
+          chatChannel.presence.get(function (err, members) {
+            if (err) return;
+            $("chat-active-count").textContent = "(Aktif: " + members.length + ")";
+          });
+        }
+        chatChannel.presence.enter({ name: playerName || "Misafir" }).catch(function () {});
+        chatChannel.presence.subscribe(function () { refreshPresenceCount(); });
+        refreshPresenceCount();
+
         chatChannel.history({ limit: CHAT_HISTORY_LIMIT, direction: "backwards" }).then(function (page) {
           if (!page || !page.items) return;
           page.items.slice().reverse().forEach(function (m) {
@@ -367,6 +377,8 @@
       try { localStorage.setItem(PLAYER_NAME_KEY, playerName); } catch (err) {}
       $("chat-name-row").hidden = true;
       updateChatInputState();
+      this.blur(); // klavyeyi kapat
+      if (chatChannel) chatChannel.presence.update({ name: playerName }).catch(function () {});
     }
   });
   if (playerName) $("chat-name-row").hidden = true;
@@ -383,17 +395,24 @@
     chatChannel.publish("msg", { text: text.slice(0, 240), name: playerName || ("Misafir#" + shortTag(getPlayerId())) });
     input.value = "";
   }
-  $("btn-chat-send").addEventListener("click", sendChatMessage);
-  $("chat-input").addEventListener("keydown", function (e) { if (e.key === "Enter") sendChatMessage(); });
+  $("btn-chat-send").addEventListener("click", function () {
+    sendChatMessage();
+    $("chat-input").blur(); // klavye takılı kalmasın diye kapatıyoruz
+  });
+  $("chat-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      sendChatMessage();
+      this.blur(); // klavye takılı kalmasın diye kapatıyoruz
+    }
+  });
 
   $("btn-chat-toggle").addEventListener("click", function () {
     $("chat-panel").hidden = false;
-    $("btn-chat-toggle").hidden = true;
     connectChat();
   });
   $("btn-chat-close").addEventListener("click", function () {
     $("chat-panel").hidden = true;
-    $("btn-chat-toggle").hidden = false;
+    $("chat-input").blur();
   });
 
   // ---- dükkan (placeholder — içerik sıradaki adımda gelecek) -------------
@@ -418,13 +437,36 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   mount.appendChild(renderer.domElement);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  var AMBIENT_ON = 0.5, AMBIENT_OFF = 0.12;
+  var ambientLight = new THREE.AmbientLight(0xffffff, AMBIENT_ON);
+  scene.add(ambientLight);
   var ceilingLamp = new THREE.PointLight(0xfff2d6, 1.1, 16, 2);
   ceilingLamp.position.set(0, ROOM_H - 0.2, 0);
   scene.add(ceilingLamp);
   var accentLight = new THREE.PointLight(ACCENT, 0.6, 12, 2);
   accentLight.position.set(-4, 1.6, -4);
   scene.add(accentLight);
+
+  // ---- ampul (tavan lambası, açıp kapatabildiğimiz gerçek bir 3D nesne) --
+  var bulbOnMat = new THREE.MeshStandardMaterial({ color: 0xfff6d8, emissive: 0xfff2b0, emissiveIntensity: 1.4 });
+  var bulbOffMat = new THREE.MeshStandardMaterial({ color: 0x555049, emissive: 0x000000 });
+  var bulbFixture = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.15, 8), new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.6 }));
+  bulbFixture.position.set(0, ROOM_H - 0.02, 0);
+  scene.add(bulbFixture);
+  var bulb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 12, 12), bulbOnMat);
+  bulb.position.set(0, ROOM_H - 0.28, 0);
+  scene.add(bulb);
+
+  var lightOn = true;
+  function setLightOn(on) {
+    lightOn = on;
+    ceilingLamp.visible = on;
+    ambientLight.intensity = on ? AMBIENT_ON : AMBIENT_OFF;
+    bulb.material = on ? bulbOnMat : bulbOffMat;
+    var btn = $("btn-light");
+    btn.className = "pill action-btn " + (on ? "light-on" : "light-off");
+  }
+  $("btn-light").addEventListener("click", function () { setLightOn(!lightOn); });
 
   var floorMat = new THREE.MeshStandardMaterial({ color: 0x171f24, roughness: 0.9 });
   var wallMat = new THREE.MeshStandardMaterial({ color: 0x1d262c, roughness: 0.95 });
@@ -521,25 +563,73 @@
       g.add(leg);
     });
 
+    // Masanın ARKASINI ayırt etmek için düz, marka renginde ince bir panel —
+    // sandalyenin TERSİ tarafta (bilgisayar/-Z tarafı), yerleştirirken/
+    // döndürürken "ön" ve "arka"yı bir bakışta ayırt edebilelim diye.
+    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.28, 0.03), trimMat);
+    backPlate.position.set(0, 0.6, -0.28);
+    g.add(backPlate);
+
     return g;
   }
 
-  function stationSlotPosition(index) {
-    // arka duvar boyunca, ortadan dışa doğru eşit aralıklı slotlar
-    var spacing = 1.9;
-    var offset = (index - (STATION_SLOTS_MAX - 1) / 2) * spacing;
-    return { x: offset, z: -HD + 0.9 };
-  }
+  var STATION_GROUPS = []; // sahnedeki kalıcı istasyon THREE.Group'ları — stations[] ile aynı sırada
 
-  function placeStationInRoom(index) {
-    var pos = stationSlotPosition(index);
+  function placeStationInRoom(x, z, rotY) {
     var g = buildStationGroup();
-    g.position.set(pos.x, 0, pos.z);
+    g.position.set(x, 0, z);
+    g.rotation.y = rotY || 0;
     scene.add(g);
+    STATION_GROUPS.push(g);
   }
 
-  // Sayfa yeniden açıldığında daha önce kurulmuş istasyonları geri koy
-  for (var si = 0; si < stationsBuilt; si++) placeStationInRoom(si);
+  // Sayfa yeniden açıldığında daha önce kurulmuş/yerleştirilmiş istasyonları geri koy
+  stations.forEach(function (s) { placeStationInRoom(s.x, s.z, s.rotY); });
+
+  // ---- yerleştirme modu — masa/sandalye/bilgisayarı istediğimiz yere ------
+  // yürüyüp istediğimiz yöne bakarak konumlandırıyoruz, "Döndür" ile 45'er
+  // derece çeviriyoruz, "Yerleştir" ile kalıcı hale getiriyoruz.
+  var PLACEMENT_DIST = 1.6;
+  var placementMode = false;
+  var placementGroup = null;
+  var placementRotOffset = 0;
+  var ghostMat = new THREE.MeshStandardMaterial({ color: ACCENT, transparent: true, opacity: 0.45 });
+
+  function enterPlacementMode() {
+    placementMode = true;
+    placementRotOffset = 0;
+    placementGroup = buildStationGroup();
+    placementGroup.traverse(function (obj) { if (obj.isMesh) obj.material = ghostMat; });
+    scene.add(placementGroup);
+    $("placement-toolbar").hidden = false;
+  }
+
+  function exitPlacementMode() {
+    placementMode = false;
+    if (placementGroup) { scene.remove(placementGroup); placementGroup = null; }
+    $("placement-toolbar").hidden = true;
+  }
+
+  $("btn-place-rotate").addEventListener("click", function () {
+    placementRotOffset += Math.PI / 4;
+  });
+  $("btn-place-confirm").addEventListener("click", function () {
+    if (!placementGroup) return;
+    var x = placementGroup.position.x, z = placementGroup.position.z, rotY = placementGroup.rotation.y;
+    stations.push({ x: x, z: z, rotY: rotY });
+    saveStations();
+    placeStationInRoom(x, z, rotY);
+    exitPlacementMode();
+    renderShop();
+    shopStatus("İstasyon yerleştirildi!");
+  });
+  $("btn-place-cancel").addEventListener("click", function () {
+    // vazgeçilirse harcanan ürünler geri iade edilir
+    inventory.sandalye += 1; inventory.masa += 1; inventory.bilgisayar += 1;
+    saveInventory();
+    exitPlacementMode();
+    renderShop();
+  });
 
   function handleResize() {
     width = mount.clientWidth; height = mount.clientHeight;
@@ -637,6 +727,11 @@
 
     var isMoving = mx !== 0 || my !== 0;
 
+    // Kameranın o anki bakış yönüne (yaw) göre ileri/sağ vektörleri — hem
+    // hareket hem yerleştirme modundaki hayalet istasyon için kullanılıyor.
+    var fwdX = -Math.sin(yaw), fwdZ = -Math.cos(yaw);
+    var rightX = Math.cos(yaw), rightZ = -Math.sin(yaw);
+
     if (isMoving) {
       var len = Math.hypot(mx, my) || 1;
       var nx = (mx / len) * Math.min(1, len); // sağ (+) / sol (-) — kameraya göre
@@ -646,9 +741,6 @@
       // yönüne (yaw) göre hesaplanıyor — böylece "sağ/ileri" her zaman
       // ekranda gördüğün sağ/ileri ile eşleşiyor, bakış döndükçe de doğru
       // kalıyor. (Önceki sürümdeki sağ/sol tersliği buradan kaynaklanıyordu.)
-      var fwdX = -Math.sin(yaw), fwdZ = -Math.cos(yaw);
-      var rightX = Math.cos(yaw), rightZ = -Math.sin(yaw);
-
       camera.position.x += (rightX * nx + fwdX * ny) * MOVE_SPEED * dt;
       camera.position.z += (rightZ * nx + fwdZ * ny) * MOVE_SPEED * dt;
 
@@ -665,6 +757,17 @@
     }
     var bob = isMoving ? Math.abs(Math.sin(walkPhase)) * WALK_BOB_AMOUNT : Math.sin(walkPhase) * WALK_BOB_AMOUNT * 0.3;
     camera.position.y = EYE_HEIGHT + bob;
+
+    // Yerleştirme modu: hayalet istasyon her zaman oyuncunun PLACEMENT_DIST
+    // kadar önünde durur — yürüyüp bakış yönünü değiştirerek konumlandırıyoruz.
+    if (placementMode && placementGroup) {
+      var gx = camera.position.x + fwdX * PLACEMENT_DIST;
+      var gz = camera.position.z + fwdZ * PLACEMENT_DIST;
+      var pLimX = HW - 0.3, pLimZ = HD - 0.3;
+      placementGroup.position.x = Math.max(-pLimX, Math.min(pLimX, gx));
+      placementGroup.position.z = Math.max(-pLimZ, Math.min(pLimZ, gz));
+      placementGroup.rotation.y = yaw + placementRotOffset;
+    }
 
     renderer.render(scene, camera);
     requestAnimationFrame(tick);
