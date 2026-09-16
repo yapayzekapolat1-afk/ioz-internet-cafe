@@ -165,7 +165,11 @@ html, body {
   border-radius: 12px; padding: 10px 12px;
 }
 .shop-item-info { display: flex; align-items: center; gap: 10px; color: #fff; font-size: 13px; }
-.shop-item-info .icon { width: 20px; height: 20px; color: #2fbfa8; }
+.shop-item-info .icon { width: 20px; height: 20px; color: #2fbfa8; flex-shrink: 0; }
+.shop-item-text { display: flex; flex-direction: column; gap: 3px; }
+.stars { display: flex; gap: 1px; }
+.stars .star { width: 11px; height: 11px; color: #fcd34d; }
+.stars .star-full { color: #fcd34d; }
 .shop-item-owned { color: rgba(255,255,255,0.4); font-size: 11px; }
 .shop-item button {
   background: rgba(47,191,168,0.9); color: #000; font-weight: 700; font-size: 12px;
@@ -173,6 +177,8 @@ html, body {
 }
 .shop-item button:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
 .build-btn { margin: 10px 12px 12px; text-align: center; justify-content: center; }
+#btn-cafe-toggle.cafe-open { color: #22ff88; border-color: rgba(34,255,136,0.4); }
+#btn-cafe-toggle.cafe-closed { color: #ff2f4d; border-color: rgba(255,47,77,0.4); }
 
 /* ---- yerleştirme (masa/sandalye/bilgisayar döndür + konumlandır) ---- */
 #placement-toolbar {

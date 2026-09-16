@@ -10,12 +10,16 @@
   //   - Hızlı reklam bonusu: +3000 ₺, günde 3 kez
   //   - VIP: gerçek Google Play satın alımı (BillingBridge.kt, native)
   //   - Online chat: Ably (eski game.js ile birebir aynı kanal/mantık)
-  //   - Dükkan: masa/sandalye/bilgisayar (25₺'den) — üçü tamamlanınca bir
-  //     istasyon kurulup 3D odaya yerleştiriliyor, biri eksikse kurulum
-  //     başarısız oluyor (hiçbir şey harcanmaz)
-  // Henüz YOK: admin paneli, sıralama, istasyonlardan gelir kazanma mantığı
-  // — bunlar ayrı, sıradaki adımlarda eklenecek. "Mevcut oyunu sil"
-  // talimatı üzerine tüm eski ekonomi/rebirth/istasyon kodu KALDIRILDI.
+  //   - Dükkan: masa/sandalye/bilgisayar (25₺'den) — HER ürün ayrı satın
+  //     alınıp ANINDA yerleştirme moduna giriyor (yürüyüp bakarak konumla,
+  //     döndür, onayla ya da iptal et — iptalde parası iade edilir)
+  //   - Kapı + neon "Kafe Açık/Kapalı" tabelası (ön duvarda)
+  //   - Sabit, neon/modernist tasarımlı KASA — sol ön köşede, girişe bakar
+  // Henüz YOK: admin paneli, sıralama, istasyonlardan gelir kazanma mantığı,
+  // gerçek çok oyunculu 3D avatar sistemi (chat var ama diğer oyuncuları 3D
+  // sahnede göremiyorsun — kasadan "girenleri görme" şu an sadece görsel
+  // konumlandırma, canlı oyuncu tespiti değil). "Mevcut oyunu sil" talimatı
+  // üzerine tüm eski ekonomi/rebirth/istasyon kodu KALDIRILDI.
   // =========================================================================
 
   function $(id) { return document.getElementById(id); }
@@ -28,6 +32,8 @@
   var WALK_BOB_SPEED = 9;
   var MOVE_SPEED = 3.4;
   var ACCENT = 0x2fbfa8;
+  var NEON_PINK = 0xff2fd6;
+  var NEON_BLUE = 0x2fd6ff;
 
   var AD_PLACEMENT_ID = "Rewarded_Android";
   var AD_BONUS_QUICK_REWARD = 3000;
@@ -40,19 +46,28 @@
   var AD_QUICK_KEY = "netcafe3d_ad_quick_uses";
   var PLAYER_ID_KEY = "netcafe_player_id"; // eski oyunla AYNI anahtar — kimlik sürekliliği
   var PLAYER_NAME_KEY = "netcafe3d_player_name";
-  var INVENTORY_KEY = "netcafe3d_inventory"; // {sandalye,masa,bilgisayar} — henüz istasyona dönüşmemiş envanter
-  var STATIONS_KEY = "netcafe3d_stations"; // kurulmuş (masa+sandalye+bilgisayar tamamlanmış) istasyon sayısı
+  var PLACED_ITEMS_KEY = "netcafe3d_placed_items"; // [{type,x,z,rotY}, ...] — tek tek yerleştirilmiş her parça
+  var CAFE_OPEN_KEY = "netcafe3d_cafe_open";
 
   // ---- dükkan --------------------------------------------------------
-  // İSTENDİ: masa/sandalye/bilgisayar ayrı ayrı satın alınıyor (25₺'den),
-  // ama bir istasyon SADECE üçü de envanterde varsa kurulabiliyor — biri
-  // eksikse "kurulum başarısız" (bkz. buildStation()).
+  // DÜZELTME: önceki sürümde masa/sandalye/bilgisayar bir "envantere"
+  // gidiyordu ve hiçbir şey yerleşmiyordu — kafa karıştırıyordu. Artık her
+  // ürün TEK BAŞINA satın alınıp ANINDA yerleştirme moduna giriyor; iptal
+  // edersen parası tam olarak iade ediliyor.
   var SHOP_ITEMS = [
-    { id: "sandalye", name: "iOZ Old Sandalye", price: 25, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>' },
-    { id: "masa", name: "iOZ Old Masa", price: 25, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>' },
-    { id: "bilgisayar", name: "iOZ Old 1980", price: 25, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>' }
+    { id: "sandalye", name: "iOZ Old Sandalye", price: 25, rating: 0.5, seat: false, tier: 1, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return buildChairMesh(); } },
+    { id: "masa", name: "iOZ Old Masa", price: 25, rating: 0.5, seat: true, tier: 1, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return buildTableMesh(); } },
+    { id: "bilgisayar", name: "iOZ Old 1980", price: 25, rating: 0.5, seat: false, tier: 1, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function () { return buildComputerMesh(); } },
+    { id: "sandalye90", name: "iOZ Old 90 Sandalye", price: 200, rating: 1.5, seat: false, tier: 2, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build90ChairMesh(); } },
+    { id: "masa90", name: "iOZ Old 90 Masa", price: 200, rating: 1.5, seat: true, tier: 2, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build90TableMesh(); } },
+    { id: "bilgisayar90", name: "iOZ Old 90", price: 500, rating: 1.5, seat: false, tier: 2, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function () { return build90ComputerMesh(); } }
   ];
-  var STATION_SLOTS_MAX = 10; // odadaki toplam istasyon üst sınırı (kalabalık olmasın diye) — istenirse artırılabilir
+  // "seat: true" olan parçalar (masalar) — otomatik müşteriler oturacak yer
+  // olarak bunları kullanıyor. tier, müşterinin ne kadar ödeyeceğini belirler
+  // (bkz. NPC_PAYOUT_BY_TIER) — bu ödeme miktarları HENÜZ senden net bir sayı
+  // gelmediği için varsayım, birlikte ayarlayabiliriz.
+  var NPC_PAYOUT_BY_TIER = { 1: 20, 2: 60 };
+  var PLACED_ITEMS_MAX = 24; // odadaki toplam parça üst sınırı (kalabalık olmasın diye) — istenirse artırılabilir
 
   var ABLY_API_KEY = "3nsRqw.wIyZEg:EOoAE5ZRsMjOqy7C1thwdwiVIGD-3AdzDfQswLx9Al8"; // eski oyunla aynı gerçek anahtar
   var CHAT_CHANNEL_NAME = "iozcafe-chat-global";
@@ -140,23 +155,33 @@
     $("btn-ad-quick").disabled = adQuickLeft <= 0;
   }
 
-  // ---- dükkan (envanter + istasyon kurma) --------------------------------
-  var inventory = { sandalye: 0, masa: 0, bilgisayar: 0 };
+  // ---- dükkan (her ürün tek başına satın alınır → anında yerleştirme) ----
+  var placedItems = [];
   try {
-    var savedInv = JSON.parse(localStorage.getItem(INVENTORY_KEY) || "null");
-    if (savedInv) inventory = savedInv;
-  } catch (e) {}
-  // Artık sabit slot değil — her istasyonun kendi {x,z,rotY} konumu var,
-  // çünkü masa/sandalye/bilgisayarı istediğimiz yere kendimiz yerleştirip
-  // döndürebiliyoruz (bkz. enterPlacementMode).
-  var stations = [];
-  try {
-    var savedStations = JSON.parse(localStorage.getItem(STATIONS_KEY) || "null");
-    if (Array.isArray(savedStations)) stations = savedStations;
+    var savedPlaced = JSON.parse(localStorage.getItem(PLACED_ITEMS_KEY) || "null");
+    if (Array.isArray(savedPlaced)) placedItems = savedPlaced;
   } catch (e) {}
 
-  function saveInventory() { try { localStorage.setItem(INVENTORY_KEY, JSON.stringify(inventory)); } catch (e) {} }
-  function saveStations() { try { localStorage.setItem(STATIONS_KEY, JSON.stringify(stations)); } catch (e) {} }
+  function savePlacedItems() { try { localStorage.setItem(PLACED_ITEMS_KEY, JSON.stringify(placedItems)); } catch (e) {} }
+
+  var STAR_PATH = "M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.9-6.2 3.9 1.6-7L1 9.2l7.1-.6L12 2z";
+  function starSvg(fill, uniqueSeed) {
+    if (fill <= 0) return '<svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="' + STAR_PATH + '"/></svg>';
+    if (fill >= 1) return '<svg class="star star-full" viewBox="0 0 24 24" fill="currentColor"><path d="' + STAR_PATH + '"/></svg>';
+    var clipId = "starclip" + uniqueSeed;
+    return '<svg class="star" viewBox="0 0 24 24">' +
+      '<defs><clipPath id="' + clipId + '"><rect x="0" y="0" width="' + (24 * fill).toFixed(1) + '" height="24"/></clipPath></defs>' +
+      '<path d="' + STAR_PATH + '" fill="none" stroke="currentColor" stroke-width="1.5"/>' +
+      '<path d="' + STAR_PATH + '" fill="currentColor" clip-path="url(#' + clipId + ')"/>' +
+      '</svg>';
+  }
+  function starsHtml(rating, seedPrefix) {
+    var html = '<span class="stars">';
+    for (var i = 0; i < 5; i++) {
+      html += starSvg(Math.max(0, Math.min(1, rating - i)), seedPrefix + "_" + i);
+    }
+    return html + '</span>';
+  }
 
   function renderShop() {
     var wrap = $("shop-items");
@@ -166,19 +191,16 @@
       row.className = "shop-item";
       row.innerHTML =
         '<div class="shop-item-info"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg>' +
-        '<span>' + item.name + '</span><span class="shop-item-owned">(' + inventory[item.id] + ' adet)</span></div>' +
+        '<span class="shop-item-text"><span>' + item.name + '</span>' + starsHtml(item.rating || 0, item.id) + '</span></div>' +
         '<button data-id="' + item.id + '">' + item.price + ' ₺</button>';
       wrap.appendChild(row);
     });
+    var full = placedItems.length >= PLACED_ITEMS_MAX;
     wrap.querySelectorAll("button[data-id]").forEach(function (btn) {
+      btn.disabled = placementMode || full;
       btn.addEventListener("click", function () { buyShopItem(btn.getAttribute("data-id")); });
     });
-    var canBuild = inventory.sandalye >= 1 && inventory.masa >= 1 && inventory.bilgisayar >= 1;
-    var buildBtn = $("btn-build-station");
-    buildBtn.disabled = !canBuild || stations.length >= STATION_SLOTS_MAX;
-    buildBtn.textContent = stations.length >= STATION_SLOTS_MAX
-      ? "Oda dolu (" + stations.length + "/" + STATION_SLOTS_MAX + ")"
-      : "İstasyon Kur (1 Masa + 1 Sandalye + 1 Bilgisayar)";
+    $("shop-status").textContent = full ? "Oda dolu (" + placedItems.length + "/" + PLACED_ITEMS_MAX + ")" : (placementMode ? "Önce elindekini yerleştir/iptal et." : "");
   }
 
   function shopStatus(text) {
@@ -187,34 +209,20 @@
     if (text) setTimeout(function () { if (el.textContent === text) el.textContent = ""; }, 2200);
   }
 
+  // Satın alma ANINDA yerleştirme moduna girer — envanterde beklemez.
+  // "Yerleştir"e basana kadar para zaten harcanmış olur, ama "İptal"
+  // edersen tam fiyatı iade edilir (bkz. enterPlacementMode, aşağıda).
   function buyShopItem(id) {
     var item = SHOP_ITEMS.filter(function (i) { return i.id === id; })[0];
     if (!item) return;
+    if (placementMode) { shopStatus("Önce elindekini yerleştir ya da iptal et."); return; }
+    if (placedItems.length >= PLACED_ITEMS_MAX) { shopStatus("Oda dolu — yeni parça için yer yok."); return; }
     if (money < item.price) { shopStatus("Yetersiz bakiye."); return; }
     setMoney(money - item.price);
-    inventory[id] = (inventory[id] || 0) + 1;
-    saveInventory();
-    renderShop();
-  }
-
-  // Bir istasyon SADECE masa+sandalye+bilgisayarın ÜÇÜ de envanterde varsa
-  // kurulabilir — biri eksikse kurulum başarısız olur, hiçbir şey harcanmaz.
-  // Üçü de varsa harcanır ve YERLEŞTİRME MODU açılır (bkz. enterPlacementMode,
-  // aşağıda Three.js bölümünde) — konum/döndürme kendimiz seçiyoruz.
-  function buildStation() {
-    if (stations.length >= STATION_SLOTS_MAX) { shopStatus("Oda dolu — yeni istasyon için yer yok."); return; }
-    if (inventory.sandalye < 1 || inventory.masa < 1 || inventory.bilgisayar < 1) {
-      shopStatus("Kurulum başarısız: masa, sandalye ve bilgisayarın hepsi gerekli.");
-      return;
-    }
-    inventory.sandalye -= 1; inventory.masa -= 1; inventory.bilgisayar -= 1;
-    saveInventory();
-    renderShop();
     $("shop-panel").hidden = true;
-    enterPlacementMode();
+    enterPlacementMode(item);
   }
 
-  $("btn-build-station").addEventListener("click", buildStation);
 
 
   function showActionMsg(text) {
@@ -514,19 +522,15 @@
     scene.add(trim);
   });
 
-  // ---- istasyon (masa + sandalye + bilgisayar) — basit low-poly gruplar --
-  // Arka duvar boyunca, aralarında boşluk bırakarak diziliyor. Bilgisayar
-  // ekranı odaya (oyuncuya) bakacak şekilde yerleştirildi, sandalye masanın
-  // önünde (oda tarafında) duruyor — gerçek bir internet cafe düzeni gibi.
+  // ---- mobilya parçaları — masa/sandalye/bilgisayar AYRI AYRI, kendi -----
+  // başlarına yerleştirilebilir low-poly gruplar.
   var deskMat = new THREE.MeshStandardMaterial({ color: 0x5b4636, roughness: 0.8 });
   var chairMat = new THREE.MeshStandardMaterial({ color: 0x2a2f34, roughness: 0.7 });
   var monitorMat = new THREE.MeshStandardMaterial({ color: 0x0d1114, roughness: 0.5 });
   var screenMat = new THREE.MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.6 });
 
-  function buildStationGroup() {
+  function buildTableMesh() {
     var g = new THREE.Group();
-
-    // masa
     var top = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.05, 0.55), deskMat);
     top.position.set(0, 0.75, 0);
     g.add(top);
@@ -535,70 +539,168 @@
       leg.position.set(p[0], 0.375, p[1]);
       g.add(leg);
     });
+    // Masanın ARKASINI ayırt etmek için düz, marka renginde ince bir panel —
+    // yerleştirirken/döndürürken "ön/arka"yı bir bakışta ayırt edelim diye.
+    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.28, 0.03), trimMat);
+    backPlate.position.set(0, 0.6, -0.28);
+    g.add(backPlate);
+    return g;
+  }
 
-    // bilgisayar (masanın üstünde, ekran odaya/+Z'ye bakıyor)
-    var monitor = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.04), monitorMat);
-    monitor.position.set(0, 1.0, -0.12);
-    g.add(monitor);
-    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.24), screenMat);
-    screen.position.set(0, 1.0, -0.095);
-    g.add(screen);
-    var stand = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.1, 0.06), monitorMat);
-    stand.position.set(0, 0.83, -0.12);
-    g.add(stand);
-    var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.02, 0.12), monitorMat);
-    keyboard.position.set(0, 0.78, 0.1);
-    g.add(keyboard);
-
-    // sandalye (masanın önünde, oda tarafında)
+  function buildChairMesh() {
+    var g = new THREE.Group();
     var seat = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.05, 0.38), chairMat);
-    seat.position.set(0, 0.45, 0.7);
+    seat.position.set(0, 0.45, 0);
     g.add(seat);
     var back = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.4, 0.05), chairMat);
-    back.position.set(0, 0.65, 0.87);
+    back.position.set(0, 0.65, -0.17);
     g.add(back);
-    [[-0.16, 0.55], [0.16, 0.55], [-0.16, 0.85], [0.16, 0.85]].forEach(function (p) {
+    [[-0.16, -0.15], [0.16, -0.15], [-0.16, 0.15], [0.16, 0.15]].forEach(function (p) {
       var leg = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.45, 0.04), chairMat);
       leg.position.set(p[0], 0.225, p[1]);
       g.add(leg);
     });
-
-    // Masanın ARKASINI ayırt etmek için düz, marka renginde ince bir panel —
-    // sandalyenin TERSİ tarafta (bilgisayar/-Z tarafı), yerleştirirken/
-    // döndürürken "ön" ve "arka"yı bir bakışta ayırt edebilelim diye.
-    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.28, 0.03), trimMat);
-    backPlate.position.set(0, 0.6, -0.28);
-    g.add(backPlate);
-
     return g;
   }
 
-  var STATION_GROUPS = []; // sahnedeki kalıcı istasyon THREE.Group'ları — stations[] ile aynı sırada
+  // Bağımsız (masasız da) anlamlı dursun diye ayaklı bir "kiosk terminal"
+  // olarak tasarlandı — bir masaya YAKIN koyarsan iş istasyonu gibi durur,
+  // tek başına koyarsan da bir ayaklı bilgi terminali gibi durur.
+  function buildComputerMesh() {
+    var g = new THREE.Group();
+    var base = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.05, 0.3), monitorMat);
+    base.position.set(0, 0.025, 0);
+    g.add(base);
+    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.7, 8), monitorMat);
+    pole.position.set(0, 0.4, 0);
+    g.add(pole);
+    var shelf = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.02, 0.18), monitorMat);
+    shelf.position.set(0, 0.6, 0.08);
+    g.add(shelf);
+    var monitor = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.04), monitorMat);
+    monitor.position.set(0, 0.9, 0);
+    g.add(monitor);
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.24), screenMat);
+    screen.position.set(0, 0.9, 0.025);
+    g.add(screen);
+    return g;
+  }
 
-  function placeStationInRoom(x, z, rotY) {
-    var g = buildStationGroup();
+  // ---- "90'lı yıllar" serisi — 80'lere göre daha kaliteli/modern görünüm --
+  var mat90Frame = new THREE.MeshStandardMaterial({ color: 0xd8d3c9, roughness: 0.55, metalness: 0.15 }); // krem/bej gövde
+  var mat90Chrome = new THREE.MeshStandardMaterial({ color: 0xc9ccd1, roughness: 0.2, metalness: 0.85 }); // krom detaylar
+  var mat90GlassTop = new THREE.MeshStandardMaterial({ color: 0x8fd8e0, roughness: 0.15, transparent: true, opacity: 0.55 }); // cam masa üstü
+  var mat90Screen = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.7 });
+  var mat90Accent = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.9 });
+
+  // Modern, dönebilir ofis koltuğu hissi — krom tekerlekli taban, yuvarlak
+  // dolgulu koltuk, kavisli sırt desteği.
+  function build90ChairMesh() {
+    var g = new THREE.Group();
+    var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.24, 0.08, 16), mat90Frame);
+    seat.position.set(0, 0.46, 0);
+    g.add(seat);
+    var back = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.5, 16, 1, false, 0, Math.PI), mat90Frame);
+    back.rotation.z = Math.PI / 2;
+    back.rotation.y = Math.PI / 2;
+    back.position.set(0, 0.72, -0.19);
+    g.add(back);
+    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 10), mat90Chrome);
+    pole.position.set(0, 0.24, 0);
+    g.add(pole);
+    var wheelBase = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.05, 12), mat90Chrome);
+    wheelBase.position.set(0, 0.03, 0);
+    g.add(wheelBase);
+    for (var i = 0; i < 5; i++) {
+      var ang = (i / 5) * Math.PI * 2;
+      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.22, 6), mat90Chrome);
+      leg.position.set(Math.cos(ang) * 0.14, 0.05, Math.sin(ang) * 0.14);
+      leg.rotation.z = Math.PI / 2.4 * Math.sin(ang);
+      leg.rotation.x = Math.PI / 2.4 * -Math.cos(ang);
+      g.add(leg);
+    }
+    return g;
+  }
+
+  // Cam üstlü, krom bacaklı modern masa — arkasında yine ayırt edici bir
+  // panel var, bu sefer neon mavi.
+  function build90TableMesh() {
+    var g = new THREE.Group();
+    var top = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.04, 0.6), mat90GlassTop);
+    top.position.set(0, 0.76, 0);
+    g.add(top);
+    var rim = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.03, 0.6), mat90Chrome);
+    rim.position.set(0, 0.735, 0);
+    g.add(rim);
+    [[-0.48, -0.24], [0.48, -0.24], [-0.48, 0.24], [0.48, 0.24]].forEach(function (p) {
+      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.72, 8), mat90Chrome);
+      leg.position.set(p[0], 0.36, p[1]);
+      g.add(leg);
+    });
+    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.28, 0.03), mat90Accent);
+    backPlate.position.set(0, 0.6, -0.3);
+    g.add(backPlate);
+    return g;
+  }
+
+  // 90'lara özel: bej kasa + CRT tarz şişkin monitör — 1980 kiosk'undan
+  // TAMAMEN farklı bir silüet, daha "kaliteli/nostaljik" bir görünüm.
+  function build90ComputerMesh() {
+    var g = new THREE.Group();
+    var tower = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.5, 0.42), mat90Frame);
+    tower.position.set(0.28, 0.25, 0);
+    g.add(tower);
+    var towerAccent = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.03, 0.42), mat90Accent);
+    towerAccent.position.set(0.28, 0.42, 0);
+    g.add(towerAccent);
+    var monitorBack = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.36, 0.38), mat90Frame); // CRT şişkinliği
+    monitorBack.position.set(-0.12, 0.68, -0.05);
+    g.add(monitorBack);
+    var monitorFront = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.32, 0.03), mat90Frame);
+    monitorFront.position.set(-0.12, 0.68, 0.15);
+    g.add(monitorFront);
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.24), mat90Screen);
+    screen.position.set(-0.12, 0.68, 0.17);
+    g.add(screen);
+    var monitorStand = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.08, 0.2), mat90Frame);
+    monitorStand.position.set(-0.12, 0.46, 0);
+    g.add(monitorStand);
+    var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.03, 0.13), mat90Frame);
+    keyboard.position.set(-0.12, 0.42, 0.24);
+    g.add(keyboard);
+    return g;
+  }
+
+  var PLACED_GROUPS = []; // sahnedeki kalıcı parçalar — placedItems ile aynı sırada
+
+  function placeItemInRoom(type, x, z, rotY) {
+    var item = SHOP_ITEMS.filter(function (i) { return i.id === type; })[0];
+    if (!item) return;
+    var g = item.build();
     g.position.set(x, 0, z);
     g.rotation.y = rotY || 0;
     scene.add(g);
-    STATION_GROUPS.push(g);
+    PLACED_GROUPS.push(g);
   }
 
-  // Sayfa yeniden açıldığında daha önce kurulmuş/yerleştirilmiş istasyonları geri koy
-  stations.forEach(function (s) { placeStationInRoom(s.x, s.z, s.rotY); });
+  // Sayfa yeniden açıldığında daha önce yerleştirilmiş parçaları geri koy
+  placedItems.forEach(function (p) { placeItemInRoom(p.type, p.x, p.z, p.rotY); });
 
-  // ---- yerleştirme modu — masa/sandalye/bilgisayarı istediğimiz yere ------
-  // yürüyüp istediğimiz yöne bakarak konumlandırıyoruz, "Döndür" ile 45'er
-  // derece çeviriyoruz, "Yerleştir" ile kalıcı hale getiriyoruz.
-  var PLACEMENT_DIST = 1.6;
+  // ---- yerleştirme modu — her parçayı tek tek, istediğimiz yere/açıyla ---
+  // yürüyüp bakarak konumlandırıyoruz, "Döndür" 45° çeviriyor, "Yerleştir"
+  // kalıcı yapıyor, "İptal" o parçanın parasını tam olarak iade ediyor.
+  var PLACEMENT_DIST = 1.5;
   var placementMode = false;
+  var placementItem = null; // SHOP_ITEMS'tan seçili öğe — iptal iadesi için
   var placementGroup = null;
   var placementRotOffset = 0;
   var ghostMat = new THREE.MeshStandardMaterial({ color: ACCENT, transparent: true, opacity: 0.45 });
 
-  function enterPlacementMode() {
+  function enterPlacementMode(item) {
     placementMode = true;
+    placementItem = item;
     placementRotOffset = 0;
-    placementGroup = buildStationGroup();
+    placementGroup = item.build();
     placementGroup.traverse(function (obj) { if (obj.isMesh) obj.material = ghostMat; });
     scene.add(placementGroup);
     $("placement-toolbar").hidden = false;
@@ -606,6 +708,7 @@
 
   function exitPlacementMode() {
     placementMode = false;
+    placementItem = null;
     if (placementGroup) { scene.remove(placementGroup); placementGroup = null; }
     $("placement-toolbar").hidden = true;
   }
@@ -616,20 +719,216 @@
   $("btn-place-confirm").addEventListener("click", function () {
     if (!placementGroup) return;
     var x = placementGroup.position.x, z = placementGroup.position.z, rotY = placementGroup.rotation.y;
-    stations.push({ x: x, z: z, rotY: rotY });
-    saveStations();
-    placeStationInRoom(x, z, rotY);
+    var type = placementItem.id, name = placementItem.name;
+    placedItems.push({ type: type, x: x, z: z, rotY: rotY });
+    savePlacedItems();
+    placeItemInRoom(type, x, z, rotY);
     exitPlacementMode();
     renderShop();
-    shopStatus("İstasyon yerleştirildi!");
+    shopStatus(name + " yerleştirildi!");
   });
   $("btn-place-cancel").addEventListener("click", function () {
-    // vazgeçilirse harcanan ürünler geri iade edilir
-    inventory.sandalye += 1; inventory.masa += 1; inventory.bilgisayar += 1;
-    saveInventory();
+    // vazgeçilirse ürünün parası TAM olarak iade edilir
+    if (placementItem) setMoney(money + placementItem.price);
     exitPlacementMode();
     renderShop();
   });
+
+  // =========================================================================
+  // Kapı + neon "Kafe Açık/Kapalı" tabelası — ön duvarda (giriş)
+  // =========================================================================
+  var doorFrameMat = new THREE.MeshStandardMaterial({ color: 0x0d1114, roughness: 0.4 });
+  var doorPanelMat = new THREE.MeshStandardMaterial({ color: 0x1c2a2e, roughness: 0.5, metalness: 0.3 });
+  var neonGreenMat = new THREE.MeshStandardMaterial({ color: 0x22ff88, emissive: 0x22ff88, emissiveIntensity: 1.3 });
+  var neonRedMat = new THREE.MeshStandardMaterial({ color: 0xff2f4d, emissive: 0xff2f4d, emissiveIntensity: 1.3 });
+
+  var doorGroup = new THREE.Group();
+  var doorFrame = new THREE.Mesh(new THREE.BoxGeometry(1.3, 2.3, 0.08), doorFrameMat);
+  doorFrame.position.set(0, 1.15, 0);
+  doorGroup.add(doorFrame);
+  var doorPanel = new THREE.Mesh(new THREE.BoxGeometry(1.05, 2.1, 0.05), doorPanelMat);
+  doorPanel.position.set(0, 1.08, 0.02);
+  doorGroup.add(doorPanel);
+  var doorWindow = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.35), screenMat);
+  doorWindow.position.set(0, 1.55, 0.05);
+  doorGroup.add(doorWindow);
+  var doorHandle = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.2, 0.04), trimMat);
+  doorHandle.position.set(0.4, 1.0, 0.05);
+  doorGroup.add(doorHandle);
+  doorGroup.position.set(0, 0, HD - 0.03);
+  doorGroup.rotation.y = Math.PI;
+  scene.add(doorGroup);
+
+  // neon "AÇIK/KAPALI" tabelası — kapının hemen sağında
+  var neonSign = new THREE.Mesh(new THREE.PlaneGeometry(0.55, 0.32), neonGreenMat);
+  neonSign.position.set(1.1, 2.0, HD - 0.05);
+  neonSign.rotation.y = Math.PI;
+  scene.add(neonSign);
+  var neonSignBorder = new THREE.Mesh(new THREE.BoxGeometry(0.63, 0.4, 0.02), neonGreenMat);
+  neonSignBorder.position.set(1.1, 2.0, HD - 0.06);
+  neonSignBorder.rotation.y = Math.PI;
+  scene.add(neonSignBorder);
+
+  var cafeOpen = readNum(CAFE_OPEN_KEY, 1) === 1;
+  function setCafeOpen(on) {
+    cafeOpen = on;
+    writeNum(CAFE_OPEN_KEY, on ? 1 : 0);
+    var mat = on ? neonGreenMat : neonRedMat;
+    neonSign.material = mat;
+    neonSignBorder.material = mat;
+    var btn = $("btn-cafe-toggle");
+    btn.textContent = on ? "Kafe: Açık" : "Kafe: Kapalı";
+    btn.className = "pill action-btn " + (on ? "cafe-open" : "cafe-closed");
+  }
+  $("btn-cafe-toggle").addEventListener("click", function () { setCafeOpen(!cafeOpen); });
+
+  // =========================================================================
+  // Kasa — neon/modernist tasarım, sol ön köşede, girişe bakar (sabit, dükkandan alınmaz)
+  // NOT: şu an gerçek oyuncuların 3D sahnede görünmesini sağlayan bir sistem
+  // yok (chat var ama ortak avatarlar henüz yok) — kasa "girenleri görme"
+  // burada şimdilik sadece fiziksel konum/bakış açısı anlamına geliyor.
+  // =========================================================================
+  var kasaDeskMat = new THREE.MeshStandardMaterial({ color: 0x14161a, roughness: 0.35, metalness: 0.4 });
+  var kasaNeonMat = new THREE.MeshStandardMaterial({ color: NEON_PINK, emissive: NEON_PINK, emissiveIntensity: 1.2 });
+  var kasaScreenMat = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 1.1 });
+
+  var kasaGroup = new THREE.Group();
+  var kasaTop = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.06, 0.65), kasaDeskMat);
+  kasaTop.position.set(0, 0.8, 0);
+  kasaGroup.add(kasaTop);
+  var kasaBody = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.78, 0.55), kasaDeskMat);
+  kasaBody.position.set(0, 0.39, 0);
+  kasaGroup.add(kasaBody);
+  // gövde çevresinde ince neon şerit
+  [[-0.6, 0], [0.6, 0]].forEach(function (p) {
+    var strip = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.78, 0.55), kasaNeonMat);
+    strip.position.set(p[0], 0.39, 0);
+    kasaGroup.add(strip);
+  });
+  var kasaMonitor = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.32, 0.04), kasaDeskMat);
+  kasaMonitor.position.set(0, 1.06, -0.15);
+  kasaGroup.add(kasaMonitor);
+  var kasaScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.26), kasaScreenMat);
+  kasaScreen.position.set(0, 1.06, 0.17);
+  kasaScreen.rotation.y = Math.PI;
+  kasaGroup.add(kasaScreen);
+  var kasaChairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.06, 0.4), kasaDeskMat);
+  kasaChairSeat.position.set(0, 0.45, 0.55);
+  kasaGroup.add(kasaChairSeat);
+  var kasaChairBack = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.05), kasaDeskMat);
+  kasaChairBack.position.set(0, 0.7, 0.73);
+  kasaGroup.add(kasaChairBack);
+
+  // sol ARKA köşe — kapının tam karşısı, girişe bakacak şekilde (önceki
+  // sürümde yanlışlıkla kapı tarafına/öne konulmuştu, düzeltildi)
+  kasaGroup.position.set(-HW + 1.3, 0, -HD + 1.3);
+  kasaGroup.rotation.y = 0; // düz +Z'ye, yani kapıya doğru bakıyor
+  scene.add(kasaGroup);
+
+  // =========================================================================
+  // Otomatik müşteriler — kapıdan girip boş bir masaya oturur, bir süre
+  // "kullanır", sonra kasaya gelip öder ve çıkar. Kafe kapalıysa (neon
+  // tabela kırmızıysa) YENİ müşteri gelmez — mevcut olanlar işini bitirip
+  // gider. BASİTLEŞTİRME: şu an sadece boş bir "masa" arıyor, o masanın
+  // yanında gerçekten sandalye/bilgisayar olup olmadığını doğrulamıyor —
+  // istersen bir sonraki adımda bunu da (yakınlık kontrolü ile) sıkılaştırırız.
+  // =========================================================================
+  var DOOR_POS = { x: 0, z: HD - 0.6 };
+  var NPC_MAX = 4;
+  var NPC_SPEED = 1.6;
+  var NPC_SPAWN_INTERVAL = 12; // saniye
+  var NPC_SIT_MIN = 5, NPC_SIT_MAX = 10;
+  var NPC_COLORS = [0xe07a5f, 0x81b29a, 0xf2cc8f, 0x3d5a80, 0xbc6c25];
+  var npcs = [];
+  var occupiedTables = {}; // placedItems index -> true
+  var npcSpawnTimer = 0;
+
+  function buildNpcMesh() {
+    var color = NPC_COLORS[Math.floor(Math.random() * NPC_COLORS.length)];
+    var mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.7 });
+    var g = new THREE.Group();
+    var body = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.19, 0.75, 10), mat);
+    body.position.set(0, 0.55, 0);
+    g.add(body);
+    var head = new THREE.Mesh(new THREE.SphereGeometry(0.13, 12, 12), mat);
+    head.position.set(0, 1.02, 0);
+    g.add(head);
+    return g;
+  }
+
+  function seatWorldPos(item) {
+    // masanın "ön" (oturulan) tarafı — buildTableMesh'te arka panel -Z'de,
+    // yani oturma tarafı +Z; item.rotY ile world'e çeviriyoruz.
+    var lx = 0, lz = 0.6;
+    return { x: item.x + lx * Math.cos(item.rotY) + lz * Math.sin(item.rotY), z: item.z - lx * Math.sin(item.rotY) + lz * Math.cos(item.rotY) };
+  }
+
+  function kasaWorldFrontPos() {
+    var lx = 0, lz = 0.9;
+    return { x: kasaGroup.position.x + lx * Math.cos(kasaGroup.rotation.y) + lz * Math.sin(kasaGroup.rotation.y), z: kasaGroup.position.z - lx * Math.sin(kasaGroup.rotation.y) + lz * Math.cos(kasaGroup.rotation.y) };
+  }
+
+  function trySpawnNpc() {
+    if (!cafeOpen || npcs.length >= NPC_MAX) return;
+    var freeIdx = -1;
+    for (var i = 0; i < placedItems.length; i++) {
+      var it = placedItems[i];
+      var def = SHOP_ITEMS.filter(function (s) { return s.id === it.type; })[0];
+      if (def && def.seat && !occupiedTables[i]) { freeIdx = i; break; }
+    }
+    if (freeIdx === -1) return;
+    occupiedTables[freeIdx] = true;
+    var seat = seatWorldPos(placedItems[freeIdx]);
+    var tier = (SHOP_ITEMS.filter(function (s) { return s.id === placedItems[freeIdx].type; })[0] || {}).tier || 1;
+    var mesh = buildNpcMesh();
+    mesh.position.set(DOOR_POS.x, 0, DOOR_POS.z);
+    scene.add(mesh);
+    npcs.push({ mesh: mesh, state: "toTable", tableIdx: freeIdx, tier: tier, tx: seat.x, tz: seat.z, timer: 0 });
+  }
+
+  function moveNpcToward(npc, tx, tz, dt) {
+    var dx = tx - npc.mesh.position.x, dz = tz - npc.mesh.position.z;
+    var dist = Math.hypot(dx, dz);
+    if (dist < 0.12) return true; // vardı
+    npc.mesh.position.x += (dx / dist) * NPC_SPEED * dt;
+    npc.mesh.position.z += (dz / dist) * NPC_SPEED * dt;
+    npc.mesh.rotation.y = Math.atan2(dx, dz);
+    return false;
+  }
+
+  function updateNpcs(dt) {
+    npcSpawnTimer += dt;
+    if (npcSpawnTimer >= NPC_SPAWN_INTERVAL) { npcSpawnTimer = 0; trySpawnNpc(); }
+
+    for (var i = npcs.length - 1; i >= 0; i--) {
+      var npc = npcs[i];
+      if (npc.state === "toTable") {
+        if (moveNpcToward(npc, npc.tx, npc.tz, dt)) { npc.state = "sitting"; npc.timer = NPC_SIT_MIN + Math.random() * (NPC_SIT_MAX - NPC_SIT_MIN); }
+      } else if (npc.state === "sitting") {
+        npc.timer -= dt;
+        if (npc.timer <= 0) {
+          var kf = kasaWorldFrontPos();
+          npc.state = "toKasa"; npc.tx = kf.x; npc.tz = kf.z;
+        }
+      } else if (npc.state === "toKasa") {
+        if (moveNpcToward(npc, npc.tx, npc.tz, dt)) {
+          var amount = NPC_PAYOUT_BY_TIER[npc.tier] || 20;
+          setMoney(money + amount);
+          showActionMsg("+" + amount + " ₺ (müşteri ödedi)");
+          npc.state = "paying"; npc.timer = 0.8;
+        }
+      } else if (npc.state === "paying") {
+        npc.timer -= dt;
+        if (npc.timer <= 0) { npc.state = "leaving"; npc.tx = DOOR_POS.x; npc.tz = DOOR_POS.z; }
+      } else if (npc.state === "leaving") {
+        if (moveNpcToward(npc, npc.tx, npc.tz, dt)) {
+          delete occupiedTables[npc.tableIdx];
+          scene.remove(npc.mesh);
+          npcs.splice(i, 1);
+        }
+      }
+    }
+  }
 
   function handleResize() {
     width = mount.clientWidth; height = mount.clientHeight;
@@ -769,6 +1068,8 @@
       placementGroup.rotation.y = yaw + placementRotOffset;
     }
 
+    updateNpcs(dt);
+
     renderer.render(scene, camera);
     requestAnimationFrame(tick);
   }
@@ -779,6 +1080,7 @@
   setDay(day);
   setVip(vip);
   setAdQuickLeft(adQuickLeft);
+  setCafeOpen(cafeOpen);
   updateChatInputState();
   renderShop();
 })();
