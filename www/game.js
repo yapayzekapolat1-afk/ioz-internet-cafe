@@ -125,7 +125,7 @@
   }
 
   // ---- oyun durumu -------------------------------------------------------
-  var money = readNum(MONEY_KEY, 100);
+  var money = readNum(MONEY_KEY, 1000000); // TEST AMAÇLI: 100 → 1.000.000. Cihazında zaten kayıt varsa bu yeni varsayılan uygulanmaz — uygulamanın verisini temizlemen (Android Ayarlar → Uygulamalar → Depolama → Verileri Temizle) ya da kaldırıp tekrar kurman gerekir.
   var day = readNum(DAY_KEY, 1);
   var vip = readNum(VIP_TEST_KEY, 0) === 1;
   var adQuickLeft = AD_BONUS_QUICK_DAILY_LIMIT;
@@ -450,8 +450,8 @@
   var width = mount.clientWidth, height = mount.clientHeight;
 
   var scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0b1014);
-  scene.fog = new THREE.Fog(0x0b1014, 9, 20);
+  scene.background = new THREE.Color(0x161c20);
+  scene.fog = new THREE.Fog(0x161c20, 11, 24);
 
   var camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100);
   camera.position.set(0, EYE_HEIGHT, 3.2);
@@ -475,15 +475,22 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   mount.appendChild(renderer.domElement);
 
-  var AMBIENT_ON = 0.62, AMBIENT_OFF = 0.12; // biraz artırıldı — ışık açıkken oda daha net aydınlık olsun
+  // İSTENDİ: oda genel olarak çok karanlık/loştu, gerçek bir internet
+  // cafe'nin aydınlık, canlı havasını yansıtmıyordu — ambient ışık ve tavan
+  // lambası sayısı artırıldı (tek merkezi lamba yerine odaya yayılmış 3 lamba).
+  var AMBIENT_ON = 0.95, AMBIENT_OFF = 0.18;
   var ambientLight = new THREE.AmbientLight(0xffffff, AMBIENT_ON);
   scene.add(ambientLight);
-  var ceilingLamp = new THREE.PointLight(0xfff2d6, 1.1, 16, 2);
-  ceilingLamp.position.set(0, ROOM_H - 0.2, 0);
-  scene.add(ceilingLamp);
+  var ceilingLamps = [];
+  [[0, 0], [-3.2, -3], [3.2, -3], [-3.2, 3], [3.2, 3]].forEach(function (p) {
+    var lamp = new THREE.PointLight(0xfff2d6, 0.85, 14, 2);
+    lamp.position.set(p[0], ROOM_H - 0.2, p[1]);
+    scene.add(lamp);
+    ceilingLamps.push(lamp);
+  });
   // NOT: köşedeki turkuaz "accentLight" kaldırıldı — "her şey mavi/neon
   // olmuş" şikayetinin büyük kısmı buradan geliyordu, oda artık sadece
-  // sıcak tavan lambasıyla aydınlanıyor. Neon renk sadece ekranlar ve
+  // sıcak tavan lambalarıyla aydınlanıyor. Neon renk sadece ekranlar ve
   // (istenen) açık/kapalı tabelasında kalıyor.
 
   // ---- ampul (tavan lambası, açıp kapatabildiğimiz gerçek bir 3D nesne) --
@@ -499,7 +506,7 @@
   var lightOn = true;
   function setLightOn(on) {
     lightOn = on;
-    ceilingLamp.visible = on;
+    ceilingLamps.forEach(function (l) { l.visible = on; });
     ambientLight.intensity = on ? AMBIENT_ON : AMBIENT_OFF;
     bulb.material = on ? bulbOnMat : bulbOffMat;
   }
@@ -557,8 +564,8 @@
   // başlarına yerleştirilebilir low-poly gruplar.
   var deskMat = new THREE.MeshStandardMaterial({ color: 0x5b4636, roughness: 0.8 });
   var chairMat = new THREE.MeshStandardMaterial({ color: 0x2a2f34, roughness: 0.7 });
-  var monitorMat = new THREE.MeshStandardMaterial({ color: 0x0d1114, roughness: 0.5 });
-  var screenMat = new THREE.MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.6 });
+  var monitorMat = new THREE.MeshStandardMaterial({ color: 0x23282d, roughness: 0.5 });
+  var screenMat = new THREE.MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.6, side: THREE.DoubleSide });
 
   function buildTableMesh() {
     var g = new THREE.Group();
@@ -631,7 +638,7 @@
   var mat90Frame = new THREE.MeshStandardMaterial({ color: 0xd8d3c9, roughness: 0.55, metalness: 0.15 }); // krem/bej gövde
   var mat90Chrome = new THREE.MeshStandardMaterial({ color: 0xc9ccd1, roughness: 0.2, metalness: 0.85 }); // krom detaylar
   var mat90GlassTop = new THREE.MeshStandardMaterial({ color: 0x8fd8e0, roughness: 0.15, transparent: true, opacity: 0.55 }); // cam masa üstü
-  var mat90Screen = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.7 });
+  var mat90Screen = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.7, side: THREE.DoubleSide });
   var mat90Accent = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.9 });
 
   // Modern, dönebilir ofis koltuğu hissi — krom tekerlekli taban, yuvarlak
@@ -897,9 +904,10 @@
   // yok (chat var ama ortak avatarlar henüz yok) — kasa "girenleri görme"
   // burada şimdilik sadece fiziksel konum/bakış açısı anlamına geliyor.
   // =========================================================================
-  var kasaDeskMat = new THREE.MeshStandardMaterial({ color: 0x14161a, roughness: 0.35, metalness: 0.4 });
+  var kasaDeskMat = new THREE.MeshStandardMaterial({ color: 0x4a5157, roughness: 0.65, metalness: 0.08 });
+  var kasaChairMat = new THREE.MeshStandardMaterial({ color: 0x30363c, roughness: 0.6, metalness: 0.05 });
   var kasaTrimMat = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.8 });
-  var kasaScreenMat = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 1.1 });
+  var kasaScreenMat = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 1.1, side: THREE.DoubleSide });
 
   // Grup +Z'ye (kapıya) bakacak şekilde tasarlandı: masa gövdesi ortada,
   // MÜŞTERİ tarafı +Z (kapı/oda yönü), GÖREVLİ sandalyesi -Z (duvar yönü).
@@ -917,7 +925,7 @@
   kasaTrim.position.set(0, 0.74, 0.26);
   kasaGroup.add(kasaTrim);
   // monitör — masanın arkasında (görevli tarafında), ekran görevliye (-Z) bakıyor
-  var kasaMonitor = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.04), kasaDeskMat);
+  var kasaMonitor = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.04), kasaChairMat);
   kasaMonitor.position.set(0, 1.0, -0.05);
   kasaGroup.add(kasaMonitor);
   var kasaScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.24), kasaScreenMat);
@@ -925,10 +933,10 @@
   kasaScreen.rotation.y = Math.PI;
   kasaGroup.add(kasaScreen);
   // görevli sandalyesi — duvar tarafında (-Z), masanın arkasında
-  var kasaChairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.06, 0.4), kasaDeskMat);
+  var kasaChairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.06, 0.4), kasaChairMat);
   kasaChairSeat.position.set(0, 0.45, -0.55);
   kasaGroup.add(kasaChairSeat);
-  var kasaChairBack = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.05), kasaDeskMat);
+  var kasaChairBack = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.05), kasaChairMat);
   kasaChairBack.position.set(0, 0.68, -0.72);
   kasaGroup.add(kasaChairBack);
 
@@ -950,21 +958,55 @@
   var NPC_SPEED = 1.6;
   var NPC_SPAWN_INTERVAL = 12; // saniye
   var NPC_SIT_MIN = 5, NPC_SIT_MAX = 10;
-  var NPC_COLORS = [0xe07a5f, 0x81b29a, 0xf2cc8f, 0x3d5a80, 0xbc6c25];
+  var NPC_SHIRT_COLORS = [0xe07a5f, 0x4d8b6f, 0xd9a441, 0x3d5a80, 0xb5484f, 0x6b5b95];
   var npcs = [];
   var occupiedTables = {}; // placedItems index -> true
   var npcSpawnTimer = 0;
 
+  // ---- Minecraft/Roblox tarzı bloklu müşteri karakteri --------------------
+  // Önceki sürümde silindir+küreden oluşan soyut bir figürdü, tanınmaz
+  // ("neye benzediği belli değil") bulundu. Şimdi kutulardan oluşan, basit
+  // bir yüzü olan bloklu bir karakter — Minecraft'ın "Steve" tarzına yakın,
+  // bizim ortamımızda (düz BoxGeometry'lerle) en sağlam/net inşa edilebilecek
+  // stil bu olduğu için bunu seçtim.
+  var npcSkinMat = new THREE.MeshStandardMaterial({ color: 0xe0b48c, roughness: 0.8 });
+  var npcPantsMat = new THREE.MeshStandardMaterial({ color: 0x35404a, roughness: 0.8 });
+  var npcFaceTexture = (function () {
+    var canvas = document.createElement("canvas");
+    canvas.width = 64; canvas.height = 64;
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#e0b48c"; ctx.fillRect(0, 0, 64, 64);
+    ctx.fillStyle = "#2b2b2b";
+    ctx.fillRect(14, 24, 10, 10);
+    ctx.fillRect(40, 24, 10, 10);
+    ctx.fillRect(22, 44, 20, 5);
+    return new THREE.CanvasTexture(canvas);
+  })();
+  var npcFaceMat = new THREE.MeshStandardMaterial({ map: npcFaceTexture, roughness: 0.9 });
+
   function buildNpcMesh() {
-    var color = NPC_COLORS[Math.floor(Math.random() * NPC_COLORS.length)];
-    var mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.7 });
+    var shirtColor = NPC_SHIRT_COLORS[Math.floor(Math.random() * NPC_SHIRT_COLORS.length)];
+    var shirtMat = new THREE.MeshStandardMaterial({ color: shirtColor, roughness: 0.75 });
     var g = new THREE.Group();
-    var body = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.19, 0.75, 10), mat);
-    body.position.set(0, 0.55, 0);
-    g.add(body);
-    var head = new THREE.Mesh(new THREE.SphereGeometry(0.13, 12, 12), mat);
-    head.position.set(0, 1.02, 0);
+
+    var headMats = [npcSkinMat, npcSkinMat, npcSkinMat, npcSkinMat, npcFaceMat, npcSkinMat];
+    var head = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, 0.26), headMats);
+    head.position.set(0, 1.52, 0);
     g.add(head);
+
+    var torso = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.38, 0.16), shirtMat);
+    torso.position.set(0, 1.18, 0);
+    g.add(torso);
+
+    [-1, 1].forEach(function (side) {
+      var arm = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.38, 0.1), shirtMat);
+      arm.position.set(side * 0.19, 1.18, 0);
+      g.add(arm);
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.42, 0.1), npcPantsMat);
+      leg.position.set(side * 0.07, 0.21, 0);
+      g.add(leg);
+    });
+
     return g;
   }
 
