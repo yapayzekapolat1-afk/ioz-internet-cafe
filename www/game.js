@@ -59,13 +59,18 @@
     { id: "bilgisayar", name: "iOZ Old 1980", price: 25, rating: 0.5, seat: false, tier: 1, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return buildComputerMesh(onTable); } },
     { id: "sandalye90", name: "iOZ Old 90 Sandalye", price: 200, rating: 1.5, seat: false, tier: 2, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build90ChairMesh(); } },
     { id: "masa90", name: "iOZ Old 90 Masa", price: 200, rating: 1.5, seat: true, tier: 2, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build90TableMesh(); } },
-    { id: "bilgisayar90", name: "iOZ Old 90", price: 500, rating: 1.5, seat: false, tier: 2, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build90ComputerMesh(onTable); } }
+    { id: "bilgisayar90", name: "iOZ Old 90", price: 500, rating: 1.5, seat: false, tier: 2, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build90ComputerMesh(onTable); } },
+    // 3. SEVİYE — fiyatlar belirtilmedi, tier 2'den (200/200/500) mantıklı
+    // bir artışla VARSAYILDI, birlikte ayarlayabiliriz.
+    { id: "sandalye2000", name: "iOZ Classic 2000 Sandalye", price: 800, rating: 2, seat: false, tier: 3, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build2000ChairMesh(); } },
+    { id: "masa2000", name: "iOZ Classic 2000 Masa", price: 800, rating: 2, seat: true, tier: 3, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build2000TableMesh(); } },
+    { id: "bilgisayar2000", name: "iOZ Classic 2000 Bilgisayar", price: 1500, rating: 2, seat: false, tier: 3, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2000ComputerMesh(onTable); } }
   ];
   // "seat: true" olan parçalar (masalar) — otomatik müşteriler oturacak yer
   // olarak bunları kullanıyor. tier, müşterinin ne kadar ödeyeceğini belirler
   // (bkz. NPC_PAYOUT_BY_TIER) — bu ödeme miktarları HENÜZ senden net bir sayı
   // gelmediği için varsayım, birlikte ayarlayabiliriz.
-  var NPC_PAYOUT_BY_TIER = { 1: 20, 2: 60 };
+  var NPC_PAYOUT_BY_TIER = { 1: 20, 2: 60, 3: 130 }; // 3. seviye için de varsayım, birlikte ayarlanabilir
   var PLACED_ITEMS_MAX = 24; // odadaki toplam parça üst sınırı (kalabalık olmasın diye) — istenirse artırılabilir
 
   var ABLY_API_KEY = "3nsRqw.wIyZEg:EOoAE5ZRsMjOqy7C1thwdwiVIGD-3AdzDfQswLx9Al8"; // eski oyunla aynı gerçek anahtar
@@ -187,7 +192,8 @@
     wrap.innerHTML = "";
     var tiers = [
       { label: "iOZ Old — 1980 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 1; }) },
-      { label: "iOZ Old 90 — 90'lı Yıllar Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 2; }) }
+      { label: "iOZ Old 90 — 90'lı Yıllar Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 2; }) },
+      { label: "iOZ Classic 2000 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 3; }) }
     ];
     tiers.forEach(function (tier) {
       var section = document.createElement("div");
@@ -458,16 +464,26 @@
 
   // ---- etkileşim sistemi — ekran ortasındaki beyaz nokta neyi gösteriyorsa
   // (ışık düğmesi, kafe tabelası düğmesi vb.) ona bakıp dokununca tetiklenir.
-  var raycaster = new THREE.Raycaster();
+  // DÜZELTME: önceki sürüm küçük düğme mesh'lerine piksel-hassasiyetinde
+  // raycast atıyordu — mobilde küçük bir nesneye tam nişan almak çok zordu,
+  // o yüzden düğmeler "çalışmıyor" gibi görünüyordu. Artık daha toleranslı:
+  // kabaca o yöne bakıyorsan (dar bir koni içinde) ve yeterince yakınsan
+  // tetikleniyor.
   var interactables = []; // {mesh, range, action}
   function registerInteractable(mesh, range, action) { interactables.push({ mesh: mesh, range: range, action: action }); }
   function tryInteract() {
-    raycaster.setFromCamera({ x: 0, y: 0 }, camera);
-    for (var i = 0; i < interactables.length; i++) {
-      var it = interactables[i];
-      var hit = raycaster.intersectObject(it.mesh, true);
-      if (hit.length && hit[0].distance <= it.range) { it.action(); return; }
-    }
+    var dir = new THREE.Vector3();
+    camera.getWorldDirection(dir);
+    var best = null, bestDot = 0.75; // ~yaklaşık 40°'lik bir koniye kadar tolere eder
+    interactables.forEach(function (it) {
+      var toObj = new THREE.Vector3(it.mesh.position.x - camera.position.x, it.mesh.position.y - camera.position.y, it.mesh.position.z - camera.position.z);
+      var dist = toObj.length();
+      if (dist > it.range || dist < 0.0001) return;
+      toObj.multiplyScalar(1 / dist);
+      var dot = dir.x * toObj.x + dir.y * toObj.y + dir.z * toObj.z;
+      if (dot > bestDot) { bestDot = dot; best = it; }
+    });
+    if (best) best.action();
   }
 
   var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -514,9 +530,10 @@
   // (nişangahla bakıp dokunarak) açılıp kapanıyor — bkz. lightSwitch/
   // registerInteractable, aşağıda kapı/tabela bölümünde.
 
-  var floorMat = new THREE.MeshStandardMaterial({ color: 0x171f24, roughness: 0.9 });
-  var wallMat = new THREE.MeshStandardMaterial({ color: 0x1d262c, roughness: 0.95 });
-  var ceilMat = new THREE.MeshStandardMaterial({ color: 0x11161a, roughness: 1 });
+  // İSTENDİ: zemin açık mavi, duvarlar ve tavan koyu/kapalı mavimsi tonlarda
+  var floorMat = new THREE.MeshStandardMaterial({ color: 0x8fc6e8, roughness: 0.75 });
+  var wallMat = new THREE.MeshStandardMaterial({ color: 0x2b3a4a, roughness: 0.9 });
+  var ceilMat = new THREE.MeshStandardMaterial({ color: 0x212d3a, roughness: 1 });
   var trimMat = new THREE.MeshStandardMaterial({ color: ACCENT, emissive: 0x0c332d, roughness: 0.4 });
 
   var HW = ROOM_W / 2, HD = ROOM_D / 2;
@@ -643,29 +660,42 @@
 
   // Modern, dönebilir ofis koltuğu hissi — krom tekerlekli taban, yuvarlak
   // dolgulu koltuk, kavisli sırt desteği.
+  // Düzgün bir ofis/oyuncu koltuğu — önceki sürümdeki çift döndürülmüş yarım
+  // silindir sırt tuhaf/bozuk görünüyordu, düz kutulara çevrildi: net bir
+  // sırt, kolçaklar, tekerlekli krom taban.
   function build90ChairMesh() {
     var g = new THREE.Group();
     var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.24, 0.08, 16), mat90Frame);
     seat.position.set(0, 0.46, 0);
     g.add(seat);
-    var back = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.5, 16, 1, false, 0, Math.PI), mat90Frame);
-    back.rotation.z = Math.PI / 2;
-    back.rotation.y = Math.PI / 2;
-    back.position.set(0, 0.72, -0.19);
+    var back = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.08), mat90Frame);
+    back.position.set(0, 0.72, -0.2);
+    back.rotation.x = -0.08;
     g.add(back);
+    [-1, 1].forEach(function (side) {
+      var armrest = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, 0.32), mat90Chrome);
+      armrest.position.set(side * 0.24, 0.58, 0.02);
+      g.add(armrest);
+      var armPost = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.14, 0.04), mat90Chrome);
+      armPost.position.set(side * 0.24, 0.51, 0.02);
+      g.add(armPost);
+    });
     var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 10), mat90Chrome);
     pole.position.set(0, 0.24, 0);
     g.add(pole);
-    var wheelBase = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.05, 12), mat90Chrome);
-    wheelBase.position.set(0, 0.03, 0);
-    g.add(wheelBase);
+    var wheelHub = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.04, 12), mat90Chrome);
+    wheelHub.position.set(0, 0.05, 0);
+    g.add(wheelHub);
     for (var i = 0; i < 5; i++) {
       var ang = (i / 5) * Math.PI * 2;
-      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.22, 6), mat90Chrome);
-      leg.position.set(Math.cos(ang) * 0.14, 0.05, Math.sin(ang) * 0.14);
-      leg.rotation.z = Math.PI / 2.4 * Math.sin(ang);
-      leg.rotation.x = Math.PI / 2.4 * -Math.cos(ang);
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.03, 0.16), mat90Chrome);
+      leg.position.set(Math.cos(ang) * 0.1, 0.035, Math.sin(ang) * 0.1);
+      leg.rotation.y = -ang;
       g.add(leg);
+      var wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.02, 8), mat90Chrome);
+      wheel.rotation.x = Math.PI / 2;
+      wheel.position.set(Math.cos(ang) * 0.16, 0.025, Math.sin(ang) * 0.16);
+      g.add(wheel);
     }
     return g;
   }
@@ -720,6 +750,102 @@
     g.add(monitorStand);
     var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.03, 0.13), mat90Frame);
     keyboard.position.set(-0.12, baseY - 0.04, 0.24);
+    g.add(keyboard);
+    return g;
+  }
+
+  // ---- "iOZ Classic 2000" serisi — en üst kalite, en modern görünüm -------
+  var mat2000Body = new THREE.MeshStandardMaterial({ color: 0xe9ecef, roughness: 0.35, metalness: 0.12 }); // beyaz/gümüş plastik
+  var mat2000Dark = new THREE.MeshStandardMaterial({ color: 0x2c2f33, roughness: 0.4, metalness: 0.2 });
+  var mat2000Accent = new THREE.MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.5 });
+  var mat2000Screen = new THREE.MeshStandardMaterial({ color: 0x9fe8ff, emissive: 0x9fe8ff, emissiveIntensity: 0.9, side: THREE.DoubleSide });
+
+  // Modern, alçak profilli bir ofis koltuğu — file kumaş sırt hissi için
+  // ince yatay şeritler, düz çizgili kollar.
+  function build2000ChairMesh() {
+    var g = new THREE.Group();
+    var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.24, 0.07, 20), mat2000Dark);
+    seat.position.set(0, 0.46, 0);
+    g.add(seat);
+    var back = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.55, 0.07), mat2000Dark);
+    back.position.set(0, 0.76, -0.21);
+    back.rotation.x = -0.1;
+    g.add(back);
+    var backAccent = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.04, 0.075), mat2000Accent);
+    backAccent.position.set(0, 0.9, -0.205);
+    backAccent.rotation.x = -0.1;
+    g.add(backAccent);
+    [-1, 1].forEach(function (side) {
+      var arm = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.04, 0.3), mat2000Body);
+      arm.position.set(side * 0.25, 0.58, 0.02);
+      g.add(arm);
+      var armPost = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.14, 0.035), mat2000Body);
+      armPost.position.set(side * 0.25, 0.51, 0.02);
+      g.add(armPost);
+    });
+    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 10), mat2000Body);
+    pole.position.set(0, 0.24, 0);
+    g.add(pole);
+    for (var i = 0; i < 5; i++) {
+      var ang = (i / 5) * Math.PI * 2;
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.03, 0.17), mat2000Body);
+      leg.position.set(Math.cos(ang) * 0.1, 0.035, Math.sin(ang) * 0.1);
+      leg.rotation.y = -ang;
+      g.add(leg);
+    }
+    return g;
+  }
+
+  // Beyaz/gümüş, düz kenarlı modern masa — camsız, temiz çizgiler, ince
+  // turkuaz aydınlık kenar.
+  function build2000TableMesh() {
+    var g = new THREE.Group();
+    var top = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.04, 0.62), mat2000Body);
+    top.position.set(0, 0.76, 0);
+    g.add(top);
+    var edge = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.015, 0.02), mat2000Accent);
+    edge.position.set(0, 0.74, 0.3);
+    g.add(edge);
+    [[-0.5, -0.27], [0.5, -0.27], [-0.5, 0.27], [0.5, 0.27]].forEach(function (p) {
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.73, 0.05), mat2000Dark);
+      leg.position.set(p[0], 0.365, p[1]);
+      g.add(leg);
+    });
+    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.28, 0.03), mat2000Accent);
+    backPlate.position.set(0, 0.6, -0.3);
+    g.add(backPlate);
+    return g;
+  }
+
+  // "Diğer bilgisayarlardan daha iyi görünsün" istendi: düz panel LCD monitör
+  // (CRT şişkinliği yok), ince kasa, temiz 2000'ler sonrası PC tasarımı —
+  // üçünün arasında en modern/kaliteli siluet bu.
+  function build2000ComputerMesh(onTable) {
+    var g = new THREE.Group();
+    var baseY = onTable ? 0 : 0.42;
+    if (!onTable) {
+      var tower = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.46, 0.4), mat2000Body);
+      tower.position.set(0.26, 0.23, 0);
+      g.add(tower);
+      var towerAccent = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.02, 0.4), mat2000Accent);
+      towerAccent.position.set(0.26, 0.46, 0);
+      g.add(towerAccent);
+    }
+    var monY = onTable ? 0.28 : 0.7;
+    var screenFrame = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.34, 0.025), mat2000Dark);
+    screenFrame.position.set(0, monY, -0.02);
+    g.add(screenFrame);
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.28), mat2000Screen);
+    screen.position.set(0, monY, -0.006);
+    g.add(screen);
+    var neck = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.1, 0.03), mat2000Body);
+    neck.position.set(0, monY - 0.22, -0.02);
+    g.add(neck);
+    var standBase = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.02, 0.14), mat2000Body);
+    standBase.position.set(0, baseY, -0.02);
+    g.add(standBase);
+    var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.02, 0.13), mat2000Body);
+    keyboard.position.set(0, baseY + (onTable ? 0.02 : 0), 0.2);
     g.add(keyboard);
     return g;
   }
@@ -933,12 +1059,22 @@
   kasaScreen.rotation.y = Math.PI;
   kasaGroup.add(kasaScreen);
   // görevli sandalyesi — duvar tarafında (-Z), masanın arkasında
-  var kasaChairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.06, 0.4), kasaChairMat);
-  kasaChairSeat.position.set(0, 0.45, -0.55);
+  // Görevli sandalyesi — düz iOZ Old sandalyeyle KARIŞMASIN diye kendine
+  // özgü bir "yönetici koltuğu" görünümü: tekerlekli krom taban + kolçaklar.
+  var kasaChairSeat = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.24, 0.07, 16), kasaChairMat);
+  kasaChairSeat.position.set(0, 0.46, -0.6);
   kasaGroup.add(kasaChairSeat);
-  var kasaChairBack = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.05), kasaChairMat);
-  kasaChairBack.position.set(0, 0.68, -0.72);
+  var kasaChairBack = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.55, 0.07), kasaChairMat);
+  kasaChairBack.position.set(0, 0.75, -0.82);
   kasaGroup.add(kasaChairBack);
+  [-1, 1].forEach(function (side) {
+    var arm = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, 0.3), kasaTrimMat);
+    arm.position.set(side * 0.24, 0.58, -0.58);
+    kasaGroup.add(arm);
+  });
+  var kasaChairPole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.4, 10), kasaTrimMat);
+  kasaChairPole.position.set(0, 0.24, -0.6);
+  kasaGroup.add(kasaChairPole);
 
   // sol arka köşe, duvara yaslı, kapıya (+Z) düz bakıyor
   kasaGroup.position.set(-HW + 1.3, 0, -HD + 0.85);
