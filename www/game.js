@@ -32,7 +32,6 @@
   var WALK_BOB_SPEED = 9;
   var MOVE_SPEED = 3.4;
   var ACCENT = 0x2fbfa8;
-  var NEON_PINK = 0xff2fd6;
   var NEON_BLUE = 0x2fd6ff;
 
   var AD_PLACEMENT_ID = "Rewarded_Android";
@@ -57,10 +56,10 @@
   var SHOP_ITEMS = [
     { id: "sandalye", name: "iOZ Old Sandalye", price: 25, rating: 0.5, seat: false, tier: 1, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return buildChairMesh(); } },
     { id: "masa", name: "iOZ Old Masa", price: 25, rating: 0.5, seat: true, tier: 1, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return buildTableMesh(); } },
-    { id: "bilgisayar", name: "iOZ Old 1980", price: 25, rating: 0.5, seat: false, tier: 1, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function () { return buildComputerMesh(); } },
+    { id: "bilgisayar", name: "iOZ Old 1980", price: 25, rating: 0.5, seat: false, tier: 1, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return buildComputerMesh(onTable); } },
     { id: "sandalye90", name: "iOZ Old 90 Sandalye", price: 200, rating: 1.5, seat: false, tier: 2, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build90ChairMesh(); } },
     { id: "masa90", name: "iOZ Old 90 Masa", price: 200, rating: 1.5, seat: true, tier: 2, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build90TableMesh(); } },
-    { id: "bilgisayar90", name: "iOZ Old 90", price: 500, rating: 1.5, seat: false, tier: 2, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function () { return build90ComputerMesh(); } }
+    { id: "bilgisayar90", name: "iOZ Old 90", price: 500, rating: 1.5, seat: false, tier: 2, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build90ComputerMesh(onTable); } }
   ];
   // "seat: true" olan parçalar (masalar) — otomatik müşteriler oturacak yer
   // olarak bunları kullanıyor. tier, müşterinin ne kadar ödeyeceğini belirler
@@ -186,14 +185,31 @@
   function renderShop() {
     var wrap = $("shop-items");
     wrap.innerHTML = "";
-    SHOP_ITEMS.forEach(function (item) {
-      var row = document.createElement("div");
-      row.className = "shop-item";
-      row.innerHTML =
-        '<div class="shop-item-info"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg>' +
-        '<span class="shop-item-text"><span>' + item.name + '</span>' + starsHtml(item.rating || 0, item.id) + '</span></div>' +
-        '<button data-id="' + item.id + '">' + item.price + ' ₺</button>';
-      wrap.appendChild(row);
+    var tiers = [
+      { label: "iOZ Old — 1980 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 1; }) },
+      { label: "iOZ Old 90 — 90'lı Yıllar Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 2; }) }
+    ];
+    tiers.forEach(function (tier) {
+      var section = document.createElement("div");
+      section.className = "shop-section";
+      var heading = document.createElement("div");
+      heading.className = "shop-section-title";
+      heading.textContent = tier.label;
+      section.appendChild(heading);
+      var grid = document.createElement("div");
+      grid.className = "shop-grid";
+      tier.items.forEach(function (item) {
+        var card = document.createElement("div");
+        card.className = "shop-card";
+        card.innerHTML =
+          '<div class="shop-card-icon"><svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg></div>' +
+          '<div class="shop-card-name">' + item.name + '</div>' +
+          starsHtml(item.rating || 0, item.id) +
+          '<button data-id="' + item.id + '">' + item.price + ' ₺</button>';
+        grid.appendChild(card);
+      });
+      section.appendChild(grid);
+      wrap.appendChild(section);
     });
     var full = placedItems.length >= PLACED_ITEMS_MAX;
     wrap.querySelectorAll("button[data-id]").forEach(function (btn) {
@@ -440,20 +456,35 @@
   var camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 100);
   camera.position.set(0, EYE_HEIGHT, 3.2);
 
+  // ---- etkileşim sistemi — ekran ortasındaki beyaz nokta neyi gösteriyorsa
+  // (ışık düğmesi, kafe tabelası düğmesi vb.) ona bakıp dokununca tetiklenir.
+  var raycaster = new THREE.Raycaster();
+  var interactables = []; // {mesh, range, action}
+  function registerInteractable(mesh, range, action) { interactables.push({ mesh: mesh, range: range, action: action }); }
+  function tryInteract() {
+    raycaster.setFromCamera({ x: 0, y: 0 }, camera);
+    for (var i = 0; i < interactables.length; i++) {
+      var it = interactables[i];
+      var hit = raycaster.intersectObject(it.mesh, true);
+      if (hit.length && hit[0].distance <= it.range) { it.action(); return; }
+    }
+  }
+
   var renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   mount.appendChild(renderer.domElement);
 
-  var AMBIENT_ON = 0.5, AMBIENT_OFF = 0.12;
+  var AMBIENT_ON = 0.62, AMBIENT_OFF = 0.12; // biraz artırıldı — ışık açıkken oda daha net aydınlık olsun
   var ambientLight = new THREE.AmbientLight(0xffffff, AMBIENT_ON);
   scene.add(ambientLight);
   var ceilingLamp = new THREE.PointLight(0xfff2d6, 1.1, 16, 2);
   ceilingLamp.position.set(0, ROOM_H - 0.2, 0);
   scene.add(ceilingLamp);
-  var accentLight = new THREE.PointLight(ACCENT, 0.6, 12, 2);
-  accentLight.position.set(-4, 1.6, -4);
-  scene.add(accentLight);
+  // NOT: köşedeki turkuaz "accentLight" kaldırıldı — "her şey mavi/neon
+  // olmuş" şikayetinin büyük kısmı buradan geliyordu, oda artık sadece
+  // sıcak tavan lambasıyla aydınlanıyor. Neon renk sadece ekranlar ve
+  // (istenen) açık/kapalı tabelasında kalıyor.
 
   // ---- ampul (tavan lambası, açıp kapatabildiğimiz gerçek bir 3D nesne) --
   var bulbOnMat = new THREE.MeshStandardMaterial({ color: 0xfff6d8, emissive: 0xfff2b0, emissiveIntensity: 1.4 });
@@ -471,10 +502,10 @@
     ceilingLamp.visible = on;
     ambientLight.intensity = on ? AMBIENT_ON : AMBIENT_OFF;
     bulb.material = on ? bulbOnMat : bulbOffMat;
-    var btn = $("btn-light");
-    btn.className = "pill action-btn " + (on ? "light-on" : "light-off");
   }
-  $("btn-light").addEventListener("click", function () { setLightOn(!lightOn); });
+  // NOT: ışık artık HUD butonuyla değil, duvardaki fiziksel düğmeye
+  // (nişangahla bakıp dokunarak) açılıp kapanıyor — bkz. lightSwitch/
+  // registerInteractable, aşağıda kapı/tabela bölümünde.
 
   var floorMat = new THREE.MeshStandardMaterial({ color: 0x171f24, roughness: 0.9 });
   var wallMat = new THREE.MeshStandardMaterial({ color: 0x1d262c, roughness: 0.95 });
@@ -563,26 +594,36 @@
     return g;
   }
 
-  // Bağımsız (masasız da) anlamlı dursun diye ayaklı bir "kiosk terminal"
-  // olarak tasarlandı — bir masaya YAKIN koyarsan iş istasyonu gibi durur,
-  // tek başına koyarsan da bir ayaklı bilgi terminali gibi durur.
-  function buildComputerMesh() {
+  // Bağımsız (masasız) koyulursa ayaklı bir "kiosk terminal" gibi durur.
+  // Bir masaya YAKIN koyarsan (bkz. tryTableSnap) otomatik olarak masanın
+  // ÜSTÜNE oturur — o zaman ayak/kaide çizilmez, direkt masa yüksekliğinde
+  // bir masaüstü bilgisayar gibi görünür. DÜZELTME: önceki sürümde bilgisayar
+  // her zaman kiosk şeklindeydi, masaya hiç "oturmuyordu" — buydu şikayet.
+  function buildComputerMesh(onTable) {
     var g = new THREE.Group();
-    var base = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.05, 0.3), monitorMat);
-    base.position.set(0, 0.025, 0);
-    g.add(base);
-    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.7, 8), monitorMat);
-    pole.position.set(0, 0.4, 0);
-    g.add(pole);
-    var shelf = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.02, 0.18), monitorMat);
-    shelf.position.set(0, 0.6, 0.08);
-    g.add(shelf);
+    if (!onTable) {
+      var base = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.05, 0.3), monitorMat);
+      base.position.set(0, 0.025, 0);
+      g.add(base);
+      var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.7, 8), monitorMat);
+      pole.position.set(0, 0.4, 0);
+      g.add(pole);
+      var shelf = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.02, 0.18), monitorMat);
+      shelf.position.set(0, 0.6, 0.08);
+      g.add(shelf);
+    }
+    var monY = onTable ? 0.2 : 0.9;
     var monitor = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.04), monitorMat);
-    monitor.position.set(0, 0.9, 0);
+    monitor.position.set(0, monY, onTable ? -0.08 : 0);
     g.add(monitor);
     var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.24), screenMat);
-    screen.position.set(0, 0.9, 0.025);
+    screen.position.set(0, monY, (onTable ? -0.08 : 0) + 0.025);
     g.add(screen);
+    if (onTable) {
+      var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.02, 0.13), monitorMat);
+      keyboard.position.set(0, 0.02, 0.14);
+      g.add(keyboard);
+    }
     return g;
   }
 
@@ -644,47 +685,69 @@
   }
 
   // 90'lara özel: bej kasa + CRT tarz şişkin monitör — 1980 kiosk'undan
-  // TAMAMEN farklı bir silüet, daha "kaliteli/nostaljik" bir görünüm.
-  function build90ComputerMesh() {
+  // TAMAMEN farklı bir silüet. onTable=true ise kule/ayak çizilmez, direkt
+  // masa üstünde duran bir CRT bilgisayar gibi görünür.
+  function build90ComputerMesh(onTable) {
     var g = new THREE.Group();
-    var tower = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.5, 0.42), mat90Frame);
-    tower.position.set(0.28, 0.25, 0);
-    g.add(tower);
-    var towerAccent = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.03, 0.42), mat90Accent);
-    towerAccent.position.set(0.28, 0.42, 0);
-    g.add(towerAccent);
+    var baseY = onTable ? 0 : 0.46;
+    if (!onTable) {
+      var tower = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.5, 0.42), mat90Frame);
+      tower.position.set(0.28, 0.25, 0);
+      g.add(tower);
+      var towerAccent = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.03, 0.42), mat90Accent);
+      towerAccent.position.set(0.28, 0.42, 0);
+      g.add(towerAccent);
+    }
+    var monY = onTable ? 0.22 : 0.68;
     var monitorBack = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.36, 0.38), mat90Frame); // CRT şişkinliği
-    monitorBack.position.set(-0.12, 0.68, -0.05);
+    monitorBack.position.set(-0.12, monY, -0.05);
     g.add(monitorBack);
     var monitorFront = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.32, 0.03), mat90Frame);
-    monitorFront.position.set(-0.12, 0.68, 0.15);
+    monitorFront.position.set(-0.12, monY, 0.15);
     g.add(monitorFront);
     var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.24), mat90Screen);
-    screen.position.set(-0.12, 0.68, 0.17);
+    screen.position.set(-0.12, monY, 0.17);
     g.add(screen);
     var monitorStand = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.08, 0.2), mat90Frame);
-    monitorStand.position.set(-0.12, 0.46, 0);
+    monitorStand.position.set(-0.12, baseY, 0);
     g.add(monitorStand);
     var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.03, 0.13), mat90Frame);
-    keyboard.position.set(-0.12, 0.42, 0.24);
+    keyboard.position.set(-0.12, baseY - 0.04, 0.24);
     g.add(keyboard);
     return g;
   }
 
   var PLACED_GROUPS = []; // sahnedeki kalıcı parçalar — placedItems ile aynı sırada
+  var TABLE_TOP_Y = 0.75; // her iki masa tipinin de üst yüzey yüksekliği
+  var COMPUTER_SNAP_RADIUS = 1.0; // bilgisayarı bu mesafede bir masa varsa üstüne oturt
 
-  function placeItemInRoom(type, x, z, rotY) {
-    var item = SHOP_ITEMS.filter(function (i) { return i.id === type; })[0];
+  function placeItemInRoom(p) {
+    var item = SHOP_ITEMS.filter(function (i) { return i.id === p.type; })[0];
     if (!item) return;
-    var g = item.build();
-    g.position.set(x, 0, z);
-    g.rotation.y = rotY || 0;
+    var g = item.build(!!p.onTable);
+    g.position.set(p.x, p.y || 0, p.z);
+    g.rotation.y = p.rotY || 0;
     scene.add(g);
     PLACED_GROUPS.push(g);
   }
 
+  // Bir bilgisayarı yakındaki bir masanın TAM ÜSTÜNE oturtmaya çalışır —
+  // bulursa masanın konumu/açısıyla hizalanmış {x,y,z,rotY,onTable:true}
+  // döner, yoksa null (o zaman bilgisayar yere, ayaklı kiosk olarak konur).
+  // DÜZELTME: önceki sürümde bilgisayar HİÇBİR ZAMAN masaya oturmuyordu.
+  function findTableSnap(x, z) {
+    var best = null, bestDist = COMPUTER_SNAP_RADIUS;
+    placedItems.forEach(function (p) {
+      if (p.type !== "masa" && p.type !== "masa90") return;
+      var dist = Math.hypot(p.x - x, p.z - z);
+      if (dist < bestDist) { bestDist = dist; best = p; }
+    });
+    if (!best) return null;
+    return { x: best.x, y: TABLE_TOP_Y, z: best.z, rotY: best.rotY, onTable: true };
+  }
+
   // Sayfa yeniden açıldığında daha önce yerleştirilmiş parçaları geri koy
-  placedItems.forEach(function (p) { placeItemInRoom(p.type, p.x, p.z, p.rotY); });
+  placedItems.forEach(function (p) { placeItemInRoom(p); });
 
   // ---- yerleştirme modu — her parçayı tek tek, istediğimiz yere/açıyla ---
   // yürüyüp bakarak konumlandırıyoruz, "Döndür" 45° çeviriyor, "Yerleştir"
@@ -700,7 +763,7 @@
     placementMode = true;
     placementItem = item;
     placementRotOffset = 0;
-    placementGroup = item.build();
+    placementGroup = item.build(false); // yerleştirirken her zaman genel (kiosk) hali önizlenir, onaylayınca masaya oturup oturmayacağı hesaplanır
     placementGroup.traverse(function (obj) { if (obj.isMesh) obj.material = ghostMat; });
     scene.add(placementGroup);
     $("placement-toolbar").hidden = false;
@@ -720,9 +783,14 @@
     if (!placementGroup) return;
     var x = placementGroup.position.x, z = placementGroup.position.z, rotY = placementGroup.rotation.y;
     var type = placementItem.id, name = placementItem.name;
-    placedItems.push({ type: type, x: x, z: z, rotY: rotY });
+    var finalData = { type: type, x: x, y: 0, z: z, rotY: rotY, onTable: false };
+    if (placementItem.computer) {
+      var snap = findTableSnap(x, z);
+      if (snap) finalData = { type: type, x: snap.x, y: snap.y, z: snap.z, rotY: snap.rotY, onTable: true };
+    }
+    placedItems.push(finalData);
     savePlacedItems();
-    placeItemInRoom(type, x, z, rotY);
+    placeItemInRoom(finalData);
     exitPlacementMode();
     renderShop();
     shopStatus(name + " yerleştirildi!");
@@ -739,8 +807,6 @@
   // =========================================================================
   var doorFrameMat = new THREE.MeshStandardMaterial({ color: 0x0d1114, roughness: 0.4 });
   var doorPanelMat = new THREE.MeshStandardMaterial({ color: 0x1c2a2e, roughness: 0.5, metalness: 0.3 });
-  var neonGreenMat = new THREE.MeshStandardMaterial({ color: 0x22ff88, emissive: 0x22ff88, emissiveIntensity: 1.3 });
-  var neonRedMat = new THREE.MeshStandardMaterial({ color: 0xff2f4d, emissive: 0xff2f4d, emissiveIntensity: 1.3 });
 
   var doorGroup = new THREE.Group();
   var doorFrame = new THREE.Mesh(new THREE.BoxGeometry(1.3, 2.3, 0.08), doorFrameMat);
@@ -749,80 +815,126 @@
   var doorPanel = new THREE.Mesh(new THREE.BoxGeometry(1.05, 2.1, 0.05), doorPanelMat);
   doorPanel.position.set(0, 1.08, 0.02);
   doorGroup.add(doorPanel);
-  var doorWindow = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.35), screenMat);
+  var doorWindow = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.35), new THREE.MeshStandardMaterial({ color: 0x0a1a1c, roughness: 0.1, metalness: 0.2 }));
   doorWindow.position.set(0, 1.55, 0.05);
   doorGroup.add(doorWindow);
-  var doorHandle = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.2, 0.04), trimMat);
+  var doorHandle = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.2, 0.04), new THREE.MeshStandardMaterial({ color: 0xb8bcc2, metalness: 0.7, roughness: 0.25 }));
   doorHandle.position.set(0.4, 1.0, 0.05);
   doorGroup.add(doorHandle);
   doorGroup.position.set(0, 0, HD - 0.03);
   doorGroup.rotation.y = Math.PI;
   scene.add(doorGroup);
 
-  // neon "AÇIK/KAPALI" tabelası — kapının hemen sağında
-  var neonSign = new THREE.Mesh(new THREE.PlaneGeometry(0.55, 0.32), neonGreenMat);
-  neonSign.position.set(1.1, 2.0, HD - 0.05);
-  neonSign.rotation.y = Math.PI;
-  scene.add(neonSign);
-  var neonSignBorder = new THREE.Mesh(new THREE.BoxGeometry(0.63, 0.4, 0.02), neonGreenMat);
-  neonSignBorder.position.set(1.1, 2.0, HD - 0.06);
-  neonSignBorder.rotation.y = Math.PI;
-  scene.add(neonSignBorder);
+  // ---- gerçek yazılı neon tabela (canvas doku) — önceden sadece renkli bir
+  // dikdörtgendi, hiç yazı yoktu. Şimdi "AÇIK" / "KAPALI" gerçekten yazıyor.
+  function makeSignTexture(text, color) {
+    var canvas = document.createElement("canvas");
+    canvas.width = 256; canvas.height = 128;
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#08100f"; ctx.fillRect(0, 0, 256, 128);
+    ctx.font = "bold 46px sans-serif";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.shadowColor = color; ctx.shadowBlur = 22;
+    ctx.fillStyle = color;
+    ctx.fillText(text, 128, 66);
+    return new THREE.CanvasTexture(canvas);
+  }
+  var signOpenTex = makeSignTexture("AÇIK", "#22ff88");
+  var signClosedTex = makeSignTexture("KAPALI", "#ff2f4d");
+  var signFrameMat = new THREE.MeshStandardMaterial({ color: 0x111417, roughness: 0.5 });
+  var signGroup = new THREE.Group();
+  var signFrame = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.42, 0.04), signFrameMat);
+  signGroup.add(signFrame);
+  var signFace = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.32), new THREE.MeshBasicMaterial({ map: signOpenTex }));
+  signFace.position.set(0, 0, 0.03);
+  signGroup.add(signFace);
+  signGroup.position.set(1.15, 2.0, HD - 0.05);
+  signGroup.rotation.y = Math.PI;
+  scene.add(signGroup);
+
+  // ---- duvar düğmeleri — gerçek 3D nesneler, ekran ortasındaki beyaz
+  // noktayla nişan alıp dokunarak açıp kapatıyoruz. HUD butonu YOK artık.
+  var switchPlateMat = new THREE.MeshStandardMaterial({ color: 0xe6e6e6, roughness: 0.45, metalness: 0.1 });
+  var switchNubOnMat = new THREE.MeshStandardMaterial({ color: 0x22ff88, emissive: 0x22ff88, emissiveIntensity: 0.9 });
+  var switchNubOffMat = new THREE.MeshStandardMaterial({ color: 0x3a3a3a });
+
+  function buildWallSwitch() {
+    var g = new THREE.Group();
+    var plate = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.22, 0.025), switchPlateMat);
+    g.add(plate);
+    var nub = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.1, 0.02), switchNubOnMat);
+    nub.position.set(0, 0, 0.02);
+    g.add(nub);
+    g.userData.nub = nub;
+    return g;
+  }
+
+  var cafeSwitch = buildWallSwitch();
+  cafeSwitch.position.set(1.15, 1.55, HD - 0.04);
+  cafeSwitch.rotation.y = Math.PI;
+  scene.add(cafeSwitch);
+
+  var lightSwitch = buildWallSwitch();
+  lightSwitch.position.set(-0.95, 1.55, HD - 0.04);
+  lightSwitch.rotation.y = Math.PI;
+  scene.add(lightSwitch);
 
   var cafeOpen = readNum(CAFE_OPEN_KEY, 1) === 1;
   function setCafeOpen(on) {
     cafeOpen = on;
     writeNum(CAFE_OPEN_KEY, on ? 1 : 0);
-    var mat = on ? neonGreenMat : neonRedMat;
-    neonSign.material = mat;
-    neonSignBorder.material = mat;
-    var btn = $("btn-cafe-toggle");
-    btn.textContent = on ? "Kafe: Açık" : "Kafe: Kapalı";
-    btn.className = "pill action-btn " + (on ? "cafe-open" : "cafe-closed");
+    signFace.material.map = on ? signOpenTex : signClosedTex;
+    signFace.material.needsUpdate = true;
+    cafeSwitch.userData.nub.material = on ? switchNubOnMat : switchNubOffMat;
   }
-  $("btn-cafe-toggle").addEventListener("click", function () { setCafeOpen(!cafeOpen); });
+  registerInteractable(cafeSwitch, 2.6, function () { setCafeOpen(!cafeOpen); });
+  registerInteractable(lightSwitch, 2.6, function () { setLightOn(!lightOn); });
+
 
   // =========================================================================
-  // Kasa — neon/modernist tasarım, sol ön köşede, girişe bakar (sabit, dükkandan alınmaz)
+  // Kasa — modern resepsiyon masası, arka duvara yaslı, kapıya bakıyor.
   // NOT: şu an gerçek oyuncuların 3D sahnede görünmesini sağlayan bir sistem
   // yok (chat var ama ortak avatarlar henüz yok) — kasa "girenleri görme"
   // burada şimdilik sadece fiziksel konum/bakış açısı anlamına geliyor.
   // =========================================================================
   var kasaDeskMat = new THREE.MeshStandardMaterial({ color: 0x14161a, roughness: 0.35, metalness: 0.4 });
-  var kasaNeonMat = new THREE.MeshStandardMaterial({ color: NEON_PINK, emissive: NEON_PINK, emissiveIntensity: 1.2 });
+  var kasaTrimMat = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.8 });
   var kasaScreenMat = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 1.1 });
 
+  // Grup +Z'ye (kapıya) bakacak şekilde tasarlandı: masa gövdesi ortada,
+  // MÜŞTERİ tarafı +Z (kapı/oda yönü), GÖREVLİ sandalyesi -Z (duvar yönü).
   var kasaGroup = new THREE.Group();
-  var kasaTop = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.06, 0.65), kasaDeskMat);
-  kasaTop.position.set(0, 0.8, 0);
-  kasaGroup.add(kasaTop);
-  var kasaBody = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.78, 0.55), kasaDeskMat);
-  kasaBody.position.set(0, 0.39, 0);
+  var kasaBody = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.75, 0.5), kasaDeskMat);
+  kasaBody.position.set(0, 0.375, 0);
   kasaGroup.add(kasaBody);
-  // gövde çevresinde ince neon şerit
-  [[-0.6, 0], [0.6, 0]].forEach(function (p) {
-    var strip = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.78, 0.55), kasaNeonMat);
-    strip.position.set(p[0], 0.39, 0);
-    kasaGroup.add(strip);
-  });
-  var kasaMonitor = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.32, 0.04), kasaDeskMat);
-  kasaMonitor.position.set(0, 1.06, -0.15);
+  var kasaTop = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.05, 0.56), kasaDeskMat);
+  kasaTop.position.set(0, 0.775, 0);
+  kasaGroup.add(kasaTop);
+  // ince, TEK bir aydınlık şerit — sadece ön-üst kenarda (yan yüzeyle
+  // çakışmıyor, önceki sürümdeki "tuhaf pembe panel" hatası buradan
+  // kaynaklanıyordu)
+  var kasaTrim = new THREE.Mesh(new THREE.BoxGeometry(1.22, 0.05, 0.02), kasaTrimMat);
+  kasaTrim.position.set(0, 0.74, 0.26);
+  kasaGroup.add(kasaTrim);
+  // monitör — masanın arkasında (görevli tarafında), ekran görevliye (-Z) bakıyor
+  var kasaMonitor = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.04), kasaDeskMat);
+  kasaMonitor.position.set(0, 1.0, -0.05);
   kasaGroup.add(kasaMonitor);
-  var kasaScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.26), kasaScreenMat);
-  kasaScreen.position.set(0, 1.06, 0.17);
+  var kasaScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.24), kasaScreenMat);
+  kasaScreen.position.set(0, 1.0, -0.07);
   kasaScreen.rotation.y = Math.PI;
   kasaGroup.add(kasaScreen);
+  // görevli sandalyesi — duvar tarafında (-Z), masanın arkasında
   var kasaChairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.06, 0.4), kasaDeskMat);
-  kasaChairSeat.position.set(0, 0.45, 0.55);
+  kasaChairSeat.position.set(0, 0.45, -0.55);
   kasaGroup.add(kasaChairSeat);
   var kasaChairBack = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.05), kasaDeskMat);
-  kasaChairBack.position.set(0, 0.7, 0.73);
+  kasaChairBack.position.set(0, 0.68, -0.72);
   kasaGroup.add(kasaChairBack);
 
-  // sol ARKA köşe — kapının tam karşısı, girişe bakacak şekilde (önceki
-  // sürümde yanlışlıkla kapı tarafına/öne konulmuştu, düzeltildi)
-  kasaGroup.position.set(-HW + 1.3, 0, -HD + 1.3);
-  kasaGroup.rotation.y = 0; // düz +Z'ye, yani kapıya doğru bakıyor
+  // sol arka köşe, duvara yaslı, kapıya (+Z) düz bakıyor
+  kasaGroup.position.set(-HW + 1.3, 0, -HD + 0.85);
+  kasaGroup.rotation.y = 0;
   scene.add(kasaGroup);
 
   // =========================================================================
@@ -988,25 +1100,36 @@
   var LOOK_SENS = 0.0035;
   var PITCH_LIMIT = Math.PI / 2 - 0.05;
   var lookPointerId = null, lookLastX = 0, lookLastY = 0;
+  var lookStartX = 0, lookStartY = 0, lookStartTime = 0, lookTotalMove = 0;
 
   mount.style.touchAction = "none";
   mount.addEventListener("pointerdown", function (e) {
     if (lookPointerId !== null) return;
     lookPointerId = e.pointerId;
     lookLastX = e.clientX; lookLastY = e.clientY;
+    lookStartX = e.clientX; lookStartY = e.clientY;
+    lookStartTime = Date.now(); lookTotalMove = 0;
     try { mount.setPointerCapture(e.pointerId); } catch (err) {}
   });
   mount.addEventListener("pointermove", function (e) {
     if (e.pointerId !== lookPointerId) return;
     var dx = e.clientX - lookLastX, dy = e.clientY - lookLastY;
     lookLastX = e.clientX; lookLastY = e.clientY;
+    lookTotalMove += Math.abs(dx) + Math.abs(dy);
     yaw -= dx * LOOK_SENS;
     pitch -= dy * LOOK_SENS;
     pitch = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, pitch));
     camera.rotation.y = yaw;
     camera.rotation.x = pitch;
   });
-  function lookPointerEnd(e) { if (e.pointerId === lookPointerId) lookPointerId = null; }
+  function lookPointerEnd(e) {
+    if (e.pointerId !== lookPointerId) return;
+    // Kısa/hareketsiz bir dokunuş = "tap" — ekran ortasındaki nişangahla
+    // etkileşim dener (duvar düğmesi vb). Sürükleme (bakış döndürme) ise
+    // etkileşimi TETİKLEMEZ, sadece uzun/az hareketli dokunuşlar sayılır.
+    if (lookTotalMove < 10 && (Date.now() - lookStartTime) < 350) tryInteract();
+    lookPointerId = null;
+  }
   mount.addEventListener("pointerup", lookPointerEnd);
   mount.addEventListener("pointercancel", lookPointerEnd);
   mount.addEventListener("pointerleave", lookPointerEnd);
@@ -1015,6 +1138,15 @@
   var last = performance.now();
   var walkPhase = 0;
   function tick(now) {
+    try {
+      tickInner(now);
+    } catch (e) {
+      console.error("[iOZ Cafe 3D] tick hatası, bu kare atlanıyor ama oyun devam ediyor:", e);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function tickInner(now) {
     var dt = Math.min(0.05, (now - last) / 1000);
     last = now;
 
@@ -1068,10 +1200,12 @@
       placementGroup.rotation.y = yaw + placementRotOffset;
     }
 
-    updateNpcs(dt);
-
+    // NPC güncellemesi try/catch içinde — beklenmedik bir hata artık TÜM
+    // render döngüsünü durduramaz (önceki donma şikayeti buradan olabilirdi;
+    // kesin kök nedeni benim ortamımda tekrar üretemedim ama bu, kökeni ne
+    // olursa olsun oyunun donmasını engelleyen kalıcı bir güvence).
+    try { updateNpcs(dt); } catch (e) { console.error("[iOZ Cafe 3D] updateNpcs hata verdi, atlanıyor:", e); }
     renderer.render(scene, camera);
-    requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
 
