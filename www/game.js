@@ -45,6 +45,7 @@
   var AD_QUICK_KEY = "netcafe3d_ad_quick_uses";
   var PLAYER_ID_KEY = "netcafe_player_id"; // eski oyunla AYNI anahtar — kimlik sürekliliği
   var PLAYER_NAME_KEY = "netcafe3d_player_name";
+  var CAFE_NAME_KEY = "netcafe3d_cafe_name";
   var PLACED_ITEMS_KEY = "netcafe3d_placed_items"; // [{type,x,z,rotY}, ...] — tek tek yerleştirilmiş her parça
   var CAFE_OPEN_KEY = "netcafe3d_cafe_open";
 
@@ -64,14 +65,70 @@
     // bir artışla VARSAYILDI, birlikte ayarlayabiliriz.
     { id: "sandalye2000", name: "iOZ Classic 2000 Sandalye", price: 800, rating: 2, seat: false, tier: 3, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build2000ChairMesh(); } },
     { id: "masa2000", name: "iOZ Classic 2000 Masa", price: 800, rating: 2, seat: true, tier: 3, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build2000TableMesh(); } },
-    { id: "bilgisayar2000", name: "iOZ Classic 2000 Bilgisayar", price: 1500, rating: 2, seat: false, tier: 3, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2000ComputerMesh(onTable); } }
+    { id: "bilgisayar2000", name: "iOZ Classic 2000 Bilgisayar", price: 1500, rating: 2, seat: false, tier: 3, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2000ComputerMesh(onTable); } },
+    // 4. SEVİYE — fiyatlar yine belirtilmedi, tier 3'ten (800/800/1500) mantıklı
+    // bir artışla VARSAYILDI, birlikte ayarlayabiliriz.
+    { id: "sandalye2010", name: "iOZ 2010 Sandalye", price: 3000, rating: 3, seat: false, tier: 4, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build2010ChairMesh(); } },
+    { id: "masa2010", name: "iOZ 2010 Masa", price: 3000, rating: 3, seat: true, tier: 4, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build2010TableMesh(); } },
+    { id: "bilgisayar2010", name: "iOZ 2010 Bilgisayar", price: 6000, rating: 3, seat: false, tier: 4, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2010ComputerMesh(onTable); } }
   ];
   // "seat: true" olan parçalar (masalar) — otomatik müşteriler oturacak yer
   // olarak bunları kullanıyor. tier, müşterinin ne kadar ödeyeceğini belirler
   // (bkz. NPC_PAYOUT_BY_TIER) — bu ödeme miktarları HENÜZ senden net bir sayı
   // gelmediği için varsayım, birlikte ayarlayabiliriz.
-  var NPC_PAYOUT_BY_TIER = { 1: 20, 2: 60, 3: 130 }; // 3. seviye için de varsayım, birlikte ayarlanabilir
-  var PLACED_ITEMS_MAX = 24; // odadaki toplam parça üst sınırı (kalabalık olmasın diye) — istenirse artırılabilir
+  var NPC_PAYOUT_BY_TIER = { 1: 20, 2: 60, 3: 130, 4: 260 }; // 3-4. seviyeler için varsayım, birlikte ayarlanabilir
+  var PLACED_ITEMS_MAX = 60; // oyun/dekor eklenince mobilya ile yer paylaşmasınlar diye 24'ten yükseltildi
+
+  // ---- Oyunlar (dükkan puanını yükseltir) — TELİFSİZ, uydurma isimler -----
+  // Tek bir "arcade dolabı" modeli, her oyun için sadece renk/isim değişiyor
+  // (18 farklı 3D model çizmek yerine — görsel çeşitlilik renkle sağlanıyor).
+  var GAMES_LIST = [
+    ["Uzay Avcısı", 150, 0x4fd1c5], ["Hız Krallığı", 190, 0xf6ad55], ["Ejder Vadisi", 230, 0x9f7aea],
+    ["Piksel Savaşları", 270, 0x68d391], ["Ay Işığı Yarışı", 310, 0x63b3ed], ["Gölge Ninja", 350, 0x718096],
+    ["Robot Arena", 400, 0xfc8181], ["Yıldız Tozu", 450, 0xf6e05e], ["Kaptan Fırtına", 500, 0x4299e1],
+    ["Zombi Kaçışı", 550, 0x38a169], ["Renk Patlaması", 600, 0xed64a6], ["Kutu Kahraman", 650, 0xed8936],
+    ["Gizemli Orman", 700, 0x48bb78], ["Turbo Sürücü", 750, 0xe53e3e], ["Kristal Avcısı", 800, 0x805ad5],
+    ["Demir Yumruk", 850, 0xa0aec0], ["Bulut Koşucusu", 900, 0x4fd1c5], ["Sonsuz Labirent", 950, 0x2b6cb0]
+  ];
+  GAMES_LIST.forEach(function (g, idx) {
+    SHOP_ITEMS.push({
+      id: "game" + idx, name: g[0], price: g[1], rating: null, seat: false, tier: 0, game: true,
+      icon: '<rect x="4" y="5" width="16" height="12" rx="1"/><path d="M9 20h6M12 17v3"/>',
+      build: function () { return buildArcadeCabinetMesh(g[2], g[0]); }
+    });
+  });
+
+  // ---- Duvar kağıtları / çerçeveler / neon ışıklar (dekor — puanı yükseltir) ----
+  var WALLPAPER_LIST = [["Mercan Duvar Kağıdı", 120, 0xff8a65], ["Okyanus Duvar Kağıdı", 120, 0x4fc3f7], ["Orman Duvar Kağıdı", 120, 0x81c784]];
+  WALLPAPER_LIST.forEach(function (w, idx) {
+    SHOP_ITEMS.push({
+      id: "wallpaper" + idx, name: w[0], price: w[1], rating: null, seat: false, tier: 0, decor: true,
+      icon: '<rect x="3" y="4" width="18" height="16" rx="1"/>',
+      build: function () { return buildWallpaperMesh(w[2]); }
+    });
+  });
+  var FRAME_LIST = [["Turkuaz Çerçeve", 180, ACCENT], ["Kırmızı Çerçeve", 180, 0xff4d6d], ["Sarı Çerçeve", 180, 0xffd23f]];
+  FRAME_LIST.forEach(function (fr, idx) {
+    SHOP_ITEMS.push({
+      id: "frame" + idx, name: fr[0], price: fr[1], rating: null, seat: false, tier: 0, decor: true,
+      icon: '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="7" y="7" width="10" height="10"/>',
+      build: function () { return buildFrameMesh(fr[2]); }
+    });
+  });
+  var NEON_LIST = [["Neon Şerit — Mavi", 250, NEON_BLUE], ["Neon Şerit — Pembe", 250, 0xff2fd6]];
+  NEON_LIST.forEach(function (nl, idx) {
+    SHOP_ITEMS.push({
+      id: "neonlight" + idx, name: nl[0], price: nl[1], rating: null, seat: false, tier: 0, decor: true,
+      icon: '<path d="M4 12h16" stroke-width="3"/>',
+      build: function () { return buildNeonStripMesh(nl[2]); }
+    });
+  });
+  // ---- Oto temizlik robotu — kirliliği kendiliğinden temizler ------------
+  SHOP_ITEMS.push({
+    id: "cleanrobot", name: "Oto Temizlik Robotu", price: 1200, rating: null, seat: false, tier: 0, robot: true,
+    icon: '<circle cx="12" cy="13" r="7"/><path d="M9 13h6M12 6v2"/>',
+    build: function () { return buildCleanRobotMesh(); }
+  });
 
   var ABLY_API_KEY = "3nsRqw.wIyZEg:EOoAE5ZRsMjOqy7C1thwdwiVIGD-3AdzDfQswLx9Al8"; // eski oyunla aynı gerçek anahtar
   var CHAT_CHANNEL_NAME = "iozcafe-chat-global";
@@ -132,7 +189,7 @@
   // ---- oyun durumu -------------------------------------------------------
   var money = readNum(MONEY_KEY, 1000000); // TEST AMAÇLI: 100 → 1.000.000. Cihazında zaten kayıt varsa bu yeni varsayılan uygulanmaz — uygulamanın verisini temizlemen (Android Ayarlar → Uygulamalar → Depolama → Verileri Temizle) ya da kaldırıp tekrar kurman gerekir.
   var day = readNum(DAY_KEY, 1);
-  var vip = readNum(VIP_TEST_KEY, 0) === 1;
+  var vip = readNum(VIP_TEST_KEY, 1) === 1; // TEST AMAÇLI: varsayılan artık açık (VIP)
   var adQuickLeft = AD_BONUS_QUICK_DAILY_LIMIT;
   (function initAdQuickLeft() {
     var raw = null;
@@ -190,12 +247,22 @@
   function renderShop() {
     var wrap = $("shop-items");
     wrap.innerHTML = "";
+
+    // Dükkan puanı — mobilya kalitesi + oyun/dekor sayısı + kirlilik (bkz.
+    // computeShopRating). Bu formül ilk taslak, birlikte ince ayar yapabiliriz.
+    $("shop-rating").innerHTML = starsHtml(computeShopRating(), "shoprating") + '<span class="shop-rating-num">' + computeShopRating().toFixed(1) + '/5</span>';
+
     var tiers = [
       { label: "iOZ Old — 1980 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 1; }) },
       { label: "iOZ Old 90 — 90'lı Yıllar Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 2; }) },
-      { label: "iOZ Classic 2000 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 3; }) }
+      { label: "iOZ Classic 2000 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 3; }) },
+      { label: "iOZ 2010 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 4; }) },
+      { label: "Duvar Kağıtları & Çerçeveler & Neon", items: SHOP_ITEMS.filter(function (i) { return i.decor; }) },
+      { label: "Ekipman", items: SHOP_ITEMS.filter(function (i) { return i.robot; }) },
+      { label: "Oyunlar (dükkan puanını yükseltir)", items: SHOP_ITEMS.filter(function (i) { return i.game; }) }
     ];
     tiers.forEach(function (tier) {
+      if (!tier.items.length) return;
       var section = document.createElement("div");
       section.className = "shop-section";
       var heading = document.createElement("div");
@@ -208,9 +275,9 @@
         var card = document.createElement("div");
         card.className = "shop-card";
         card.innerHTML =
-          '<div class="shop-card-icon"><svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg></div>' +
+          '<div class="shop-card-icon">' + (item.thumb ? '<img src="' + item.thumb + '" alt="" />' : ('<svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg>')) + '</div>' +
           '<div class="shop-card-name">' + item.name + '</div>' +
-          starsHtml(item.rating || 0, item.id) +
+          (item.rating != null ? starsHtml(item.rating, item.id) : '') +
           '<button data-id="' + item.id + '">' + item.price + ' ₺</button>';
         grid.appendChild(card);
       });
@@ -244,8 +311,7 @@
     $("shop-panel").hidden = true;
     enterPlacementMode(item);
   }
-
-
+  var actionMsgTimer = null;
 
   function showActionMsg(text) {
     var el = $("action-msg");
@@ -327,6 +393,21 @@
 
   function setChatStatus(text) { $("chat-status").textContent = text || ""; }
 
+  // K/M kısaltmalı para formatı — sohbette birinin profiline basınca kaç
+  // parası olduğunu bu formatta gösteriyoruz.
+  function formatMoneyShort(n) {
+    n = n || 0;
+    if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+    if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    return String(Math.round(n));
+  }
+  function showProfilePopup(name, moneyRaw) {
+    $("profile-name").textContent = name;
+    $("profile-money").textContent = formatMoneyShort(moneyRaw) + " ₺";
+    $("profile-popup").hidden = false;
+  }
+  $("btn-profile-close").addEventListener("click", function () { $("profile-popup").hidden = true; });
+
   function appendChatMessage(data, clientId) {
     var box = $("chat-messages");
     var empty = box.querySelector(".chat-empty");
@@ -334,10 +415,14 @@
     var row = document.createElement("div");
     row.className = "chat-msg";
     var tag = shortTag(clientId);
-    row.innerHTML = '<span class="name"></span><span class="tag"></span>: <span class="text"></span>';
-    row.querySelector(".name").textContent = (data && data.name) || "?";
+    row.innerHTML = '<span class="name clickable"></span><span class="tag"></span>: <span class="text"></span>';
+    var nameEl = row.querySelector(".name");
+    nameEl.textContent = (data && data.name) || "?";
     row.querySelector(".tag").textContent = tag ? "#" + tag : "";
     row.querySelector(".text").textContent = (data && data.text) || "";
+    nameEl.addEventListener("click", function () {
+      showProfilePopup((data && data.name) || "?", data && data.money);
+    });
     box.appendChild(row);
     box.scrollTop = box.scrollHeight;
   }
@@ -363,7 +448,7 @@
             $("chat-active-count").textContent = "(Aktif: " + members.length + ")";
           });
         }
-        chatChannel.presence.enter({ name: playerName || "Misafir" }).catch(function () {});
+        chatChannel.presence.enter({ name: playerName || "Misafir", money: money }).catch(function () {});
         chatChannel.presence.subscribe(function () { refreshPresenceCount(); });
         refreshPresenceCount();
 
@@ -408,7 +493,7 @@
       $("chat-name-row").hidden = true;
       updateChatInputState();
       this.blur(); // klavyeyi kapat
-      if (chatChannel) chatChannel.presence.update({ name: playerName }).catch(function () {});
+      if (chatChannel) chatChannel.presence.update({ name: playerName, money: money }).catch(function () {});
     }
   });
   if (playerName) $("chat-name-row").hidden = true;
@@ -422,7 +507,7 @@
     var now = Date.now();
     if (now - lastSendAt < 2000) return; // spam koruması
     lastSendAt = now;
-    chatChannel.publish("msg", { text: text.slice(0, 240), name: playerName || ("Misafir#" + shortTag(getPlayerId())) });
+    chatChannel.publish("msg", { text: text.slice(0, 240), name: playerName || ("Misafir#" + shortTag(getPlayerId())), money: money });
     input.value = "";
   }
   $("btn-chat-send").addEventListener("click", function () {
@@ -471,10 +556,13 @@
   // tetikleniyor.
   var interactables = []; // {mesh, range, action}
   function registerInteractable(mesh, range, action) { interactables.push({ mesh: mesh, range: range, action: action }); }
+  function unregisterInteractable(mesh) {
+    for (var i = interactables.length - 1; i >= 0; i--) { if (interactables[i].mesh === mesh) interactables.splice(i, 1); }
+  }
   function tryInteract() {
     var dir = new THREE.Vector3();
     camera.getWorldDirection(dir);
-    var best = null, bestDot = 0.75; // ~yaklaşık 40°'lik bir koniye kadar tolere eder
+    var best = null, bestDot = 0.55; // ~55°'lik geniş bir koni — nişan almayı kolaylaştırmak için
     interactables.forEach(function (it) {
       var toObj = new THREE.Vector3(it.mesh.position.x - camera.position.x, it.mesh.position.y - camera.position.y, it.mesh.position.z - camera.position.z);
       var dist = toObj.length();
@@ -483,23 +571,31 @@
       var dot = dir.x * toObj.x + dir.y * toObj.y + dir.z * toObj.z;
       if (dot > bestDot) { bestDot = dot; best = it; }
     });
-    if (best) best.action();
+    // DÜZELTME: önceki sürümde hiçbir geri bildirim yoktu — dokunuş algılanıp
+    // algılanmadığını, bir şeye isabet edip etmediğini anlamanın yolu yoktu.
+    // Artık HER dokunuşta bir mesaj çıkıyor (ya "ne yaptığını" ya da "hiçbir
+    // şeye dokunmadığını" söylüyor).
+    if (best) { best.action(); }
+    else { showActionMsg("Etkileşecek bir şey yok (daha yakına git / doğrudan bak)"); }
   }
 
   var renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); // performans için düşürüldü ("hafif kasıyor" şikayeti üzerine)
   mount.appendChild(renderer.domElement);
 
-  // İSTENDİ: oda genel olarak çok karanlık/loştu, gerçek bir internet
-  // cafe'nin aydınlık, canlı havasını yansıtmıyordu — ambient ışık ve tavan
-  // lambası sayısı artırıldı (tek merkezi lamba yerine odaya yayılmış 3 lamba).
-  var AMBIENT_ON = 0.95, AMBIENT_OFF = 0.18;
+  // İSTENDİ: oda çok karanlıktı, aydınlattık — ama sonra "hafif kasıyor" +
+  // zemin neredeyse beyaza yanıyor şikayeti geldi. 5 nokta ışığı (her biri
+  // gerçek zamanlı gölgesiz de olsa pahalı) performansı düşürüyordu VE
+  // ambient 0.95 ile zemin/rengi yıkıyordu. Denge için: 3 lambaya indirildi,
+  // ambient biraz düşürüldü — hâlâ eskisinden çok daha aydınlık ama renkler
+  // artık yıkanmıyor, performans da daha iyi.
+  var AMBIENT_ON = 0.78, AMBIENT_OFF = 0.16;
   var ambientLight = new THREE.AmbientLight(0xffffff, AMBIENT_ON);
   scene.add(ambientLight);
   var ceilingLamps = [];
-  [[0, 0], [-3.2, -3], [3.2, -3], [-3.2, 3], [3.2, 3]].forEach(function (p) {
-    var lamp = new THREE.PointLight(0xfff2d6, 0.85, 14, 2);
+  [[0, 0], [-3.4, -2.6], [3.4, 2.6]].forEach(function (p) {
+    var lamp = new THREE.PointLight(0xfff2d6, 0.85, 13, 2);
     lamp.position.set(p[0], ROOM_H - 0.2, p[1]);
     scene.add(lamp);
     ceilingLamps.push(lamp);
@@ -531,7 +627,7 @@
   // registerInteractable, aşağıda kapı/tabela bölümünde.
 
   // İSTENDİ: zemin açık mavi, duvarlar ve tavan koyu/kapalı mavimsi tonlarda
-  var floorMat = new THREE.MeshStandardMaterial({ color: 0x8fc6e8, roughness: 0.75 });
+  var floorMat = new THREE.MeshStandardMaterial({ color: 0x6fb3dc, roughness: 0.8 }); // biraz koyultuldu — parlak ışıkla neredeyse beyaza yanıyordu
   var wallMat = new THREE.MeshStandardMaterial({ color: 0x2b3a4a, roughness: 0.9 });
   var ceilMat = new THREE.MeshStandardMaterial({ color: 0x212d3a, roughness: 1 });
   var trimMat = new THREE.MeshStandardMaterial({ color: ACCENT, emissive: 0x0c332d, roughness: 0.4 });
@@ -850,6 +946,173 @@
     return g;
   }
 
+  // ---- "iOZ 2010" serisi — siyaha yakın, 2010'ların "gaming" ruhu ---------
+  var mat2010Body = new THREE.MeshStandardMaterial({ color: 0x15171a, roughness: 0.35, metalness: 0.3 }); // neredeyse siyah
+  var mat2010Dark = new THREE.MeshStandardMaterial({ color: 0x0a0b0d, roughness: 0.3, metalness: 0.4 });
+  var mat2010Accent = new THREE.MeshStandardMaterial({ color: 0xff2f4d, emissive: 0xff2f4d, emissiveIntensity: 0.9 }); // 2010'lar "gaming" kırmızısı
+  var mat2010Screen = new THREE.MeshStandardMaterial({ color: 0x5fe0ff, emissive: 0x5fe0ff, emissiveIntensity: 1.0, side: THREE.DoubleSide });
+
+  function build2010ChairMesh() {
+    var g = new THREE.Group();
+    var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.25, 0.08, 20), mat2010Dark);
+    seat.position.set(0, 0.46, 0);
+    g.add(seat);
+    var back = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.58, 0.08), mat2010Dark);
+    back.position.set(0, 0.78, -0.22);
+    back.rotation.x = -0.1;
+    g.add(back);
+    var backAccent = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.5, 0.085), mat2010Accent);
+    backAccent.position.set(0, 0.78, -0.215);
+    backAccent.rotation.x = -0.1;
+    g.add(backAccent);
+    [-1, 1].forEach(function (side) {
+      var arm = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.045, 0.32), mat2010Body);
+      arm.position.set(side * 0.26, 0.59, 0.02);
+      g.add(arm);
+      var armPost = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.15, 0.04), mat2010Body);
+      armPost.position.set(side * 0.26, 0.52, 0.02);
+      g.add(armPost);
+    });
+    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 10), mat2010Body);
+    pole.position.set(0, 0.24, 0);
+    g.add(pole);
+    for (var i = 0; i < 5; i++) {
+      var ang = (i / 5) * Math.PI * 2;
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.03, 0.18), mat2010Body);
+      leg.position.set(Math.cos(ang) * 0.1, 0.035, Math.sin(ang) * 0.1);
+      leg.rotation.y = -ang;
+      g.add(leg);
+    }
+    return g;
+  }
+
+  function build2010TableMesh() {
+    var g = new THREE.Group();
+    var top = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.04, 0.64), mat2010Dark);
+    top.position.set(0, 0.76, 0);
+    g.add(top);
+    var edge = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.015, 0.02), mat2010Accent);
+    edge.position.set(0, 0.74, 0.31);
+    g.add(edge);
+    [[-0.52, -0.28], [0.52, -0.28], [-0.52, 0.28], [0.52, 0.28]].forEach(function (p) {
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.73, 0.05), mat2010Body);
+      leg.position.set(p[0], 0.365, p[1]);
+      g.add(leg);
+    });
+    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.28, 0.03), mat2010Accent);
+    backPlate.position.set(0, 0.6, -0.31);
+    g.add(backPlate);
+    return g;
+  }
+
+  function build2010ComputerMesh(onTable) {
+    var g = new THREE.Group();
+    var baseY = onTable ? 0 : 0.42;
+    if (!onTable) {
+      var tower = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.5, 0.42), mat2010Body);
+      tower.position.set(0.28, 0.25, 0);
+      g.add(tower);
+      var towerAccent = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.4, 0.42), mat2010Accent);
+      towerAccent.position.set(0.19, 0.25, 0);
+      g.add(towerAccent);
+    }
+    var monY = onTable ? 0.3 : 0.72;
+    var screenFrame = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.36, 0.025), mat2010Dark);
+    screenFrame.position.set(0, monY, -0.02);
+    g.add(screenFrame);
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.44, 0.3), mat2010Screen);
+    screen.position.set(0, monY, -0.006);
+    g.add(screen);
+    var neck = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.1, 0.03), mat2010Body);
+    neck.position.set(0, monY - 0.24, -0.02);
+    g.add(neck);
+    var standBase = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.02, 0.15), mat2010Body);
+    standBase.position.set(0, baseY, -0.02);
+    g.add(standBase);
+    var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.02, 0.13), mat2010Body);
+    keyboard.position.set(0, baseY + (onTable ? 0.02 : 0), 0.2);
+    g.add(keyboard);
+    var kbAccent = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.005, 0.01), mat2010Accent);
+    kbAccent.position.set(0, baseY + (onTable ? 0.031 : 0.011), 0.14);
+    g.add(kbAccent);
+    return g;
+  }
+
+  // ---- Oyun dolabı (arcade cabinet) — 18 farklı oyun için tek model, renk
+  // ve isim değişiyor. Metin çizemediğimiz için isim, ekranın rengiyle
+  // birlikte bir "tabela" şeridinde görünüyor (dükkan kartındaki isimle
+  // eşleşir).
+  var arcadeBodyMat = new THREE.MeshStandardMaterial({ color: 0x1b1e22, roughness: 0.55 });
+  function buildArcadeCabinetMesh(color, label) {
+    var g = new THREE.Group();
+    var body = new THREE.Mesh(new THREE.BoxGeometry(0.55, 1.5, 0.55), arcadeBodyMat);
+    body.position.set(0, 0.75, 0);
+    g.add(body);
+    var marquee = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.18, 0.1), new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.8 }));
+    marquee.position.set(0, 1.42, 0.24);
+    g.add(marquee);
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.3), new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.6, side: THREE.DoubleSide }));
+    screen.position.set(0, 1.0, 0.276);
+    g.add(screen);
+    var panel = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.1, 0.62), arcadeBodyMat);
+    panel.position.set(0, 0.68, 0.05);
+    panel.rotation.x = -0.35;
+    g.add(panel);
+    g.userData.label = label;
+    return g;
+  }
+
+  // ---- Duvar kağıdı / çerçeve / neon şerit — hepsi basit, SVG-ruhlu düz -----
+  // renkli paneller. Yerleştirme sistemimiz zemine göre çalıştığı için bunlar
+  // da (mobilyalar gibi) zeminde duruyor, tam duvara yapışan bir "duvar
+  // kaplama" modu şimdilik yok — istersen sıradaki adımda ekleriz.
+  function buildWallpaperMesh(color) {
+    var g = new THREE.Group();
+    var panel = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.3, 0.04), new THREE.MeshStandardMaterial({ color: color, roughness: 0.6 }));
+    panel.position.set(0, 1.1, 0);
+    g.add(panel);
+    var stand = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.05, 0.2), arcadeBodyMat);
+    stand.position.set(0, 0.42, 0.08);
+    g.add(stand);
+    return g;
+  }
+  function buildFrameMesh(color) {
+    var g = new THREE.Group();
+    var border = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.6, 0.03), new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.4 }));
+    border.position.set(0, 1.3, 0);
+    g.add(border);
+    var inner = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.46), new THREE.MeshStandardMaterial({ color: 0x0d1114 }));
+    inner.position.set(0, 1.3, 0.02);
+    g.add(inner);
+    var stand = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.0, 0.06), arcadeBodyMat);
+    stand.position.set(0, 0.5, 0);
+    g.add(stand);
+    return g;
+  }
+  function buildNeonStripMesh(color) {
+    var g = new THREE.Group();
+    var neonMat = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 1.2 });
+    var strip = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.06, 0.06), neonMat);
+    strip.position.set(0, 1.6, 0);
+    g.add(strip);
+    var post = new THREE.Mesh(new THREE.BoxGeometry(0.04, 1.6, 0.04), arcadeBodyMat);
+    post.position.set(0, 0.8, 0);
+    g.add(post);
+    return g;
+  }
+
+  // ---- Oto temizlik robotu — yuvarlak gövde, dönen üst kapak hissi -------
+  function buildCleanRobotMesh() {
+    var g = new THREE.Group();
+    var body = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.24, 0.14, 20), new THREE.MeshStandardMaterial({ color: 0xe6e6e6, roughness: 0.4, metalness: 0.2 }));
+    body.position.set(0, 0.09, 0);
+    g.add(body);
+    var ring = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.23, 0.02, 20), new THREE.MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.7 }));
+    ring.position.set(0, 0.16, 0);
+    g.add(ring);
+    return g;
+  }
+
   var PLACED_GROUPS = []; // sahnedeki kalıcı parçalar — placedItems ile aynı sırada
   var TABLE_TOP_Y = 0.75; // her iki masa tipinin de üst yüzey yüksekliği
   var COMPUTER_SNAP_RADIUS = 1.0; // bilgisayarı bu mesafede bir masa varsa üstüne oturt
@@ -871,7 +1134,11 @@
   function findTableSnap(x, z) {
     var best = null, bestDist = COMPUTER_SNAP_RADIUS;
     placedItems.forEach(function (p) {
-      if (p.type !== "masa" && p.type !== "masa90") return;
+      // "masa2000" eklenince burada unutulmuştu — artık sabit isim listesi
+      // yerine SHOP_ITEMS'taki seat:true bayrağına bakıyor, yeni bir masa
+      // türü eklenirse burayı güncellemeyi unutsak bile otomatik çalışır.
+      var def = SHOP_ITEMS.filter(function (s) { return s.id === p.type; })[0];
+      if (!def || !def.seat) return;
       var dist = Math.hypot(p.x - x, p.z - z);
       if (dist < bestDist) { bestDist = dist; best = p; }
     });
@@ -993,10 +1260,10 @@
 
   function buildWallSwitch() {
     var g = new THREE.Group();
-    var plate = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.22, 0.025), switchPlateMat);
+    var plate = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.3, 0.03), switchPlateMat);
     g.add(plate);
-    var nub = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.1, 0.02), switchNubOnMat);
-    nub.position.set(0, 0, 0.02);
+    var nub = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.13, 0.025), switchNubOnMat);
+    nub.position.set(0, 0, 0.025);
     g.add(nub);
     g.userData.nub = nub;
     return g;
@@ -1019,9 +1286,18 @@
     signFace.material.map = on ? signOpenTex : signClosedTex;
     signFace.material.needsUpdate = true;
     cafeSwitch.userData.nub.material = on ? switchNubOnMat : switchNubOffMat;
+    showActionMsg(on ? "Kafe açıldı ✓" : "Kafe kapandı ✓");
   }
-  registerInteractable(cafeSwitch, 2.6, function () { setCafeOpen(!cafeOpen); });
-  registerInteractable(lightSwitch, 2.6, function () { setLightOn(!lightOn); });
+  function toggleCafeOpen() { setCafeOpen(!cafeOpen); }
+  // Hem küçük düğmeye HEM tabelanın kendisine dokununca çalışsın diye ikisi
+  // de aynı aksiyona kayıtlı — tabela daha büyük/kolay nişan alınan bir
+  // hedef, düğmeyi tam bulamayanlar için yedek.
+  registerInteractable(cafeSwitch, 2.8, toggleCafeOpen);
+  registerInteractable(signGroup, 2.8, toggleCafeOpen);
+  registerInteractable(lightSwitch, 2.8, function () {
+    setLightOn(!lightOn);
+    showActionMsg(lightOn ? "Işık açıldı ✓" : "Işık kapandı ✓");
+  });
 
 
   // =========================================================================
@@ -1097,6 +1373,63 @@
   var NPC_SHIRT_COLORS = [0xe07a5f, 0x4d8b6f, 0xd9a441, 0x3d5a80, 0xb5484f, 0x6b5b95];
   var npcs = [];
   var occupiedTables = {}; // placedItems index -> true
+
+  // ---- kirlilik (dükkan puanını düşürür) ----------------------------------
+  // Her müşterinin masadan kasaya doğru yola çıkışında (5-10 müşteriden 1'i,
+  // ortalama 1/7) yere bir kirlilik lekesi bırakma ihtimali var. Fırçayla
+  // (aynı bak+dokun etkileşim sistemiyle) temizleniyor; "Oto Temizlik
+  // Robotu" alınmışsa periyodik olarak kendiliğinden de temizleniyor.
+  var DIRT_CHANCE = 1 / 7;
+  var dirtSpots = []; // {mesh, group}
+  var dirtMat = new THREE.MeshStandardMaterial({ color: 0x2e2a20, roughness: 1 });
+  function spawnDirt(x, z) {
+    if (dirtSpots.length >= 10) return; // aşırı kalabalık olmasın
+    var g = new THREE.Group();
+    var blob = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.26, 0.015, 10), dirtMat);
+    g.add(blob);
+    g.position.set(x + (Math.random() - 0.5) * 0.6, 0.01, z + (Math.random() - 0.5) * 0.6);
+    scene.add(g);
+    var spot = { group: g };
+    dirtSpots.push(spot);
+    registerInteractable(g, 2.2, function () { cleanDirt(spot); });
+  }
+  function cleanDirt(spot) {
+    var idx = dirtSpots.indexOf(spot);
+    if (idx === -1) return;
+    scene.remove(spot.group);
+    dirtSpots.splice(idx, 1);
+    unregisterInteractable(spot.group);
+    showActionMsg("Temizlendi ✓");
+  }
+  var robotCleanTimer = 0;
+  var ROBOT_CLEAN_INTERVAL = 18; // saniye
+  function updateCleanRobot(dt) {
+    var hasRobot = placedItems.some(function (p) { return p.type === "cleanrobot"; });
+    if (!hasRobot || dirtSpots.length === 0) return;
+    robotCleanTimer += dt;
+    if (robotCleanTimer >= ROBOT_CLEAN_INTERVAL) {
+      robotCleanTimer = 0;
+      cleanDirt(dirtSpots[0]);
+    }
+  }
+
+  // Dükkan puanı (0-5) — mobilya kalitesi ortalaması + oyun/dekor sayısı
+  // bonusu - kirlilik cezası. İlk taslak bir formül, birlikte ince ayar
+  // yapılabilir.
+  function computeShopRating() {
+    var furnitureRatings = placedItems.map(function (p) {
+      var def = SHOP_ITEMS.filter(function (s) { return s.id === p.type; })[0];
+      return def && def.rating != null ? def.rating : null;
+    }).filter(function (r) { return r != null; });
+    var furnitureAvg = furnitureRatings.length ? (furnitureRatings.reduce(function (a, b) { return a + b; }, 0) / furnitureRatings.length) : 0;
+    var gamesOwned = placedItems.filter(function (p) { var d = SHOP_ITEMS.filter(function (s) { return s.id === p.type; })[0]; return d && d.game; }).length;
+    var decorOwned = placedItems.filter(function (p) { var d = SHOP_ITEMS.filter(function (s) { return s.id === p.type; })[0]; return d && d.decor; }).length;
+    var gamesBonus = Math.min(1, gamesOwned * 0.08);
+    var decorBonus = Math.min(1, decorOwned * 0.15);
+    var cleanlinessPenalty = Math.min(2, dirtSpots.length * 0.35);
+    return Math.max(0, Math.min(5, furnitureAvg + gamesBonus + decorBonus - cleanlinessPenalty));
+  }
+
   var npcSpawnTimer = 0;
 
   // ---- Minecraft/Roblox tarzı bloklu müşteri karakteri --------------------
@@ -1134,16 +1467,67 @@
     torso.position.set(0, 1.18, 0);
     g.add(torso);
 
+    // Kollar/bacaklar artık PIVOT grupları üzerinden — yürüme/oturma
+    // animasyonu için kalçadan/omuzdan doğru şekilde dönebilsinler diye.
+    var limbs = {};
     [-1, 1].forEach(function (side) {
+      var key = side < 0 ? "left" : "right";
+      var armPivot = new THREE.Group();
+      armPivot.position.set(side * 0.19, 1.37, 0);
       var arm = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.38, 0.1), shirtMat);
-      arm.position.set(side * 0.19, 1.18, 0);
-      g.add(arm);
+      arm.position.set(0, -0.19, 0);
+      armPivot.add(arm);
+      g.add(armPivot);
+      limbs[key + "Arm"] = armPivot;
+
+      var legPivot = new THREE.Group();
+      legPivot.position.set(side * 0.07, 0.42, 0);
       var leg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.42, 0.1), npcPantsMat);
-      leg.position.set(side * 0.07, 0.21, 0);
-      g.add(leg);
+      leg.position.set(0, -0.21, 0);
+      legPivot.add(leg);
+      g.add(legPivot);
+      limbs[key + "Leg"] = legPivot;
     });
 
+    g.userData.head = head;
+    g.userData.leftArm = limbs.leftArm;
+    g.userData.rightArm = limbs.rightArm;
+    g.userData.leftLeg = limbs.leftLeg;
+    g.userData.rightLeg = limbs.rightLeg;
+    g.userData.animPhase = Math.random() * 10; // hepsi aynı fazda yürümesin diye rastgele başlangıç
+    g.userData.baseHeadY = 1.52;
     return g;
+  }
+
+  // Minecraft tarzı yürüme (bacak/kol sallama), otururken düzgün bir oturma
+  // pozu (bacaklar öne bükülü, gövde alçalmış) ve boşta hafif kafa sallama.
+  function animateNpc(npc, dt, moving, sitting) {
+    var ud = npc.mesh.userData;
+    if (!ud.head) return;
+    if (sitting) {
+      ud.animPhase += dt * 1.8;
+      ud.leftLeg.rotation.x = -1.3;
+      ud.rightLeg.rotation.x = -1.3;
+      ud.leftArm.rotation.x = 0.15;
+      ud.rightArm.rotation.x = 0.15;
+      ud.head.position.y = ud.baseHeadY - 0.26 + Math.sin(ud.animPhase) * 0.01;
+      npc.mesh.position.y = -0.26;
+    } else if (moving) {
+      ud.animPhase += dt * 7;
+      var swing = Math.sin(ud.animPhase) * 0.55;
+      ud.leftLeg.rotation.x = swing;
+      ud.rightLeg.rotation.x = -swing;
+      ud.leftArm.rotation.x = -swing * 0.7;
+      ud.rightArm.rotation.x = swing * 0.7;
+      ud.head.position.y = ud.baseHeadY + Math.abs(Math.sin(ud.animPhase * 2)) * 0.015;
+      npc.mesh.position.y = 0;
+    } else {
+      ud.animPhase += dt * 1.5;
+      ud.leftLeg.rotation.x *= 0.85; ud.rightLeg.rotation.x *= 0.85;
+      ud.leftArm.rotation.x *= 0.85; ud.rightArm.rotation.x *= 0.85;
+      ud.head.position.y = ud.baseHeadY + Math.sin(ud.animPhase) * 0.012;
+      npc.mesh.position.y = 0;
+    }
   }
 
   function seatWorldPos(item) {
@@ -1189,18 +1573,24 @@
   function updateNpcs(dt) {
     npcSpawnTimer += dt;
     if (npcSpawnTimer >= NPC_SPAWN_INTERVAL) { npcSpawnTimer = 0; trySpawnNpc(); }
+    updateCleanRobot(dt);
 
     for (var i = npcs.length - 1; i >= 0; i--) {
       var npc = npcs[i];
+      var moving = false, sitting = false;
       if (npc.state === "toTable") {
+        moving = true;
         if (moveNpcToward(npc, npc.tx, npc.tz, dt)) { npc.state = "sitting"; npc.timer = NPC_SIT_MIN + Math.random() * (NPC_SIT_MAX - NPC_SIT_MIN); }
       } else if (npc.state === "sitting") {
+        sitting = true;
         npc.timer -= dt;
         if (npc.timer <= 0) {
+          if (Math.random() < DIRT_CHANCE) spawnDirt(npc.mesh.position.x, npc.mesh.position.z);
           var kf = kasaWorldFrontPos();
           npc.state = "toKasa"; npc.tx = kf.x; npc.tz = kf.z;
         }
       } else if (npc.state === "toKasa") {
+        moving = true;
         if (moveNpcToward(npc, npc.tx, npc.tz, dt)) {
           var amount = NPC_PAYOUT_BY_TIER[npc.tier] || 20;
           setMoney(money + amount);
@@ -1211,12 +1601,15 @@
         npc.timer -= dt;
         if (npc.timer <= 0) { npc.state = "leaving"; npc.tx = DOOR_POS.x; npc.tz = DOOR_POS.z; }
       } else if (npc.state === "leaving") {
+        moving = true;
         if (moveNpcToward(npc, npc.tx, npc.tz, dt)) {
           delete occupiedTables[npc.tableIdx];
           scene.remove(npc.mesh);
           npcs.splice(i, 1);
+          continue;
         }
       }
+      animateNpc(npc, dt, moving, sitting);
     }
   }
 
@@ -1305,7 +1698,7 @@
     // Kısa/hareketsiz bir dokunuş = "tap" — ekran ortasındaki nişangahla
     // etkileşim dener (duvar düğmesi vb). Sürükleme (bakış döndürme) ise
     // etkileşimi TETİKLEMEZ, sadece uzun/az hareketli dokunuşlar sayılır.
-    if (lookTotalMove < 10 && (Date.now() - lookStartTime) < 350) tryInteract();
+    if (lookTotalMove < 22 && (Date.now() - lookStartTime) < 500) tryInteract();
     lookPointerId = null;
   }
   mount.addEventListener("pointerup", lookPointerEnd);
@@ -1386,6 +1779,70 @@
     renderer.render(scene, camera);
   }
   requestAnimationFrame(tick);
+
+  // ---- dükkan görselleri — soyut çizgi ikon yerine ürünün GERÇEK 3D
+  // modelinden küçük bir anlık görüntü alıyoruz (ayrı, ekrana hiç
+  // eklenmeyen bir mini sahnede tek seferlik render). Bir sorun olursa
+  // (ör. eski bir tarayıcı) sessizce eski çizgi ikona geri düşer.
+  function generateShopThumbnails() {
+    try {
+      var size = 160;
+      var tScene = new THREE.Scene();
+      var tCamera = new THREE.PerspectiveCamera(35, 1, 0.05, 20);
+      var tRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      tRenderer.setSize(size, size);
+      tScene.add(new THREE.AmbientLight(0xffffff, 1.2));
+      var tLight = new THREE.DirectionalLight(0xffffff, 0.7);
+      tLight.position.set(2, 3, 2);
+      tScene.add(tLight);
+
+      SHOP_ITEMS.forEach(function (item) {
+        var mesh = item.build(false);
+        tScene.add(mesh);
+        var box = new THREE.Box3().setFromObject(mesh);
+        var center = box.getCenter(new THREE.Vector3());
+        var sizeVec = box.getSize(new THREE.Vector3());
+        var maxDim = Math.max(sizeVec.x, sizeVec.y, sizeVec.z, 0.2);
+        var dist = maxDim * 2.1;
+        tCamera.position.set(center.x + dist * 0.55, center.y + dist * 0.55, center.z + dist * 0.7);
+        tCamera.lookAt(center);
+        tRenderer.render(tScene, tCamera);
+        item.thumb = tRenderer.domElement.toDataURL("image/png");
+        tScene.remove(mesh);
+      });
+      tRenderer.dispose();
+    } catch (e) {
+      console.error("[iOZ Cafe 3D] Dükkan görselleri oluşturulamadı, çizgi ikon kullanılacak:", e);
+    }
+  }
+  generateShopThumbnails();
+
+  // ---- cafe ismi (oyun girişinde bir kez sorulur) ------------------------
+  var cafeName = "";
+  try { cafeName = localStorage.getItem(CAFE_NAME_KEY) || ""; } catch (e) {}
+  function applyCafeName(name) {
+    cafeName = name;
+    try { document.title = name; } catch (e) {}
+    // Sohbet ismi henüz girilmediyse cafe ismini varsayılan yap — girişte
+    // bir kez isim sorup sohbette tekrar sormaya gerek kalmasın diye.
+    if (!playerName) {
+      playerName = name.slice(0, 24);
+      try { localStorage.setItem(PLAYER_NAME_KEY, playerName); } catch (e) {}
+      $("chat-name-row").hidden = true;
+      updateChatInputState();
+    }
+  }
+  if (cafeName) {
+    $("cafename-overlay").hidden = true;
+    applyCafeName(cafeName);
+  }
+  $("btn-cafename-confirm").addEventListener("click", function () {
+    var v = $("cafename-input").value.trim() || "iOZ Cafe";
+    v = v.slice(0, 24);
+    try { localStorage.setItem(CAFE_NAME_KEY, v); } catch (e) {}
+    applyCafeName(v);
+    $("cafename-overlay").hidden = true;
+  });
 
   // ---- ilk render ----
   setMoney(money);

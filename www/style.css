@@ -6,6 +6,26 @@
    oyunu bloke ediyordu ("reklam yükleniyor" ekranında takılı kalma budur).
    !important ile bunu kesin olarak düzeltiyoruz. */
 [hidden] { display: none !important; }
+#cafename-overlay {
+  position: fixed; inset: 0; z-index: 70;
+  background: rgba(6,10,13,0.95);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.cafename-box {
+  max-width: 340px; width: 100%; text-align: center;
+  background: #12181c; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px; padding: 28px 22px;
+}
+.cafename-box h2 { color: #fff; font-size: 1.1rem; margin: 0 0 16px; }
+.cafename-box input {
+  width: 100%; background: rgba(255,255,255,0.1); border: none; outline: none;
+  color: #fff; border-radius: 10px; padding: 10px 14px; font-size: 14px;
+  margin-bottom: 14px; text-align: center;
+}
+.cafename-box input::placeholder { color: rgba(255,255,255,0.35); }
+.cafename-box button { width: 100%; justify-content: center; }
+
 html, body {
   margin: 0; padding: 0; width: 100%; height: 100%;
   background: #000; overflow: hidden;
@@ -128,7 +148,21 @@ html, body {
 #chat-messages { flex: 1; overflow-y: auto; padding: 6px 12px; }
 .chat-msg { font-size: 12px; color: rgba(255,255,255,0.9); line-height: 1.6; }
 .chat-msg .name { color: #6ee7b7; font-weight: 600; }
+.chat-msg .name.clickable { cursor: pointer; text-decoration: underline dotted rgba(110,231,183,0.5); }
 .chat-msg .tag { color: rgba(255,255,255,0.3); }
+
+#profile-popup {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+}
+.profile-box {
+  background: #12181c; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px; padding: 20px 24px; text-align: center; min-width: 200px;
+}
+#profile-name { color: #fff; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+#profile-money { color: #6ee7b7; font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+.profile-box button { width: 100%; justify-content: center; }
 .chat-empty { color: rgba(255,255,255,0.3); font-size: 12px; }
 .chat-input-row {
   display: flex; gap: 8px; align-items: center; padding: 8px 12px;
@@ -166,6 +200,8 @@ html, body {
 .shop-empty p { font-size: 13px; margin: 0; }
 
 #shop-status { padding: 2px 12px; color: #fcd34d; font-size: 11px; min-height: 14px; }
+#shop-rating { display: flex; align-items: center; gap: 6px; padding: 6px 12px 0; }
+.shop-rating-num { color: rgba(255,255,255,0.5); font-size: 11px; }
 #shop-items { flex: 1; overflow-y: auto; padding: 4px 12px 12px; }
 .shop-section { margin-bottom: 14px; }
 .shop-section-title {
@@ -183,11 +219,12 @@ html, body {
   text-align: center;
 }
 .shop-card-icon {
-  width: 44px; height: 44px; border-radius: 12px;
+  width: 52px; height: 52px; border-radius: 12px;
   background: rgba(47,191,168,0.12);
   display: flex; align-items: center; justify-content: center;
-  color: #2fbfa8;
+  color: #2fbfa8; overflow: hidden;
 }
+.shop-card-icon img { width: 100%; height: 100%; object-fit: contain; }
 .shop-card-name { color: #fff; font-size: 11.5px; font-weight: 600; line-height: 1.25; min-height: 28px; }
 .stars { display: flex; gap: 1px; }
 .stars .star { width: 10px; height: 10px; color: #fcd34d; }

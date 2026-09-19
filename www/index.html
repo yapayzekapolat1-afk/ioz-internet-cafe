@@ -11,6 +11,14 @@
 
   <div id="three-mount"></div>
 
+  <div id="cafename-overlay">
+    <div class="cafename-box">
+      <h2>Cafene bir isim ver</h2>
+      <input id="cafename-input" maxlength="24" placeholder="Örn: Efe Internet Cafe" />
+      <button id="btn-cafename-confirm" class="pill action-btn confirm">Başla</button>
+    </div>
+  </div>
+
   <div id="portrait-overlay" hidden>
     <p>Bu oyun yatay ekran için tasarlandı — cihazını çevir.</p>
   </div>
@@ -67,6 +75,7 @@
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
+    <div id="shop-rating"></div>
     <div id="shop-status"></div>
     <div id="shop-items"></div>
   </div>
@@ -79,6 +88,14 @@
     </button>
     <button id="btn-place-confirm" class="pill action-btn confirm">Yerleştir</button>
     <button id="btn-place-cancel" class="pill action-btn cancel">İptal</button>
+  </div>
+
+  <div id="profile-popup" hidden>
+    <div class="profile-box">
+      <div id="profile-name">?</div>
+      <div id="profile-money">0 ₺</div>
+      <button id="btn-profile-close" class="pill action-btn">Kapat</button>
+    </div>
   </div>
 
   <div id="joystick-base">
