@@ -70,13 +70,21 @@
     // bir artışla VARSAYILDI, birlikte ayarlayabiliriz.
     { id: "sandalye2010", name: "iOZ 2010 Sandalye", price: 3000, rating: 3, seat: false, tier: 4, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build2010ChairMesh(); } },
     { id: "masa2010", name: "iOZ 2010 Masa", price: 3000, rating: 3, seat: true, tier: 4, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build2010TableMesh(); } },
-    { id: "bilgisayar2010", name: "iOZ 2010 Bilgisayar", price: 6000, rating: 3, seat: false, tier: 4, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2010ComputerMesh(onTable); } }
+    { id: "bilgisayar2010", name: "iOZ 2010 Bilgisayar", price: 6000, rating: 3, seat: false, tier: 4, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2010ComputerMesh(onTable); } },
+    // 5. ve 6. SEVİYE — fiyat/yıldız yine belirtilmedi, mantıklı bir artışla
+    // VARSAYILDI (4★/12000-24000, 5★/50000-100000), birlikte ayarlayabiliriz.
+    { id: "sandalye2020", name: "iOZ 2020 Sandalye", price: 12000, rating: 4, seat: false, tier: 5, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build2020ChairMesh(); } },
+    { id: "masa2020", name: "iOZ 2020 Masa", price: 12000, rating: 4, seat: true, tier: 5, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build2020TableMesh(); } },
+    { id: "bilgisayar2020", name: "iOZ 2020 Bilgisayar", price: 24000, rating: 4, seat: false, tier: 5, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2020ComputerMesh(onTable); } },
+    { id: "sandalye2030", name: "iOZ 2030 Sandalye", price: 50000, rating: 5, seat: false, tier: 6, icon: '<path d="M6 3v11M18 3v11M6 14h12M8 14v7M16 14v7"/>', build: function () { return build2030ChairMesh(); } },
+    { id: "masa2030", name: "iOZ 2030 Masa", price: 50000, rating: 5, seat: true, tier: 6, icon: '<path d="M3 9h18M6 9v10M18 9v10"/>', build: function () { return build2030TableMesh(); } },
+    { id: "bilgisayar2030", name: "iOZ 2030 Bilgisayar", price: 100000, rating: 5, seat: false, tier: 6, computer: true, icon: '<path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4"/>', build: function (onTable) { return build2030ComputerMesh(onTable); } }
   ];
   // "seat: true" olan parçalar (masalar) — otomatik müşteriler oturacak yer
   // olarak bunları kullanıyor. tier, müşterinin ne kadar ödeyeceğini belirler
   // (bkz. NPC_PAYOUT_BY_TIER) — bu ödeme miktarları HENÜZ senden net bir sayı
   // gelmediği için varsayım, birlikte ayarlayabiliriz.
-  var NPC_PAYOUT_BY_TIER = { 1: 20, 2: 60, 3: 130, 4: 260 }; // 3-4. seviyeler için varsayım, birlikte ayarlanabilir
+  var NPC_PAYOUT_BY_TIER = { 1: 20, 2: 60, 3: 130, 4: 260, 5: 500, 6: 1000 }; // 3-6. seviyeler için varsayım, birlikte ayarlanabilir
   var PLACED_ITEMS_MAX = 60; // oyun/dekor eklenince mobilya ile yer paylaşmasınlar diye 24'ten yükseltildi
 
   // ---- Oyunlar (dükkan puanını yükseltir) — TELİFSİZ, uydurma isimler -----
@@ -253,11 +261,10 @@
     $("shop-rating").innerHTML = starsHtml(computeShopRating(), "shoprating") + '<span class="shop-rating-num">' + computeShopRating().toFixed(1) + '/5</span>';
 
     var tiers = [
-      { label: "iOZ Old — 1980 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 1; }) },
-      { label: "iOZ Old 90 — 90'lı Yıllar Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 2; }) },
-      { label: "iOZ Classic 2000 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 3; }) },
-      { label: "iOZ 2010 Serisi", items: SHOP_ITEMS.filter(function (i) { return i.tier === 4; }) },
-      { label: "Duvar Kağıtları & Çerçeveler & Neon", items: SHOP_ITEMS.filter(function (i) { return i.decor; }) },
+      { label: "Sandalyeler", items: SHOP_ITEMS.filter(function (i) { return i.tier > 0 && i.id.indexOf("sandalye") === 0; }) },
+      { label: "Masalar", items: SHOP_ITEMS.filter(function (i) { return i.tier > 0 && i.id.indexOf("masa") === 0; }) },
+      { label: "Bilgisayarlar", items: SHOP_ITEMS.filter(function (i) { return i.computer; }) },
+      { label: "Duvar Kağıtları, Çerçeveler & Neon (Aksesuarlar)", items: SHOP_ITEMS.filter(function (i) { return i.decor; }) },
       { label: "Ekipman", items: SHOP_ITEMS.filter(function (i) { return i.robot; }) },
       { label: "Oyunlar (dükkan puanını yükseltir)", items: SHOP_ITEMS.filter(function (i) { return i.game; }) }
     ];
@@ -443,10 +450,13 @@
 
         // Aktif sayaç — kaç kişi şu an sohbete bağlı (Ably presence)
         function refreshPresenceCount() {
-          chatChannel.presence.get(function (err, members) {
-            if (err) return;
+          // DÜZELTME: Ably v2'de callback API tamamen kaldırıldı — bu satır
+          // eskiden senkron hata fırlatıyordu, bu da altındaki geçmiş mesaj
+          // çekme ve moderasyon dinleme kodunun HİÇ ÇALIŞMAMASINA sebep
+          // oluyordu. Artık promise tarzında.
+          chatChannel.presence.get().then(function (members) {
             $("chat-active-count").textContent = "(Aktif: " + members.length + ")";
-          });
+          }).catch(function () {});
         }
         chatChannel.presence.enter({ name: playerName || "Misafir", money: money }).catch(function () {});
         chatChannel.presence.subscribe(function () { refreshPresenceCount(); });
@@ -1035,6 +1045,148 @@
     var kbAccent = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.005, 0.01), mat2010Accent);
     kbAccent.position.set(0, baseY + (onTable ? 0.031 : 0.011), 0.14);
     g.add(kbAccent);
+    return g;
+  }
+
+  // ---- "iOZ 2020" serisi — ince/minimal "ultrabook" tarzı, alüminyum+beyaz ----
+  var mat2020Body = new THREE.MeshStandardMaterial({ color: 0xf2f3f5, roughness: 0.3, metalness: 0.25 });
+  var mat2020Dark = new THREE.MeshStandardMaterial({ color: 0x3a3d42, roughness: 0.35, metalness: 0.3 });
+  var mat2020Accent = new THREE.MeshStandardMaterial({ color: NEON_BLUE, emissive: NEON_BLUE, emissiveIntensity: 0.6 });
+  var mat2020Screen = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xbfe9ff, emissiveIntensity: 1.0, side: THREE.DoubleSide });
+
+  function build2020ChairMesh() {
+    var g = new THREE.Group();
+    var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.25, 0.06, 24), mat2020Body);
+    seat.position.set(0, 0.47, 0);
+    g.add(seat);
+    var back = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.05), mat2020Body);
+    back.position.set(0, 0.78, -0.22);
+    back.rotation.x = -0.08;
+    g.add(back);
+    var backAccent = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.03, 0.055), mat2020Accent);
+    backAccent.position.set(0, 0.95, -0.218);
+    backAccent.rotation.x = -0.08;
+    g.add(backAccent);
+    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.42, 12), mat2020Dark);
+    pole.position.set(0, 0.25, 0);
+    g.add(pole);
+    for (var i = 0; i < 5; i++) {
+      var ang = (i / 5) * Math.PI * 2;
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.025, 0.17), mat2020Dark);
+      leg.position.set(Math.cos(ang) * 0.09, 0.03, Math.sin(ang) * 0.09);
+      leg.rotation.y = -ang;
+      g.add(leg);
+    }
+    return g;
+  }
+
+  function build2020TableMesh() {
+    var g = new THREE.Group();
+    var top = new THREE.Mesh(new THREE.BoxGeometry(1.25, 0.03, 0.66), mat2020Body);
+    top.position.set(0, 0.76, 0);
+    g.add(top);
+    var edge = new THREE.Mesh(new THREE.BoxGeometry(1.25, 0.012, 0.02), mat2020Accent);
+    edge.position.set(0, 0.745, 0.32);
+    g.add(edge);
+    [[-0.55, 0], [0.55, 0]].forEach(function (x) {
+      var leg = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.73, 0.5), mat2020Dark);
+      leg.position.set(x, 0.365, 0);
+      g.add(leg);
+    });
+    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.25, 0.26, 0.025), mat2020Accent);
+    backPlate.position.set(0, 0.6, -0.32);
+    g.add(backPlate);
+    return g;
+  }
+
+  function build2020ComputerMesh(onTable) {
+    var g = new THREE.Group();
+    var baseY = onTable ? 0 : 0.42;
+    if (!onTable) {
+      var tower = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.4, 0.36), mat2020Dark);
+      tower.position.set(0.3, 0.2, 0);
+      g.add(tower);
+    }
+    var monY = onTable ? 0.24 : 0.66;
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.3), mat2020Screen);
+    screen.position.set(0, monY, -0.005);
+    g.add(screen);
+    var screenBack = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.3, 0.012), mat2020Body);
+    screenBack.position.set(0, monY, -0.015);
+    g.add(screenBack);
+    var neck = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.08, 0.025), mat2020Dark);
+    neck.position.set(0, monY - 0.19, -0.01);
+    g.add(neck);
+    var standBase = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.015, 20), mat2020Body);
+    standBase.position.set(0, baseY, -0.01);
+    g.add(standBase);
+    var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.012, 0.14), mat2020Body);
+    keyboard.position.set(0, baseY + (onTable ? 0.01 : 0), 0.2);
+    g.add(keyboard);
+    return g;
+  }
+
+  // ---- "iOZ 2030" serisi — geleceğe özgü, yarı saydam/holografik his -------
+  var mat2030Body = new THREE.MeshStandardMaterial({ color: 0xe8ecef, roughness: 0.2, metalness: 0.5, transparent: true, opacity: 0.92 });
+  var mat2030Dark = new THREE.MeshStandardMaterial({ color: 0x1a1d21, roughness: 0.25, metalness: 0.5 });
+  var mat2030Glow = new THREE.MeshStandardMaterial({ color: 0xb388ff, emissive: 0xb388ff, emissiveIntensity: 1.1, side: THREE.DoubleSide });
+
+  function build2030ChairMesh() {
+    var g = new THREE.Group();
+    var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.22, 0.09, 24), mat2030Body);
+    seat.position.set(0, 0.47, 0);
+    g.add(seat);
+    var back = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.24, 0.6, 24, 1, false, Math.PI * 0.15, Math.PI * 0.7), mat2030Body);
+    back.rotation.y = Math.PI / 2;
+    back.position.set(0, 0.78, -0.05);
+    g.add(back);
+    var glowRing = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.5, 12), mat2030Glow);
+    glowRing.position.set(0, 0.24, 0);
+    g.add(glowRing);
+    var baseDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.22, 0.03, 24), mat2030Dark);
+    baseDisc.position.set(0, 0.02, 0);
+    g.add(baseDisc);
+    return g;
+  }
+
+  function build2030TableMesh() {
+    var g = new THREE.Group();
+    var top = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.03, 0.68), mat2030Body);
+    top.position.set(0, 0.76, 0);
+    g.add(top);
+    var glowEdge = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.015, 0.02), mat2030Glow);
+    glowEdge.position.set(0, 0.74, 0.33);
+    g.add(glowEdge);
+    var centerLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.16, 0.72, 16), mat2030Dark);
+    centerLeg.position.set(0, 0.37, 0);
+    g.add(centerLeg);
+    var backPlate = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.26, 0.02), mat2030Glow);
+    backPlate.position.set(0, 0.6, -0.33);
+    g.add(backPlate);
+    return g;
+  }
+
+  function build2030ComputerMesh(onTable) {
+    var g = new THREE.Group();
+    var baseY = onTable ? 0 : 0.4;
+    if (!onTable) {
+      var floatBase = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.03, 20), mat2030Dark);
+      floatBase.position.set(0, baseY, 0);
+      g.add(floatBase);
+    }
+    var monY = onTable ? 0.26 : 0.68;
+    var screen = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.3), mat2030Glow);
+    screen.position.set(0, monY, 0);
+    g.add(screen);
+    var screenFrame = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.32, 0.008), mat2030Body);
+    screenFrame.position.set(0, monY, -0.006);
+    g.add(screenFrame);
+    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, monY - baseY - 0.05, 8), mat2030Dark);
+    pole.position.set(0, (monY + baseY) / 2, 0);
+    g.add(pole);
+    var keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.01, 0.15), mat2030Body);
+    keyboard.position.set(0, baseY + (onTable ? 0.01 : 0.015), 0.2);
+    g.add(keyboard);
     return g;
   }
 
