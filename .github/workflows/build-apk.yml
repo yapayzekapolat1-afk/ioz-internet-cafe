@@ -36,7 +36,10 @@ jobs:
         
 
       - name: Android projesini oluştur
-        run: npx cap add android
+        run: |
+          # Repoda yanlışlıkla bir android/ klasörü kalmışsa temizle, her build sıfırdan üretilir
+          rm -rf android
+          npx cap add android
 
       - name: Eklentileri native projeye yerleştir (Unity Ads + Billing)
         run: |
