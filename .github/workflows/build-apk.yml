@@ -200,7 +200,7 @@ jobs:
           # github.run_number bu workflow her çalıştığında 1 artar, asla geriye
           # gitmez veya tekrar etmez — Play Store'un istediği "her yüklemede
           # daha yüksek versionCode" kuralını garanti eder.
-          NEW_CODE=${{ github.run_number }}
+          NEW_CODE=$(( ${{ github.run_number }} + 200 ))  # Play'de önceki sürümlerden (120+) kesin yüksek olsun
           NEW_NAME="8.0.${{ github.run_number }}"
           sed -i "s/versionCode [0-9]\+/versionCode $NEW_CODE/" "$APP_GRADLE"
           sed -i "s/versionName \"[^\"]*\"/versionName \"$NEW_NAME\"/" "$APP_GRADLE"
@@ -291,7 +291,7 @@ jobs:
           # Böylece version.json her zaman "gerçekten indirilebilir olan"
           # sürümü gösterir, "az önce derlenmiş ama henüz yayınlanmamış"
           # sürümü değil.
-          echo "Bu build'in versionCode'u: ${{ github.run_number }}"
+          echo "Bu build'in versionCode'u: $(( ${{ github.run_number }} + 200 ))"
           echo "Play Store'da bu sürüm %100 yayına alındıktan SONRA:"
           echo "  Actions > 'Yayını Duyur (version.json)' > Run workflow"
-          echo "  içine ${{ github.run_number }} yazıp çalıştırın."
+          echo "  içine $(( ${{ github.run_number }} + 200 )) yazıp çalıştırın."
