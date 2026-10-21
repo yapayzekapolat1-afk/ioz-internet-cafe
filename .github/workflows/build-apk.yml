@@ -155,17 +155,14 @@ jobs:
             sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="com.android.vending.BILLING" />#' "$MANIFEST"
           fi
 
-      - name: Ekranı yatay (landscape) kilitle
+      - name: Ekranı dikey (portrait) kilitle
         run: |
-          # 3D yeniden yapımı yatay ekran için tasarlanıyor. Web tarafındaki
-          # screen.orientation.lock() denemesi tarayıcı desteğine bağlı ve
-          # garantisiz — asıl garanti bu native manifest ayarı. `cap add
-          # android` her build'de MainActivity'yi taze üretir, bu yüzden bu
-          # adım her seferinde tekrar uygulanmalı (idempotent: grep -q ile
-          # zaten eklenmişse tekrar eklemez).
+          # İOZ Penalty Legend dikey ekran için tasarlandı. `cap add android`
+          # her build'de MainActivity'yi taze üretir, bu yüzden bu adım her
+          # seferinde uygulanır (grep -q ile zaten ekliyse tekrar eklemez).
           MANIFEST="android/app/src/main/AndroidManifest.xml"
-          if ! grep -q 'android:screenOrientation="landscape"' "$MANIFEST"; then
-            sed -i 's#android:name=".MainActivity"#android:screenOrientation="landscape"\n            android:name=".MainActivity"#' "$MANIFEST"
+          if ! grep -q 'android:screenOrientation="portrait"' "$MANIFEST"; then
+            sed -i 's#android:name=".MainActivity"#android:screenOrientation="portrait"\n            android:name=".MainActivity"#' "$MANIFEST"
           fi
           grep -A 3 "MainActivity" "$MANIFEST" | head -6
 
