@@ -1,37 +1,20 @@
 package com.sizinsirketiniz.iozcafe;
 
 /**
- * BillingBridge — a small custom Capacitor plugin that wires the native
- * Google Play Billing Library to the game's JavaScript. Handles the VIP
- * one-time (non-consumable) purchase: 2x income, no ads, gold badge.
+ * Google Play Billing köprüsü — İOZ Penalty Legend için.
+ * JS tarafı: Capacitor.Plugins.PlayBilling
+ *   products({ids:[...]})            -> { items:[{id, price}] }
+ *   buy({id, account})               -> { status:"purchased"|"pending"|"owned"|"cancelled"|"error", id, token }
+ *   restore()                        -> { items:[{id, token, acked}] }   (alınmış ama teslim/onay bekleyenler)
+ *   finish({token, consume})         -> { ok }   (sunucu doğruladıktan SONRA oyun çağırır)
  *
- * Drop this file next to UnityAdsBridge.kt, in the SAME package folder:
- *   android/app/src/main/java/com/sizinsirketiniz/iozcafe/BillingBridge.kt
- *
- * IMPORTANT: the "package" line above MUST say the exact same thing as the
- * first line of your UnityAdsBridge.kt. Copy it from there if in doubt —
- * do not guess it from capacitor.config.json's "appId", those two don't
- * always match (see the note I gave you separately about this).
- *
- * Setup steps (do these three, in order, or nothing will compile/work):
- *   1. Add the Gradle dependency (see below)
- *   2. Register the plugin in MainActivity
- *   3. Add the BILLING permission to AndroidManifest.xml
- *   4. Create the "vip_membership" in-app product in Play Console
- *
- * JS side calls (already wired up in game.js):
- *   Capacitor.Plugins.BillingBridge.purchaseVip({ productId: "vip_membership" })
- *     .then(() => ...)   // purchase completed & acknowledged — grant VIP
- *     .catch(() => ...)  // cancelled / failed — no charge, no VIP
- *
- *   Capacitor.Plugins.BillingBridge.restorePurchases()
- *     .then(res => res.vip)  // true if this Google account already owns VIP
- *
- *   Capacitor.Plugins.BillingBridge.getVipPrice({ productId: "vip_membership" })
- *     .then(res => res.price) // localized price string, e.g. "₺100,00"
+ * Satın alma burada ONAYLANMAZ; oyun, Supabase 'satin-al' fonksiyonu doğrulayınca finish() çağırır.
+ * consume:true  -> tüketilebilir paket (başlangıç/mini, tekrar alınabilir)
+ * consume:false -> tek seferlik (VIP), sadece acknowledge edilir.
  */
 
 import android.util.Log
+import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -42,211 +25,181 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.PendingPurchasesParams
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
-import java.util.concurrent.atomic.AtomicBoolean
 
-// The in-app product ID you will create in Play Console. Must match
-// EXACTLY (case-sensitive) or every purchase call fails with
-// "product_unavailable" — this is the #1 beginner mistake with Billing.
-private const val VIP_PRODUCT_ID = "vip_membership"
-
-@CapacitorPlugin(name = "BillingBridge")
+@CapacitorPlugin(name = "PlayBilling")
 class BillingBridge : Plugin(), PurchasesUpdatedListener {
 
-    private val TAG = "BillingBridge"
+    private val TAG = "PlayBilling"
     private var billingClient: BillingClient? = null
     private var connected = false
-
-    // The PluginCall currently waiting on a purchase result, if any —
-    // Play's purchase sheet is a separate Activity, so the result comes
-    // back later via onPurchasesUpdated(), not as a normal return value.
-    private var pendingPurchaseCall: PluginCall? = null
-    private val settled = AtomicBoolean(true)
+    private var pendingBuy: PluginCall? = null
 
     override fun load() {
         super.load()
-        // PBL 8.0.0+: enablePendingPurchases() with no arguments was removed.
-        // This is the documented drop-in replacement for the old behavior.
         billingClient = BillingClient.newBuilder(activity.applicationContext)
             .setListener(this)
             .enablePendingPurchases(
                 PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
             )
             .build()
-        connect(null)
+        connect(null, null)
     }
 
-    private fun connect(after: (() -> Unit)?) {
-        val client = billingClient ?: return
-        if (connected) { after?.invoke(); return }
+    private fun connect(onReady: (() -> Unit)?, onFail: (() -> Unit)?) {
+        val client = billingClient
+        if (client == null) { onFail?.invoke(); return }
+        if (connected && client.isReady) { onReady?.invoke(); return }
         client.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(result: BillingResult) {
                 connected = result.responseCode == BillingClient.BillingResponseCode.OK
-                if (connected) after?.invoke()
-                else Log.e(TAG, "Billing setup failed: ${result.debugMessage}")
+                if (connected) onReady?.invoke()
+                else { Log.e(TAG, "Billing setup failed: ${result.debugMessage}"); onFail?.invoke() }
             }
-            override fun onBillingServiceDisconnected() {
-                connected = false
-            }
+            override fun onBillingServiceDisconnected() { connected = false }
         })
     }
 
-    @PluginMethod
-    fun purchaseVip(call: PluginCall) {
-        val productId = call.getString("productId", VIP_PRODUCT_ID) ?: VIP_PRODUCT_ID
-        connect {
-            val client = billingClient
-            if (client == null) { call.reject("not_connected"); return@connect }
-
-            val product = QueryProductDetailsParams.Product.newBuilder()
-                .setProductId(productId)
+    private fun queryDetails(ids: List<String>, cb: (List<ProductDetails>?) -> Unit) {
+        val client = billingClient
+        if (client == null) { cb(null); return }
+        val list = ids.map {
+            QueryProductDetailsParams.Product.newBuilder()
+                .setProductId(it)
                 .setProductType(BillingClient.ProductType.INAPP)
                 .build()
-            val params = QueryProductDetailsParams.newBuilder()
-                .setProductList(listOf(product))
-                .build()
-
-            // PBL 8.0.0+: the callback now receives a QueryProductDetailsResult
-            // instead of a raw list — unwrap it with .productDetailsList.
-            client.queryProductDetailsAsync(params) { result, queryResult ->
-                val productDetailsList = queryResult.productDetailsList
-                if (result.responseCode != BillingClient.BillingResponseCode.OK || productDetailsList.isNullOrEmpty()) {
-                    call.reject("product_unavailable: ${result.debugMessage}")
-                    return@queryProductDetailsAsync
-                }
-                val details = productDetailsList[0]
-                val flowParams = BillingFlowParams.newBuilder()
-                    .setProductDetailsParamsList(
-                        listOf(
-                            BillingFlowParams.ProductDetailsParams.newBuilder()
-                                .setProductDetails(details)
-                                .build()
-                        )
-                    )
-                    .build()
-
-                pendingPurchaseCall = call
-                settled.set(false)
-                activity.runOnUiThread {
-                    client.launchBillingFlow(activity, flowParams)
-                }
-            }
+        }
+        val params = QueryProductDetailsParams.newBuilder().setProductList(list).build()
+        client.queryProductDetailsAsync(params) { result, queryResult ->
+            if (result.responseCode != BillingClient.BillingResponseCode.OK) cb(null)
+            else cb(queryResult.productDetailsList ?: emptyList())
         }
     }
 
-    // Called by the SDK once the Play purchase sheet closes — success,
-    // cancel, or error all land here. This is where we settle the JS
-    // promise that purchaseVip() left pending.
-    override fun onPurchasesUpdated(result: BillingResult, purchases: MutableList<Purchase>?) {
-        val call = pendingPurchaseCall
-        pendingPurchaseCall = null
+    private fun status(s: String): JSObject { val r = JSObject(); r.put("status", s); return r }
 
+    @PluginMethod
+    fun products(call: PluginCall) {
+        val arr = call.getArray("ids")
+        val ids = ArrayList<String>()
+        if (arr != null) for (i in 0 until arr.length()) ids.add(arr.getString(i))
+        if (ids.isEmpty()) { call.reject("no_ids"); return }
+        connect({
+            queryDetails(ids) { details ->
+                if (details == null) { call.reject("product_query_failed"); return@queryDetails }
+                val items = JSArray()
+                details.forEach { d ->
+                    val o = JSObject()
+                    o.put("id", d.productId)
+                    o.put("price", d.oneTimePurchaseOfferDetails?.formattedPrice ?: "")
+                    items.put(o)
+                }
+                val res = JSObject(); res.put("items", items); call.resolve(res)
+            }
+        }, { call.reject("not_connected") })
+    }
+
+    @PluginMethod
+    fun buy(call: PluginCall) {
+        val id = call.getString("id")
+        val account = call.getString("account") ?: ""
+        if (id.isNullOrEmpty()) { call.resolve(status("error")); return }
+        if (pendingBuy != null) { call.resolve(status("error")); return }
+        connect({
+            queryDetails(listOf(id)) { details ->
+                val d = details?.firstOrNull()
+                if (d == null) {
+                    Log.e(TAG, "product_unavailable: $id")
+                    call.resolve(status("error"))
+                    return@queryDetails
+                }
+                val pb = BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(d).build()
+                val fb = BillingFlowParams.newBuilder().setProductDetailsParamsList(listOf(pb))
+                if (account.isNotEmpty()) fb.setObfuscatedAccountId(account)
+                pendingBuy = call
+                activity.runOnUiThread {
+                    val r = billingClient?.launchBillingFlow(activity, fb.build())
+                    if (r == null || r.responseCode != BillingClient.BillingResponseCode.OK) {
+                        pendingBuy = null
+                        Log.e(TAG, "launch failed: ${r?.debugMessage}")
+                        call.resolve(status("error"))
+                    }
+                }
+            }
+        }, { call.resolve(status("error")) })
+    }
+
+    override fun onPurchasesUpdated(result: BillingResult, purchases: MutableList<Purchase>?) {
+        val call = pendingBuy
+        pendingBuy = null
+        if (call == null) return
         when (result.responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-                val purchase = purchases?.firstOrNull { it.products.contains(VIP_PRODUCT_ID) }
-                if (purchase == null) {
-                    settleReject(call, "no_purchase_returned")
-                    return
-                }
-                acknowledgeIfNeeded(purchase) { ok ->
-                    if (ok) settleResolve(call) else settleReject(call, "ack_failed")
+                val p = purchases?.firstOrNull()
+                if (p == null) { call.resolve(status("error")); return }
+                when (p.purchaseState) {
+                    Purchase.PurchaseState.PURCHASED -> {
+                        val r = status("purchased")
+                        r.put("id", p.products.firstOrNull() ?: "")
+                        r.put("token", p.purchaseToken)
+                        call.resolve(r)
+                    }
+                    Purchase.PurchaseState.PENDING -> call.resolve(status("pending"))
+                    else -> call.resolve(status("error"))
                 }
             }
-            BillingClient.BillingResponseCode.USER_CANCELED -> settleReject(call, "cancelled")
-            else -> settleReject(call, "billing_error_${result.responseCode}: ${result.debugMessage}")
+            BillingClient.BillingResponseCode.USER_CANCELED -> call.resolve(status("cancelled"))
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> call.resolve(status("owned"))
+            else -> { Log.e(TAG, "billing error ${result.responseCode}: ${result.debugMessage}"); call.resolve(status("error")) }
         }
     }
 
-    // A purchase must be acknowledged within 3 days or Google auto-refunds
-    // it. We never "consume" it (that's for consumables like extra coins)
-    // — VIP is permanent, so acknowledge-only is correct here.
-    private fun acknowledgeIfNeeded(purchase: Purchase, onDone: (Boolean) -> Unit) {
-        if (purchase.purchaseState != Purchase.PurchaseState.PURCHASED) { onDone(false); return }
-        if (purchase.isAcknowledged) { onDone(true); return }
-        val client = billingClient
-        if (client == null) { onDone(false); return }
-        val ackParams = AcknowledgePurchaseParams.newBuilder()
-            .setPurchaseToken(purchase.purchaseToken)
-            .build()
-        client.acknowledgePurchase(ackParams) { ackResult ->
-            onDone(ackResult.responseCode == BillingClient.BillingResponseCode.OK)
-        }
-    }
-
-    private fun settleResolve(call: PluginCall?) {
-        if (!settled.compareAndSet(false, true)) return
-        val res = JSObject()
-        res.put("vip", true)
-        call?.resolve(res)
-    }
-
-    private fun settleReject(call: PluginCall?, reason: String) {
-        if (!settled.compareAndSet(false, true)) return
-        Log.e(TAG, reason)
-        call?.reject(reason)
-    }
-
-    // Re-checks past purchases on this Google account (reinstall / new
-    // device) and re-acknowledges + grants VIP again if found — the
-    // player never pays twice. Called once on app startup from game.js.
     @PluginMethod
-    fun restorePurchases(call: PluginCall) {
-        connect {
+    fun restore(call: PluginCall) {
+        connect({
             val client = billingClient
             if (client == null) { call.reject("not_connected"); return@connect }
             val params = QueryPurchasesParams.newBuilder()
-                .setProductType(BillingClient.ProductType.INAPP)
-                .build()
+                .setProductType(BillingClient.ProductType.INAPP).build()
             client.queryPurchasesAsync(params) { result, purchases ->
                 if (result.responseCode != BillingClient.BillingResponseCode.OK) {
-                    call.reject("query_failed: ${result.debugMessage}")
-                    return@queryPurchasesAsync
+                    call.reject("query_failed"); return@queryPurchasesAsync
                 }
-                val owned = purchases.firstOrNull {
-                    it.products.contains(VIP_PRODUCT_ID) && it.purchaseState == Purchase.PurchaseState.PURCHASED
+                val items = JSArray()
+                purchases.filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }.forEach { p ->
+                    val o = JSObject()
+                    o.put("id", p.products.firstOrNull() ?: "")
+                    o.put("token", p.purchaseToken)
+                    o.put("acked", p.isAcknowledged)
+                    items.put(o)
                 }
-                if (owned == null) {
-                    val res = JSObject(); res.put("vip", false); call.resolve(res)
-                    return@queryPurchasesAsync
-                }
-                acknowledgeIfNeeded(owned) { _ ->
-                    val res = JSObject(); res.put("vip", true); call.resolve(res)
-                }
+                val res = JSObject(); res.put("items", items); call.resolve(res)
             }
-        }
+        }, { call.reject("not_connected") })
     }
 
-    // Returns Google's real localized price string for the VIP product,
-    // so the in-game button can show "₺100,00" (or whatever the store
-    // actually charges in the player's country) instead of a hardcoded guess.
     @PluginMethod
-    fun getVipPrice(call: PluginCall) {
-        val productId = call.getString("productId", VIP_PRODUCT_ID) ?: VIP_PRODUCT_ID
-        connect {
+    fun finish(call: PluginCall) {
+        val token = call.getString("token")
+        val consume = call.getBoolean("consume", true) ?: true
+        if (token.isNullOrEmpty()) { call.reject("no_token"); return }
+        connect({
             val client = billingClient
             if (client == null) { call.reject("not_connected"); return@connect }
-            val product = QueryProductDetailsParams.Product.newBuilder()
-                .setProductId(productId)
-                .setProductType(BillingClient.ProductType.INAPP)
-                .build()
-            val params = QueryProductDetailsParams.newBuilder()
-                .setProductList(listOf(product))
-                .build()
-            client.queryProductDetailsAsync(params) { result, queryResult ->
-                val productDetailsList = queryResult.productDetailsList
-                if (result.responseCode != BillingClient.BillingResponseCode.OK || productDetailsList.isNullOrEmpty()) {
-                    call.reject("product_unavailable")
-                    return@queryProductDetailsAsync
-                }
-                val price = productDetailsList[0].oneTimePurchaseOfferDetails?.formattedPrice
-                val res = JSObject()
-                res.put("price", price ?: "")
-                call.resolve(res)
+            fun done(ok: Boolean) { val r = JSObject(); r.put("ok", ok); call.resolve(r) }
+            if (consume) {
+                val p = ConsumeParams.newBuilder().setPurchaseToken(token).build()
+                client.consumeAsync(p) { r, _ -> done(r.responseCode == BillingClient.BillingResponseCode.OK) }
+            } else {
+                val p = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(token).build()
+                client.acknowledgePurchase(p) { r -> done(r.responseCode == BillingClient.BillingResponseCode.OK) }
             }
-        }
+        }, { call.reject("not_connected") })
     }
 }

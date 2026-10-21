@@ -1,22 +1,10 @@
 package com.sizinsirketiniz.iozcafe;
 
 /**
- * UnityAdsBridge — a small custom Capacitor plugin that wires the native
- * Unity Ads SDK (rewarded video) to the game's JavaScript. There is no
- * official Capacitor plugin for Unity Ads, so this hand-written bridge is
- * the plugin. Drop this file into your Capacitor Android project at:
- *
- *   android/app/src/main/java/com/sizinsirketiniz/iozcafe/UnityAdsBridge.kt
- *
- * (rename the package above to match your actual applicationId if you
- * changed it), then follow reklam-entegrasyonu.md for the two remaining
- * steps: adding the Gradle dependency and registering the plugin in
- * MainActivity.
- *
- * JS side call (already wired up in game.js):
- *   Capacitor.Plugins.UnityAdsBridge.showRewarded({ placementId: "Rewarded_Android" })
- *     .then(() => ...)   // ad was watched to completion — grant the reward
- *     .catch(() => ...)  // failed to load / no fill / user skipped — no reward, but never blocks the game
+ * Unity Ads köprüsü — İOZ Penalty Legend için.
+ * JS tarafı: Capacitor.Plugins.UnityAds.show()  ->  { status: "completed" | "skipped" | "noad" | "notready" | "failed" | "busy" }
+ * Her durumda promise RESOLVE olur; ödülü sadece status === "completed" iken oyun verir.
+ * (package satırını workflow otomatik olarak applicationId ile değiştirir.)
  */
 
 import android.os.Handler
@@ -35,31 +23,21 @@ import com.unity3d.ads.UnityAdsLoadOptions
 import com.unity3d.ads.UnityAdsShowOptions
 import java.util.concurrent.atomic.AtomicBoolean
 
-// ---- Fill these in with your own values from the Unity Ads dashboard ----
 private const val UNITY_GAME_ID = "800275081"
 private const val DEFAULT_PLACEMENT_ID = "Rewarded_Android"
-
-// IMPORTANT: testMode MUST be false in the build you upload to Google
-// Play. Test ads are for development only — shipping with testMode=true
-// is a Unity Ads policy violation and your real ad revenue will be zero.
+// Play'e yüklenen sürümde MUTLAKA false olmalı.
 private const val UNITY_TEST_MODE = false
-
-// A generous last-resort ceiling — only fires if Unity Ads never calls
-// EITHER onInitializationComplete or onInitializationFailed at all (a
-// genuinely hung network call). Normal success/failure responses are
-// reported to JS immediately, they don't wait for this.
 private const val INIT_TIMEOUT_MS = 25000L
 
-@CapacitorPlugin(name = "UnityAdsBridge")
+@CapacitorPlugin(name = "UnityAds")
 class UnityAdsBridge : Plugin() {
 
     private var initialized = false
     private var initializing = false
-    private val TAG = "UnityAdsBridge"
+    private val TAG = "UnityAds"
     private val mainHandler = Handler(Looper.getMainLooper())
+    private val showing = AtomicBoolean(false)
 
-    // Callers waiting on initialization: onReady() for success,
-    // onFail(reason) for a real Unity Ads failure with its actual reason.
     private val pendingOnReady = mutableListOf<() -> Unit>()
     private val pendingOnFail = mutableListOf<(String) -> Unit>()
 
@@ -72,7 +50,6 @@ class UnityAdsBridge : Plugin() {
         if (initialized) { onReady?.invoke(); return }
         onReady?.let { pendingOnReady.add(it) }
         onFail?.let { pendingOnFail.add(it) }
-
         if (initializing) return
         initializing = true
 
@@ -108,38 +85,34 @@ class UnityAdsBridge : Plugin() {
     }
 
     @PluginMethod
-    fun showRewarded(call: PluginCall) {
-        val placementId = call.getString("placementId", DEFAULT_PLACEMENT_ID) ?: DEFAULT_PLACEMENT_ID
-
-        // Guards against resolving/rejecting the same PluginCall twice,
-        // which Capacitor logs as an error and which could otherwise
-        // happen if the init-timeout and a late SDK callback both fire.
-        val settled = AtomicBoolean(false)
-        fun resolveOnce(result: JSObject) { if (settled.compareAndSet(false, true)) call.resolve(result) }
-        fun rejectOnce(reason: String) { if (settled.compareAndSet(false, true)) call.reject(reason) }
-
-        if (initialized) {
-            loadThenShow(placementId, ::resolveOnce, ::rejectOnce)
+    fun show(call: PluginCall) {
+        if (!showing.compareAndSet(false, true)) {
+            val r = JSObject(); r.put("status", "busy"); call.resolve(r)
             return
         }
+        val placementId = call.getString("placementId", DEFAULT_PLACEMENT_ID) ?: DEFAULT_PLACEMENT_ID
 
-        // Not ready yet — kick off init (if not already running), and get
-        // the REAL reason immediately if Unity Ads reports one, instead of
-        // silently waiting out a blind timeout.
+        val settled = AtomicBoolean(false)
+        fun finish(status: String) {
+            if (settled.compareAndSet(false, true)) {
+                showing.set(false)
+                val r = JSObject(); r.put("status", status)
+                call.resolve(r)
+            }
+        }
+
+        if (initialized) {
+            loadThenShow(placementId, ::finish)
+            return
+        }
         initializeIfNeeded(
-            onReady = { loadThenShow(placementId, ::resolveOnce, ::rejectOnce) },
-            onFail = { reason -> rejectOnce(reason) }
+            onReady = { loadThenShow(placementId, ::finish) },
+            onFail = { _ -> finish("notready") }
         )
-        mainHandler.postDelayed({
-            if (!initialized) rejectOnce("init_timeout")
-        }, INIT_TIMEOUT_MS)
+        mainHandler.postDelayed({ if (!initialized) finish("notready") }, INIT_TIMEOUT_MS)
     }
 
-    private fun loadThenShow(
-        placementId: String,
-        resolveOnce: (JSObject) -> Unit,
-        rejectOnce: (String) -> Unit
-    ) {
+    private fun loadThenShow(placementId: String, finish: (String) -> Unit) {
         UnityAds.load(placementId, UnityAdsLoadOptions(), object : IUnityAdsLoadListener {
             override fun onUnityAdsAdLoaded(loadedPlacementId: String?) {
                 UnityAds.show(
@@ -153,24 +126,16 @@ class UnityAdsBridge : Plugin() {
                             message: String?
                         ) {
                             Log.e(TAG, "Show failed: $error $message")
-                            rejectOnce("show_failed")
+                            finish("failed")
                         }
-
-                        override fun onUnityAdsShowStart(shownPlacementId: String?) { /* no-op */ }
-                        override fun onUnityAdsShowClick(shownPlacementId: String?) { /* no-op */ }
-
+                        override fun onUnityAdsShowStart(shownPlacementId: String?) {}
+                        override fun onUnityAdsShowClick(shownPlacementId: String?) {}
                         override fun onUnityAdsShowComplete(
                             shownPlacementId: String?,
                             state: UnityAds.UnityAdsShowCompletionState?
                         ) {
-                            if (state == UnityAds.UnityAdsShowCompletionState.COMPLETED) {
-                                val result = JSObject()
-                                result.put("rewarded", true)
-                                resolveOnce(result)
-                            } else {
-                                // user closed the ad before it finished — no reward
-                                rejectOnce("skipped")
-                            }
+                            if (state == UnityAds.UnityAdsShowCompletionState.COMPLETED) finish("completed")
+                            else finish("skipped")
                         }
                     }
                 )
@@ -182,7 +147,7 @@ class UnityAdsBridge : Plugin() {
                 message: String?
             ) {
                 Log.e(TAG, "Load failed: $error $message")
-                rejectOnce("no_fill")
+                finish("noad")
             }
         })
     }
