@@ -296,11 +296,13 @@ jobs:
             echo "::error title=GRADLE ASIL HATA ($f)::${WENT:0:1500}"
             echo "::error title=GRADLE NEDEN ($f)::${CAUSE:0:1500}"
             {
-              echo "## Gradle hatası ($f)"
+              echo "## KOTLIN HATASI ($f)"
               echo '```'
-              grep -A20 "What went wrong" "$f" | head -30
-              echo "---"
-              grep -E "^Caused by|^e: |Duplicate class|defined multiple times|D8:|R8:|OutOfMemory|Java heap" "$f" | head -15
+              grep -E "^e: " "$f" | sed -E 's#file:///home/runner/work/[^/]+/[^/]+/##' | sort -u | head -20 | fold -s -w 52
+              echo '```'
+              echo "## Diğer ayrıntı"
+              echo '```'
+              grep -A6 "What went wrong" "$f" | head -8 | fold -s -w 52
               echo '```'
             } >> "$GITHUB_STEP_SUMMARY"
           done
