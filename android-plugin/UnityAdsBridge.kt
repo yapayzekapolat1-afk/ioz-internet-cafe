@@ -19,6 +19,9 @@ import com.unity3d.ads.UnityAdsShowOptions
 @CapacitorPlugin(name = "UnityAdsBridge")
 class UnityAdsBridge : Plugin() {
 
+    @Volatile
+    private var initDone = false
+
     @PluginMethod
     fun initAds(call: PluginCall) {
         val gameId = call.getString("gameId")
@@ -27,12 +30,13 @@ class UnityAdsBridge : Plugin() {
             call.reject("gameId yok")
             return
         }
-        if (UnityAds.isInitialized()) {
+        if (initDone) {
             call.resolve()
             return
         }
         UnityAds.initialize(context, gameId, testMode, object : IUnityAdsInitializationListener {
             override fun onInitializationComplete() {
+                initDone = true
                 call.resolve()
             }
 
