@@ -122,9 +122,15 @@ jobs:
       - name: Kotlin desteğini Android projesine ekle
         run: |
           ROOT_GRADLE="android/build.gradle"
-          if ! grep -q "kotlin-gradle-plugin" "$ROOT_GRADLE"; then
-            sed -i "s/classpath 'com.android.tools.build:gradle:[^']*'/&\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24\"/" "$ROOT_GRADLE"
+          echo "--- root build.gradle (önce) ---"; cat "$ROOT_GRADLE"
+          # Billing 8.x ve Unity Ads 4.16.x yeni Kotlin ile derlenmiş; eski 1.9.x derleyici
+          # bunları okuyamayıp "Compilation error" veriyor. Bu yüzden 2.2.20 kullanıyoruz.
+          if grep -q "kotlin-gradle-plugin" "$ROOT_GRADLE"; then
+            sed -i "s#kotlin-gradle-plugin:[^'\"]*#kotlin-gradle-plugin:2.2.20#" "$ROOT_GRADLE"
+          else
+            sed -i "s/classpath 'com.android.tools.build:gradle:[^']*'/&\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.20\"/" "$ROOT_GRADLE"
           fi
+          echo "--- root build.gradle (sonra) ---"; cat "$ROOT_GRADLE"
           APP_GRADLE="android/app/build.gradle"
           if ! grep -q "kotlin-android" "$APP_GRADLE"; then
             sed -i "s/apply plugin: 'com.android.application'/apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'/" "$APP_GRADLE"
