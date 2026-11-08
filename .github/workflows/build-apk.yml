@@ -278,24 +278,31 @@ jobs:
         run: |
           chmod +x gradlew
           set -o pipefail
-          ./gradlew bundleRelease --stacktrace 2>&1 | tee ../gradle-aab.log
+          ./gradlew bundleRelease --stacktrace --console=plain 2>&1 | tee ../gradle-aab.log
 
       - name: APK derle (Release, imzalı)
         working-directory: android
         run: |
           set -o pipefail
-          ./gradlew assembleRelease --stacktrace 2>&1 | tee ../gradle-apk.log
+          ./gradlew assembleRelease --stacktrace --console=plain 2>&1 | tee ../gradle-apk.log
 
       - name: Hata özeti (sadece build başarısız olursa)
         if: failure()
         run: |
           for f in gradle-aab.log gradle-apk.log; do
-            if [ -f "$f" ]; then
-              echo "=================== $f ==================="
-              grep -n -A30 "What went wrong" "$f" | head -90
-              echo "--- önemli satırlar ---"
-              grep -nE "^e: |Duplicate class|D8:|R8:|OutOfMemory|Java heap|Caused by" "$f" | head -40
-            fi
+            [ -f "$f" ] || continue
+            WENT=$(grep -A14 "What went wrong" "$f" | head -16 | cut -c1-260 | sed 's/%/%25/g' | tr '\n' '|')
+            CAUSE=$(grep -E "^Caused by|^e: |Duplicate class|defined multiple times|D8:|R8:|OutOfMemory|Java heap" "$f" | head -8 | cut -c1-260 | sed 's/%/%25/g' | tr '\n' '|')
+            echo "::error title=GRADLE ASIL HATA ($f)::${WENT:0:1500}"
+            echo "::error title=GRADLE NEDEN ($f)::${CAUSE:0:1500}"
+            {
+              echo "## Gradle hatası ($f)"
+              echo '```'
+              grep -A20 "What went wrong" "$f" | head -30
+              echo "---"
+              grep -E "^Caused by|^e: |Duplicate class|defined multiple times|D8:|R8:|OutOfMemory|Java heap" "$f" | head -15
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
           done
 
       - name: Tam build log'unu yükle (sadece hata olursa)
