@@ -253,15 +253,46 @@ jobs:
             awk '{print} /buildTypes[[:space:]]*{/ {inBT=1} inBT && /release[[:space:]]*{/ && !done {print "            signingConfig signingConfigs.release"; done=1}' "$APP_GRADLE" > /tmp/bg2.tmp && mv /tmp/bg2.tmp "$APP_GRADLE"
           fi
 
+      - name: Gradle bellek ayarlarını yükselt (dex birleştirme için)
+        run: |
+          GP="android/gradle.properties"
+          echo "" >> "$GP"
+          echo "org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8" >> "$GP"
+          echo "kotlin.daemon.jvmargs=-Xmx3g" >> "$GP"
+          echo "android.useAndroidX=true" >> "$GP"
+          cat "$GP"
+
       - name: AAB derle (Release, imzalı)
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew bundleRelease
+          set -o pipefail
+          ./gradlew bundleRelease --stacktrace 2>&1 | tee ../gradle-aab.log
 
       - name: APK derle (Release, imzalı)
         working-directory: android
-        run: ./gradlew assembleRelease
+        run: |
+          set -o pipefail
+          ./gradlew assembleRelease --stacktrace 2>&1 | tee ../gradle-apk.log
+
+      - name: Hata özeti (sadece build başarısız olursa)
+        if: failure()
+        run: |
+          for f in gradle-aab.log gradle-apk.log; do
+            if [ -f "$f" ]; then
+              echo "=================== $f ==================="
+              grep -n -A30 "What went wrong" "$f" | head -90
+              echo "--- önemli satırlar ---"
+              grep -nE "^e: |Duplicate class|D8:|R8:|OutOfMemory|Java heap|Caused by" "$f" | head -40
+            fi
+          done
+
+      - name: Tam build log'unu yükle (sadece hata olursa)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-build-logs
+          path: gradle-*.log
 
       - name: AAB'yi yükle
         uses: actions/upload-artifact@v4
