@@ -410,10 +410,10 @@ label{display:block;margin:16px 0 6px;font-size:14px;font-weight:600;color:var(-
 /* ===== Güç göstergesi, yükseltme önizlemesi, yeni satırlar ===== */
 .l2{display:flex;align-items:center;gap:12px;margin-top:2px;min-width:0}
 #home #money{margin-top:0}
-.pwb:empty,.pw:not(.on){display:none}
+.pwb:empty,.pwc:not(.on){display:none}
 .pwb{display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 8px 0 5px;border-radius:999px;background:var(--rush-soft);border:1px solid rgba(251,146,60,.5);color:var(--rush);font-size:12px;font-weight:800;flex:none}
-.pwb .ic,.pw .ic{width:12px;height:12px;fill:currentColor;stroke-width:1}
-.pw{display:inline-flex;align-items:center;gap:2px;height:16px;padding:0 6px 0 4px;border-radius:999px;background:var(--rush-soft);color:var(--rush);font-size:10.5px;font-weight:800;flex:none}
+.pwb .ic,.pwc .ic{width:12px;height:12px;fill:currentColor;stroke-width:1}
+.pwc{display:inline-flex;align-items:center;gap:2px;height:16px;padding:0 6px 0 4px;border-radius:999px;background:var(--rush-soft);color:var(--rush);font-size:10.5px;font-weight:800;flex:none}
 .pcup{display:grid;grid-template-columns:1fr 26px 1fr;align-items:center;gap:2px;margin:-4px 0 6px}
 .pcup.one{grid-template-columns:1fr}
 .pcv{position:relative;text-align:center;min-width:0;padding-top:12px}
@@ -1577,7 +1577,7 @@ const powerCache = new Map(), pwQueue = new Set(); let pwTimer = 0;
 const BOLT = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-bolt"/></svg>';
 function fillPw(c, v) { c.innerHTML = BOLT + fmt(v); c.classList.add("on"); }
 function pwChip(uid) {
-  const c = document.createElement("span"); c.className = "pw"; c.dataset.uid = uid;
+  const c = document.createElement("span"); c.className = "pwc"; c.dataset.uid = uid;
   const e = powerCache.get(uid); if (e) fillPw(c, e.pw);
   if (!e || Date.now() - e.t > 90000) queuePower(uid);
   return c;
@@ -1587,13 +1587,13 @@ async function flushPower() {
   const ids = [...pwQueue].slice(0, 100); ids.forEach(i => pwQueue.delete(i)); if (!ids.length) return;
   const { data, error } = await sb.rpc("get_powers", { p_ids: ids }); if (error || !Array.isArray(data)) return;
   const now = Date.now();
-  data.forEach(r => { const v = Number(r.o_power); powerCache.set(r.o_id, { pw: v, t: now }); document.querySelectorAll('.pw[data-uid="' + r.o_id + '"]').forEach(c => fillPw(c, v)); });
+  data.forEach(r => { const v = Number(r.o_power); powerCache.set(r.o_id, { pw: v, t: now }); document.querySelectorAll('.pwc[data-uid="' + r.o_id + '"]').forEach(c => fillPw(c, v)); });
   if (pwQueue.size) queuePower([...pwQueue][0]);
 }
 function renderPower() {
   const b = $("#pwrB"); if (myPower == null) { b.innerHTML = ""; return; }
   b.innerHTML = BOLT + fmt(myPower);
-  if (me) { powerCache.set(me.id, { pw: myPower, t: Date.now() }); document.querySelectorAll('.pw[data-uid="' + me.id + '"]').forEach(c => fillPw(c, myPower)); }
+  if (me) { powerCache.set(me.id, { pw: myPower, t: Date.now() }); document.querySelectorAll('.pwc[data-uid="' + me.id + '"]').forEach(c => fillPw(c, myPower)); }
 }
 function add(m) {
   if (!m || seen.has(m.id)) return;
