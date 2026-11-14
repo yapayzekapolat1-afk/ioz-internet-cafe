@@ -411,9 +411,9 @@ label{display:block;margin:16px 0 6px;font-size:14px;font-weight:600;color:var(-
 .l2{display:flex;align-items:center;gap:12px;margin-top:2px;min-width:0}
 #home #money{margin-top:0}
 .pwb:empty,.pwc:not(.on){display:none}
-.pwb{display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 8px 0 5px;border-radius:999px;background:var(--rush-soft);border:1px solid rgba(251,146,60,.5);color:var(--rush);font-size:12px;font-weight:800;flex:none}
-.pwb .ic,.pwc .ic{width:12px;height:12px;fill:currentColor;stroke-width:1}
-.pwc{display:inline-flex;align-items:center;gap:2px;height:16px;padding:0 6px 0 4px;border-radius:999px;background:var(--rush-soft);color:var(--rush);font-size:10.5px;font-weight:800;flex:none}
+.pwb{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px 0 4px;border-radius:999px;background:linear-gradient(135deg,rgba(251,191,36,.22),rgba(234,88,12,.2));border:1px solid rgba(251,191,36,.6);color:#ffd98a;text-shadow:0 1px 2px rgba(0,0,0,.4);font-size:12px;font-weight:800;flex:none}
+.pwb .ic,.pwc .ic{width:16px;height:16px;stroke-width:1;filter:drop-shadow(0 1px 2px rgba(234,88,12,.55))}.pwc .ic{width:14px;height:14px}
+.pwc{display:inline-flex;align-items:center;gap:2px;height:18px;padding:0 6px 0 2px;border-radius:999px;background:linear-gradient(135deg,rgba(251,191,36,.2),rgba(234,88,12,.18));color:#ffd98a;font-size:10.5px;font-weight:800;flex:none}
 .pcup{display:grid;grid-template-columns:1fr 26px 1fr;align-items:center;gap:2px;margin:-4px 0 6px}
 .pcup.one{grid-template-columns:1fr}
 .pcv{position:relative;text-align:center;min-width:0;padding-top:12px}
@@ -441,6 +441,74 @@ label{display:block;margin:16px 0 6px;font-size:14px;font-weight:600;color:var(-
 .bstb:disabled{opacity:.55}
 .bstb.on{background:var(--ok-soft);border-color:var(--ok-line);color:var(--ok)}
 #home #dayBn .btn.o{margin-top:6px;height:40px;font-size:14px}
+#daily,#vipP{align-items:center;justify-content:center;z-index:7}
+.dlyc{position:relative;overflow:hidden;width:min(92vw,400px);border-radius:26px;padding:18px 14px 14px;text-align:center;background:radial-gradient(120% 70% at 50% -8%,rgba(251,191,36,.34),transparent 62%),linear-gradient(180deg,#20263a,#10131c);border:1.5px solid rgba(251,191,36,.6);box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 44px rgba(251,191,36,.2);animation:dlyIn .38s cubic-bezier(.2,1.25,.3,1)}
+@keyframes dlyIn{from{transform:translateY(24px) scale(.86);opacity:0}}
+.dlyc h2{margin:6px 0 2px;font-size:21px;font-weight:900;letter-spacing:.3px;background:linear-gradient(180deg,#fff3c4,#fbbf24 60%,#f97316);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dlyc .dsub{font-size:12.5px;color:var(--mut);line-height:1.4;margin:0 6px 4px}
+.dhero{width:84px;height:84px;margin:0 auto;filter:drop-shadow(0 6px 14px rgba(251,191,36,.5));animation:dbob 2.4s ease-in-out infinite}
+@keyframes dbob{50%{transform:translateY(-5px) rotate(-3deg)}}
+.dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}
+.dd{position:relative;border-radius:14px;padding:7px 2px 6px;background:#171c28;border:1px solid #2b3347;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--mut)}
+.dd b{font-size:12.5px;color:#fff;font-weight:800}
+.dd svg{width:30px;height:30px}
+.dd.big{grid-column:span 2;flex-direction:row;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(251,191,36,.18),rgba(249,115,22,.14));border-color:rgba(251,191,36,.5)}
+.dd.big svg{width:40px;height:40px}
+.dd.cur{border-color:#fbbf24;background:linear-gradient(180deg,rgba(251,191,36,.28),rgba(251,191,36,.08));box-shadow:0 0 0 2px rgba(251,191,36,.4),0 0 20px rgba(251,191,36,.5);animation:dpulse 1.5s ease-in-out infinite}
+@keyframes dpulse{50%{box-shadow:0 0 0 3px rgba(251,191,36,.6),0 0 28px rgba(251,191,36,.75)}}
+.dd.done{opacity:.5}
+.dd.done::after{content:"";position:absolute;top:5px;right:5px;width:14px;height:14px;border-radius:50%;background:#34d399 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23062' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center/10px no-repeat}
+.dbtn{display:block;width:100%;height:46px;border-radius:14px;font-weight:900;font-size:15px;margin-top:8px;color:#3b1d00;background:linear-gradient(180deg,#ffe08a,#f59e0b);box-shadow:0 4px 0 #b45309}
+.dbtn.alt{color:#fde68a;background:#1a1f2d;border:1px solid rgba(251,191,36,.5);box-shadow:none;height:42px;font-size:13.5px}
+.dbtn:disabled{opacity:.55}
+.dlater{margin-top:8px;font-size:12px;color:var(--mut);text-decoration:underline;background:none}
+.dwon{font-size:34px;font-weight:900;color:#fbbf24;text-shadow:0 0 24px rgba(251,191,36,.7);animation:dlyIn .4s}
+.dcoin{position:absolute;top:-20px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c4,#fbbf24 55%,#b45309);animation:dfall 1.4s ease-in forwards}
+@keyframes dfall{to{transform:translateY(520px) rotate(540deg);opacity:.9}}
+.vpl{list-style:none;padding:0;margin:10px 4px;text-align:left;font-size:13.5px;color:#e5e7eb}
+.vpl li{padding:4px 0 4px 20px;position:relative}.vpl li::before{content:"";position:absolute;left:3px;top:10px;width:9px;height:9px;border-radius:50%;background:#fbbf24}
+
+.dock .row{overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:6px}.dock .row::-webkit-scrollbar{display:none}
+.dock .bn{flex:0 0 calc((100% - 20px)/3);scroll-snap-align:start}
+.bn.bn-klan{border:2px solid #fca5a5;border-image:none;border-radius:16px;background:radial-gradient(120% 90% at 20% 0,rgba(252,165,165,.45),transparent 60%),linear-gradient(160deg,#b91c1c,#7f1d1d 60%,#450a0a);padding:0 6px 0 50px;box-shadow:0 4px 0 #450a0a,inset 0 1px 0 rgba(255,255,255,.25)}
+.bn.bn-klan::before{content:"";position:absolute;left:9px;top:50%;width:32px;height:37px;transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 28'%3E%3Cpath d='M12 1.5l9.5 3.2v9.6c0 6-4.3 10.5-9.5 12.7C6.8 24.8 2.5 20.3 2.5 14.3V4.7z' fill='%23fbbf24' stroke='%23451a03' stroke-width='1.5'/%3E%3Cpath d='M12 6.5l1.9 4 4.4.5-3.2 3 .9 4.3L12 16.1 8 18.3l.9-4.3-3.2-3 4.4-.5z' fill='%23fff' stroke='%23451a03' stroke-width='.8'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+.bn.bn-klan::after{display:none}
+#clan{align-items:flex-end;justify-content:center;z-index:6}#clanNew{align-items:center;justify-content:center;z-index:7}.cbody{flex:1;display:flex;flex-direction:column;min-height:0}
+.emb{display:inline-block;flex:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.5))}.emb svg{width:100%;height:100%}
+.chero{display:flex;align-items:center;gap:12px;margin:12px 14px 0;padding:12px;border-radius:16px;border:1px solid var(--line);background:radial-gradient(120% 140% at 0 0,color-mix(in srgb,var(--c1) 42%,transparent),transparent 65%),var(--card)}
+.chi{min-width:0;flex:1}.chi b{display:block;font-size:19px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chr{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.ctag{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:11.5px;font-weight:900;letter-spacing:.6px;color:#e5e7eb}
+.cchip{display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 8px;border-radius:999px;background:var(--card2);font-size:11.5px;font-weight:800;color:var(--mut)}
+.cseg{display:flex;gap:6px;margin:12px 14px 4px}
+.cseg button{flex:1;height:38px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--mut);font-weight:800;font-size:14px}
+.cseg button.on{color:#3b1d00;border-color:#fbbf24;background:linear-gradient(180deg,#ffe08a,#f59e0b);box-shadow:0 3px 0 #b45309}
+.rseg{margin:10px 14px 2px}
+.clist{flex:1;overflow-y:auto;min-height:0}.clr{flex:1;overflow-y:auto;min-height:0;padding-bottom:14px}
+.cml{flex:1;overflow-y:auto;min-height:0;padding:6px 14px 14px}
+.cm{display:flex;align-items:center;gap:10px;margin-top:8px;padding:10px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.cm.me{border-color:rgba(52,211,153,.55)}.cm.ld{border-color:rgba(251,191,36,.6);background:linear-gradient(135deg,rgba(251,191,36,.12),var(--card))}
+.cmr{width:22px;text-align:center;font-weight:900;color:var(--mut);font-size:13px}
+.cmn{min-width:0;flex:1}.cmn b{display:flex;align-items:center;gap:5px;font-size:15px;white-space:nowrap}.cmn small{color:var(--mut);font-size:11.5px}
+.cdot2{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 6px #34d399;flex:none}
+.cact{display:flex;gap:6px;margin-top:6px}
+.cbtn{height:46px;padding:0 16px;border-radius:12px;font-weight:900;font-size:15px;color:#fff;background:linear-gradient(180deg,#34d399,#059669);box-shadow:0 4px 0 #065f46;width:100%}
+.cbtn.gold{color:#3b1d00;background:linear-gradient(180deg,#ffe08a,#f59e0b);box-shadow:0 4px 0 #b45309}
+.cbtn.blue{background:linear-gradient(180deg,#60a5fa,#2563eb);box-shadow:0 4px 0 #1e3a8a}
+.cbtn.red{background:linear-gradient(180deg,#f87171,#dc2626);box-shadow:0 4px 0 #7f1d1d}
+.cbtn.sm{height:32px;font-size:12.5px;padding:0 10px;width:auto;box-shadow:0 3px 0 rgba(0,0,0,.35)}
+.cbtn.arm{background:linear-gradient(180deg,#f87171,#dc2626);color:#fff}
+.cbtn:disabled{opacity:.5;filter:grayscale(.5)}
+.cinf{flex:1;overflow-y:auto;min-height:0;padding:8px 14px 16px}
+.cbox{margin-top:10px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:14px;line-height:1.45}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.cgrid div{padding:10px 4px;text-align:center;border-radius:12px;background:var(--card);border:1px solid var(--line)}.cgrid small{display:block;color:var(--mut);font-size:11px}.cgrid b{font-size:15px}
+.clog{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}.clog i{width:9px;height:9px;border-radius:50%;margin-top:5px;flex:none}.clog small{display:block;color:var(--mut);font-size:11px}
+.crow{display:flex;align-items:center;gap:10px;margin:8px 14px 0;padding:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;width:calc(100% - 28px);text-align:left;color:var(--ink)}
+.crow .cmr{font-size:15px;width:26px}
+.cnone{padding:26px 22px;text-align:center}.cnone h3{font-size:20px;font-weight:900;margin:12px 0 6px}.cnone p{color:var(--mut);font-size:13.5px;line-height:1.5;margin-bottom:14px}.cnone .cbtn{margin-top:10px}
+.cnew{max-height:92vh;overflow-y:auto}.cnew label{display:block;margin:10px 0 4px;font-size:12.5px;font-weight:700;color:var(--mut)}
+.cemb{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.cemb button{padding:8px 0;border-radius:12px;background:var(--card);border:2px solid var(--line);display:flex;justify-content:center}.cemb button.on{border-color:#fbbf24;background:rgba(251,191,36,.14)}
+.csrch{margin:10px 14px 0;width:calc(100% - 28px)}
 </style>
 
 <script>
@@ -482,6 +550,8 @@ setTimeout(function () {
 <symbol id="i-crown" viewBox="0 0 24 24"><path d="M3.5 8l4.5 4 4-6.5 4 6.5 4.5-4-1.8 10.5H5.3z"/></symbol>
 <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-1.8 3.5L16 11H5"/></symbol>
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="pwg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset=".55" stop-color="#fbbf24"/><stop offset="1" stop-color="#ea580c"/></linearGradient></defs></svg>
+<symbol id="i-power" viewBox="0 0 24 24"><path d="M12 1.6l8.4 4.7v9.4L12 22.4l-8.4-4.7V6.3z" fill="url(#pwg)" stroke="#7c2d12" stroke-width="1.3" stroke-linejoin="round"/><path d="M12 3.4l6.7 3.8v7.6L12 18.6" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width=".9"/><path d="M13.4 5.6L7.7 12.9h3.8l-1 5.6 6-8h-3.9z" fill="#fff" stroke="#7c2d12" stroke-width=".6" stroke-linejoin="round"/></symbol>
 <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/></symbol>
 <symbol id="i-snack" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="7.5" y="5" width="7" height="10" rx="1"/><path d="M9.5 7.6h3M9.5 10h3M9.5 12.4h3"/><path d="M16.8 6.5h.01M16.8 9.2h.01" stroke-width="2.4"/><path d="M8 18.5h8"/></symbol>
 <symbol id="i-drink" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="7.5" y="5" width="7" height="10" rx="1"/><path d="M9.2 6.6v2.6M11 6.6v2.6M12.8 6.6v2.6M9.2 10.8v2.6M11 10.8v2.6M12.8 10.8v2.6"/><path d="M16.8 6.5h.01M16.8 9.2h.01" stroke-width="2.4"/><path d="M8 18.5h8"/></symbol>
@@ -531,6 +601,7 @@ setTimeout(function () {
   <div class="dock"><div class="row">
     <button class="bn bn-sira" id="rnkBtn"><b>Sıralama</b></button>
     <button class="bn bn-chat" id="chatBtn"><b>Sohbet</b><span id="dot"></span></button>
+    <button class="bn bn-klan" id="klanBtn"><b>Klan</b></button>
     <button class="bn bn-dukkan" id="shopBtn"><b>Dükkan</b></button>
     <button class="bn bn-pers" id="psBtn" style="display:none"><b>Salon</b></button>
   </div></div>
@@ -579,6 +650,7 @@ setTimeout(function () {
 <div id="rnk" class="ov">
   <div class="sheet">
     <div class="hd"><h2><svg class="ic" viewBox="0 0 24 24"><use href="#i-rank"/></svg>Sıralama</h2><button class="x" id="rnkClose">Kapat</button></div>
+    <div class="cseg rseg" id="rnkSeg"><button class="on" data-t="p">Oyuncular</button><button data-t="c">Klanlar</button></div>
     <div class="stats">
       <div class="st"><small>Toplam üye</small><b id="sTot">0</b></div>
       <div class="st"><small>Şu an aktif</small><b id="sAct">0</b></div>
@@ -588,6 +660,7 @@ setTimeout(function () {
     <div class="mypw" id="myPow"></div>
     <p class="rnote">Güç; kazandığın ve işine yatırdığın paradan hesaplanır. Yatırım yapmak, para biriktirmekten daha çok güç kazandırır.</p>
     <div class="ol rl" id="rnkList"></div>
+    <div class="clr" id="clanRank" style="display:none"></div>
   </div>
 </div>
 
@@ -615,6 +688,15 @@ setTimeout(function () {
     <div class="shopbody" id="psBody"></div>
   </div>
 </div>
+
+<div id="daily" class="ov"><div class="dlyc" id="dlyBox"></div></div>
+<div id="vipP" class="ov"><div class="dlyc" id="vipPBox"></div></div>
+
+<div id="clan" class="ov"><div class="sheet">
+  <div class="hd"><h2><svg class="ic" viewBox="0 0 24 24"><use href="#i-users"/></svg><span id="clanT">Klan</span></h2><button class="x" id="clanClose">Kapat</button></div>
+  <div class="cbody" id="clanBody"></div>
+</div></div>
+<div id="clanNew" class="ov"><div class="pop cnew" id="clanNewBox"></div></div>
 
 <div id="onl" class="ov">
   <div class="pop">
@@ -759,7 +841,7 @@ async function enter(sess, expect) {
   let tick = 0;
   sb.rpc("touch_me").then(refreshStats, refreshStats); clearInterval(statTimer);
   statTimer = setInterval(() => { refreshStats(); if (++tick % 4 === 0) sb.rpc("touch_me"); }, 60000);
-  adInit().catch(() => {}); checkPurchases(); clearInterval(custTimer); custTimer = setInterval(gameTick, 400); clearInterval(syncTimer); syncTimer = setInterval(syncGame, 30000);
+  adInit().catch(() => {}); checkPurchases(); setTimeout(() => bg(showLoginFlow()), 1300); clearInterval(custTimer); custTimer = setInterval(gameTick, 400); clearInterval(syncTimer); syncTimer = setInterval(syncGame, 30000);
 }
 
 function startRT() {
@@ -1413,7 +1495,7 @@ function renderVip() {
   const body = $("#vipBody"); body.innerHTML = "";
   const card = mkEl("div", "vipc"), hd = mkEl("div", "vh"); hd.append(vipBadge(), mkEl("span", null, vip ? "VIP üyesisin" : "VIP üyelik")); card.append(hd);
   const ul = mkEl("ul", "vipl");
-  ["Satın alınca anında $20.000", "Gün atlarken reklam yok", "Tüm kazançlar %50 artar", "Sohbette ve sıralamada VIP rozeti"].forEach(t => ul.append(mkEl("li", null, t)));
+  ["Satın alınca anında $20.000", "Gün atlarken reklam yok", "Tüm kazançlar %50 artar", "Sohbette ve sıralamada VIP rozeti", "+100 güç puanı"].forEach(t => ul.append(mkEl("li", null, t)));
   card.append(ul);
   const b = mkEl("button", "btn vipb", vip ? "VIP aktif" : vipBusy ? "İşleniyor..." : "VIP ol" + (vipPrice ? " · " + vipPrice : ""));
   b.disabled = vip || vipBusy; b.onclick = buyVip; card.append(b);
@@ -1612,6 +1694,233 @@ $("#psBtn").onclick = () => { $("#ps").classList.add("on"); renderPs(); };
 $("#psClose").onclick = () => $("#ps").classList.remove("on");
 $("#ps").addEventListener("click", e => { if (e.target.id === "ps") $("#ps").classList.remove("on"); });
 
+/* ===== Günlük giriş ödülü + girişte VIP ekranı ===== */
+const DMULT = [1, 1.5, 2, 3, 4, 6, 10];   /* sunucudaki claim_daily ile aynı olmalı */
+const D_COIN = '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="#fbbf24" stroke="#92400e" stroke-width="2"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff3c4" stroke-width="1.6" opacity=".8"/><path d="M16 9v14M19.5 12.2c-.9-1-2.2-1.5-3.5-1.5-2 0-3.2 1-3.2 2.4 0 3.4 7 1.6 7 5.2 0 1.5-1.4 2.6-3.6 2.6-1.5 0-2.8-.6-3.7-1.6" fill="none" stroke="#92400e" stroke-width="1.8" stroke-linecap="round"/></svg>';
+const D_BAG = '<svg viewBox="0 0 32 32"><path d="M11 6h10l-2 4h-6z" fill="#b45309" stroke="#78350f" stroke-width="1.5" stroke-linejoin="round"/><path d="M13 10C5 14 3 28 16 28s11-14 3-18z" fill="#f59e0b" stroke="#78350f" stroke-width="2" stroke-linejoin="round"/><path d="M16 15v9M18.4 17c-.7-.8-1.5-1-2.4-1-1.3 0-2.2.6-2.2 1.6 0 2.2 4.6 1 4.6 3.2 0 1-.9 1.7-2.4 1.7-1 0-1.8-.4-2.4-1" fill="none" stroke="#fff3c4" stroke-width="1.5" stroke-linecap="round"/></svg>';
+const D_CHEST = '<svg viewBox="0 0 40 40"><path d="M5 17a15 11 0 0 1 30 0z" fill="#b45309" stroke="#451a03" stroke-width="2" stroke-linejoin="round"/><rect x="5" y="17" width="30" height="16" rx="2.5" fill="#d97706" stroke="#451a03" stroke-width="2"/><path d="M5 17h30" stroke="#451a03" stroke-width="2"/><rect x="16.5" y="14" width="7" height="9" rx="1.5" fill="#fde68a" stroke="#451a03" stroke-width="1.6"/><circle cx="20" cy="18.5" r="1.4" fill="#451a03"/><path d="M12 10l1.2 2.4 2.6.4-1.9 1.8.5 2.6L12 15.9" fill="#fff3c4" opacity=".9"/></svg>';
+const dIcon = d => d === 7 ? D_CHEST : d >= 4 ? D_BAG : D_COIN;
+let loginFlowDone = false;
+async function dailyInfo() { const r = await sb.rpc("daily_state"); if (r.error || !r.data || !r.data[0]) return null; const g = r.data[0]; return { can: !!g.o_can, streak: g.o_streak, day: g.o_day, base: Number(g.o_base) }; }
+function dlyRain(box) { for (let i = 0; i < 16; i++) { const c = document.createElement("i"); c.className = "dcoin"; c.style.left = ri(4, 94) + "%"; c.style.animationDelay = (Math.random() * 0.5) + "s"; box.append(c); } }
+function showDaily(d) {
+  return new Promise(resolve => {
+    const ov = $("#daily"), box = $("#dlyBox"); let busy = false;
+    const close = () => { ov.classList.remove("on"); resolve(); };
+    box.innerHTML = "";
+    const hero = mkEl("div", "dhero"); hero.innerHTML = D_CHEST;
+    box.append(hero, mkEl("h2", null, "Günlük Giriş Ödülü"), mkEl("p", "dsub", "Seri: " + d.streak + ". gün. Her gün gir, ödül büyüsün. Bir gün kaçırırsan seri başa döner."));
+    const grid = mkEl("div", "dgrid");
+    for (let i = 1; i <= 7; i++) {
+      const c = mkEl("div", "dd" + (i === 7 ? " big" : "") + (i < d.day ? " done" : i === d.day ? " cur" : ""));
+      const ic = mkEl("span"); ic.innerHTML = dIcon(i); const tx = mkEl("div"); tx.append(mkEl("div", null, i === 7 ? "7. GÜN" : i + ". gün"), mkEl("b", null, "$" + fmt(Math.round(d.base * DMULT[i - 1]))));
+      c.append(ic, tx); grid.append(c);
+    }
+    box.append(grid);
+    const claim = async dbl => {
+      if (busy || adBusy) return; busy = true; b1.disabled = b2.disabled = true;
+      if (dbl && !vip) { adBusy = true; const r = await adShow(); adBusy = false; if (r !== "ok") { toast(r === "skip" ? "2x için videoyu sonuna kadar izle." : "Reklam şu an hazır değil."); busy = false; b1.disabled = b2.disabled = false; return; } }
+      const { data, error } = await sb.rpc("claim_daily", { p_double: !!dbl });
+      if (error || !data || !data[0]) { toast(error && /alindi/.test(error.message) ? "Bugünkü ödülü zaten aldın." : "Ödül alınamadı."); close(); return; }
+      const r = data[0]; me.money = Number(r.o_money); setMoney();
+      box.innerHTML = ""; const h2 = mkEl("div", "dhero"); h2.innerHTML = dIcon(d.day); box.append(h2, mkEl("h2", null, "Ödül alındı!"), mkEl("div", "dwon", "+$" + fmt(Number(r.o_amount))), mkEl("p", "dsub", "Yarın tekrar gel: seri " + r.o_streak + ". gün oluyor.")); dlyRain(box);
+      setTimeout(close, 1900);
+    };
+    const b1 = mkEl("button", "dbtn", "Ödülü al"), b2 = mkEl("button", "dbtn alt", vip ? "2x al (VIP bonusu)" : "2x al (reklam izle)");
+    b1.onclick = () => claim(vip); b2.onclick = () => claim(true);
+    if (vip) b1.textContent = "Ödülü al (VIP 2x)";
+    const later = mkEl("button", "dlater", "Sonra al"); later.onclick = close;
+    box.append(b1); if (!vip) box.append(b2); box.append(later);
+    ov.classList.add("on");
+  });
+}
+function showVipPromo() {
+  return new Promise(resolve => {
+    const ov = $("#vipP"), box = $("#vipPBox"); box.innerHTML = "";
+    const close = () => { ov.classList.remove("on"); resolve(); };
+    const hero = mkEl("div", "dhero"); hero.append(vipBadge()); hero.style.cssText += ";transform:scale(2);margin:18px auto 22px;width:auto;height:auto";
+    const ul = mkEl("ul", "vpl"); ["Gün atlarken reklam yok", "Tüm kazançlar %50 artar", "Satın alınca anında $20.000", "+100 güç puanı ve sıralamada VIP rozeti", "Günlük ödülde otomatik 2x"].forEach(x => ul.append(mkEl("li", null, x)));
+    const buy = mkEl("button", "dbtn", "VIP ol" + (vipPrice ? "  " + vipPrice : "")); buy.onclick = () => { close(); buyVip(); };
+    const later = mkEl("button", "dlater", "Şimdi değil"); later.onclick = close;
+    box.append(hero, mkEl("h2", null, "VIP Üyelik"), mkEl("p", "dsub", "Tek seferlik satın alma, ömür boyu geçerli."), ul, buy, later);
+    ov.classList.add("on");
+  });
+}
+async function showLoginFlow() {
+  if (loginFlowDone) return; loginFlowDone = true;
+  try {
+    const d = await dailyInfo(); if (d && d.can) await showDaily(d);
+    await checkPurchases(); if (vip) return;
+    await Promise.race([loadVipPrice(), new Promise(r => setTimeout(r, 2500))]);
+    await showVipPromo();
+  } catch (e) {}
+}
+
+/* ===== KLAN ===== */
+const KL_COST = 50;
+const CL_EMB = [["#f59e0b", "#b45309"], ["#ef4444", "#991b1b"], ["#3b82f6", "#1e3a8a"], ["#10b981", "#065f46"], ["#a855f7", "#581c87"], ["#ec4899", "#9d174d"], ["#14b8a6", "#134e4a"], ["#94a3b8", "#334155"]];
+const CL_ICO = ['<path d="M12 5.5l1.9 4 4.4.5-3.2 3 .9 4.3L12 15.1 8 17.3l.9-4.3-3.2-3 4.4-.5z"/>', '<path d="M6 17l-1-7 4 3 3-5 3 5 4-3-1 7z"/><path d="M7 19h10" fill="none"/>', '<path d="M13.2 4.5L7.5 13h4l-1 6.5 6-8.8h-4z"/>', '<path d="M12 4c1 3 4.2 4.6 4.2 8.2a4.2 4.2 0 0 1-8.4 0c0-1.6.8-2.8 1.6-3.7.3 1 .9 1.4 1.6 1.2C11.3 8.6 11 6.4 12 4z"/>', '<path d="M12 4l2 2.2v7.3l-2 1.8-2-1.8V6.2z"/><path d="M8 15.5h8M12 15.5v4" fill="none"/>', '<path d="M12 4.5l5 5.2-5 9.3-5-9.3z"/>', '<circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2.6" fill="#0b0e15"/>', '<path d="M14.8 4.8a7 7 0 1 0 4.2 11.2 6 6 0 0 1-4.2-11.2z"/>'];
+function emblem(i, px) {
+  const [a, b] = CL_EMB[i % 8], e = document.createElement("span"); e.className = "emb"; e.style.width = (px || 44) + "px"; e.style.height = (px || 44) * 1.17 + "px";
+  e.innerHTML = '<svg viewBox="0 0 24 28"><defs><linearGradient id="cg' + i + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs><path d="M12 1.5l9.5 3.2v9.6c0 6-4.3 10.5-9.5 12.7C6.8 24.8 2.5 20.3 2.5 14.3V4.7z" fill="url(#cg' + i + ')" stroke="#0b0e15" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 3.6l7.4 2.5v8.2c0 4.8-3.3 8.4-7.4 10.3" fill="none" stroke="#fff" stroke-opacity=".28"/><g transform="translate(0,1.6)" fill="#fff" stroke="#0b0e15" stroke-width=".7" stroke-linejoin="round" stroke-linecap="round">' + CL_ICO[i % 8] + '</g></svg>';
+  return e;
+}
+let klan, klView = null, klTab = "chat", klCh = null, klTok = 0, klRank = [], klRankAt = 0, klQ = "", rkTab = "p", klBusy = false;
+const KL_ERR = { klanda: "Zaten bir klandasın.", "klanda degil": "Bir klanda değilsin.", isim: "İsim 3-16 harf/rakam olmalı.", etiket: "Etiket 2-4 harf/rakam olmalı.", amblem: "Bir amblem seç.", kufur: "Uygunsuz kelime var.", link: "Bağlantı olamaz.", "isim dolu": "Bu klan ismi alınmış.", "etiket dolu": "Bu etiket alınmış.", "para yetmiyor": "Paran yetmiyor ($" + KL_COST + ").", kapali: "Bu klan katılıma kapalı.", dolu: "Klan dolu (5/5).", yasakli: "Bu klandan 1 saat yasaklısın.", yetki: "Bu işlem için lider olmalısın.", banli: "Hesabın kısıtlı.", slow: "Biraz yavaş yaz.", yok: "Bulunamadı." };
+const klErr = m => KL_ERR[m] || (m.startsWith("bekle") ? "Biraz bekle: " + m.split(":")[1] + " dk." : m.startsWith("susturuldu") ? "Susturuldun." : "Hata: " + m);
+async function klCall(fn, args) { const r = await sb.rpc(fn, args || {}); if (r.error) { toast(klErr(r.error.message || "")); return null; } return { d: r.data }; }
+const klWhen = x => new Date(x).toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+const klPw = n => { const c = mkEl("span", "cchip"); c.innerHTML = BOLT + "<b>" + fmt(n) + "</b>"; c.style.color = "#ffd98a"; return c; };
+function klArm(btn, label, fn) {
+  btn.onclick = () => { if (btn.dataset.arm) { fn(); return; } btn.dataset.arm = 1; const old = btn.textContent; btn.textContent = label; btn.classList.add("arm"); setTimeout(() => { if (btn.isConnected) { delete btn.dataset.arm; btn.textContent = old; btn.classList.remove("arm"); } }, 3000); };
+}
+function klStopRT() { if (klCh) { sb.removeChannel(klCh); klCh = null; } }
+async function klanLoad() { const r = await sb.rpc("clan_view", { p_id: null }); if (!r.error) klan = r.data || null; else if (klan === undefined) klan = null; }
+async function openClan() { klView = null; $("#clan").classList.add("on"); $("#clanBody").innerHTML = '<div class="empty">Yükleniyor...</div>'; await klanLoad(); if (!klan) klTab = "chat"; renderClan(); }
+async function openClanView(id) {
+  if (klan === undefined) await klanLoad();
+  if (klan && klan.id === id) { klView = null; klTab = "mem"; $("#clan").classList.add("on"); renderClan(); return; }
+  const r = await sb.rpc("clan_view", { p_id: id }); if (r.error || !r.data) return toast("Klan bulunamadı.");
+  klView = r.data; klTab = "mem"; $("#clan").classList.add("on"); renderClan();
+}
+function closeClan() { $("#clan").classList.remove("on"); klStopRT(); klView = null; klTok++; }
+function renderClan() {
+  const b = $("#clanBody"); b.innerHTML = ""; klStopRT(); const tok = ++klTok;
+  const c = klView || klan; if (!c) { $("#clanT").textContent = "Klan"; return renderNoClan(b); }
+  $("#clanT").textContent = c.name; const mine = !!c.mine;
+  const hero = mkEl("div", "chero"); hero.style.setProperty("--c1", CL_EMB[c.emblem % 8][0]);
+  const inf = mkEl("div", "chi"), row = mkEl("div", "chr"); row.append(mkEl("span", "ctag", "[" + c.tag + "]"), klPw(c.power), mkEl("span", "cchip", c.count + "/5 üye"));
+  inf.append(mkEl("b", null, c.name), row); hero.append(emblem(c.emblem, 56), inf); b.append(hero);
+  const tabs = mine ? [["chat", "Sohbet"], ["mem", "Üyeler"], ["inf", "Bilgi"]] : [["mem", "Üyeler"], ["inf", "Bilgi"]];
+  if (!tabs.some(x => x[0] === klTab)) klTab = tabs[0][0];
+  const seg = mkEl("div", "cseg"); tabs.forEach(([k, l]) => { const t = mkEl("button", klTab === k ? "on" : "", l); t.onclick = () => { klTab = k; renderClan(); }; seg.append(t); }); b.append(seg);
+  if (klTab === "chat") renderClanChat(b, c, tok); else if (klTab === "mem") renderClanMem(b, c, mine); else renderClanInf(b, c, mine);
+}
+function renderNoClan(b) {
+  const w = mkEl("div", "cnone"); w.append(emblem(0, 84), mkEl("h3", null, "Klanın yok"), mkEl("p", null, "Arkadaşlarınla klan kur ya da bir klana katıl. Klanlar en fazla 5 kişiden oluşur, kendi sohbeti vardır ve toplam güçleriyle sıralamada yarışır."));
+  const k = mkEl("button", "cbtn gold", "Klan kur  ·  $" + KL_COST); k.onclick = openClanNew;
+  const f = mkEl("button", "cbtn blue", "Klan bul"); f.onclick = () => { closeClan(); openRankClans(); };
+  w.append(k, f); b.append(w);
+}
+async function renderClanChat(b, c, tok) {
+  const list = mkEl("div", "clist"), bar = mkEl("div", "cmp"), inp = mkEl("input", "in"), snd = mkEl("button", "send", "Gönder");
+  inp.maxLength = 200; inp.placeholder = "Klana yaz"; inp.autocomplete = "off"; bar.append(inp, snd); b.append(list, bar);
+  const seen = new Set();
+  const add = m => {
+    if (!m || seen.has(m.id) || (blocked && m.user_id !== me.id && blocked.has(m.user_id))) return; seen.add(m.id);
+    const e = list.querySelector(".empty"); if (e) e.remove();
+    const row = mkEl("div", "m" + (m.user_id === me.id ? " me" : "")), h = mkEl("div", "mh"), nw = mkEl("span", "nw");
+    if (m.vip) nw.append(vipBadge()); nw.append(mkEl("span", "n", m.nick));
+    h.append(nw, mkEl("span", "tm", new Date(m.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })));
+    row.append(h, mkEl("div", "t", m.body)); list.append(row); while (list.children.length > 40) list.firstChild.remove(); list.scrollTop = list.scrollHeight;
+  };
+  const { data, error } = await sb.from("clan_messages").select("id,user_id,nick,body,created_at,vip").order("created_at", { ascending: false }).limit(20);
+  if (tok !== klTok) return;
+  if (error) list.innerHTML = '<div class="empty">Mesajlar yüklenemedi.</div>'; else if (!data.length) list.innerHTML = '<div class="empty">Henüz mesaj yok. Klana ilk mesajı sen yaz.</div>'; else data.reverse().forEach(add);
+  list.scrollTop = list.scrollHeight;
+  klCh = sb.channel("klan-" + c.id).on("postgres_changes", { event: "INSERT", schema: "public", table: "clan_messages", filter: "clan_id=eq." + c.id }, p => add(p.new)).subscribe();
+  let sending = false;
+  const send = async () => {
+    const t = inp.value.trim(); if (!t || sending) return; sending = true; inp.value = "";
+    const r = await sb.rpc("clan_send", { t });
+    if (r.error) { inp.value = t; toast(klErr(r.error.message || "")); } else if (r.data) add(r.data);
+    sending = false;
+  };
+  snd.onclick = send; inp.addEventListener("keydown", e => { if (e.key === "Enter") send(); });
+}
+function renderClanMem(b, c, mine) {
+  const wrap = mkEl("div", "cml"), lead = mine && c.leader === me.id;
+  const on = new Set((typeof online !== "undefined" ? online : []).map(o => o.id));
+  c.members.forEach((m, i) => {
+    const r = mkEl("div", "cm" + (m.id === me.id ? " me" : "") + (m.leader ? " ld" : "")), tx = mkEl("div", "cmn"), nm = mkEl("b");
+    if (m.leader) { const cr = mkEl("span"); cr.innerHTML = '<svg class="ic sm" viewBox="0 0 24 24" style="color:#fbbf24;fill:#fbbf24;stroke:#78350f"><path d="M5 17l-1-9 5 4 3-6 3 6 5-4-1 9z"/></svg>'; nm.append(cr); }
+    if (m.vip) nm.append(vipBadge()); nm.append(m.nick); if (on.has(m.id)) nm.append(mkEl("span", "cdot2"));
+    tx.append(nm, mkEl("small", null, (m.leader ? "Lider" : "Üye") + " · " + (m.id === me.id ? "Sen" : on.has(m.id) ? "Çevrimiçi" : "Katıldı " + klWhen(m.joined))));
+    r.append(mkEl("span", "cmr", String(i + 1)), tx, klPw(m.power));
+    if (lead && m.id !== me.id) {
+      const pr = mkEl("button", "cbtn gold sm", "Lider yap"), ki = mkEl("button", "cbtn red sm", "At"), ac = mkEl("div", "cact");
+      klArm(pr, "Emin misin?", async () => { if (await klCall("clan_promote", { p_user: m.id })) { await klanLoad(); renderClan(); } });
+      klArm(ki, "Emin misin?", async () => { if (await klCall("clan_kick", { p_user: m.id })) { await klanLoad(); renderClan(); } });
+      ac.append(pr, ki); const box = mkEl("div"); box.append(r, ac); wrap.append(box); return;
+    }
+    wrap.append(r);
+  });
+  for (let i = c.members.length; i < 5; i++) { const e = mkEl("div", "cm"); e.style.opacity = ".45"; e.append(mkEl("span", "cmr", String(i + 1)), mkEl("div", "cmn", "Boş yer")); wrap.append(e); }
+  b.append(wrap);
+}
+async function renderClanInf(b, c, mine) {
+  const w = mkEl("div", "cinf"), lead = mine && c.leader === me.id; b.append(w);
+  const g = mkEl("div", "cgrid"); [["Toplam güç", fmt(c.power)], ["Üye", c.count + "/5"], ["Katılım", c.open ? "Açık" : "Kapalı"]].forEach(([k, v]) => { const d = mkEl("div"); d.append(mkEl("small", null, k), mkEl("b", null, v)); g.append(d); }); w.append(g);
+  const ds = mkEl("div", "cbox", c.descr || "Açıklama yok."); w.append(ds);
+  if (lead) {
+    const inp = mkEl("input", "in csrch"); inp.maxLength = 80; inp.value = c.descr || ""; inp.placeholder = "Klan açıklaması"; inp.style.width = "100%"; inp.style.margin = "10px 0 0";
+    const sv = mkEl("button", "cbtn blue", "Açıklamayı kaydet"); sv.style.marginTop = "8px"; sv.onclick = async () => { if (await klCall("clan_edit", { p_descr: inp.value, p_open: c.open })) { toast("Kaydedildi."); await klanLoad(); renderClan(); } };
+    const tg = mkEl("button", "cbtn " + (c.open ? "gold" : "red"), "Katılım: " + (c.open ? "Açık (kapat)" : "Kapalı (aç)")); tg.style.marginTop = "8px"; tg.onclick = async () => { if (await klCall("clan_edit", { p_descr: c.descr, p_open: !c.open })) { await klanLoad(); renderClan(); } };
+    w.append(inp, sv, tg);
+  }
+  if (!mine) {
+    const jn = mkEl("button", "cbtn", klan ? "Zaten bir klandasın" : !c.open ? "Katılıma kapalı" : c.count >= 5 ? "Klan dolu" : "Klana katıl");
+    jn.style.marginTop = "12px"; jn.disabled = !!klan || !c.open || c.count >= 5;
+    jn.onclick = async () => { if (klBusy) return; klBusy = true; const r = await klCall("clan_join", { p_id: c.id }); klBusy = false; if (r) { await klanLoad(); klView = null; klTab = "chat"; toast("Klana katıldın!"); renderClan(); } };
+    w.append(jn); return;
+  }
+  const lh = mkEl("div", "sec", "Olaylar"); lh.style.margin = "16px 0 4px"; w.append(lh);
+  const lg = mkEl("div", "cbox"); lg.style.paddingTop = "4px"; lg.innerHTML = "Yükleniyor..."; w.append(lg);
+  const lv = mkEl("button", "cbtn red", "Klandan ayrıl"); lv.style.marginTop = "14px";
+  klArm(lv, "Emin misin? Tekrar dokun", async () => { if (await klCall("clan_leave")) { klan = null; klView = null; toast("Klandan ayrıldın."); renderClan(); } });
+  w.append(lv);
+  const { data } = await sb.from("clan_log").select("kind,a,b,created_at").order("id", { ascending: false }).limit(30);
+  const col = { kurdu: "#fbbf24", katildi: "#34d399", ayrildi: "#fb923c", atildi: "#ef4444", lider: "#60a5fa" };
+  const tx = l => l.kind === "kurdu" ? l.a + " klanı kurdu" : l.kind === "katildi" ? l.a + " klana katıldı" : l.kind === "ayrildi" ? l.a + " klandan ayrıldı" : l.kind === "atildi" ? l.a + ", " + l.b + " tarafından atıldı" : l.b ? l.a + " lider oldu (" + l.b + " devretti)" : l.a + " lider oldu";
+  lg.innerHTML = ""; if (!data || !data.length) lg.textContent = "Henüz olay yok.";
+  else data.forEach(l => { const r = mkEl("div", "clog"), d = mkEl("i"), t = mkEl("div"); d.style.background = col[l.kind] || "#999"; t.append(tx(l), mkEl("small", null, klWhen(l.created_at))); r.append(d, t); lg.append(r); });
+}
+function openClanNew() {
+  const box = $("#clanNewBox"); box.innerHTML = ""; let emb = 0;
+  const nm = mkEl("input", "in"), tg = mkEl("input", "in"), ds = mkEl("input", "in"), er = mkEl("div", "err"), eb = mkEl("div", "cemb");
+  nm.maxLength = 16; nm.placeholder = "Klan adı (3-16)"; tg.maxLength = 4; tg.placeholder = "Etiket (2-4, örn. IOZ)"; tg.style.textTransform = "uppercase"; ds.maxLength = 80; ds.placeholder = "Kısa açıklama (isteğe bağlı)";
+  for (let i = 0; i < 8; i++) { const bt = mkEl("button", i === 0 ? "on" : ""); bt.append(emblem(i, 34)); bt.onclick = () => { emb = i; [...eb.children].forEach((x, k) => x.classList.toggle("on", k === i)); }; eb.append(bt); }
+  const go = mkEl("button", "cbtn gold", "Klanı kur  ·  $" + KL_COST), cn = mkEl("button", "dlater", "Vazgeç"); go.style.marginTop = "12px";
+  cn.onclick = () => $("#clanNew").classList.remove("on");
+  go.onclick = async () => {
+    if (klBusy) return; if (me.money < KL_COST) { er.textContent = "Paran yetmiyor ($" + KL_COST + ")."; return; }
+    klBusy = true; go.disabled = true; const r = await sb.rpc("clan_create", { p_name: nm.value, p_tag: tg.value, p_emblem: emb, p_descr: ds.value }); klBusy = false; go.disabled = false;
+    if (r.error) { er.textContent = klErr(r.error.message || ""); return; }
+    me.money = Math.max(0, me.money - KL_COST); setMoney(); $("#clanNew").classList.remove("on"); klTab = "chat"; toast("Klan kuruldu!"); await klanLoad(); $("#clan").classList.add("on"); renderClan();
+  };
+  box.append(mkEl("h2", null, "Klan kur"), mkEl("label", null, "Ad"), nm, mkEl("label", null, "Etiket"), tg, mkEl("label", null, "Amblem"), eb, mkEl("label", null, "Açıklama"), ds, er, go, cn);
+  $("#clanNew").classList.add("on");
+}
+/* Sıralama: Oyuncular / Klanlar */
+function setRkTab(t) {
+  rkTab = t; document.querySelectorAll("#rnkSeg button").forEach(x => x.classList.toggle("on", x.dataset.t === t));
+  document.querySelectorAll("#rnk .stats,#rnk .mypw,#rnk .rnote,#rnkList").forEach(x => x.style.display = t === "p" ? "" : "none");
+  $("#clanRank").style.display = t === "c" ? "" : "none"; if (t === "c") loadClanRank();
+}
+function openRankClans() { $("#rnk").classList.add("on"); setRkTab("c"); }
+async function loadClanRank() {
+  if (klan === undefined) await klanLoad();
+  if (!klQ && Date.now() - klRankAt < 60000 && klRank.length) return renderClanRank();
+  const r = await sb.rpc("clan_rank", { p_q: klQ || null, p_lim: 50 }); if (!r.error) { klRank = r.data || []; if (!klQ) klRankAt = Date.now(); } renderClanRank();
+}
+function renderClanRank() {
+  const box = $("#clanRank"), keep = document.activeElement && document.activeElement.id === "klSrch"; box.innerHTML = "";
+  const sr = mkEl("input", "in csrch"); sr.id = "klSrch"; sr.placeholder = "Klan adı veya etiket ara"; sr.value = klQ; sr.maxLength = 20; let tm;
+  sr.oninput = () => { clearTimeout(tm); tm = setTimeout(() => { klQ = sr.value.trim(); loadClanRank(); }, 450); }; box.append(sr);
+  if (!klan) { const k = mkEl("button", "cbtn gold", "Klan kur  ·  $" + KL_COST); k.style.cssText = "margin:10px 14px 0;width:calc(100% - 28px)"; k.onclick = openClanNew; box.append(k); }
+  if (!klRank.length) box.append(mkEl("div", "empty", klQ ? "Klan bulunamadı." : "Henüz klan yok. İlk klanı sen kur."));
+  klRank.forEach(c => {
+    const r = mkEl("button", "crow"), tx = mkEl("div", "cmn"), st = c.o_count >= 5 ? "Dolu" : c.o_open ? "Açık" : "Kapalı";
+    tx.append(mkEl("b", null, c.o_name), mkEl("small", null, "[" + c.o_tag + "] · " + c.o_count + "/5 üye · " + st));
+    r.append(mkEl("span", "cmr", "#" + c.o_rank), emblem(c.o_emblem, 34), tx, klPw(Number(c.o_power))); r.onclick = () => openClanView(c.o_id); box.append(r);
+  });
+  if (keep) { sr.focus(); sr.setSelectionRange(sr.value.length, sr.value.length); }
+}
+document.querySelectorAll("#rnkSeg button").forEach(x => x.onclick = () => setRkTab(x.dataset.t));
+$("#klanBtn").onclick = openClan; $("#clanClose").onclick = closeClan;
+$("#clan").addEventListener("click", e => { if (e.target.id === "clan") closeClan(); });
+$("#clanNew").addEventListener("click", e => { if (e.target.id === "clanNew") $("#clanNew").classList.remove("on"); });
+
 /* ---- döngü ---- */
 function gameTick() {
   if (!me) return;
@@ -1786,7 +2095,7 @@ $("#shop").addEventListener("click", e => { if (e.target.id === "shop") $("#shop
 const vipOf = id => { const o = online.find(x => x.id === id); if (o) return !!o.vip; const r = ranks.find(x => x.id === id); return !!(r && r.vip); };
 const isVipMsg = m => !!m.vip || vipOf(m.user_id) || !!(me && m.user_id === me.id && vip);
 const powerCache = new Map(), pwQueue = new Set(); let pwTimer = 0;
-const BOLT = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-bolt"/></svg>';
+const BOLT = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-power"/></svg>';
 function fillPw(c, v) { c.innerHTML = BOLT + fmt(v); c.classList.add("on"); }
 function pwChip(uid) {
   const c = document.createElement("span"); c.className = "pwc"; c.dataset.uid = uid;
@@ -1910,7 +2219,7 @@ $("#delAsk").onclick = () => { $("#delBox").style.display = "block"; };
 function reset() {
   if (rt) { sb.removeChannel(rt); rt = null; }
   if (pr) { sb.removeChannel(pr); pr = null; }
-  clearInterval(statTimer); clearInterval(custTimer); clearInterval(syncTimer); q = []; stations = []; models = []; reqs = []; levels = []; level = 1; boostEnd = 0; boostN = 0; bonusDone = false; repairDone = false; ps = { open: false, level: 1, slots: 4, staff: false, lib: false }; psSt = []; psQ = []; psModels = []; psReqs = []; psLevels = []; psLoaded = false; $("#psBtn").style.display = "none"; cashier = false; cleaner = false; manager = false; vFood = false; vDrink = false; myPower = null; $("#pwrB").innerHTML = ""; rep = 3; ghosts = []; blocked = new Set(); blockNames = {}; $("#adm").classList.remove("on"); $("#banov").classList.remove("on"); vip = false; vipBusy = false; $("#vipB").innerHTML = ""; nextArr = 0; lastMsg = ""; lastOver = null; lastMin = -1; advancing = false; adBusy = false; renderAll(); ranks = []; stats = { tot: 0, n24: 0, a24: 0 }; renderStats(); $("#rnk").classList.remove("on");
+  clearInterval(statTimer); clearInterval(custTimer); clearInterval(syncTimer); q = []; stations = []; models = []; reqs = []; levels = []; level = 1; loginFlowDone = false; klan = undefined; klView = null; klRank = []; klRankAt = 0; klStopRT(); boostEnd = 0; boostN = 0; bonusDone = false; repairDone = false; ps = { open: false, level: 1, slots: 4, staff: false, lib: false }; psSt = []; psQ = []; psModels = []; psReqs = []; psLevels = []; psLoaded = false; $("#psBtn").style.display = "none"; cashier = false; cleaner = false; manager = false; vFood = false; vDrink = false; myPower = null; $("#pwrB").innerHTML = ""; rep = 3; ghosts = []; blocked = new Set(); blockNames = {}; $("#adm").classList.remove("on"); $("#banov").classList.remove("on"); vip = false; vipBusy = false; $("#vipB").innerHTML = ""; nextArr = 0; lastMsg = ""; lastOver = null; lastMin = -1; advancing = false; adBusy = false; renderAll(); ranks = []; stats = { tot: 0, n24: 0, a24: 0 }; renderStats(); $("#rnk").classList.remove("on");
   online = []; $("#cnt").textContent = "0"; $("#onl").classList.remove("on");
   me = null; seen.clear(); $("#list").innerHTML = ""; $("#pass").value = ""; $("#pass2").value = ""; $("#nick").value = "";
   chatOpen = false; $("#chat").classList.remove("on"); closeSet(); setMode("in"); show("auth");
