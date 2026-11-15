@@ -509,6 +509,13 @@ label{display:block;margin:16px 0 6px;font-size:14px;font-weight:600;color:var(-
 .cnew{max-height:92vh;overflow-y:auto}.cnew label{display:block;margin:10px 0 4px;font-size:12.5px;font-weight:700;color:var(--mut)}
 .cemb{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.cemb button{padding:8px 0;border-radius:12px;background:var(--card);border:2px solid var(--line);display:flex;justify-content:center}.cemb button.on{border-color:#fbbf24;background:rgba(251,191,36,.14)}
 .csrch{margin:10px 14px 0;width:calc(100% - 28px)}
+#plP{align-items:center;justify-content:center;z-index:7}
+.n.tap{cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+.pav{width:76px;height:76px;border-radius:50%;margin:0 auto 8px;display:grid;place-items:center;font-size:34px;font-weight:900;color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.16),0 8px 20px rgba(0,0,0,.4)}
+.ppw{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0;padding:12px;border-radius:16px;background:linear-gradient(135deg,rgba(251,191,36,.24),rgba(234,88,12,.2));border:1px solid rgba(251,191,36,.55);font-size:32px;font-weight:900;color:#ffd98a;text-align:left}
+.ppw .ic{width:34px;height:34px;filter:drop-shadow(0 2px 3px rgba(234,88,12,.6))}.ppw small{display:block;font-size:11px;font-weight:700;color:var(--mut);letter-spacing:.4px}
+
+.lang{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;display:flex;gap:8px;z-index:4}.lang.inl{position:static;justify-content:center;margin:2px 0 10px}.lg{width:44px;height:30px;padding:0;border-radius:8px;overflow:hidden;border:2px solid rgba(255,255,255,.28);opacity:.6;background:none;line-height:0;flex:none}.lg.on{opacity:1;border-color:#fbbf24;box-shadow:0 0 12px rgba(251,191,36,.55)}.lg svg{width:100%;height:100%;display:block}
 </style>
 
 <script>
@@ -516,7 +523,7 @@ label{display:block;margin:16px 0 6px;font-size:14px;font-weight:600;color:var(-
 setTimeout(function () {
   if (window.__sbReady) return;
   var m = document.getElementById("bootMsg"), b = document.getElementById("bootRetry");
-  if (m) m.textContent = "Bağlantı yavaş görünüyor…";
+  if (m) m.textContent = (typeof T === "function" ? T : function (x) { return x; })("Bağlantı yavaş görünüyor…");
   if (b) { b.style.display = "block"; b.onclick = function () { location.reload(); }; }
 }, 9000);
 </script>
@@ -570,6 +577,7 @@ setTimeout(function () {
 </div>
 
 <div id="auth" class="scr">
+  <div class="lang" id="langA"></div>
   <div class="card">
     <div class="logo"><div class="mark"><svg class="ic" viewBox="0 0 24 24"><use href="#i-monitor"/></svg></div><div class="brand">iOZ <b>Cafe</b></div></div>
     <div class="sub">Kendi internet kafeni kur ve büyüt.</div>
@@ -622,6 +630,7 @@ setTimeout(function () {
 <div id="set" class="ov">
   <div class="pop">
     <h2>Ayarlar</h2>
+    <div class="lang inl" id="langS"></div>
     <p id="who"></p>
     <button class="btn o" id="nameAsk">İsmi değiştir</button>
     <div id="nameBox">
@@ -698,6 +707,8 @@ setTimeout(function () {
 </div></div>
 <div id="clanNew" class="ov"><div class="pop cnew" id="clanNewBox"></div></div>
 
+<div id="plP" class="ov"><div class="pop" id="plBox" style="text-align:center"></div></div>
+
 <div id="onl" class="ov">
   <div class="pop">
     <h2>Aktif oyuncular</h2>
@@ -723,6 +734,38 @@ setTimeout(function () {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script>
+
+/* ===== Dil (Türkçe / English) ===== */
+const LANG = (() => { try { const l = localStorage.getItem("lang"); if (l === "tr" || l === "en") return l; } catch (e) {} try { if (Object.keys(localStorage).some(k => /^sb-.*auth-token$/.test(k))) return "tr"; } catch (e) {} return /^tr/i.test(navigator.language || "tr") ? "tr" : "en"; })();
+const LOC = LANG === "en" ? "en-GB" : "tr-TR";
+const EN = {"aktif":"active","Bağlantı yavaş görünüyor…":"Connection seems slow…","Yükleniyor": "Loading", "Tekrar dene": "Try again", "Kendi internet kafeni kur ve büyüt.": "Build and grow your own internet café.", "Giriş yap": "Log in", "Kayıt ol": "Sign up", "Takma ad": "Nickname", "Şifre": "Password", "Şifre tekrar": "Confirm password", "Göster": "Show", "Ayarlar": "Settings", "Gün 1": "Day 1", "Açık": "Open", "Sakin saat": "Quiet hours", "Masalarım": "My desks", "Sohbet": "Chat", "Klan": "Clan", "Dükkan": "Shop", "Salon": "Room", "Genel sohbet": "Global chat", "Kapat": "Close", "Tüm çevrimiçi gerçek oyuncular burada.": "All real players who are online are here.", "Gönder": "Send", "İsmi değiştir": "Change name", "Takma adını en fazla 2 kez değiştirebilirsin. Kalan hak:": "You can change your nickname at most 2 times. Remaining:", "Kaydet": "Save", "Çıkış yap": "Log out", "Hesabı sil": "Delete account", "Hesabın, mesajların ve tüm ilerlemen kalıcı olarak silinir. Geri alınamaz. Onaylamak için takma adını yaz.": "Your account, messages and all progress will be permanently deleted. This cannot be undone. Type your nickname to confirm.", "Kalıcı olarak sil": "Delete permanently", "Engellenenler": "Blocked users", "Yönetici girişi": "Admin login", "Giriş": "Enter", "Oyuncular": "Players", "Klanlar": "Clans", "Toplam üye": "Total members", "Şu an aktif": "Active now", "Son 24 saat aktif": "Active in last 24h", "Son 24 saat yeni üye": "New members in last 24h", "Güç; kazandığın ve işine yatırdığın paradan hesaplanır. Yatırım yapmak, para biriktirmekten daha çok güç kazandırır.": "Power is calculated from the money you earn and the money you invest in your business. Investing earns more power than saving up.", "Ürün al": "Buy computers", "OLD 1980'den ULTRA 2035'e": "From OLD 1980 to ULTRA 2035", "Dükkan geliştir": "Upgrade shop", "Büyüt, otomat kur": "Expand, add vending machines", "Personel al": "Hire staff", "Kasiyer, temizlikçi, müdür": "Cashier, cleaner, manager", "Oyun Salonu": "Game Room", "İkinci dükkan: konsollar": "Second shop: consoles", "VIP üyelik": "VIP membership", "$20.000 + reklamsız + %50 kazanç": "$20,000 + no ads + 50% more earnings", "Aktif oyuncular": "Active players", "Reklam hazırlanıyor...": "Preparing ad...", "Lütfen bekle.": "Please wait.", "Yeni sürüm var": "New version available", "Devam etmek için oyunu güncelle.": "Update the game to continue.", "Güncelle": "Update", "Yönetici paneli": "Admin panel", "Bildirimler": "Reports", "Kullanıcılar": "Users", "Hesabın askıya alındı": "Your account has been suspended", "Şifreyi göster": "Show password", "Video izle, para kazan": "Watch a video, earn money", "Mesaj yaz": "Type a message", "Yeni takma ad": "New nickname", "Takma adın": "Your nickname", "Yönetici şifresi": "Admin password", "Tekrar deneniyor": "Retrying", "Oyun sunucusuna ulaşılamadı. İnternet bağlantını kontrol et.": "Couldn't reach the game server. Check your internet connection.", "3-14 karakter: harf, rakam ve alt çizgi. Sonradan değişmez.": "3-14 characters: letters, numbers and underscore. Cannot be changed later.", "Şifreyi gizle": "Hide password", "Takma ad 3-14 karakter olmalı; sadece harf, rakam ve alt çizgi kullan.": "Nickname must be 3-14 characters; use only letters, numbers and underscore.", "Şifre en az 6 karakter olmalı.": "Password must be at least 6 characters.", "Şifreler aynı değil.": "Passwords don't match.", "Bu takma ad alınmış. Başka bir tane dene.": "This nickname is taken. Try another one.", "Bu takma ad kullanılamaz. Başka bir tane dene.": "This nickname can't be used. Try another one.", "Kayıt tamamlanamadı: ": "Sign-up couldn't be completed: ", "Sunucuda e-posta doğrulaması açık. Supabase'den kapat.": "Email confirmation is enabled on the server. Turn it off in Supabase.", "Takma ad veya şifre hatalı.": "Wrong nickname or password.", "Hata: ": "Error: ", "Oturum kontrol ediliyor": "Checking session", "Sunucuya ulaşılamadı. Bağlantını kontrol edip tekrar dene.": "Couldn't reach the server. Check your connection and try again.", "Hesap ve dükkan yükleniyor": "Loading account and shop", "Profil bulunamadı, tekrar dene.": "Profile not found, try again.", "Hesap doğrulanamadı, tekrar dene.": "Couldn't verify the account, try again.", "Hesabın askıya alındı: topluluk kurallarına aykırı davranış.": "Your account has been suspended: behaviour against community rules.", "Dükkan hazırlanıyor": "Preparing your shop", "Senin gücün": "Your power", "  (Sen)": "  (You)", "Aktif": "Active", "Çevrimdışı": "Offline", "Sıralama yüklenemedi: ": "Couldn't load the leaderboard: ", " oyuncu şu an çevrimiçi.": " players online right now.", "Sen": "You", "Esnaf": "Shopkeeper", "Genç": "Teen", "Öğrenci": "Student", "Oyuncu": "Gamer", "Yayıncı": "Streamer", "E-spor takımı": "Esports team", "Müşteri": "Customer", "Kasiyer": "Cashier", "Temizlikçi": "Cleaner", "Müdür": "Manager", "Otomat": "Vending machine", "Gün ": "Day ", "Kapalı": "Closed", "Dükkan kapalı": "Shop closed", "Yoğun saat": "Rush hour", "Sabah, sakin": "Morning, quiet", "Öğleden sonra": "Afternoon", "Bugün: $": "Today: $", " müşteri": " customers", "Hazır": "Ready", "Boş": "Empty", "Masa ": "Desk ", "Saatlik $": "Hourly $", "ŞİMDİ": "NOW", "EN ÜST MODEL": "TOP MODEL", "YENİ": "NEW", "Model yılı ": "Model year ", " · Saatlik ücret $": " · Hourly rate $", " · Kullanımda: ": " · In use: ", " · Boşta": " · Idle", " ile saatlik ücret $": " upgrade: hourly rate $", ". Yeni müşteri: ": ". New customers: ", "Yükselt: $": "Upgrade: $", "Müşteri varken yükseltilemez.": "Can't upgrade while a customer is seated.", "Sat (+$": "Sell (+$", "Masada müşteri var.": "A customer is at this desk.", "Paran yetmiyor.": "You don't have enough money.", "Bu en üst model.": "This is the top model.", "Yükseltildi: ": "Upgraded: ", "En az 1 bilgisayarın kalmalı.": "You must keep at least 1 computer.", "Bilgisayar satıldı.": "Computer sold.", "Oyun verisi yüklenemedi": "Couldn't load game data", "Supabase SQL dosyasını (ioz_cafe_guvenli_sql.sql) çalıştırdığından emin ol.": "Make sure you ran the Supabase SQL file (ioz_cafe_guvenli_sql.sql).", "Henüz bilgisayarın yok": "You don't have a computer yet", "Dükkandan ilk bilgisayarını al. Başlangıç paranla İOZ OLD 1980 alabilirsin.": "Buy your first computer from the shop. You can afford an İOZ OLD 1980 with your starting money.", "Dükkana git": "Go to shop", "Müşteriler": "Customers", " · Masa ": " · Desk ", "1 saat daha kalmak istiyor · +$": "Wants to stay 1 more hour · +$", "Onayla": "Approve", "Dükkan kapalı, yeni müşteri gelmez.": "Shop closed, no new customers will arrive.", "Müşteri bekleniyor.": "Waiting for customers.", "En az ": "Needs at least ", "daha iyi bir model": "a better model", "Bilgisayar yetersiz": "Computer too weak", "Uygun masa dolu": "Suitable desk is busy", " saat · $": " h · $", "Oturt": "Seat", "Uygun masa şu an dolu.": "No suitable desk is free right now.", "Dükkan kapalı.": "Shop closed.", "Bilgisayarın bu müşteri için yetersiz.": "Your computer isn't good enough for this customer.", "Dükkan kapandı.": "The shop has closed.", "Oturum zaten bitti.": "Session already ended.", "Uzatılamadı.": "Couldn't extend.", " 1 saat daha kalacak.": " will stay 1 more hour.", "Boost bitti": "Boost over", "Hızlandır x1.5 (": "Speed up x1.5 (", "Bugünlük hızlandırma hakkın bitti.": "You've used all of today's speed-ups.", "Hızlandırma zaten açık.": "Speed-up is already active.", "Bugünlük hakkın bitti.": "You've used all of today's uses.", "5 dakika boyunca müşteri akışı ve kazanç x1.5!": "For 5 minutes, customer flow and earnings are x1.5!", "Ödül için videoyu sonuna kadar izle.": "Watch the whole video to get the reward.", "Reklam şu an hazır değil, biraz sonra tekrar dene.": "Ad isn't ready right now, try again shortly.", "Bu ödülü bugün aldın.": "You already claimed this reward today.", "Gün henüz bitmedi.": "The day isn't over yet.", "İtibarın zaten yüksek.": "Your reputation is already high.", " bonus kazandın!": " bonus earned!", "İtibarın yükseldi.": "Your reputation increased.", " tamamlandı": " completed", "Bugün kazanç: $": "Today's earnings: $", " müşteri. ": " customers. ", "Müşteriler kalkınca yeni güne geçebilirsin.": "You can start a new day once customers leave.", "VIP olduğun için yeni güne reklamsız geçebilirsin.": "As a VIP you can start a new day without ads.", "Yeni güne geçmek için kısa bir video izlenecek.": "You'll watch a short video to start a new day.", " Personel maaşı $": " Staff wages of $", " yeni güne geçerken ödenir.": " are paid when the new day starts.", "Hazırlanıyor...": "Preparing...", " müşteri hâlâ masada": " customers still at desks", "VIP ol, reklamsız geç": "Become VIP, skip without ads", "Kazancı 2x yap: +$": "Double earnings: +$", "İtibarı onar: +0.5 yıldız": "Repair reputation: +0.5 star", "Masalarda hâlâ müşteri var.": "There are still customers at the desks.", "Reklam bulunamadı, bu seferlik reklamsız geçiyorsun.": "No ad found, you're skipping without an ad this time.", "Yeni güne geçmek için videoyu sonuna kadar izle.": "Watch the whole video to start a new day.", "Reklam yüklenemedi. İnternetini kontrol edip tekrar dene ya da VIP ol.": "Couldn't load the ad. Check your internet and try again, or become VIP.", "Maaş ödenemedi, ": "Wages couldn't be paid, ", " ayrıldı. Gün ": " left. Day ", " başladı.": " started.", " başladı. Personel maaşı: -$": " started. Staff wages: -$", "Reklam (test modu) · ": "Ad (test mode) · ", "Biraz sonra tekrar dene.": "Try again shortly.", "Saatlik video limitine ulaştın, biraz sonra tekrar dene.": "You reached the hourly video limit, try again shortly.", "Ödül verilemedi: ": "Reward couldn't be given: ", " kazandın.": " earned.", "Küfür / hakaret": "Profanity / insults", "Spam / reklam": "Spam / ads", "Uygunsuz içerik": "Inappropriate content", "Diğer": "Other", " gün ": " d ", "az önce": "just now", " dk önce": " min ago", " sa önce": " h ago", " gün önce": " d ago", "Topluluk kurallarına aykırı davranış nedeniyle hesabın askıya alındı.": "Your account was suspended for behaviour against community rules.", "Mesajı bildir": "Report message", "Kullanıcıyı engelle": "Block user", "Çok fazla bildirim gönderdin, biraz sonra tekrar dene.": "You sent too many reports, try again shortly.", "Mesaj artık yok.": "The message no longer exists.", "Bildirilemedi.": "Couldn't report.", "Bildirimin yöneticiye iletildi. Teşekkürler.": "Your report was sent to the admins. Thank you.", "Engellenemedi.": "Couldn't block.", " engellendi. Mesajlarını görmeyeceksin.": " blocked. You won't see their messages.", "Kimseyi engellemedin.": "You haven't blocked anyone.", "Kaldır": "Remove", "Kaldırılamadı.": "Couldn't remove.", "Çok fazla hatalı deneme. 15 dakika sonra tekrar dene.": "Too many failed attempts. Try again in 15 minutes.", "Şifre hatalı.": "Wrong password.", "Yönetici oturumu bitti. Tekrar giriş yap.": "Admin session ended. Log in again.", "1 gün susturuldu.": "Muted for 1 day.", "1 hafta susturuldu.": "Muted for 1 week.", "Kalıcı olarak banlandı.": "Permanently banned.", "Susturma kaldırıldı.": "Mute removed.", "Ban kaldırıldı.": "Ban removed.", "Mesaj silindi.": "Message deleted.", "Bildirim yoksayıldı.": "Report dismissed.", "Tamam.": "Done.", "Emin misin?": "Are you sure?", " açık bildirim": " open reports", "Bekleyen bildirim yok.": "No pending reports.", "Banlı": "Banned", "Susturulmuş": "Muted", " · Bildiren: ": " · Reported by: ", "Sustur 1 gün": "Mute 1 day", "Sustur 1 hafta": "Mute 1 week", "Kalıcı ban": "Permanent ban", "Mesajı sil": "Delete message", "Yoksay": "Dismiss", "Ara": "Search", "Takma ad ara": "Search nickname", "Sonuçlar": "Results", "Cezalı kullanıcılar": "Penalized users", "Kullanıcı bulunamadı.": "User not found.", "Şu an cezalı kullanıcı yok.": "No penalized users right now.", "Susturulmuş: ": "Muted: ", "Susturmayı kaldır": "Remove mute", "Banı kaldır": "Remove ban", "VIP üyesisin": "You're a VIP", "Satın alınca anında $20.000": "$20,000 instantly on purchase", "Gün atlarken reklam yok": "No ads when skipping days", "Tüm kazançlar %50 artar": "All earnings +50%", "Sohbette ve sıralamada VIP rozeti": "VIP badge in chat and leaderboard", "+100 güç puanı": "+100 power", "VIP aktif": "VIP active", "İşleniyor...": "Processing...", "VIP ol": "Become VIP", "Satın alma şu an kullanılamıyor.": "Purchases aren't available right now.", "Satın alma yalnızca Android uygulamasında çalışır.": "Purchases only work in the Android app.", "Fiyat Play Store'dan alınamadı (": "Couldn't get the price from Play Store (", "). Uygulamayı Play Store'dan yüklediğinden ve vip_uyelik ürününün etkin olduğundan emin ol.": "). Make sure you installed the app from Play Store and the vip_uyelik product is active.", "Tek seferlik satın alma. Ödeme yaptığın hâlde ödül gelmediyse oyuna her girişte otomatik teslim edilir.": "One-time purchase. If you paid but didn't get the reward, it's delivered automatically every time you open the game.", "VIP aktif! $20.000 hesabına yattı.": "VIP active! $20,000 was added to your account.", "VIP üyeliğin geri yüklendi.": "Your VIP membership was restored.", "VIP zaten aktif.": "VIP is already active.", "Ödeme onay bekliyor. Onaylanınca VIP otomatik gelecek.": "Payment is pending confirmation. VIP will arrive automatically once approved.", "Bu hesapta VIP satın alınmış, kontrol ediliyor.": "VIP was already purchased on this account, checking.", "Satın alma iptal edildi.": "Purchase cancelled.", "Satın alma başarısız": "Purchase failed", "Paran: ": "Money: ", "  ·  Boş yer: ": "  ·  Free slots: ", "  ·  Görevli maaşı: ": "  ·  Attendant wage: ", "Salon verisi yüklenemedi. Supabase'e v3 SQL dosyasını çalıştırdığından emin ol.": "Couldn't load room data. Make sure you ran the v3 SQL file in Supabase.", "Yer ": "Slot ", "Önce bir konsol al.": "Buy a console first.", "Konsol yetersiz": "Console too weak", "Uygun konsol dolu": "Suitable console is busy", "Geliştir": "Upgrade", "Konsol": "Console", "Boş yere ilk konsol. Üst modeller konsola dokunup yükseltilir.": "The first console for an empty slot. Higher models are upgraded by tapping a console.", "Salonu büyüt": "Expand room", "Kapasite ": "Capacity ", "En üst seviyedesin: ": "You're at the top level: ", "Maksimum": "Maximum", "Salon görevlisi": "Room attendant", "Müşterileri otomatik oturtur.": "Seats customers automatically.", "Maaş: $": "Wage: $", " / gün, gün sonunda ödenir.": " / day, paid at the end of the day.", "Çalışıyor": "Working", "İşe alım: $": "Hiring cost: $", "Çıkar": "Dismiss", "İşe al": "Hire", "Oyun kütüphanesi": "Game library", "Satın alındı": "Purchased", "Bir kez alınır, gider yok.": "One-time purchase, no running costs.", "Alındı": "Owned", "Salon, bilgisayar dükkanıyla aynı anda çalışır. Gün, iki dükkan da boşalınca biter.": "The room runs at the same time as the PC shop. The day ends when both shops are empty.", "Konsol salonu: 8 konsol modeli, kendi müşterileri ve geliştirmeleri.": "Console room: 8 console models, its own customers and upgrades.", "Bilgisayar dükkanıyla aynı anda çalışır, kazançlar toplanır.": "Runs at the same time as the PC shop, earnings are combined.", "Açılış: $": "Opening cost: $", "Dükkan seviye ": "Shop level ", " olunca açılır": " unlocks it", "Salona git": "Go to room", "Aç": "Open", "Kilitli": "Locked", "Salon pahalıdır ama konsollar bilgisayarlardan çok daha fazla kazandırır. Büyütme, görevli ve kütüphane salona özeldir.": "The room is expensive, but consoles earn far more than computers. Expanding, attendant and library are exclusive to the room.", "Boş yer yok.": "No free slot.", "Konsolda müşteri var.": "There's a customer at this console.", "Bu en üst seviye.": "This is the top level.", "Zaten var.": "Already owned.", "Önce bilgisayar dükkanını seviye ": "First upgrade the PC shop to level ", "'e büyüt.": ".", "Salon henüz açık değil.": "The room isn't open yet.", "Oyun Salonu açıldı!": "Game Room opened!", "Konsol alındı.": "Console purchased.", "Salon büyüdü: ": "Room expanded: ", "Salon görevlisi işe alındı.": "Room attendant hired.", "Görevli çıkarıldı.": "Attendant dismissed.", "Oyun kütüphanesi alındı.": "Game library purchased.", "Yükseltildi.": "Upgraded.", "Uygun konsol şu an dolu.": "No suitable console is free right now.", "Konsolun bu müşteri için yetersiz.": "Your console isn't good enough for this customer.", "Günlük Giriş Ödülü": "Daily Login Reward", "7. GÜN": "DAY 7", "2x için videoyu sonuna kadar izle.": "Watch the whole video to get 2x.", "Reklam şu an hazır değil.": "Ad isn't ready right now.", "Bugünkü ödülü zaten aldın.": "You already claimed today's reward.", "Ödül alınamadı.": "Couldn't claim the reward.", "Ödülü al": "Claim reward", "2x al (VIP bonusu)": "Get 2x (VIP bonus)", "2x al (reklam izle)": "Get 2x (watch an ad)", "Ödülü al (VIP 2x)": "Claim reward (VIP 2x)", "Sonra al": "Claim later", "+100 güç puanı ve sıralamada VIP rozeti": "+100 power and VIP badge in the leaderboard", "Günlük ödülde otomatik 2x": "Automatic 2x on daily rewards", "Şimdi değil": "Not now", "VIP Üyelik": "VIP Membership", "Tek seferlik satın alma, ömür boyu geçerli.": "One-time purchase, valid for life.", "Zaten bir klandasın.": "You're already in a clan.", "Bir klanda değilsin.": "You're not in a clan.", "İsim 3-16 harf/rakam olmalı.": "Name must be 3-16 letters/numbers.", "Etiket 2-4 harf/rakam olmalı.": "Tag must be 2-4 letters/numbers.", "Bir amblem seç.": "Pick an emblem.", "Uygunsuz kelime var.": "Contains an inappropriate word.", "Bağlantı olamaz.": "Links aren't allowed.", "Bu klan ismi alınmış.": "This clan name is taken.", "Bu etiket alınmış.": "This tag is taken.", "Paran yetmiyor ($": "Not enough money ($", "Bu klan katılıma kapalı.": "This clan is closed to new members.", "Klan dolu (5/5).": "Clan is full (5/5).", "Bu klandan 1 saat yasaklısın.": "You're banned from this clan for 1 hour.", "Bu işlem için lider olmalısın.": "You must be the leader to do this.", "Hesabın kısıtlı.": "Your account is restricted.", "Biraz yavaş yaz.": "You're typing too fast.", "Bulunamadı.": "Not found.", "Biraz bekle: ": "Wait a bit: ", "Susturuldun.": "You're muted.", "<div class=\"empty\">Yükleniyor...</div>": "Loading...", "Klan bulunamadı.": "Clan not found.", "/5 üye": "/5 members", "Üyeler": "Members", "Bilgi": "Info", "Klanın yok": "You have no clan", "Arkadaşlarınla klan kur ya da bir klana katıl. Klanlar en fazla 5 kişiden oluşur, kendi sohbeti vardır ve toplam güçleriyle sıralamada yarışır.": "Create a clan with friends or join one. Clans have up to 5 members, their own chat, and compete on the leaderboard by total power.", "Klan kur  ·  $": "Create clan  ·  $", "Klan bul": "Find a clan", "Klana yaz": "Write to the clan", "<div class=\"empty\">Mesajlar yüklenemedi.</div>": "Couldn't load messages.", "<div class=\"empty\">Henüz mesaj yok. Klana ilk mesajı sen yaz.</div>": "No messages yet. Write the first one to the clan.", "Lider": "Leader", "Üye": "Member", "Çevrimiçi": "Online", "Katıldı ": "Joined ", "Lider yap": "Make leader", "At": "Kick", "Boş yer": "Empty slot", "Toplam güç": "Total power", "Katılım": "Join status", "Açıklama yok.": "No description.", "Açıklamayı kaydet": "Save description", "Kaydedildi.": "Saved.", "Katılım: ": "Joining: ", "Açık (kapat)": "Open (close it)", "Kapalı (aç)": "Closed (open it)", "Zaten bir klandasın": "You're already in a clan", "Katılıma kapalı": "Closed to new members", "Klan dolu": "Clan is full", "Klana katıl": "Join clan", "Klana katıldın!": "You joined the clan!", "Olaylar": "Events", "Yükleniyor...": "Loading...", "Klandan ayrıl": "Leave clan", "Emin misin? Tekrar dokun": "Are you sure? Tap again", "Klandan ayrıldın.": "You left the clan.", " klanı kurdu": " created the clan", " klana katıldı": " joined the clan", " klandan ayrıldı": " left the clan", "Klan adı (3-16)": "Clan name (3-16)", "Etiket (2-4, örn. IOZ)": "Tag (2-4, e.g. IOZ)", "Kısa açıklama (isteğe bağlı)": "Short description (optional)", "Klanı kur  ·  $": "Create clan  ·  $", "Vazgeç": "Cancel", "Klan kuruldu!": "Clan created!", "Klan kur": "Create clan", "Ad": "Name", "Etiket": "Tag", "Amblem": "Emblem", "Açıklama": "Description", "Klan adı veya etiket ara": "Search clan name or tag", "Henüz klan yok. İlk klanı sen kur.": "No clans yet. Create the first one.", "Dolu": "Full", "/5 üye · ": "/5 members · ", "Profil yüklenemedi. Biraz sonra tekrar dene.": "Couldn't load the profile. Try again shortly.", "Bu oyuncunun profili görüntülenemiyor.": "This player's profile can't be viewed.", "GÜÇ": "POWER", "Bu sensin.": "This is you.", "Klanı yok.": "No clan.", " beklemekten sıkılıp gitti.": " got tired of waiting and left.", "<div class=\"empty\">Ürünler yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>": "Couldn't load products. Make sure you ran the Supabase SQL file.", "  ·  Boş masa: ": "  ·  Free desks: ", " · Başlangıç modeli": " · Starter model", "Masa yok": "No desk", "Daha güçlü modeller dükkandan alınmaz. Ana ekranda masana dokunup bir üst modele yükselt.": "Stronger models aren't sold in the shop. Tap your desk on the main screen and upgrade it to the next model.", "Yükseltme yolu": "Upgrade path", " · Yeni müşteri: ": " · New customers: ", "<div class=\"empty\">Veri yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>": "Couldn't load data. Make sure you ran the Supabase SQL file.", "  ·  Kapasite: ": "  ·  Capacity: ", "Dükkanını büyüt": "Expand your shop", "Büyük dükkan daha çok müşteri çeker. Personel maaşları da dükkan büyüdükçe artar.": "A bigger shop attracts more customers. Staff wages also rise as the shop grows.", "Otomatlar": "Vending machines", " masa) olunca kurulur": " desks) unlocks it", "Atıştırmalık otomatı": "Snack machine", "Müşteriler oyun arasında atıştırır: her ödemeye +%": "Customers snack between games: +", " ek gelir.": "% extra on every payment.", "Kurulu": "Installed", "Bir kez kurulur, aylık gider yok.": "One-time install, no monthly cost.", "İçecek otomatı": "Drink machine", "Soğuk içecek: her ödemeye +%": "Cold drinks: +", " ek gelir, müşteriler %25 daha sabırlı bekler.": "% extra on every payment; customers wait 25% longer.", "Otomat geliri, müşteri ödemesi toplanırken otomatik eklenir. Çok müşteri = çok satış.": "Vending machine income is added automatically when payment is collected. More customers = more sales.", "Bu otomat zaten kurulu.": "This machine is already installed.", "Önce dükkanı seviye ": "First upgrade the shop to level ", "'ye büyüt.": ".", "Atıştırmalık otomatı kuruldu.": "Snack machine installed.", "İçecek otomatı kuruldu.": "Drink machine installed.", "Dükkan zaten en büyük seviyede.": "The shop is already at the max level.", "Dükkan büyüdü: ": "Shop expanded: ", " bilgisayar kapasitesi.": " PC capacity.", "  ·  Günlük maaş: ": "  ·  Daily wage: ", "Yıldız puanı her gün +0.08 yükselir.": "Star rating rises +0.08 every day.", "Giden müşterinin puan cezası yarıya iner.": "Penalty for a leaving customer is halved.", "Müşteriler %": "Customers arrive ", " daha sık gelir.": "% more often.", "Her seansta %": "Each session earns ", " fazla kazandırır.": "% more.", " olunca işe alınır": " unlocks hiring", "Maaşı ödenemeyen personel işten ayrılır (önce müdür). Maaşlar dükkan büyüdükçe artar.": "Staff whose wages can't be paid quit (manager first). Wages rise as the shop grows.", " zaten çalışıyor.": " is already working.", " işe alındı.": " hired.", " işten çıkarıldı.": " dismissed.", "Boş masa yok. Bir bilgisayarı sat.": "No free desk. Sell a computer.", "Satın alınamadı: ": "Couldn't purchase: ", " alındı.": " purchased.", "Geri": "Back", "Bildir veya engelle": "Report or block", "<div class=\"empty\">Henüz mesaj yok. İlk mesajı sen yaz.</div>": "No messages yet. Write the first one.", "Çok hızlı yazıyorsun, biraz bekle.": "You're typing too fast, wait a bit.", "Mesajında uygunsuz kelime var.": "Your message contains an inappropriate word.", "Mesajda bağlantı olamaz.": "Links aren't allowed in messages.", "Susturuldun. Kalan süre: ": "You're muted. Time left: ", "Mesaj gönderilemedi: ": "Message couldn't be sent: ", "Oturum: ": "Session: ", "İsmi değiştir (": "Change name (", " hak)": " left)", "3-14 karakter: harf, rakam ve alt çizgi.": "3-14 characters: letters, numbers and underscore.", "İsim değiştirme hakkın bitti.": "You've used all your name changes.", "Bu zaten şu anki adın.": "That's already your current name.", "Bu takma ad kullanılamaz.": "This nickname can't be used.", "Bu takma ad alınmış.": "This nickname is taken.", "Takma adın değişti: ": "Your nickname changed: ", "Takma ad eşleşmiyor.": "Nicknames don't match.", "Hesap silinemedi: ": "Account couldn't be deleted: ", "Hesabın silindi.": "Your account was deleted.", "Neden bildiriyorsun?": "Why are you reporting?", "Ödeme alındı ama VIP teslim edilemedi": "Payment received but VIP couldn't be delivered", ". Oyunu yeniden açınca otomatik denenecek.": ". It will be retried automatically when you reopen the game.", "Ödül alındı!": "Reward claimed!", "Klan açıklaması": "Clan description", "Henüz olay yok.": "No events yet.", " personel": " staff", " gitti": " left", " gerekli.": ".", " bekliyor": " waiting", " sa": " h", " sa ": " h ", " dk": " min", " dk.": " min.", " konsol": " consoles", " konsol.": " consoles.", " bilgisayar": " computers", ". Kalan hak: ": ". Remaining: ", "Belge yazdırma": "Document printing", "İnternet": "Internet", "Ders çalışma": "Studying", "Oyun": "Gaming", "Canlı yayın": "Live streaming", "E-spor turnuvası": "Esports tournament", "Tek kişilik oyun": "Solo game", "Futbol maçı": "Football match", "Yarış": "Racing", "Film gecesi": "Movie night", "VR seansı": "VR session", "Büyük turnuva": "Big tournament", "Mesajlar yüklenemedi.": "Couldn't load messages.", "Veri yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.": "Couldn't load data. Make sure you ran the Supabase SQL file.", "{n}. güne geç": "Go to day {n}", "Seri: {n}. gün. Her gün gir, ödül büyüsün. Bir gün kaçırırsan seri başa döner.": "Streak: day {n}. Log in every day for bigger rewards. Miss a day and your streak resets.", "Yarın tekrar gel: seri {n}. gün oluyor.": "Come back tomorrow: your streak becomes day {n}.", "{n}. gün": "Day {n}", "{a}, {b} tarafından atıldı": "{a} was kicked out by {b}", "{a} lider oldu ({b} devretti)": "{a} became leader ({b} handed it over)", "{a} lider oldu": "{a} became leader", "{n} al": "Buy {n}", "Tüm salon kazancı +%{n}.": "All room earnings +{n}%.", "Sıralama": "Leaderboard"};
+const HAS = Object.prototype.hasOwnProperty;
+const T = s => (LANG === "en" && HAS.call(EN, s)) ? EN[s] : s;
+const Tf = (s, v) => { let t = T(s); if (v) for (const k in v) t = t.split("{" + k + "}").join(v[k]); return t; };
+document.documentElement.lang = LANG;
+(function () {
+  if (LANG !== "en") return;
+  const ATTR = ["placeholder", "aria-label", "title"];
+  const tr = n => {
+    if (n.nodeType === 3) { const v = n.nodeValue, k = v.trim(); if (k && HAS.call(EN, k)) n.nodeValue = v.replace(k, EN[k]); return; }
+    if (n.nodeType !== 1 || n.tagName === "SCRIPT" || n.tagName === "STYLE") return;
+    ATTR.forEach(a => { const v = n.getAttribute(a); if (v && HAS.call(EN, v)) n.setAttribute(a, EN[v]); });
+    for (let c = n.firstChild; c; c = c.nextSibling) tr(c);
+  };
+  tr(document.body);
+  new MutationObserver(ms => ms.forEach(m => {
+    if (m.type === "characterData") tr(m.target); else if (m.type === "attributes") tr(m.target); else m.addedNodes.forEach(tr);
+  })).observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTR });
+})();
+const FLAGS = [["tr", '<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#e30a17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.5" cy="10" r="4" fill="#e30a17"/><polygon fill="#fff" points="13.80,10.00 15.55,9.38 15.60,7.53 16.72,9.00 18.50,8.47 17.45,10.00 18.50,11.53 16.72,11.00 15.60,12.47 15.55,10.62"/></svg>', "Türkçe"], ["en", '<svg viewBox="0 0 60 40" preserveAspectRatio="xMidYMid slice"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="8"/><path d="M0 0L60 40M60 0L0 40" stroke="#c8102e" stroke-width="3"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="13"/><path d="M30 0V40M0 20H60" stroke="#c8102e" stroke-width="8"/></svg>', "English"]];
+document.querySelectorAll(".lang").forEach(box => {
+  FLAGS.forEach(([l, svg, nm]) => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "lg" + (LANG === l ? " on" : ""); b.innerHTML = svg; b.setAttribute("aria-label", nm); b.title = nm;
+    b.onclick = () => { if (LANG === l) return; try { localStorage.setItem("lang", l); } catch (e) {} location.reload(); };
+    box.append(b);
+  });
+});
+
 const SB_URL = "https://uipeypgidcqjvnukmzev.supabase.co";
 const SB_KEY = "sb_publishable_Emts4vGTLLBV4AYnA9SOQw_XULy89hn";
 const sb = typeof supabase !== "undefined" ? supabase.createClient(SB_URL, SB_KEY) : null;
@@ -740,9 +783,9 @@ function bootFail(msg, retry) {
   show("boot"); $("#bootMsg").textContent = msg;
   const bar = $("#bootBar"); bar.style.width = "100%"; bar.style.background = "var(--bad)";
   const b = $("#bootRetry"); b.style.display = "block";
-  b.onclick = () => { b.style.display = "none"; bootSet("Tekrar deneniyor", 20); if (retry) retry(); else location.reload(); };
+  b.onclick = () => { b.style.display = "none"; bootSet(T("Tekrar deneniyor"), 20); if (retry) retry(); else location.reload(); };
 }
-if (!sb) { bootFail("Oyun sunucusuna ulaşılamadı. İnternet bağlantını kontrol et.", () => location.reload()); throw new Error("supabase yuklenemedi"); }
+if (!sb) { bootFail(T("Oyun sunucusuna ulaşılamadı. İnternet bağlantını kontrol et."), () => location.reload()); throw new Error("supabase yuklenemedi"); }
 window.__sbReady = true;
 const isNet = e => !!e && (e.status === 0 || /failed to fetch|network|load failed|timeout|abort/i.test(String(e.message || e)));
 const withTimeout = (p, ms) => Promise.race([Promise.resolve(p), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), ms))]);
@@ -755,8 +798,8 @@ function setMode(m) {
   mode = m; err("");
   $("#tIn").classList.toggle("on", m === "in");
   $("#tUp").classList.toggle("on", m === "up");
-  $("#go").textContent = m === "in" ? "Giriş yap" : "Kayıt ol";
-  $("#hint").textContent = m === "up" ? "3-14 karakter: harf, rakam ve alt çizgi. Sonradan değişmez." : "";
+  $("#go").textContent = m === "in" ? T("Giriş yap") : T("Kayıt ol");
+  $("#hint").textContent = m === "up" ? T("3-14 karakter: harf, rakam ve alt çizgi. Sonradan değişmez.") : "";
   $("#nick").autocomplete = m === "in" ? "username" : "off";
   $("#pass").autocomplete = m === "in" ? "current-password" : "new-password";
   $("#pass2Box").style.display = m === "up" ? "block" : "none"; $("#pass2").value = "";
@@ -764,7 +807,7 @@ function setMode(m) {
 $("#eye").onclick = () => {
   const show = $("#pass").type === "password";
   $("#pass").type = show ? "text" : "password"; $("#pass2").type = show ? "text" : "password";
-  $("#eyeI").innerHTML = '<use href="#' + (show ? "i-eye-off" : "i-eye") + '"/>'; $("#eye").setAttribute("aria-label", show ? "Şifreyi gizle" : "Şifreyi göster");
+  $("#eyeI").innerHTML = '<use href="#' + (show ? "i-eye-off" : "i-eye") + '"/>'; $("#eye").setAttribute("aria-label", show ? T("Şifreyi gizle") : T("Şifreyi göster"));
 };
 $("#tIn").onclick = () => setMode("in");
 $("#tUp").onclick = () => setMode("up");
@@ -772,9 +815,9 @@ $("#tUp").onclick = () => setMode("up");
 async function submit() {
   const n = $("#nick").value.trim(), p = $("#pass").value;
   err("");
-  if (!/^[A-Za-z0-9_]{3,14}$/.test(n)) return err("Takma ad 3-14 karakter olmalı; sadece harf, rakam ve alt çizgi kullan.");
-  if (p.length < 6) return err("Şifre en az 6 karakter olmalı.");
-  if (mode === "up" && $("#pass2").value !== p) return err("Şifreler aynı değil.");
+  if (!/^[A-Za-z0-9_]{3,14}$/.test(n)) return err(T("Takma ad 3-14 karakter olmalı; sadece harf, rakam ve alt çizgi kullan."));
+  if (p.length < 6) return err(T("Şifre en az 6 karakter olmalı."));
+  if (mode === "up" && $("#pass2").value !== p) return err(T("Şifreler aynı değil."));
   $("#go").disabled = true;
   try {
     let session;
@@ -782,21 +825,21 @@ async function submit() {
       await sb.auth.signOut({ scope: "local" });
       const { data: st, error: e0 } = await sb.rpc("nick_status", { n });
       if (e0) throw e0;
-      if (st === "taken") return err("Bu takma ad alınmış. Başka bir tane dene.");
-      if (st !== "ok") return err("Bu takma ad kullanılamaz. Başka bir tane dene.");
+      if (st === "taken") return err(T("Bu takma ad alınmış. Başka bir tane dene."));
+      if (st !== "ok") return err(T("Bu takma ad kullanılamaz. Başka bir tane dene."));
       const { data, error } = await sb.auth.signUp({ email: mail(n), password: p, options: { data: { nick: n } } });
-      if (error) return err(/registered|already/i.test(error.message) ? "Bu takma ad alınmış. Başka bir tane dene." : "Kayıt tamamlanamadı: " + error.message);
-      if (!data.session) return err("Sunucuda e-posta doğrulaması açık. Supabase'den kapat.");
+      if (error) return err(/registered|already/i.test(error.message) ? T("Bu takma ad alınmış. Başka bir tane dene.") : T("Kayıt tamamlanamadı: ") + error.message);
+      if (!data.session) return err(T("Sunucuda e-posta doğrulaması açık. Supabase'den kapat."));
       session = data.session;
     } else {
       let em = mail(n);
       try { const { data: le } = await sb.rpc("login_email", { n }); if (le) em = le; } catch (e) {}
       const { data, error } = await sb.auth.signInWithPassword({ email: em, password: p });
-      if (error) return err("Takma ad veya şifre hatalı.");
+      if (error) return err(T("Takma ad veya şifre hatalı."));
       session = data.session;
     }
     await enter(session, n);
-  } catch (e) { err("Hata: " + ((e && (e.message || e.details)) || e)); }
+  } catch (e) { err(T("Hata: ") + ((e && (e.message || e.details)) || e)); }
   finally { $("#go").disabled = false; }
 }
 $("#go").onclick = submit;
@@ -809,13 +852,13 @@ async function fetchProfile(uid) {
   return r;
 }
 async function enter(sess, expect) {
-  show("boot"); bootSet("Oturum kontrol ediliyor", 12);
+  show("boot"); bootSet(T("Oturum kontrol ediliyor"), 12);
   const updP = checkUpdate();   /* zorunlu güncelleme kontrolü, diğer yüklemelerle aynı anda */
   let session = sess;
   if (!session) { try { session = (await sb.auth.getSession()).data.session; } catch (e) { session = null; } }
   if (!session) { if (await updP) return; return show("auth"); }
-  const retry = () => enter(session, expect), NETMSG = "Sunucuya ulaşılamadı. Bağlantını kontrol edip tekrar dene.";
-  bootSet("Hesap ve dükkan yükleniyor", 40);
+  const retry = () => enter(session, expect), NETMSG = T("Sunucuya ulaşılamadı. Bağlantını kontrol edip tekrar dene.");
+  bootSet(T("Hesap ve dükkan yükleniyor"), 40);
   /* hepsi aynı anda başlar: profil + oyun tabloları + oyun durumu (eskiden art arda bekleniyordu) */
   const profP = fetchProfile(session.user.id), dataP = loadStatic(), syncP = fetchSync();
   dataP.catch(() => {}); syncP.catch(() => {});
@@ -823,12 +866,12 @@ async function enter(sess, expect) {
   try { res = await withTimeout(profP, 12000); } catch (e) { return bootFail(NETMSG, retry); }
   if (res.error && isNet(res.error)) return bootFail(NETMSG, retry);   /* internet yokken oturum SİLİNMEZ */
   const p = res.data;
-  if (!p) { await sb.auth.signOut({ scope: "local" }); show("auth"); return err("Profil bulunamadı, tekrar dene."); }
-  if (expect && p.nick.toLowerCase() !== expect.toLowerCase()) { await sb.auth.signOut({ scope: "local" }); show("auth"); return err("Hesap doğrulanamadı, tekrar dene."); }
-  if (p.banned) { await sb.auth.signOut({ scope: "local" }); show("auth"); return err("Hesabın askıya alındı: topluluk kurallarına aykırı davranış."); }
+  if (!p) { await sb.auth.signOut({ scope: "local" }); show("auth"); return err(T("Profil bulunamadı, tekrar dene.")); }
+  if (expect && p.nick.toLowerCase() !== expect.toLowerCase()) { await sb.auth.signOut({ scope: "local" }); show("auth"); return err(T("Hesap doğrulanamadı, tekrar dene.")); }
+  if (p.banned) { await sb.auth.signOut({ scope: "local" }); show("auth"); return err(T("Hesabın askıya alındı: topluluk kurallarına aykırı davranış.")); }
   me = { id: session.user.id, nick: p.nick, changes: p.nick_changes || 0 };
   me.money = p.money ?? 10;
-  bootSet("Dükkan hazırlanıyor", 78);
+  bootSet(T("Dükkan hazırlanıyor"), 78);
   try { await withTimeout(dataP, 12000); } catch (e) {}
   try { await withTimeout(syncGame(syncP), 12000); } catch (e) {}
   if (await withTimeout(updP, 4000).catch(() => false)) return;   /* güncelleme şart: oyuna girme */
@@ -870,17 +913,17 @@ async function refreshStats() {
 function renderRank() {
   const ids = new Set(online.map(o => o.id)), l = $("#rnkList"); l.innerHTML = "";
   const mine = me && ranks.find(r => r.id === me.id), box = $("#myPow"); box.innerHTML = "";
-  if (mine && mine.pw != null) { box.append(mkEl("span", null, "Senin gücün"), mkEl("b", null, fmt(mine.pw)), mkEl("em", null, "#" + (mine.rk || ranks.indexOf(mine) + 1))); box.style.display = "flex"; }
+  if (mine && mine.pw != null) { box.append(mkEl("span", null, T("Senin gücün")), mkEl("b", null, fmt(mine.pw)), mkEl("em", null, "#" + (mine.rk || ranks.indexOf(mine) + 1))); box.style.display = "flex"; }
   else box.style.display = "none";
   ranks.forEach((r, i) => {
     const d = document.createElement("div"), s = document.createElement("span"), n = document.createElement("small"), t = document.createElement("span");
-    n.textContent = r.rk || i + 1; t.textContent = r.nick + (me && r.id === me.id ? "  (Sen)" : ""); s.append(n, t); if (r.vip) s.append(vipBadge());
+    n.textContent = r.rk || i + 1; t.textContent = r.nick + (me && r.id === me.id ? T("  (Sen)") : ""); s.append(n, t); if (r.vip) s.append(vipBadge());
     const e = document.createElement("em"), on = ids.has(r.id);
     if (on) s.append(mkEl("i", "od"));
     if (r.pw != null) { e.textContent = fmt(r.pw); e.className = "pw"; }
-    else { e.textContent = on ? "Aktif" : "Çevrimdışı"; if (!on) e.className = "off"; }
+    else { e.textContent = on ? T("Aktif") : T("Çevrimdışı"); if (!on) e.className = "off"; }
     if (me && r.id === me.id) d.className = "me";
-    d.append(s, e); l.append(d);
+    d.style.cursor = "pointer"; d.onclick = () => openProfile(r.id, r.nick); d.append(s, e); l.append(d);
   });
 }
 async function openRank() {
@@ -891,7 +934,7 @@ async function openRank() {
     ranks = lb.data.map(r => ({ id: r.o_id, nick: r.o_nick, pw: Number(r.o_power), rk: Number(r.o_rank), vip: !!vipBy[r.o_id] }));
     ranks.sort((x, y) => x.rk - y.rk); ranks.forEach(r => powerCache.set(r.id, { pw: r.pw, t: Date.now() }));
   } else if (!ml.error && Array.isArray(ml.data)) ranks = ml.data.sort(cmp);   /* sunucu fonksiyonu henüz kurulmadıysa eski liste */
-  else return toast("Sıralama yüklenemedi: " + ((lb.error || ml.error || {}).message || ""));
+  else return toast(T("Sıralama yüklenemedi: ") + ((lb.error || ml.error || {}).message || ""));
   renderRank();
 }
 $("#rnkBtn").onclick = openRank;
@@ -900,27 +943,47 @@ $("#rnk").addEventListener("click", e => { if (e.target.id === "rnk") $("#rnk").
 
 function renderOnl() {
   $("#cnt").textContent = online.length; $("#sAct").textContent = online.length;
-  $("#onlSub").textContent = online.length + " oyuncu şu an çevrimiçi.";
+  $("#onlSub").textContent = online.length + T(" oyuncu şu an çevrimiçi.");
   const l = $("#onlList"); l.innerHTML = "";
   online.forEach(o => {
     const d = document.createElement("div"), s = document.createElement("span");
-    s.textContent = o.nick; if (o.vip) s.append(vipBadge()); d.append(s);
-    if (me && o.id === me.id) { const e = document.createElement("em"); e.textContent = "Sen"; d.append(e); }
+    s.textContent = o.nick; if (o.vip) s.append(vipBadge()); d.append(s); d.style.cursor = "pointer"; d.onclick = () => openProfile(o.id, o.nick);
+    if (me && o.id === me.id) { const e = document.createElement("em"); e.textContent = T("Sen"); d.append(e); }
     l.append(d);
   });
 }
+let presSt = {}, seenChat = new Map(), prRetry = 0, prWait = false, seenTm = null;
+/* Çevrimiçi = presence listesi + son 4 dk içinde yazanlar + kendin. Bağlantısı kopan ama aktif oyuncular da görünür. */
+function mergeOnline() {
+  const now = Date.now(), map = new Map();
+  Object.keys(presSt).forEach(k => { const x = presSt[k][0] || {}; map.set(k, { id: k, nick: x.nick || "?", vip: !!x.vip }); });
+  seenChat.forEach((v, id) => { if (now - v.t > 240000) seenChat.delete(id); else if (!map.has(id)) map.set(id, { id, nick: v.nick, vip: v.vip }); });
+  if (me && !map.has(me.id)) map.set(me.id, { id: me.id, nick: me.nick, vip });
+  online = [...map.values()].sort((a, b) => a.nick.localeCompare(b.nick, "tr"));
+  renderOnl(); if ($("#rnk").classList.contains("on")) renderRank();
+}
+function seenNote(m) {
+  const t = new Date(m.created_at).getTime(); if (!m.user_id || !(Date.now() - t < 240000)) return;
+  const o = seenChat.get(m.user_id); if (o && o.t >= t) return;
+  seenChat.set(m.user_id, { nick: m.nick, vip: !!m.vip, t }); clearTimeout(seenTm); seenTm = setTimeout(mergeOnline, 400);
+}
+function schedulePresRetry() {
+  if (prWait) return; prWait = true;
+  setTimeout(() => { prWait = false; if (!me) return; try { if (pr) sb.removeChannel(pr); } catch (e) {} pr = null; startPresence(); }, Math.min(30000, 3000 * (++prRetry)));
+}
 function startPresence() {
   if (pr) return;
-  pr = sb.channel("online", { config: { presence: { key: me.id } } });
-  pr.on("presence", { event: "sync" }, () => {
-    const st = pr.presenceState();
-    online = Object.keys(st).map(k => ({ id: k, nick: (st[k][0] && st[k][0].nick) || "?", vip: !!(st[k][0] && st[k][0].vip) }))
-      .sort((a, b) => a.nick.localeCompare(b.nick, "tr"));
-    renderOnl();
-    if ($("#rnk").classList.contains("on")) renderRank();
+  const ch = sb.channel("online", { config: { presence: { key: me.id } } }); pr = ch;
+  ch.on("presence", { event: "sync" }, () => { if (ch !== pr) return; presSt = ch.presenceState(); mergeOnline(); });
+  ch.subscribe(async st => {
+    if (ch !== pr) return;
+    if (st === "SUBSCRIBED") { prRetry = 0; try { await ch.track({ nick: me.nick, vip }); } catch (e) {} }
+    else if (st === "CHANNEL_ERROR" || st === "TIMED_OUT" || st === "CLOSED") schedulePresRetry();
   });
-  pr.subscribe(async s => { if (s === "SUBSCRIBED") await pr.track({ nick: me.nick, vip }); });
+  mergeOnline();
 }
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && me && pr && pr.state !== "joined" && pr.state !== "joining") schedulePresRetry(); });
+window.addEventListener("online", () => { if (me && pr && pr.state !== "joined") schedulePresRetry(); });
 $("#showBtn").onclick = () => { renderOnl(); $("#onl").classList.add("on"); };
 $("#onlClose").onclick = () => $("#onl").classList.remove("on");
 $("#onl").addEventListener("click", e => { if (e.target.id === "onl") $("#onl").classList.remove("on"); });
@@ -928,8 +991,8 @@ $("#onl").addEventListener("click", e => { if (e.target.id === "onl") $("#onl").
 const GM_PER_SEC = 2, HOUR_S = 30, OPEN_FROM = 480, DAY_END = 1440, PAT_MS = 70000;
 const COLORS = ["#f87171", "#60a5fa", "#a78bfa", "#fb923c", "#34d399", "#f472b6"];
 const NAMES = ["Ahmet", "Mehmet", "Ayşe", "Zeynep", "Emre", "Elif", "Burak", "Selin", "Can", "Deniz", "Ece", "Kerem", "Mert", "Defne", "Yusuf", "Ada", "Oğuz", "Melis", "Barış", "Naz", "Cem", "Derya", "Kaan", "Buse"];
-const PERSONA = { yazdir: ["Esnaf", 45000], internet: ["Genç", 70000], sinav: ["Öğrenci", 80000], oyun: ["Oyuncu", 55000], yayin: ["Yayıncı", 60000], turnuva: ["E-spor takımı", 90000] };
-const personaOf = id => PERSONA[id] || ["Müşteri", 70000];
+const PERSONA = { yazdir: [T("Esnaf"), 45000], internet: [T("Genç"), 70000], sinav: [T("Öğrenci"), 80000], oyun: [T("Oyuncu"), 55000], yayin: [T("Yayıncı"), 60000], turnuva: [T("E-spor takımı"), 90000] };
+const personaOf = id => PERSONA[id] || [T("Müşteri"), 70000];
 const pickName = () => NAMES[Math.floor(Math.random() * NAMES.length)];
 const bg = p => { try { p.then(() => {}, () => {}); } catch (e) {} };
 /* Bilgisayar görselleri (şeffaf WebP, gömülü). 1 = OLD 1980 ... 8 = ULTRA 2035 */
@@ -981,7 +1044,7 @@ const adAmt = () => AD_BASE * (ADMULT[Math.min(level, ADMULT.length) - 1] || 1);
 const updAdBtn = () => { const e = $("#adAmt"); if (e) e.textContent = "+$" + fmt(adAmt()); };
 function renderPerks() {
   const p = $("#perks"); if (!p) return; p.innerHTML = "";
-  [["cashier", cashier, "Kasiyer"], ["bucket", cleaner, "Temizlikçi"], ["manager", manager, "Müdür"], ["vending", vFood || vDrink, "Otomat"]].forEach(([k, on, t]) => {
+  [["cashier", cashier, T("Kasiyer")], ["bucket", cleaner, T("Temizlikçi")], ["manager", manager, T("Müdür")], ["vending", vFood || vDrink, T("Otomat")]].forEach(([k, on, t]) => {
     const i = document.createElement("img"); i.src = IC[k]; i.alt = t; i.title = t; if (on) i.className = "on"; p.append(i);
   });
 }
@@ -1043,10 +1106,10 @@ async function syncGame(pre) {
 function renderAll() { renderClock(todNow()); renderGrid(); renderCard(); renderDay(); renderPerks(); }
 function renderClock(tod) {
   const over = tod >= DAY_END, hh = Math.floor(tod / 60), rush = !over && hh >= 16 && hh < 22;
-  $("#ckT").textContent = hhmm(tod); $("#ckD").textContent = "Gün " + gday;
-  $("#ckS").textContent = over ? "Kapalı" : "Açık"; $("#ckS").className = "chip " + (over ? "no" : "ok");
+  $("#ckT").textContent = hhmm(tod); $("#ckD").textContent = T("Gün ") + gday;
+  $("#ckS").textContent = over ? T("Kapalı") : T("Açık"); $("#ckS").className = "chip " + (over ? "no" : "ok");
   $("#dayM").style.left = (Math.max(0, tod - OPEN_FROM) / (DAY_END - OPEN_FROM) * 100) + "%";
-  $("#rushT").textContent = over ? "Dükkan kapalı" : rush ? "Yoğun saat" : hh < 12 ? "Sabah, sakin" : "Öğleden sonra"; $("#rushT").className = "chip" + (rush ? " rush" : "");
+  $("#rushT").textContent = over ? T("Dükkan kapalı") : rush ? T("Yoğun saat") : hh < 12 ? T("Sabah, sakin") : T("Öğleden sonra"); $("#rushT").className = "chip" + (rush ? " rush" : "");
   $("#repS").innerHTML = starsHtml(Math.round(rep), 5); $("#repV").textContent = rep.toFixed(1);
 }
 
@@ -1058,7 +1121,7 @@ function renderGrid() {
   g.dataset.cols = cols; g.dataset.rows = rows; g.className = "grid" + (cols >= 6 ? " c" : "");
   const by = {}; stations.forEach(s => by[s.slot] = s);
   $("#stChip").textContent = stations.length + "/" + slots;
-  $("#stSub").textContent = "Bugün: $" + fmt(today.earn) + " · " + today.cust + " müşteri" + (staffN() ? " · " + staffN() + " personel" : "");
+  $("#stSub").textContent = T("Bugün: $") + fmt(today.earn) + " · " + today.cust + T(" müşteri") + (staffN() ? " · " + staffN() + T(" personel") : "");
   for (let i = 1; i <= slots; i++) {
     const s = by[i], b = mkEl("button", "pcs" + (s ? "" : " empty"));
     if (s) {
@@ -1069,11 +1132,11 @@ function renderGrid() {
         const pb = mkEl("div", "pb mini"), bar = mkEl("i"); bar.id = "pp-" + i; pb.append(bar);
         const dot = mkEl("span", "cdot"); dot.style.background = s.color;
         b.classList.add("busy"); b.append(t, pb, dot);
-      } else b.append(mkEl("small", null, "Hazır"));
+      } else b.append(mkEl("small", null, T("Hazır")));
       b.onclick = () => openPc(i);
     } else {
       const e = mkEl("span", "pci"); e.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg>';
-      b.append(e, mkEl("b", null, "Boş"), mkEl("small", null, "Masa " + i));
+      b.append(e, mkEl("b", null, T("Boş")), mkEl("small", null, T("Masa ") + i));
       b.onclick = () => { $("#shop").classList.add("on"); shopView("urun"); };
     }
     g.append(b);
@@ -1098,7 +1161,7 @@ if (window.ResizeObserver) new ResizeObserver(fitGrid).observe($("#grid"));
 function pcCard(m, tag, cls) {
   const d = mkEl("div", "pcv t" + m.tier + (cls ? " " + cls : "")), h = mkEl("div", "pchero");
   if (PC_IMG[m.tier]) { const im = document.createElement("img"); im.src = PC_IMG[m.tier]; im.alt = ""; h.append(im); } else h.append(pcImg(m.tier));
-  d.append(mkEl("span", "pctag", tag), h, mkEl("b", null, m.name), mkEl("small", null, "Saatlik $" + r1(m.rate)));
+  d.append(mkEl("span", "pctag", tag), h, mkEl("b", null, m.name), mkEl("small", null, T("Saatlik $") + r1(m.rate)));
   return d;
 }
 function openPc(slot) {
@@ -1106,74 +1169,74 @@ function openPc(slot) {
   const p = $("#pcBox"); p.innerHTML = "";
   const r = s.req ? reqById(s.req) : null, nx = models.find(x => x.tier === m.tier + 1);
   const view = mkEl("div", "pcup" + (nx ? "" : " one"));
-  view.append(pcCard(m, nx ? "ŞİMDİ" : "EN ÜST MODEL"));
-  if (nx) { const ar = mkEl("span", "arr"); ar.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg>'; view.append(ar, pcCard(nx, "YENİ", "nxt")); }
+  view.append(pcCard(m, nx ? T("ŞİMDİ") : T("EN ÜST MODEL")));
+  if (nx) { const ar = mkEl("span", "arr"); ar.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg>'; view.append(ar, pcCard(nx, T("YENİ"), "nxt")); }
   p.append(view);
-  p.append(mkEl("h2", null, "Masa " + slot + ": " + m.name), mkEl("p", null, "Model yılı " + m.year + " · Saatlik ücret $" + r1(m.rate) + (s.req ? " · Kullanımda: " + (r ? r.label : s.req) : " · Boşta")));
+  p.append(mkEl("h2", null, T("Masa ") + slot + ": " + m.name), mkEl("p", null, T("Model yılı ") + m.year + T(" · Saatlik ücret $") + r1(m.rate) + (s.req ? T(" · Kullanımda: ") + (r ? T(r.label) : s.req) : T(" · Boşta"))));
   if (nx) {
     const gain = Math.round((nx.rate / m.rate - 1) * 100), nr = reqs.filter(x => x.min_tier === nx.tier);
-    p.append(mkEl("p", "upsum", nx.name + " ile saatlik ücret $" + r1(m.rate) + " → $" + r1(nx.rate) + " (+%" + gain + ")" + (nr.length ? ". Yeni müşteri: " + nr.map(x => x.label).join(", ") : "")));
-    const u = mkEl("button", "btn", "Yükselt: $" + fmt(nx.upg_price)); u.disabled = !!s.req || me.money < nx.upg_price; u.onclick = () => upgradePc(slot); p.append(u);
-    if (s.req) p.append(mkEl("p", "note2", "Müşteri varken yükseltilemez."));
+    p.append(mkEl("p", "upsum", nx.name + T(" ile saatlik ücret $") + r1(m.rate) + " → $" + r1(nx.rate) + " (+%" + gain + ")" + (nr.length ? T(". Yeni müşteri: ") + nr.map(x => T(x.label)).join(", ") : "")));
+    const u = mkEl("button", "btn", T("Yükselt: $") + fmt(nx.upg_price)); u.disabled = !!s.req || me.money < nx.upg_price; u.onclick = () => upgradePc(slot); p.append(u);
+    if (s.req) p.append(mkEl("p", "note2", T("Müşteri varken yükseltilemez.")));
   }
-  const sell = mkEl("button", "btn r", "Sat (+$" + fmt(Math.floor(m.price / 2)) + ")"); sell.disabled = !!s.req || stations.length <= 1; sell.onclick = () => sellPc(slot);
-  const c = mkEl("button", "btn o", "Kapat"); c.onclick = () => $("#pcpop").classList.remove("on");
+  const sell = mkEl("button", "btn r", T("Sat (+$") + fmt(Math.floor(m.price / 2)) + ")"); sell.disabled = !!s.req || stations.length <= 1; sell.onclick = () => sellPc(slot);
+  const c = mkEl("button", "btn o", T("Kapat")); c.onclick = () => $("#pcpop").classList.remove("on");
   p.append(sell, c); $("#pcpop").classList.add("on");
 }
 async function upgradePc(slot) {
   const { data, error } = await sb.rpc("upgrade_pc", { p_slot: slot });
-  if (error) return toast({ "masa dolu": "Masada müşteri var.", "para yetmiyor": "Paran yetmiyor.", "maksimum": "Bu en üst model." }[error.message] || "Hata: " + error.message);
+  if (error) return toast({ "masa dolu": T("Masada müşteri var."), "para yetmiyor": T("Paran yetmiyor."), "maksimum": T("Bu en üst model.") }[error.message] || T("Hata: ") + error.message);
   const r = data[0]; me.money = Number(r.o_money); setMoney();
   const s = stations.find(x => x.slot === slot); if (s) s.model = r.o_model;
-  renderAll(); openPc(slot); toast("Yükseltildi: " + ((modelById(r.o_model) || {}).name || ""));
+  renderAll(); openPc(slot); toast(T("Yükseltildi: ") + ((modelById(r.o_model) || {}).name || ""));
 }
 $("#pcpop").addEventListener("click", e => { if (e.target.id === "pcpop") $("#pcpop").classList.remove("on"); });
 async function sellPc(slot) {
   const { data, error } = await sb.rpc("sell_pc", { p_slot: slot });
-  if (error) return toast({ "masa dolu": "Masada müşteri var.", "son masa": "En az 1 bilgisayarın kalmalı." }[error.message] || "Hata: " + error.message);
+  if (error) return toast({ "masa dolu": T("Masada müşteri var."), "son masa": T("En az 1 bilgisayarın kalmalı.") }[error.message] || T("Hata: ") + error.message);
   me.money = Number(data); setMoney(); stations = stations.filter(s => s.slot !== slot);
-  $("#pcpop").classList.remove("on"); renderAll(); toast("Bilgisayar satıldı.");
+  $("#pcpop").classList.remove("on"); renderAll(); toast(T("Bilgisayar satıldı."));
 }
 
 /* ---- müşteri sırası ---- */
 function renderCard() {
   const c = $("#stCard"); c.innerHTML = "";
-  if (!models.length || !reqs.length) { c.append(mkEl("b", "ct", "Oyun verisi yüklenemedi"), mkEl("p", "cs", "Supabase SQL dosyasını (ioz_cafe_guvenli_sql.sql) çalıştırdığından emin ol.")); return; }
+  if (!models.length || !reqs.length) { c.append(mkEl("b", "ct", T("Oyun verisi yüklenemedi")), mkEl("p", "cs", T("Supabase SQL dosyasını (ioz_cafe_guvenli_sql.sql) çalıştırdığından emin ol."))); return; }
   if (!stations.length) {
-    c.append(mkEl("b", "ct", "Henüz bilgisayarın yok"), mkEl("p", "cs", "Dükkandan ilk bilgisayarını al. Başlangıç paranla İOZ OLD 1980 alabilirsin."));
-    const b = mkEl("button", "btn", "Dükkana git"); b.onclick = () => { $("#shop").classList.add("on"); shopView("urun"); }; c.append(b); return;
+    c.append(mkEl("b", "ct", T("Henüz bilgisayarın yok")), mkEl("p", "cs", T("Dükkandan ilk bilgisayarını al. Başlangıç paranla İOZ OLD 1980 alabilirsin.")));
+    const b = mkEl("button", "btn", T("Dükkana git")); b.onclick = () => { $("#shop").classList.add("on"); shopView("urun"); }; c.append(b); return;
   }
   const over = isOver(), now = performance.now();
   const head = mkEl("div", "qh"), cnt = mkEl("span", "chip"), list = mkEl("div", "ql");
-  head.append(mkEl("b", "ct", "Müşteriler"), cnt); c.append(head, list);
+  head.append(mkEl("b", "ct", T("Müşteriler")), cnt); c.append(head, list);
   if (!over) { const bb = mkEl("button", "bstb"); bb.id = "bstB"; bb.onclick = doBoost; head.insertBefore(bb, cnt); updBoost(); }
   stations.filter(s => s.req && s.ext > now && !s.extUsed).forEach(s => {
     const m = modelOf(s), r = reqById(s.req); if (!m || !r) return;
     const row = mkEl("div", "qr ext"), av = mkEl("span", "av", (s.name || "M")[0]), tx = mkEl("div", "qt");
     av.style.background = s.color;
-    tx.append(mkEl("b", null, (s.name || "Müşteri") + " · Masa " + s.slot), mkEl("small", null, "1 saat daha kalmak istiyor · +$" + fmt(payOf(m, r, 1))));
-    const b = mkEl("button", "pbtn sm", "Onayla"); b.onclick = () => extend(s); row.append(av, tx, b); list.append(row);
+    tx.append(mkEl("b", null, (s.name || T("Müşteri")) + T(" · Masa ") + s.slot), mkEl("small", null, T("1 saat daha kalmak istiyor · +$") + fmt(payOf(m, r, 1))));
+    const b = mkEl("button", "pbtn sm", T("Onayla")); b.onclick = () => extend(s); row.append(av, tx, b); list.append(row);
   });
-  if (over) list.append(mkEl("p", "cs closed", "Dükkan kapalı, yeni müşteri gelmez."));
-  else if (!q.length && !ghosts.length) list.append(mkEl("p", "cs", lastMsg || "Müşteri bekleniyor."));
-  ghosts.forEach(g => { const r = reqById(g.req), d = mkEl("div", "ghost"); d.append(mkEl("b", null, g.name + " gitti"), mkEl("small", null, "En az " + (g.need || "daha iyi bir model") + " gerekli.")); list.append(d); });
+  if (over) list.append(mkEl("p", "cs closed", T("Dükkan kapalı, yeni müşteri gelmez.")));
+  else if (!q.length && !ghosts.length) list.append(mkEl("p", "cs", lastMsg || T("Müşteri bekleniyor.")));
+  ghosts.forEach(g => { const r = reqById(g.req), d = mkEl("div", "ghost"); d.append(mkEl("b", null, g.name + T(" gitti")), mkEl("small", null, T("En az ") + (g.need || T("daha iyi bir model")) + T(" gerekli."))); list.append(d); });
   q.forEach(e => {
     const r = reqById(e.req); if (!r) return;
     const free = pickFree(r), row = mkEl("div", "qr"), av = mkEl("span", "av", e.name[0]), tx = mkEl("div", "qt");
     av.style.background = e.color;
     let info;
-    if (maxTier() < r.min_tier) info = "Bilgisayar yetersiz";
-    else if (!free) info = "Uygun masa dolu";
-    else info = e.hours + " saat · $" + fmt(payOf(modelOf(free), r, e.hours)) + " · Masa " + free.slot;
-    tx.append(mkEl("b", null, e.name + " · " + personaOf(r.id)[0]), mkEl("small", "inf", r.label + " · " + info));
+    if (maxTier() < r.min_tier) info = T("Bilgisayar yetersiz");
+    else if (!free) info = T("Uygun masa dolu");
+    else info = e.hours + T(" saat · $") + fmt(payOf(modelOf(free), r, e.hours)) + T(" · Masa ") + free.slot;
+    tx.append(mkEl("b", null, e.name + " · " + personaOf(r.id)[0]), mkEl("small", "inf", T(r.label) + " · " + info));
     const pb = mkEl("div", "pb mini"), bar = mkEl("i"); bar.dataset.q = e.id; pb.append(bar); row.append(av, tx);
-    const b = mkEl("button", "pbtn sm", "Oturt"); b.disabled = !free || over; b.onclick = () => seat(e);
+    const b = mkEl("button", "pbtn sm", T("Oturt")); b.disabled = !free || over; b.onclick = () => seat(e);
     row.append(b, pb); list.append(row);
   });
   /* Sığmayan müşteriler gizlenir, sayısı başlıkta yazar: ekran kaymaz */
   let hidden = 0;
   while (list.scrollHeight > list.clientHeight + 1 && list.children.length > 1) { list.lastElementChild.remove(); hidden++; }
-  cnt.textContent = hidden ? "+" + hidden + " bekliyor" : q.length ? q.length + " bekliyor" : "";
+  cnt.textContent = hidden ? "+" + hidden + T(" bekliyor") : q.length ? q.length + T(" bekliyor") : "";
 }
 function arrive() {
   if (!reqs.length) return;
@@ -1196,8 +1259,8 @@ async function seat(e, auto) {
   const { data, error } = await sb.rpc("seat_customer", { p_req: e.req, p_hours: e.hours });
   acting = false;
   if (error) {
-    const m = { "masa dolu": "Uygun masa şu an dolu.", "kapali": "Dükkan kapalı.", "ekipman yetersiz": "Bilgisayarın bu müşteri için yetersiz." }[error.message];
-    if (auto) e.fail = (e.fail || 0) + 1; else toast(m || "Hata: " + error.message);
+    const m = { "masa dolu": T("Uygun masa şu an dolu."), "kapali": T("Dükkan kapalı."), "ekipman yetersiz": T("Bilgisayarın bu müşteri için yetersiz.") }[error.message];
+    if (auto) e.fail = (e.fail || 0) + 1; else toast(m || T("Hata: ") + error.message);
     if (/dolu|bekliyor/.test(error.message)) syncGame();
     return;
   }
@@ -1212,17 +1275,17 @@ async function extend(s, auto) {
   acting = false;
   if (error) {
     s.ext = 0; if (error.message === "zaten uzatildi" || error.message === "sure siniri") s.extUsed = true;
-    if (!auto) toast({ "kapali": "Dükkan kapandı.", "oturum bitti": "Oturum zaten bitti." }[error.message] || "Uzatılamadı.");
+    if (!auto) toast({ "kapali": T("Dükkan kapandı."), "oturum bitti": T("Oturum zaten bitti.") }[error.message] || T("Uzatılamadı."));
     renderCard(); return;
   }
   const r = data[0]; s.hours += 1; s.end = performance.now() + Number(r.o_left) * 1000; s.pay = Number(r.o_pay); s.ext = 0; s.extUsed = true;
-  renderGrid(); renderCard(); toast((s.name || "Müşteri") + " 1 saat daha kalacak.");
+  renderGrid(); renderCard(); toast((s.name || T("Müşteri")) + T(" 1 saat daha kalacak."));
 }
 async function collect() {
   if (collecting) return; collecting = true;
   const { data, error } = await sb.rpc("collect_payments");
   collecting = false;
-  if (error) { toast("Hata: " + error.message); return; }
+  if (error) { toast(T("Hata: ") + error.message); return; }
   const r = data[0];
   if (r.o_count > 0) { me.money = Number(r.o_money); setMoney(); fly("+$" + fmt(Number(r.o_total))); syncGame(); }
   else { const now = performance.now(); stations.forEach(s => { if (s.req && s.end <= now) s.end = now + 1500; }); }
@@ -1232,18 +1295,18 @@ function fly(t) { const f = mkEl("span", "pay", t); $("#fly").append(f); setTime
 function updBoost() {
   const b = $("#bstB"); if (!b) return;
   const on = boostOn(); b.classList.toggle("on", on); b.disabled = !on && boostN >= BOOST_MAX;
-  b.textContent = on ? "x1.5 · " + mmss((boostEnd - performance.now()) / 1000) : boostN >= BOOST_MAX ? "Boost bitti" : "Hızlandır x1.5 (" + (BOOST_MAX - boostN) + ")";
+  b.textContent = on ? "x1.5 · " + mmss((boostEnd - performance.now()) / 1000) : boostN >= BOOST_MAX ? T("Boost bitti") : T("Hızlandır x1.5 (") + (BOOST_MAX - boostN) + ")";
 }
 async function doBoost() {
   if (adBusy || advancing || boostOn()) return;
-  if (boostN >= BOOST_MAX) return toast("Bugünlük hızlandırma hakkın bitti.");
+  if (boostN >= BOOST_MAX) return toast(T("Bugünlük hızlandırma hakkın bitti."));
   adBusy = true; updBoost();
   const r = vip ? "ok" : await adShow();
   if (r === "ok") {
     const { data, error } = await sb.rpc("claim_boost");
-    if (error) toast({ aktif: "Hızlandırma zaten açık.", limit: "Bugünlük hakkın bitti.", kapali: "Dükkan kapalı." }[error.message] || "Hata: " + error.message);
-    else { boostEnd = performance.now() + Number(data) * 1000; boostN++; nextArr = 0; toast("5 dakika boyunca müşteri akışı ve kazanç x1.5!"); }
-  } else if (r === "skip") toast("Ödül için videoyu sonuna kadar izle."); else toast("Reklam şu an hazır değil, biraz sonra tekrar dene.");
+    if (error) toast({ aktif: T("Hızlandırma zaten açık."), limit: T("Bugünlük hakkın bitti."), kapali: T("Dükkan kapalı.") }[error.message] || T("Hata: ") + error.message);
+    else { boostEnd = performance.now() + Number(data) * 1000; boostN++; nextArr = 0; toast(T("5 dakika boyunca müşteri akışı ve kazanç x1.5!")); }
+  } else if (r === "skip") toast(T("Ödül için videoyu sonuna kadar izle.")); else toast(T("Reklam şu an hazır değil, biraz sonra tekrar dene."));
   adBusy = false; renderAll();
 }
 async function dayAd(fn) {
@@ -1251,10 +1314,10 @@ async function dayAd(fn) {
   const r = vip ? "ok" : await adShow();
   if (r === "ok") {
     const { data, error } = await sb.rpc(fn);
-    if (error) toast({ "zaten alindi": "Bu ödülü bugün aldın.", "gun bitmedi": "Gün henüz bitmedi.", dolu: "İtibarın zaten yüksek." }[error.message] || "Hata: " + error.message);
-    else toast(fn === "claim_day_bonus" ? "+$" + fmt(Number(data)) + " bonus kazandın!" : "İtibarın yükseldi.");
+    if (error) toast({ "zaten alindi": T("Bu ödülü bugün aldın."), "gun bitmedi": T("Gün henüz bitmedi."), dolu: T("İtibarın zaten yüksek.") }[error.message] || T("Hata: ") + error.message);
+    else toast(fn === "claim_day_bonus" ? "+$" + fmt(Number(data)) + T(" bonus kazandın!") : T("İtibarın yükseldi."));
     await syncGame();
-  } else if (r === "skip") toast("Ödül için videoyu sonuna kadar izle."); else toast("Reklam şu an hazır değil, biraz sonra tekrar dene.");
+  } else if (r === "skip") toast(T("Ödül için videoyu sonuna kadar izle.")); else toast(T("Reklam şu an hazır değil, biraz sonra tekrar dene."));
   adBusy = false; renderDay();
 }
 
@@ -1264,35 +1327,35 @@ function renderDay() {
   if (!isOver()) { b.style.display = "none"; $("#stCard").style.display = ""; fitGrid(); return; }
   b.style.display = "block"; $("#stCard").style.display = stations.length ? "none" : "";   /* gün sonu kartı, müşteri kartının yerine geçer */
   const busy = busyCount();
-  b.append(mkEl("b", "ct", "Gün " + gday + " tamamlandı"), mkEl("p", "cs", "Bugün kazanç: $" + fmt(today.earn) + " · " + today.cust + " müşteri. " + (busy ? "Müşteriler kalkınca yeni güne geçebilirsin." : vip ? "VIP olduğun için yeni güne reklamsız geçebilirsin." : "Yeni güne geçmek için kısa bir video izlenecek.") + (staffWage() ? " Personel maaşı $" + fmt(staffWage()) + " yeni güne geçerken ödenir." : "")));
+  b.append(mkEl("b", "ct", T("Gün ") + gday + T(" tamamlandı")), mkEl("p", "cs", T("Bugün kazanç: $") + fmt(today.earn) + " · " + today.cust + T(" müşteri. ") + (busy ? T("Müşteriler kalkınca yeni güne geçebilirsin.") : vip ? T("VIP olduğun için yeni güne reklamsız geçebilirsin.") : T("Yeni güne geçmek için kısa bir video izlenecek.")) + (staffWage() ? T(" Personel maaşı $") + fmt(staffWage()) + T(" yeni güne geçerken ödenir.") : "")));
   const btn = mkEl("button", "btn"); btn.disabled = busy > 0 || advancing;
   btn.innerHTML = vip ? "" : '<svg class="ic" viewBox="0 0 24 24"><use href="#i-play"/></svg>';
-  btn.append(mkEl("span", null, advancing ? "Hazırlanıyor..." : busy ? busy + " müşteri hâlâ masada" : (gday + 1) + ". güne geç"));
+  btn.append(mkEl("span", null, advancing ? T("Hazırlanıyor...") : busy ? busy + T(" müşteri hâlâ masada") : Tf("{n}. güne geç", { n: gday + 1 })));
   btn.onclick = nextDay; b.append(btn);
-  if (!vip && !busy) { const v = mkEl("button", "btn vp", "VIP ol, reklamsız geç"); v.onclick = () => { $("#shop").classList.add("on"); shopView("vip"); }; b.append(v); }
-  if (!bonusDone && today.earn > 0 && !busy) { const x = mkEl("button", "btn o", "Kazancı 2x yap: +$" + fmt(today.earn) + (vip ? "" : " (reklam)")); x.onclick = () => dayAd("claim_day_bonus"); b.append(x); }
-  if (!repairDone && rep < 4.5 && !busy) { const y = mkEl("button", "btn o", "İtibarı onar: +0.5 yıldız" + (vip ? "" : " (reklam)")); y.onclick = () => dayAd("claim_rep_repair"); b.append(y); }
+  if (!vip && !busy) { const v = mkEl("button", "btn vp", T("VIP ol, reklamsız geç")); v.onclick = () => { $("#shop").classList.add("on"); shopView("vip"); }; b.append(v); }
+  if (!bonusDone && today.earn > 0 && !busy) { const x = mkEl("button", "btn o", T("Kazancı 2x yap: +$") + fmt(today.earn) + (vip ? "" : " (reklam)")); x.onclick = () => dayAd("claim_day_bonus"); b.append(x); }
+  if (!repairDone && rep < 4.5 && !busy) { const y = mkEl("button", "btn o", T("İtibarı onar: +0.5 yıldız") + (vip ? "" : " (reklam)")); y.onclick = () => dayAd("claim_rep_repair"); b.append(y); }
   fitGrid();
 }
 async function nextDay() {
   if (advancing || adBusy) return;
-  if (busyCount() > 0) { toast("Masalarda hâlâ müşteri var."); return; }
+  if (busyCount() > 0) { toast(T("Masalarda hâlâ müşteri var.")); return; }
   advancing = true; renderDay();
   if (!vip) {
     const r = await adShow();
     if (r === "ok") adFails = 0;
-    if (r === "fail" && ++adFails >= 3) { adFails = 0; toast("Reklam bulunamadı, bu seferlik reklamsız geçiyorsun."); }
+    if (r === "fail" && ++adFails >= 3) { adFails = 0; toast(T("Reklam bulunamadı, bu seferlik reklamsız geçiyorsun.")); }
     else if (r !== "ok") {
-      toast(r === "skip" ? "Yeni güne geçmek için videoyu sonuna kadar izle." : "Reklam yüklenemedi. İnternetini kontrol edip tekrar dene ya da VIP ol.");
+      toast(r === "skip" ? T("Yeni güne geçmek için videoyu sonuna kadar izle.") : T("Reklam yüklenemedi. İnternetini kontrol edip tekrar dene ya da VIP ol."));
       advancing = false; renderDay(); return;
     }
   }
   const { data, error } = await sb.rpc("next_day");
   advancing = false;
-  if (error) { toast({ "gun bitmedi": "Gün henüz bitmedi.", "musteri var": "Masalarda hâlâ müşteri var." }[error.message] || "Hata: " + error.message); await syncGame(); return; }
+  if (error) { toast({ "gun bitmedi": T("Gün henüz bitmedi."), "musteri var": T("Masalarda hâlâ müşteri var.") }[error.message] || T("Hata: ") + error.message); await syncGame(); return; }
   const row = data[0], had = { kasiyer: cashier, temizlikçi: cleaner, müdür: manager }; q = []; psQ = []; psNext = 0; lastOver = false; nextArr = 0; await syncGame();
   const now2 = { kasiyer: cashier, temizlikçi: cleaner, müdür: manager }, lost = Object.keys(had).filter(k => had[k] && !now2[k]);
-  toast(lost.length ? "Maaş ödenemedi, " + lost.join(", ") + " ayrıldı. Gün " + row.o_day + " başladı." : Number(row.o_wage) > 0 ? "Gün " + row.o_day + " başladı. Personel maaşı: -$" + fmt(Number(row.o_wage)) : "Gün " + row.o_day + " başladı.");
+  toast(lost.length ? T("Maaş ödenemedi, ") + lost.join(", ") + T(" ayrıldı. Gün ") + row.o_day + T(" başladı.") : Number(row.o_wage) > 0 ? T("Gün ") + row.o_day + T(" başladı. Personel maaşı: -$") + fmt(Number(row.o_wage)) : T("Gün ") + row.o_day + T(" başladı."));
 }
 
 /* ---- reklam (Unity Ads) ---- */
@@ -1317,11 +1380,11 @@ async function adLoad() {
   try { await p.loadRewarded({ placementId: UNITY_PLACEMENT }); adReady = true; } catch (e) { adReady = false; setTimeout(adLoad, 12000); }
   adLoading = false;
 }
-function adWait(on, txt) { $("#adTxt").textContent = txt || "Reklam hazırlanıyor..."; $("#adov").classList.toggle("on", on); }
+function adWait(on, txt) { $("#adTxt").textContent = txt || T("Reklam hazırlanıyor..."); $("#adov").classList.toggle("on", on); }
 async function adShow() {
   const p = adNative();
   if (!p && isNative()) return "fail";  /* uygulamada sahte reklam yok */
-  if (!p) { for (let i = 4; i > 0; i--) { adWait(true, "Reklam (test modu) · " + i); await sleep(1000); } adWait(false); return "ok"; }
+  if (!p) { for (let i = 4; i > 0; i--) { adWait(true, T("Reklam (test modu) · ") + i); await sleep(1000); } adWait(false); return "ok"; }
   adWait(true);
   if (!(await withTimeout(adInit(), 15000).catch(() => false))) { adWait(false); return "fail"; }   /* reklam SDK takılırsa ekran kilitlenmesin */
   if (!adReady) { adLoad(); for (let i = 0; i < 20 && !adReady; i++) await sleep(500); }
@@ -1335,20 +1398,20 @@ $("#adBtn").onclick = async () => {
   const r = await adShow();
   if (r === "ok") {
     const { data, error } = await sb.rpc("claim_ad_reward");
-    if (error) toast(error.message === "slow" ? "Biraz sonra tekrar dene." : error.message === "limit" ? "Saatlik video limitine ulaştın, biraz sonra tekrar dene." : "Ödül verilemedi: " + error.message);
-    else { const gain = Number(data) - me.money; me.money = Number(data); setMoney(); toast("+$" + fmt(gain) + " kazandın."); }
-  } else if (r === "skip") toast("Ödül için videoyu sonuna kadar izle.");
-  else toast("Reklam şu an hazır değil, biraz sonra tekrar dene.");
+    if (error) toast(error.message === "slow" ? T("Biraz sonra tekrar dene.") : error.message === "limit" ? T("Saatlik video limitine ulaştın, biraz sonra tekrar dene.") : T("Ödül verilemedi: ") + error.message);
+    else { const gain = Number(data) - me.money; me.money = Number(data); setMoney(); toast("+$" + fmt(gain) + T(" kazandın.")); }
+  } else if (r === "skip") toast(T("Ödül için videoyu sonuna kadar izle."));
+  else toast(T("Reklam şu an hazır değil, biraz sonra tekrar dene."));
   adBusy = false;
 };
 
 
 /* ---- Moderasyon: bildirme, engelleme, yönetici ---- */
 let blocked = new Set(), blockNames = {}, admTab = "rep";
-const REASONS = [["kufur", "Küfür / hakaret"], ["spam", "Spam / reklam"], ["uygunsuz", "Uygunsuz içerik"], ["diger", "Diğer"]];
-const REASON_L = { kufur: "Küfür / hakaret", spam: "Spam / reklam", uygunsuz: "Uygunsuz içerik", diger: "Diğer" };
-const fmtMin = m => m >= 1440 ? Math.floor(m / 1440) + " gün " + Math.floor(m % 1440 / 60) + " sa" : m >= 60 ? Math.floor(m / 60) + " sa " + (m % 60) + " dk" : m + " dk";
-const ago = ts => { const m = Math.max(0, Math.round((Date.now() - new Date(ts).getTime()) / 60000)); return m < 1 ? "az önce" : m < 60 ? m + " dk önce" : m < 1440 ? Math.floor(m / 60) + " sa önce" : Math.floor(m / 1440) + " gün önce"; };
+const REASONS = [["kufur", T("Küfür / hakaret")], ["spam", T("Spam / reklam")], ["uygunsuz", T("Uygunsuz içerik")], ["diger", T("Diğer")]];
+const REASON_L = { kufur: T("Küfür / hakaret"), spam: T("Spam / reklam"), uygunsuz: T("Uygunsuz içerik"), diger: T("Diğer") };
+const fmtMin = m => m >= 1440 ? Math.floor(m / 1440) + T(" gün ") + Math.floor(m % 1440 / 60) + T(" sa") : m >= 60 ? Math.floor(m / 60) + T(" sa ") + (m % 60) + T(" dk") : m + T(" dk");
+const ago = ts => { const m = Math.max(0, Math.round((Date.now() - new Date(ts).getTime()) / 60000)); return m < 1 ? T("az önce") : m < 60 ? m + T(" dk önce") : m < 1440 ? Math.floor(m / 60) + T(" sa önce") : Math.floor(m / 1440) + T(" gün önce"); };
 const muteLeft = ts => ts ? Math.ceil((new Date(ts).getTime() - Date.now()) / 60000) : 0;
 async function loadBlocks() {
   blocked = new Set(); blockNames = {};
@@ -1356,18 +1419,18 @@ async function loadBlocks() {
   (data || []).forEach(r => { blocked.add(r.o_id); blockNames[r.o_id] = r.o_nick; });
 }
 function onBanned() {
-  $("#banTxt").textContent = "Topluluk kurallarına aykırı davranış nedeniyle hesabın askıya alındı.";
+  $("#banTxt").textContent = T("Topluluk kurallarına aykırı davranış nedeniyle hesabın askıya alındı.");
   $("#banov").classList.add("on");
 }
 $("#banOut").onclick = async () => { $("#banov").classList.remove("on"); await sb.auth.signOut({ scope: "local" }); reset(); };
 function openMsg(m) {
   if (!me || m.user_id === me.id) return;
   const b = $("#msgBox"); b.innerHTML = "";
-  const close = mkEl("button", "btn o", "Kapat"); close.onclick = () => $("#msgpop").classList.remove("on");
+  const close = mkEl("button", "btn o", T("Kapat")); close.onclick = () => $("#msgpop").classList.remove("on");
   b.append(mkEl("h2", null, m.nick), mkEl("p", null, m.body.length > 140 ? m.body.slice(0, 140) + "..." : m.body));
-  const rb = mkEl("button", "btn r", "Mesajı bildir"), bb = mkEl("button", "btn o", "Kullanıcıyı engelle");
+  const rb = mkEl("button", "btn r", T("Mesajı bildir")), bb = mkEl("button", "btn o", T("Kullanıcıyı engelle"));
   rb.onclick = () => {
-    b.innerHTML = ""; b.append(mkEl("h2", null, "Neden bildiriyorsun?"));
+    b.innerHTML = ""; b.append(mkEl("h2", null, T("Neden bildiriyorsun?")));
     REASONS.forEach(([k, t]) => { const x = mkEl("button", "btn o", t); x.onclick = () => reportMsg(m, k); b.append(x); });
     b.append(close);
   };
@@ -1378,25 +1441,25 @@ $("#msgpop").addEventListener("click", e => { if (e.target.id === "msgpop") $("#
 async function reportMsg(m, reason) {
   const { error } = await sb.rpc("report_message", { p_msg: m.id, p_reason: reason });
   $("#msgpop").classList.remove("on");
-  if (error) return toast({ "cok fazla": "Çok fazla bildirim gönderdin, biraz sonra tekrar dene.", "mesaj yok": "Mesaj artık yok." }[error.message] || "Bildirilemedi.");
-  toast("Bildirimin yöneticiye iletildi. Teşekkürler.");
+  if (error) return toast({ "cok fazla": T("Çok fazla bildirim gönderdin, biraz sonra tekrar dene."), "mesaj yok": T("Mesaj artık yok.") }[error.message] || T("Bildirilemedi."));
+  toast(T("Bildirimin yöneticiye iletildi. Teşekkürler."));
 }
 async function blockUser(uid, nick) {
   const { error } = await sb.rpc("block_user", { p_user: uid });
   $("#msgpop").classList.remove("on");
-  if (error) return toast("Engellenemedi.");
+  if (error) return toast(T("Engellenemedi."));
   blocked.add(uid); blockNames[uid] = nick;
   Array.from($("#list").children).filter(r => r.dataset && r.dataset.u === uid).forEach(r => r.remove());
-  toast(nick + " engellendi. Mesajlarını görmeyeceksin.");
+  toast(nick + T(" engellendi. Mesajlarını görmeyeceksin."));
 }
 async function openBlocks() {
   await loadBlocks();
   const l = $("#blkList"); l.innerHTML = "";
   const ids = Object.keys(blockNames);
-  if (!ids.length) l.append(mkEl("div", "empty", "Kimseyi engellemedin."));
+  if (!ids.length) l.append(mkEl("div", "empty", T("Kimseyi engellemedin.")));
   ids.forEach(id => {
-    const row = mkEl("div", "bl"), x = mkEl("button", null, "Kaldır");
-    x.onclick = async () => { const { error } = await sb.rpc("unblock_user", { p_user: id }); if (error) return toast("Kaldırılamadı."); blocked.delete(id); delete blockNames[id]; openBlocks(); };
+    const row = mkEl("div", "bl"), x = mkEl("button", null, T("Kaldır"));
+    x.onclick = async () => { const { error } = await sb.rpc("unblock_user", { p_user: id }); if (error) return toast(T("Kaldırılamadı.")); blocked.delete(id); delete blockNames[id]; openBlocks(); };
     row.append(mkEl("span", null, blockNames[id]), x); l.append(row);
   });
   $("#blkpop").classList.add("on");
@@ -1411,8 +1474,8 @@ $("#admGo").onclick = async () => {
   $("#admGo").disabled = true;
   const { data, error } = await sb.rpc("admin_login", { p_pass: pw });
   $("#admGo").disabled = false; $("#admPass").value = "";
-  if (error) { $("#admErr").textContent = error.message === "kilitli" ? "Çok fazla hatalı deneme. 15 dakika sonra tekrar dene." : "Hata: " + error.message; return; }
-  if (!data) { $("#admErr").textContent = "Şifre hatalı."; return; }
+  if (error) { $("#admErr").textContent = error.message === "kilitli" ? T("Çok fazla hatalı deneme. 15 dakika sonra tekrar dene.") : T("Hata: ") + error.message; return; }
+  if (!data) { $("#admErr").textContent = T("Şifre hatalı."); return; }
   closeSet(); openAdmin();
 };
 $("#admPass").addEventListener("keydown", e => { if (e.key === "Enter") $("#admGo").onclick(); });
@@ -1425,56 +1488,56 @@ function admSwitch(k) {
   if (k === "rep") loadReports(); else loadUsers("");
 }
 function admFail(error) {
-  if (error.message === "yetki yok") { toast("Yönetici oturumu bitti. Tekrar giriş yap."); $("#adm").classList.remove("on"); return; }
-  toast("Hata: " + error.message);
+  if (error.message === "yetki yok") { toast(T("Yönetici oturumu bitti. Tekrar giriş yap.")); $("#adm").classList.remove("on"); return; }
+  toast(T("Hata: ") + error.message);
 }
 async function admAct(uid, action, rid) {
   const { error } = await sb.rpc("admin_act", { p_user: uid, p_action: action, p_report: rid || null });
   if (error) return admFail(error);
-  toast({ mute1d: "1 gün susturuldu.", mute7d: "1 hafta susturuldu.", ban: "Kalıcı olarak banlandı.", unmute: "Susturma kaldırıldı.", unban: "Ban kaldırıldı.", delmsg: "Mesaj silindi.", dismiss: "Bildirim yoksayıldı." }[action] || "Tamam.");
+  toast({ mute1d: T("1 gün susturuldu."), mute7d: T("1 hafta susturuldu."), ban: T("Kalıcı olarak banlandı."), unmute: T("Susturma kaldırıldı."), unban: T("Ban kaldırıldı."), delmsg: T("Mesaj silindi."), dismiss: T("Bildirim yoksayıldı.") }[action] || T("Tamam."));
   if (admTab === "rep") loadReports(); else loadUsers($("#admQ") ? $("#admQ").value : "");
 }
 function armBtn(label, fn, danger) {
   const b = mkEl("button", "btn " + (danger ? "r" : "o"), label); let armed = false;
-  b.onclick = () => { if (!danger || armed) return fn(); armed = true; b.textContent = "Emin misin?"; setTimeout(() => { armed = false; b.textContent = label; }, 3000); };
+  b.onclick = () => { if (!danger || armed) return fn(); armed = true; b.textContent = T("Emin misin?"); setTimeout(() => { armed = false; b.textContent = label; }, 3000); };
   return b;
 }
 async function loadReports() {
   const body = $("#admBody"); body.innerHTML = "";
   const { data, error } = await sb.rpc("admin_reports");
   if (error) return admFail(error);
-  body.append(mkEl("div", "sec", (data || []).length + " açık bildirim"));
-  if (!(data || []).length) body.append(mkEl("div", "empty", "Bekleyen bildirim yok."));
+  body.append(mkEl("div", "sec", (data || []).length + T(" açık bildirim")));
+  if (!(data || []).length) body.append(mkEl("div", "empty", T("Bekleyen bildirim yok.")));
   (data || []).forEach(r => {
     const c = mkEl("div", "rc"), hd = mkEl("div", "rh"), nm = mkEl("b", null, r.o_reported);
-    if (r.o_banned) nm.append(mkEl("span", "st", "Banlı")); else if (muteLeft(r.o_muted) > 0) nm.append(mkEl("span", "st", "Susturulmuş"));
+    if (r.o_banned) nm.append(mkEl("span", "st", T("Banlı"))); else if (muteLeft(r.o_muted) > 0) nm.append(mkEl("span", "st", T("Susturulmuş")));
     hd.append(nm, mkEl("small", null, ago(r.o_at)));
-    c.append(hd, mkEl("div", "rq", r.o_body), mkEl("div", "rm", (REASON_L[r.o_reason] || r.o_reason) + " · Bildiren: " + r.o_reporter));
+    c.append(hd, mkEl("div", "rq", r.o_body), mkEl("div", "rm", (REASON_L[r.o_reason] || r.o_reason) + T(" · Bildiren: ") + r.o_reporter));
     const g = mkEl("div", "rb");
-    g.append(armBtn("Sustur 1 gün", () => admAct(r.o_reported_id, "mute1d", r.o_id)), armBtn("Sustur 1 hafta", () => admAct(r.o_reported_id, "mute7d", r.o_id)),
-      armBtn("Kalıcı ban", () => admAct(r.o_reported_id, "ban", r.o_id), true), armBtn("Mesajı sil", () => admAct(r.o_reported_id, "delmsg", r.o_id)),
-      armBtn("Yoksay", () => admAct(r.o_reported_id, "dismiss", r.o_id)));
+    g.append(armBtn(T("Sustur 1 gün"), () => admAct(r.o_reported_id, "mute1d", r.o_id)), armBtn(T("Sustur 1 hafta"), () => admAct(r.o_reported_id, "mute7d", r.o_id)),
+      armBtn(T("Kalıcı ban"), () => admAct(r.o_reported_id, "ban", r.o_id), true), armBtn(T("Mesajı sil"), () => admAct(r.o_reported_id, "delmsg", r.o_id)),
+      armBtn(T("Yoksay"), () => admAct(r.o_reported_id, "dismiss", r.o_id)));
     c.append(g); body.append(c);
   });
 }
 async function loadUsers(q) {
   const body = $("#admBody"); body.innerHTML = "";
-  const s = mkEl("div", "srch"), inp = mkEl("input", "in"), go = mkEl("button", "btn", "Ara");
-  inp.id = "admQ"; inp.placeholder = "Takma ad ara"; inp.value = q || ""; inp.maxLength = 14; inp.setAttribute("autocapitalize", "none");
+  const s = mkEl("div", "srch"), inp = mkEl("input", "in"), go = mkEl("button", "btn", T("Ara"));
+  inp.id = "admQ"; inp.placeholder = T("Takma ad ara"); inp.value = q || ""; inp.maxLength = 14; inp.setAttribute("autocapitalize", "none");
   go.onclick = () => loadUsers(inp.value.trim()); s.append(inp, go); body.append(s);
   const { data, error } = q ? await sb.rpc("admin_find", { p_q: q }) : await sb.rpc("admin_penalties");
   if (error) return admFail(error);
-  body.append(mkEl("div", "sec", q ? "Sonuçlar" : "Cezalı kullanıcılar"));
-  if (!(data || []).length) body.append(mkEl("div", "empty", q ? "Kullanıcı bulunamadı." : "Şu an cezalı kullanıcı yok."));
+  body.append(mkEl("div", "sec", q ? T("Sonuçlar") : T("Cezalı kullanıcılar")));
+  if (!(data || []).length) body.append(mkEl("div", "empty", q ? T("Kullanıcı bulunamadı.") : T("Şu an cezalı kullanıcı yok.")));
   (data || []).forEach(u => {
     const c = mkEl("div", "rc"), hd = mkEl("div", "rh"), nm = mkEl("b", null, u.o_nick), ml = muteLeft(u.o_muted);
     if (u.o_vip) nm.append(mkEl("span", "st", "VIP"));
-    if (u.o_banned) nm.append(mkEl("span", "st", "Banlı")); else if (ml > 0) nm.append(mkEl("span", "st", "Susturulmuş: " + fmtMin(ml)));
+    if (u.o_banned) nm.append(mkEl("span", "st", T("Banlı"))); else if (ml > 0) nm.append(mkEl("span", "st", T("Susturulmuş: ") + fmtMin(ml)));
     hd.append(nm); c.append(hd);
     const g = mkEl("div", "rb");
-    g.append(armBtn("Sustur 1 gün", () => admAct(u.o_id, "mute1d")), armBtn("Sustur 1 hafta", () => admAct(u.o_id, "mute7d")), armBtn("Kalıcı ban", () => admAct(u.o_id, "ban"), true));
-    if (ml > 0) g.append(armBtn("Susturmayı kaldır", () => admAct(u.o_id, "unmute")));
-    if (u.o_banned) g.append(armBtn("Banı kaldır", () => admAct(u.o_id, "unban")));
+    g.append(armBtn(T("Sustur 1 gün"), () => admAct(u.o_id, "mute1d")), armBtn(T("Sustur 1 hafta"), () => admAct(u.o_id, "mute7d")), armBtn(T("Kalıcı ban"), () => admAct(u.o_id, "ban"), true));
+    if (ml > 0) g.append(armBtn(T("Susturmayı kaldır"), () => admAct(u.o_id, "unmute")));
+    if (u.o_banned) g.append(armBtn(T("Banı kaldır"), () => admAct(u.o_id, "unban")));
     c.append(g); body.append(c);
   });
 }
@@ -1493,41 +1556,43 @@ async function loadVipPrice() {
 }
 function renderVip() {
   const body = $("#vipBody"); body.innerHTML = "";
-  const card = mkEl("div", "vipc"), hd = mkEl("div", "vh"); hd.append(vipBadge(), mkEl("span", null, vip ? "VIP üyesisin" : "VIP üyelik")); card.append(hd);
+  const card = mkEl("div", "vipc"), hd = mkEl("div", "vh"); hd.append(vipBadge(), mkEl("span", null, vip ? T("VIP üyesisin") : T("VIP üyelik"))); card.append(hd);
   const ul = mkEl("ul", "vipl");
-  ["Satın alınca anında $20.000", "Gün atlarken reklam yok", "Tüm kazançlar %50 artar", "Sohbette ve sıralamada VIP rozeti", "+100 güç puanı"].forEach(t => ul.append(mkEl("li", null, t)));
+  [T("Satın alınca anında $20.000"), T("Gün atlarken reklam yok"), T("Tüm kazançlar %50 artar"), T("Sohbette ve sıralamada VIP rozeti"), T("+100 güç puanı")].forEach(t => ul.append(mkEl("li", null, t)));
   card.append(ul);
-  const b = mkEl("button", "btn vipb", vip ? "VIP aktif" : vipBusy ? "İşleniyor..." : "VIP ol" + (vipPrice ? " · " + vipPrice : ""));
+  const b = mkEl("button", "btn vipb", vip ? T("VIP aktif") : vipBusy ? T("İşleniyor...") : T("VIP ol") + (vipPrice ? " · " + vipPrice : ""));
   b.disabled = vip || vipBusy; b.onclick = buyVip; card.append(b);
-  if (!vip && !billNative()) card.append(mkEl("p", "note2", isNative() ? "Satın alma şu an kullanılamıyor." : "Satın alma yalnızca Android uygulamasında çalışır."));
-  if (!vip && billNative() && !vipPrice && vipErr) card.append(mkEl("p", "note2", "Fiyat Play Store'dan alınamadı (" + vipErr + "). Uygulamayı Play Store'dan yüklediğinden ve vip_uyelik ürününün etkin olduğundan emin ol."));
-  if (!vip) card.append(mkEl("p", "note2", "Tek seferlik satın alma. Ödeme yaptığın hâlde ödül gelmediyse oyuna her girişte otomatik teslim edilir."));
+  if (!vip && !billNative()) card.append(mkEl("p", "note2", isNative() ? T("Satın alma şu an kullanılamıyor.") : T("Satın alma yalnızca Android uygulamasında çalışır.")));
+  if (!vip && billNative() && !vipPrice && vipErr) card.append(mkEl("p", "note2", T("Fiyat Play Store'dan alınamadı (") + vipErr + T("). Uygulamayı Play Store'dan yüklediğinden ve vip_uyelik ürününün etkin olduğundan emin ol.")));
+  if (!vip) card.append(mkEl("p", "note2", T("Tek seferlik satın alma. Ödeme yaptığın hâlde ödül gelmediyse oyuna her girişte otomatik teslim edilir.")));
   body.append(card);
 }
-async function deliverVip(token, silent) {
-  const { data, error } = await sb.rpc("claim_vip", { p_product: VIP_PRODUCT, p_token: token });
-  if (error || !data) { const why = String((error && error.message) || "").slice(0, 50); if (!silent) toast("Ödeme alındı ama VIP teslim edilemedi" + (why ? " (" + why + ")" : "") + ". Oyunu yeniden açınca otomatik denenecek."); return false; }
+async function deliverVip(token, silent, ex) {
+  const signed = !!(ex && ex.originalJson && ex.signature);
+  let { data, error } = await sb.rpc("claim_vip", signed ? { p_product: VIP_PRODUCT, p_token: token, p_json: ex.originalJson, p_sig: ex.signature } : { p_product: VIP_PRODUCT, p_token: token });
+  if (signed && error && /imza|gecersiz|claim_vip/.test(error.message || "")) ({ data, error } = await sb.rpc("claim_vip", { p_product: VIP_PRODUCT, p_token: token }));
+  if (error || !data) { const why = String((error && error.message) || "").slice(0, 50); if (!silent) toast(T("Ödeme alındı ama VIP teslim edilemedi") + (why ? " (" + why + ")" : "") + T(". Oyunu yeniden açınca otomatik denenecek.")); return false; }
   try { await billNative().acknowledge({ purchaseToken: token }); } catch (e) {}
   await syncGame();
-  if (data === "new") toast("VIP aktif! $20.000 hesabına yattı.");
-  else if (data === "restored") toast("VIP üyeliğin geri yüklendi.");
-  else if (!silent) toast("VIP zaten aktif.");
+  if (data === "new") toast(T("VIP aktif! $20.000 hesabına yattı."));
+  else if (data === "restored") toast(T("VIP üyeliğin geri yüklendi."));
+  else if (!silent) toast(T("VIP zaten aktif."));
   renderVip(); return true;
 }
 async function buyVip() {
   if (vip || vipBusy) return;
   const p = billNative();
-  if (!p) { toast(isNative() ? "Satın alma şu an kullanılamıyor." : "Satın alma yalnızca Android uygulamasında çalışır."); return; }
+  if (!p) { toast(isNative() ? T("Satın alma şu an kullanılamıyor.") : T("Satın alma yalnızca Android uygulamasında çalışır.")); return; }
   vipBusy = true; renderVip();
   try {
     const r = await p.purchase({ productId: VIP_PRODUCT });
-    if (r.state === "pending") toast("Ödeme onay bekliyor. Onaylanınca VIP otomatik gelecek.");
-    else await deliverVip(r.purchaseToken);
+    if (r.state === "pending") toast(T("Ödeme onay bekliyor. Onaylanınca VIP otomatik gelecek."));
+    else await deliverVip(r.purchaseToken, false, r);
   } catch (e) {
     const code = e && e.code, msg = String((e && e.message) || e || "");
-    if (code === "OWNED" || /zaten sahip/.test(msg)) { toast("Bu hesapta VIP satın alınmış, kontrol ediliyor."); await checkPurchases(); }
-    else if (code === "CANCELED" || /iptal/.test(msg)) toast("Satın alma iptal edildi.");
-    else toast("Satın alma başarısız" + ((code || msg) ? " (" + String(code || msg).slice(0, 60) + ")" : "") + ".");
+    if (code === "OWNED" || /zaten sahip/.test(msg)) { toast(T("Bu hesapta VIP satın alınmış, kontrol ediliyor.")); await checkPurchases(); }
+    else if (code === "CANCELED" || /iptal/.test(msg)) toast(T("Satın alma iptal edildi."));
+    else toast(T("Satın alma başarısız") + ((code || msg) ? " (" + String(code || msg).slice(0, 60) + ")" : "") + ".");
   }
   vipBusy = false; renderVip();
 }
@@ -1535,7 +1600,7 @@ async function checkPurchases() {   /* her girişte: ödeme yapıp ödülü alma
   const p = billNative(); if (!p || vip) return;
   try {
     await p.connect(); const r = await p.queryPurchases();
-    for (const x of (r.purchases || [])) if (x.productId === VIP_PRODUCT && x.state === "purchased") { if (await deliverVip(x.purchaseToken, true)) break; }
+    for (const x of (r.purchases || [])) if (x.productId === VIP_PRODUCT && x.state === "purchased") { if (await deliverVip(x.purchaseToken, true, x)) break; }
   } catch (e) {}
 }
 
@@ -1592,74 +1657,74 @@ async function syncPs() {
 }
 function renderPs() {
   const b = $("#psBody"), sc = b.scrollTop; b.innerHTML = "";
-  const w = mkEl("div", "wallet"); w.append("Paran: ", mkEl("b", null, "$" + fmt(me.money)), "  ·  Boş yer: ", mkEl("b", null, (ps.slots - psSt.length) + "/" + ps.slots), "  ·  Görevli maaşı: ", mkEl("b", null, "$" + fmt(ps.staff ? psWage() : 0)));
+  const w = mkEl("div", "wallet"); w.append(T("Paran: "), mkEl("b", null, "$" + fmt(me.money)), T("  ·  Boş yer: "), mkEl("b", null, (ps.slots - psSt.length) + "/" + ps.slots), T("  ·  Görevli maaşı: "), mkEl("b", null, "$" + fmt(ps.staff ? psWage() : 0)));
   b.append(w);
-  if (!psLoaded) { b.append(mkEl("div", "empty", "Salon verisi yüklenemedi. Supabase'e v3 SQL dosyasını çalıştırdığından emin ol.")); return; }
+  if (!psLoaded) { b.append(mkEl("div", "empty", T("Salon verisi yüklenemedi. Supabase'e v3 SQL dosyasını çalıştırdığından emin ol."))); return; }
   const g = mkEl("div", "grid"); g.style.gridTemplateColumns = "repeat(" + (ps.slots <= 8 ? 4 : 5) + ",1fr)"; g.style.margin = "10px 14px 0";
   const by = {}; psSt.forEach(s => by[s.slot] = s);
   for (let i = 1; i <= ps.slots; i++) {
     const s = by[i], t = mkEl("button", "pcs" + (s ? "" : " empty"));
     if (s) {
       const m = psModel(s.model); t.append(psImg(m ? m.tier : 1), mkEl("b", null, m ? String(m.year) : "?"));
-      if (s.req) { const sm = mkEl("small", null, "--:--"); sm.id = "psT" + i; t.classList.add("busy"); t.append(sm); } else t.append(mkEl("small", null, "Hazır"));
+      if (s.req) { const sm = mkEl("small", null, "--:--"); sm.id = "psT" + i; t.classList.add("busy"); t.append(sm); } else t.append(mkEl("small", null, T("Hazır")));
       t.onclick = () => openPsPc(i);
-    } else { const e = mkEl("span", "pci"); e.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg>'; t.append(e, mkEl("b", null, "Boş"), mkEl("small", null, "Yer " + i)); t.onclick = psBuy; }
+    } else { const e = mkEl("span", "pci"); e.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg>'; t.append(e, mkEl("b", null, T("Boş")), mkEl("small", null, T("Yer ") + i)); t.onclick = psBuy; }
     g.append(t);
   }
   b.append(g);
-  const over = isOver(); b.append(mkEl("div", "sec", "Müşteriler" + (psQ.length ? " (" + psQ.length + ")" : "")));
-  if (over) b.append(mkEl("p", "note2", "Dükkan kapalı, yeni müşteri gelmez."));
-  else if (!psQ.length) b.append(mkEl("p", "note2", psSt.length ? "Müşteri bekleniyor." : "Önce bir konsol al."));
+  const over = isOver(); b.append(mkEl("div", "sec", T("Müşteriler") + (psQ.length ? " (" + psQ.length + ")" : "")));
+  if (over) b.append(mkEl("p", "note2", T("Dükkan kapalı, yeni müşteri gelmez.")));
+  else if (!psQ.length) b.append(mkEl("p", "note2", psSt.length ? T("Müşteri bekleniyor.") : T("Önce bir konsol al.")));
   psQ.slice(0, 8).forEach(e => {
     const r = psReq(e.req); if (!r) return;
     const free = psFree(r), row = mkEl("div", "pr"), av = mkEl("span", "av", e.name[0]), tx = mkEl("div", "pt"); av.style.background = e.color;
-    tx.append(mkEl("b", null, e.name), mkEl("small", null, r.label + " · " + (psMaxTier() < r.min_tier ? "Konsol yetersiz" : !free ? "Uygun konsol dolu" : e.hours + " saat · $" + fmt(psPay(psModel(free.model), r, e.hours)))));
-    const bt = mkEl("button", "pbtn sm", "Oturt"); bt.disabled = !free || over; bt.onclick = () => psSeat(e); row.append(av, tx, bt); b.append(row);
+    tx.append(mkEl("b", null, e.name), mkEl("small", null, T(r.label) + " · " + (psMaxTier() < r.min_tier ? T("Konsol yetersiz") : !free ? T("Uygun konsol dolu") : e.hours + T(" saat · $") + fmt(psPay(psModel(free.model), r, e.hours)))));
+    const bt = mkEl("button", "pbtn sm", T("Oturt")); bt.disabled = !free || over; bt.onclick = () => psSeat(e); row.append(av, tx, bt); b.append(row);
   });
-  b.append(mkEl("div", "sec", "Geliştir"));
+  b.append(mkEl("div", "sec", T("Geliştir")));
   const base = psModels.find(m => m.tier === 1), nx = psLevels.find(l => l.level === ps.level + 1);
-  b.append(mkRow({ icon: "i-play", src: PS_IMG[1], gi: "g3", title: (base ? base.name : "Konsol") + " al", lines: [["Boş yere ilk konsol. Üst modeller konsola dokunup yükseltilir."]], btn: "$" + fmt(base ? base.price : 0), disabled: !base || psSt.length >= ps.slots || me.money < base.price, onclick: psBuy }));
-  b.append(mkRow({ img: "store", title: "Salonu büyüt", lines: [[nx ? "Kapasite " + ps.slots + " → " + nx.slots + " konsol" : "En üst seviyedesin: " + ps.slots + " konsol"]], btn: nx ? "$" + fmt(nx.price) : "Maksimum", disabled: !nx || me.money < nx.price, onclick: psExpand }));
-  b.append(mkRow({ img: "cashier", gi: "g2", title: "Salon görevlisi", lines: [["Müşterileri otomatik oturtur."], ["Maaş: $" + fmt(psWage()) + " / gün, gün sonunda ödenir."], ps.staff ? ["Çalışıyor", "ok2"] : ["İşe alım: $" + fmt(PS_STAFF_FEE)]], btn: ps.staff ? "Çıkar" : "İşe al", btnCls: ps.staff ? "out" : "", disabled: !ps.staff && me.money < PS_STAFF_FEE, onclick: () => psStaff(!ps.staff) }));
-  b.append(mkRow({ icon: "i-star", src: PS_IMG[8], gi: "g4", title: "Oyun kütüphanesi", lines: [["Tüm salon kazancı +%" + Math.round((PS_LIB_BONUS - 1) * 100) + "."], ps.lib ? ["Satın alındı", "ok2"] : ["Bir kez alınır, gider yok."]], btn: ps.lib ? "Alındı" : "$" + fmt(PS_LIB_PRICE), btnCls: ps.lib ? "cur" : "", disabled: ps.lib || me.money < PS_LIB_PRICE, onclick: psLib }));
-  b.append(mkEl("p", "note2", "Salon, bilgisayar dükkanıyla aynı anda çalışır. Gün, iki dükkan da boşalınca biter."));
+  b.append(mkRow({ icon: "i-play", src: PS_IMG[1], gi: "g3", title: Tf("{n} al", { n: base ? base.name : T("Konsol") }), lines: [[T("Boş yere ilk konsol. Üst modeller konsola dokunup yükseltilir.")]], btn: "$" + fmt(base ? base.price : 0), disabled: !base || psSt.length >= ps.slots || me.money < base.price, onclick: psBuy }));
+  b.append(mkRow({ img: "store", title: T("Salonu büyüt"), lines: [[nx ? T("Kapasite ") + ps.slots + " → " + nx.slots + T(" konsol") : T("En üst seviyedesin: ") + ps.slots + T(" konsol")]], btn: nx ? "$" + fmt(nx.price) : T("Maksimum"), disabled: !nx || me.money < nx.price, onclick: psExpand }));
+  b.append(mkRow({ img: "cashier", gi: "g2", title: T("Salon görevlisi"), lines: [[T("Müşterileri otomatik oturtur.")], [T("Maaş: $") + fmt(psWage()) + T(" / gün, gün sonunda ödenir.")], ps.staff ? [T("Çalışıyor"), "ok2"] : [T("İşe alım: $") + fmt(PS_STAFF_FEE)]], btn: ps.staff ? T("Çıkar") : T("İşe al"), btnCls: ps.staff ? "out" : "", disabled: !ps.staff && me.money < PS_STAFF_FEE, onclick: () => psStaff(!ps.staff) }));
+  b.append(mkRow({ icon: "i-star", src: PS_IMG[8], gi: "g4", title: T("Oyun kütüphanesi"), lines: [[Tf("Tüm salon kazancı +%{n}.", { n: Math.round((PS_LIB_BONUS - 1) * 100) })], ps.lib ? [T("Satın alındı"), "ok2"] : [T("Bir kez alınır, gider yok.")]], btn: ps.lib ? T("Alındı") : "$" + fmt(PS_LIB_PRICE), btnCls: ps.lib ? "cur" : "", disabled: ps.lib || me.money < PS_LIB_PRICE, onclick: psLib }));
+  b.append(mkEl("p", "note2", T("Salon, bilgisayar dükkanıyla aynı anda çalışır. Gün, iki dükkan da boşalınca biter.")));
   b.scrollTop = sc;
 }
 function renderPsShop() {
   const b = $("#psShopBody"); b.innerHTML = "";
-  const w = mkEl("div", "wallet"); w.append("Paran: ", mkEl("b", null, "$" + fmt(me.money))); b.append(w);
+  const w = mkEl("div", "wallet"); w.append(T("Paran: "), mkEl("b", null, "$" + fmt(me.money))); b.append(w);
   const lv = level >= PS_OPEN_LEVEL;
-  b.append(mkRow({ icon: "i-play", src: PS_IMG[6], gi: "g4", title: "Oyun Salonu", lines: [["Konsol salonu: 8 konsol modeli, kendi müşterileri ve geliştirmeleri."], ["Bilgisayar dükkanıyla aynı anda çalışır, kazançlar toplanır."], ps.open ? ["Açık", "ok2"] : lv ? ["Açılış: $" + fmt(PS_OPEN_PRICE)] : ["Dükkan seviye " + PS_OPEN_LEVEL + " olunca açılır", "warn2"]],
-    btn: ps.open ? "Salona git" : lv ? "Aç" : "Kilitli", disabled: !ps.open && (!lv || me.money < PS_OPEN_PRICE), onclick: ps.open ? () => { $("#shop").classList.remove("on"); $("#ps").classList.add("on"); renderPs(); } : psOpen }));
-  b.append(mkEl("p", "note2", "Salon pahalıdır ama konsollar bilgisayarlardan çok daha fazla kazandırır. Büyütme, görevli ve kütüphane salona özeldir."));
+  b.append(mkRow({ icon: "i-play", src: PS_IMG[6], gi: "g4", title: T("Oyun Salonu"), lines: [[T("Konsol salonu: 8 konsol modeli, kendi müşterileri ve geliştirmeleri.")], [T("Bilgisayar dükkanıyla aynı anda çalışır, kazançlar toplanır.")], ps.open ? [T("Açık"), "ok2"] : lv ? [T("Açılış: $") + fmt(PS_OPEN_PRICE)] : [T("Dükkan seviye ") + PS_OPEN_LEVEL + T(" olunca açılır"), "warn2"]],
+    btn: ps.open ? T("Salona git") : lv ? T("Aç") : T("Kilitli"), disabled: !ps.open && (!lv || me.money < PS_OPEN_PRICE), onclick: ps.open ? () => { $("#shop").classList.remove("on"); $("#ps").classList.add("on"); renderPs(); } : psOpen }));
+  b.append(mkEl("p", "note2", T("Salon pahalıdır ama konsollar bilgisayarlardan çok daha fazla kazandırır. Büyütme, görevli ve kütüphane salona özeldir.")));
 }
-const PS_ERR = { "para yetmiyor": "Paran yetmiyor.", "yer yok": "Boş yer yok.", "masa dolu": "Konsolda müşteri var.", maksimum: "Bu en üst seviye.", "zaten var": "Zaten var.", seviye: "Önce bilgisayar dükkanını seviye " + PS_OPEN_LEVEL + "'e büyüt.", kapali: "Dükkan kapalı.", "salon yok": "Salon henüz açık değil." };
-async function psCall(fn, args) { const r = await sb.rpc(fn, args || {}); if (r.error) { toast(PS_ERR[r.error.message] || "Hata: " + r.error.message); return null; } return r.data; }
+const PS_ERR = { "para yetmiyor": T("Paran yetmiyor."), "yer yok": T("Boş yer yok."), "masa dolu": T("Konsolda müşteri var."), maksimum: T("Bu en üst seviye."), "zaten var": T("Zaten var."), seviye: T("Önce bilgisayar dükkanını seviye ") + PS_OPEN_LEVEL + T("'e büyüt."), kapali: T("Dükkan kapalı."), "salon yok": T("Salon henüz açık değil.") };
+async function psCall(fn, args) { const r = await sb.rpc(fn, args || {}); if (r.error) { toast(PS_ERR[r.error.message] || T("Hata: ") + r.error.message); return null; } return r.data; }
 const psMoney = v => { me.money = Number(v); setMoney(); };
-async function psOpen() { const d = await psCall("open_ps"); if (d == null) return; psMoney(d); await syncPs(); renderPsShop(); toast("Oyun Salonu açıldı!"); }
-async function psBuy() { const d = await psCall("ps_buy"); if (!d) return; psMoney(d[0].o_money); await syncPs(); toast("Konsol alındı."); }
-async function psExpand() { const d = await psCall("ps_expand"); if (!d) return; psMoney(d[0].o_money); await syncPs(); toast("Salon büyüdü: " + d[0].o_slots + " konsol."); }
-async function psStaff(on) { const d = await psCall(on ? "ps_hire" : "ps_fire"); if (d == null) return; if (on) psMoney(d); await syncPs(); toast(on ? "Salon görevlisi işe alındı." : "Görevli çıkarıldı."); }
-async function psLib() { const d = await psCall("ps_buy_lib"); if (d == null) return; psMoney(d); await syncPs(); toast("Oyun kütüphanesi alındı."); }
+async function psOpen() { const d = await psCall("open_ps"); if (d == null) return; psMoney(d); await syncPs(); renderPsShop(); toast(T("Oyun Salonu açıldı!")); }
+async function psBuy() { const d = await psCall("ps_buy"); if (!d) return; psMoney(d[0].o_money); await syncPs(); toast(T("Konsol alındı.")); }
+async function psExpand() { const d = await psCall("ps_expand"); if (!d) return; psMoney(d[0].o_money); await syncPs(); toast(T("Salon büyüdü: ") + d[0].o_slots + T(" konsol.")); }
+async function psStaff(on) { const d = await psCall(on ? "ps_hire" : "ps_fire"); if (d == null) return; if (on) psMoney(d); await syncPs(); toast(on ? T("Salon görevlisi işe alındı.") : T("Görevli çıkarıldı.")); }
+async function psLib() { const d = await psCall("ps_buy_lib"); if (d == null) return; psMoney(d); await syncPs(); toast(T("Oyun kütüphanesi alındı.")); }
 function openPsPc(slot) {
   const s = psSt.find(x => x.slot === slot), m = s && psModel(s.model); if (!m) return;
   const nx = psModels.find(x => x.tier === m.tier + 1), p = $("#pcBox"), r = s.req ? psReq(s.req) : null; p.innerHTML = "";
   const big = psImg(m.tier); big.style.cssText = "width:150px;margin:0 auto 8px"; p.append(big);
-  p.append(mkEl("h2", null, m.name), mkEl("p", null, "Model yılı " + m.year + " · Saatlik ücret $" + r1(m.rate) + (r ? " · Kullanımda: " + r.label : " · Boşta")));
+  p.append(mkEl("h2", null, m.name), mkEl("p", null, T("Model yılı ") + m.year + T(" · Saatlik ücret $") + r1(m.rate) + (r ? T(" · Kullanımda: ") + T(r.label) : T(" · Boşta"))));
   if (nx) {
-    p.append(mkEl("p", "upsum", nx.name + " ile saatlik ücret $" + r1(m.rate) + " → $" + r1(nx.rate) + " (+%" + Math.round((nx.rate / m.rate - 1) * 100) + ")"));
-    const u = mkEl("button", "btn", "Yükselt: $" + fmt(nx.upg_price)); u.disabled = !!s.req || me.money < nx.upg_price;
-    u.onclick = async () => { const d = await psCall("ps_upgrade", { p_slot: slot }); if (!d) return; psMoney(d[0].o_money); await syncPs(); openPsPc(slot); toast("Yükseltildi."); }; p.append(u);
-    if (s.req) p.append(mkEl("p", "note2", "Müşteri varken yükseltilemez."));
+    p.append(mkEl("p", "upsum", nx.name + T(" ile saatlik ücret $") + r1(m.rate) + " → $" + r1(nx.rate) + " (+%" + Math.round((nx.rate / m.rate - 1) * 100) + ")"));
+    const u = mkEl("button", "btn", T("Yükselt: $") + fmt(nx.upg_price)); u.disabled = !!s.req || me.money < nx.upg_price;
+    u.onclick = async () => { const d = await psCall("ps_upgrade", { p_slot: slot }); if (!d) return; psMoney(d[0].o_money); await syncPs(); openPsPc(slot); toast(T("Yükseltildi.")); }; p.append(u);
+    if (s.req) p.append(mkEl("p", "note2", T("Müşteri varken yükseltilemez.")));
   }
-  const sell = mkEl("button", "btn r", "Sat (+$" + fmt(Math.floor(m.price / 2)) + ")"); sell.disabled = !!s.req;
+  const sell = mkEl("button", "btn r", T("Sat (+$") + fmt(Math.floor(m.price / 2)) + ")"); sell.disabled = !!s.req;
   sell.onclick = async () => { const d = await psCall("ps_sell", { p_slot: slot }); if (d == null) return; psMoney(d); $("#pcpop").classList.remove("on"); await syncPs(); };
-  const c = mkEl("button", "btn o", "Kapat"); c.onclick = () => $("#pcpop").classList.remove("on"); p.append(sell, c); $("#pcpop").classList.add("on");
+  const c = mkEl("button", "btn o", T("Kapat")); c.onclick = () => $("#pcpop").classList.remove("on"); p.append(sell, c); $("#pcpop").classList.add("on");
 }
 async function psSeat(e, auto) {
   if (psAct) return; psAct = true;
   const { data, error } = await sb.rpc("ps_seat", { p_req: e.req, p_hours: e.hours }); psAct = false;
-  if (error) { if (auto) e.fail = (e.fail || 0) + 1; else toast({ "masa dolu": "Uygun konsol şu an dolu.", kapali: "Dükkan kapalı.", "ekipman yetersiz": "Konsolun bu müşteri için yetersiz." }[error.message] || "Hata: " + error.message); if (/dolu/.test(error.message)) bg(syncPs()); return; }
+  if (error) { if (auto) e.fail = (e.fail || 0) + 1; else toast({ "masa dolu": T("Uygun konsol şu an dolu."), kapali: T("Dükkan kapalı."), "ekipman yetersiz": T("Konsolun bu müşteri için yetersiz.") }[error.message] || T("Hata: ") + error.message); if (/dolu/.test(error.message)) bg(syncPs()); return; }
   const r = data[0], st = psSt.find(s => s.slot === r.o_slot);
   if (st) { st.req = e.req; st.hours = e.hours; st.pay = Number(r.o_pay); st.end = performance.now() + Number(r.o_left) * 1000; st.color = e.color; st.name = e.name; }
   psQ = psQ.filter(x => x.id !== e.id); if (psOn()) renderPs();
@@ -1709,27 +1774,27 @@ function showDaily(d) {
     const close = () => { ov.classList.remove("on"); resolve(); };
     box.innerHTML = "";
     const hero = mkEl("div", "dhero"); hero.innerHTML = D_CHEST;
-    box.append(hero, mkEl("h2", null, "Günlük Giriş Ödülü"), mkEl("p", "dsub", "Seri: " + d.streak + ". gün. Her gün gir, ödül büyüsün. Bir gün kaçırırsan seri başa döner."));
+    box.append(hero, mkEl("h2", null, T("Günlük Giriş Ödülü")), mkEl("p", "dsub", Tf("Seri: {n}. gün. Her gün gir, ödül büyüsün. Bir gün kaçırırsan seri başa döner.", { n: d.streak })));
     const grid = mkEl("div", "dgrid");
     for (let i = 1; i <= 7; i++) {
       const c = mkEl("div", "dd" + (i === 7 ? " big" : "") + (i < d.day ? " done" : i === d.day ? " cur" : ""));
-      const ic = mkEl("span"); ic.innerHTML = dIcon(i); const tx = mkEl("div"); tx.append(mkEl("div", null, i === 7 ? "7. GÜN" : i + ". gün"), mkEl("b", null, "$" + fmt(Math.round(d.base * DMULT[i - 1]))));
+      const ic = mkEl("span"); ic.innerHTML = dIcon(i); const tx = mkEl("div"); tx.append(mkEl("div", null, i === 7 ? T("7. GÜN") : Tf("{n}. gün", { n: i })), mkEl("b", null, "$" + fmt(Math.round(d.base * DMULT[i - 1]))));
       c.append(ic, tx); grid.append(c);
     }
     box.append(grid);
     const claim = async dbl => {
       if (busy || adBusy) return; busy = true; b1.disabled = b2.disabled = true;
-      if (dbl && !vip) { adBusy = true; const r = await adShow(); adBusy = false; if (r !== "ok") { toast(r === "skip" ? "2x için videoyu sonuna kadar izle." : "Reklam şu an hazır değil."); busy = false; b1.disabled = b2.disabled = false; return; } }
+      if (dbl && !vip) { adBusy = true; const r = await adShow(); adBusy = false; if (r !== "ok") { toast(r === "skip" ? T("2x için videoyu sonuna kadar izle.") : T("Reklam şu an hazır değil.")); busy = false; b1.disabled = b2.disabled = false; return; } }
       const { data, error } = await sb.rpc("claim_daily", { p_double: !!dbl });
-      if (error || !data || !data[0]) { toast(error && /alindi/.test(error.message) ? "Bugünkü ödülü zaten aldın." : "Ödül alınamadı."); close(); return; }
+      if (error || !data || !data[0]) { toast(error && /alindi/.test(error.message) ? T("Bugünkü ödülü zaten aldın.") : T("Ödül alınamadı.")); close(); return; }
       const r = data[0]; me.money = Number(r.o_money); setMoney();
-      box.innerHTML = ""; const h2 = mkEl("div", "dhero"); h2.innerHTML = dIcon(d.day); box.append(h2, mkEl("h2", null, "Ödül alındı!"), mkEl("div", "dwon", "+$" + fmt(Number(r.o_amount))), mkEl("p", "dsub", "Yarın tekrar gel: seri " + r.o_streak + ". gün oluyor.")); dlyRain(box);
+      box.innerHTML = ""; const h2 = mkEl("div", "dhero"); h2.innerHTML = dIcon(d.day); box.append(h2, mkEl("h2", null, T("Ödül alındı!")), mkEl("div", "dwon", "+$" + fmt(Number(r.o_amount))), mkEl("p", "dsub", Tf("Yarın tekrar gel: seri {n}. gün oluyor.", { n: r.o_streak }))); dlyRain(box);
       setTimeout(close, 1900);
     };
-    const b1 = mkEl("button", "dbtn", "Ödülü al"), b2 = mkEl("button", "dbtn alt", vip ? "2x al (VIP bonusu)" : "2x al (reklam izle)");
+    const b1 = mkEl("button", "dbtn", T("Ödülü al")), b2 = mkEl("button", "dbtn alt", vip ? T("2x al (VIP bonusu)") : T("2x al (reklam izle)"));
     b1.onclick = () => claim(vip); b2.onclick = () => claim(true);
-    if (vip) b1.textContent = "Ödülü al (VIP 2x)";
-    const later = mkEl("button", "dlater", "Sonra al"); later.onclick = close;
+    if (vip) b1.textContent = T("Ödülü al (VIP 2x)");
+    const later = mkEl("button", "dlater", T("Sonra al")); later.onclick = close;
     box.append(b1); if (!vip) box.append(b2); box.append(later);
     ov.classList.add("on");
   });
@@ -1739,10 +1804,10 @@ function showVipPromo() {
     const ov = $("#vipP"), box = $("#vipPBox"); box.innerHTML = "";
     const close = () => { ov.classList.remove("on"); resolve(); };
     const hero = mkEl("div", "dhero"); hero.append(vipBadge()); hero.style.cssText += ";transform:scale(2);margin:18px auto 22px;width:auto;height:auto";
-    const ul = mkEl("ul", "vpl"); ["Gün atlarken reklam yok", "Tüm kazançlar %50 artar", "Satın alınca anında $20.000", "+100 güç puanı ve sıralamada VIP rozeti", "Günlük ödülde otomatik 2x"].forEach(x => ul.append(mkEl("li", null, x)));
-    const buy = mkEl("button", "dbtn", "VIP ol" + (vipPrice ? "  " + vipPrice : "")); buy.onclick = () => { close(); buyVip(); };
-    const later = mkEl("button", "dlater", "Şimdi değil"); later.onclick = close;
-    box.append(hero, mkEl("h2", null, "VIP Üyelik"), mkEl("p", "dsub", "Tek seferlik satın alma, ömür boyu geçerli."), ul, buy, later);
+    const ul = mkEl("ul", "vpl"); [T("Gün atlarken reklam yok"), T("Tüm kazançlar %50 artar"), T("Satın alınca anında $20.000"), T("+100 güç puanı ve sıralamada VIP rozeti"), T("Günlük ödülde otomatik 2x")].forEach(x => ul.append(mkEl("li", null, x)));
+    const buy = mkEl("button", "dbtn", T("VIP ol") + (vipPrice ? "  " + vipPrice : "")); buy.onclick = () => { close(); buyVip(); };
+    const later = mkEl("button", "dlater", T("Şimdi değil")); later.onclick = close;
+    box.append(hero, mkEl("h2", null, T("VIP Üyelik")), mkEl("p", "dsub", T("Tek seferlik satın alma, ömür boyu geçerli.")), ul, buy, later);
     ov.classList.add("on");
   });
 }
@@ -1766,57 +1831,57 @@ function emblem(i, px) {
   return e;
 }
 let klan, klView = null, klTab = "chat", klCh = null, klTok = 0, klRank = [], klRankAt = 0, klQ = "", rkTab = "p", klBusy = false;
-const KL_ERR = { klanda: "Zaten bir klandasın.", "klanda degil": "Bir klanda değilsin.", isim: "İsim 3-16 harf/rakam olmalı.", etiket: "Etiket 2-4 harf/rakam olmalı.", amblem: "Bir amblem seç.", kufur: "Uygunsuz kelime var.", link: "Bağlantı olamaz.", "isim dolu": "Bu klan ismi alınmış.", "etiket dolu": "Bu etiket alınmış.", "para yetmiyor": "Paran yetmiyor ($" + KL_COST + ").", kapali: "Bu klan katılıma kapalı.", dolu: "Klan dolu (5/5).", yasakli: "Bu klandan 1 saat yasaklısın.", yetki: "Bu işlem için lider olmalısın.", banli: "Hesabın kısıtlı.", slow: "Biraz yavaş yaz.", yok: "Bulunamadı." };
-const klErr = m => KL_ERR[m] || (m.startsWith("bekle") ? "Biraz bekle: " + m.split(":")[1] + " dk." : m.startsWith("susturuldu") ? "Susturuldun." : "Hata: " + m);
+const KL_ERR = { klanda: T("Zaten bir klandasın."), "klanda degil": T("Bir klanda değilsin."), isim: T("İsim 3-16 harf/rakam olmalı."), etiket: T("Etiket 2-4 harf/rakam olmalı."), amblem: T("Bir amblem seç."), kufur: T("Uygunsuz kelime var."), link: T("Bağlantı olamaz."), "isim dolu": T("Bu klan ismi alınmış."), "etiket dolu": T("Bu etiket alınmış."), "para yetmiyor": T("Paran yetmiyor ($") + KL_COST + ").", kapali: T("Bu klan katılıma kapalı."), dolu: T("Klan dolu (5/5)."), yasakli: T("Bu klandan 1 saat yasaklısın."), yetki: T("Bu işlem için lider olmalısın."), banli: T("Hesabın kısıtlı."), slow: T("Biraz yavaş yaz."), yok: T("Bulunamadı.") };
+const klErr = m => KL_ERR[m] || (m.startsWith("bekle") ? T("Biraz bekle: ") + m.split(":")[1] + T(" dk.") : m.startsWith("susturuldu") ? T("Susturuldun.") : T("Hata: ") + m);
 async function klCall(fn, args) { const r = await sb.rpc(fn, args || {}); if (r.error) { toast(klErr(r.error.message || "")); return null; } return { d: r.data }; }
-const klWhen = x => new Date(x).toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+const klWhen = x => new Date(x).toLocaleString(LOC, { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
 const klPw = n => { const c = mkEl("span", "cchip"); c.innerHTML = BOLT + "<b>" + fmt(n) + "</b>"; c.style.color = "#ffd98a"; return c; };
 function klArm(btn, label, fn) {
   btn.onclick = () => { if (btn.dataset.arm) { fn(); return; } btn.dataset.arm = 1; const old = btn.textContent; btn.textContent = label; btn.classList.add("arm"); setTimeout(() => { if (btn.isConnected) { delete btn.dataset.arm; btn.textContent = old; btn.classList.remove("arm"); } }, 3000); };
 }
 function klStopRT() { if (klCh) { sb.removeChannel(klCh); klCh = null; } }
 async function klanLoad() { const r = await sb.rpc("clan_view", { p_id: null }); if (!r.error) klan = r.data || null; else if (klan === undefined) klan = null; }
-async function openClan() { klView = null; $("#clan").classList.add("on"); $("#clanBody").innerHTML = '<div class="empty">Yükleniyor...</div>'; await klanLoad(); if (!klan) klTab = "chat"; renderClan(); }
+async function openClan() { klView = null; $("#clan").classList.add("on"); $("#clanBody").innerHTML = T('<div class="empty">Yükleniyor...</div>'); await klanLoad(); if (!klan) klTab = "chat"; renderClan(); }
 async function openClanView(id) {
   if (klan === undefined) await klanLoad();
   if (klan && klan.id === id) { klView = null; klTab = "mem"; $("#clan").classList.add("on"); renderClan(); return; }
-  const r = await sb.rpc("clan_view", { p_id: id }); if (r.error || !r.data) return toast("Klan bulunamadı.");
+  const r = await sb.rpc("clan_view", { p_id: id }); if (r.error || !r.data) return toast(T("Klan bulunamadı."));
   klView = r.data; klTab = "mem"; $("#clan").classList.add("on"); renderClan();
 }
 function closeClan() { $("#clan").classList.remove("on"); klStopRT(); klView = null; klTok++; }
 function renderClan() {
   const b = $("#clanBody"); b.innerHTML = ""; klStopRT(); const tok = ++klTok;
-  const c = klView || klan; if (!c) { $("#clanT").textContent = "Klan"; return renderNoClan(b); }
+  const c = klView || klan; if (!c) { $("#clanT").textContent = T("Klan"); return renderNoClan(b); }
   $("#clanT").textContent = c.name; const mine = !!c.mine;
   const hero = mkEl("div", "chero"); hero.style.setProperty("--c1", CL_EMB[c.emblem % 8][0]);
-  const inf = mkEl("div", "chi"), row = mkEl("div", "chr"); row.append(mkEl("span", "ctag", "[" + c.tag + "]"), klPw(c.power), mkEl("span", "cchip", c.count + "/5 üye"));
+  const inf = mkEl("div", "chi"), row = mkEl("div", "chr"); row.append(mkEl("span", "ctag", "[" + c.tag + "]"), klPw(c.power), mkEl("span", "cchip", c.count + T("/5 üye")));
   inf.append(mkEl("b", null, c.name), row); hero.append(emblem(c.emblem, 56), inf); b.append(hero);
-  const tabs = mine ? [["chat", "Sohbet"], ["mem", "Üyeler"], ["inf", "Bilgi"]] : [["mem", "Üyeler"], ["inf", "Bilgi"]];
+  const tabs = mine ? [["chat", T("Sohbet")], ["mem", T("Üyeler")], ["inf", T("Bilgi")]] : [["mem", T("Üyeler")], ["inf", T("Bilgi")]];
   if (!tabs.some(x => x[0] === klTab)) klTab = tabs[0][0];
   const seg = mkEl("div", "cseg"); tabs.forEach(([k, l]) => { const t = mkEl("button", klTab === k ? "on" : "", l); t.onclick = () => { klTab = k; renderClan(); }; seg.append(t); }); b.append(seg);
   if (klTab === "chat") renderClanChat(b, c, tok); else if (klTab === "mem") renderClanMem(b, c, mine); else renderClanInf(b, c, mine);
 }
 function renderNoClan(b) {
-  const w = mkEl("div", "cnone"); w.append(emblem(0, 84), mkEl("h3", null, "Klanın yok"), mkEl("p", null, "Arkadaşlarınla klan kur ya da bir klana katıl. Klanlar en fazla 5 kişiden oluşur, kendi sohbeti vardır ve toplam güçleriyle sıralamada yarışır."));
-  const k = mkEl("button", "cbtn gold", "Klan kur  ·  $" + KL_COST); k.onclick = openClanNew;
-  const f = mkEl("button", "cbtn blue", "Klan bul"); f.onclick = () => { closeClan(); openRankClans(); };
+  const w = mkEl("div", "cnone"); w.append(emblem(0, 84), mkEl("h3", null, T("Klanın yok")), mkEl("p", null, T("Arkadaşlarınla klan kur ya da bir klana katıl. Klanlar en fazla 5 kişiden oluşur, kendi sohbeti vardır ve toplam güçleriyle sıralamada yarışır.")));
+  const k = mkEl("button", "cbtn gold", T("Klan kur  ·  $") + KL_COST); k.onclick = openClanNew;
+  const f = mkEl("button", "cbtn blue", T("Klan bul")); f.onclick = () => { closeClan(); openRankClans(); };
   w.append(k, f); b.append(w);
 }
 async function renderClanChat(b, c, tok) {
-  const list = mkEl("div", "clist"), bar = mkEl("div", "cmp"), inp = mkEl("input", "in"), snd = mkEl("button", "send", "Gönder");
-  inp.maxLength = 200; inp.placeholder = "Klana yaz"; inp.autocomplete = "off"; bar.append(inp, snd); b.append(list, bar);
+  const list = mkEl("div", "clist"), bar = mkEl("div", "cmp"), inp = mkEl("input", "in"), snd = mkEl("button", "send", T("Gönder"));
+  inp.maxLength = 200; inp.placeholder = T("Klana yaz"); inp.autocomplete = "off"; bar.append(inp, snd); b.append(list, bar);
   const seen = new Set();
   const add = m => {
     if (!m || seen.has(m.id) || (blocked && m.user_id !== me.id && blocked.has(m.user_id))) return; seen.add(m.id);
     const e = list.querySelector(".empty"); if (e) e.remove();
     const row = mkEl("div", "m" + (m.user_id === me.id ? " me" : "")), h = mkEl("div", "mh"), nw = mkEl("span", "nw");
-    if (m.vip) nw.append(vipBadge()); nw.append(mkEl("span", "n", m.nick));
-    h.append(nw, mkEl("span", "tm", new Date(m.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })));
+    if (m.vip) nw.append(vipBadge()); { const nn = mkEl("span", "n tap", m.nick); nn.onclick = () => openProfile(m.user_id, m.nick); nw.append(nn); }
+    h.append(nw, mkEl("span", "tm", new Date(m.created_at).toLocaleTimeString(LOC, { hour: "2-digit", minute: "2-digit" })));
     row.append(h, mkEl("div", "t", m.body)); list.append(row); while (list.children.length > 40) list.firstChild.remove(); list.scrollTop = list.scrollHeight;
   };
   const { data, error } = await sb.from("clan_messages").select("id,user_id,nick,body,created_at,vip").order("created_at", { ascending: false }).limit(20);
   if (tok !== klTok) return;
-  if (error) list.innerHTML = '<div class="empty">Mesajlar yüklenemedi.</div>'; else if (!data.length) list.innerHTML = '<div class="empty">Henüz mesaj yok. Klana ilk mesajı sen yaz.</div>'; else data.reverse().forEach(add);
+  if (error) list.innerHTML = T('<div class="empty">Mesajlar yüklenemedi.</div>'); else if (!data.length) list.innerHTML = T('<div class="empty">Henüz mesaj yok. Klana ilk mesajı sen yaz.</div>'); else data.reverse().forEach(add);
   list.scrollTop = list.scrollHeight;
   klCh = sb.channel("klan-" + c.id).on("postgres_changes", { event: "INSERT", schema: "public", table: "clan_messages", filter: "clan_id=eq." + c.id }, p => add(p.new)).subscribe();
   let sending = false;
@@ -1835,60 +1900,60 @@ function renderClanMem(b, c, mine) {
     const r = mkEl("div", "cm" + (m.id === me.id ? " me" : "") + (m.leader ? " ld" : "")), tx = mkEl("div", "cmn"), nm = mkEl("b");
     if (m.leader) { const cr = mkEl("span"); cr.innerHTML = '<svg class="ic sm" viewBox="0 0 24 24" style="color:#fbbf24;fill:#fbbf24;stroke:#78350f"><path d="M5 17l-1-9 5 4 3-6 3 6 5-4-1 9z"/></svg>'; nm.append(cr); }
     if (m.vip) nm.append(vipBadge()); nm.append(m.nick); if (on.has(m.id)) nm.append(mkEl("span", "cdot2"));
-    tx.append(nm, mkEl("small", null, (m.leader ? "Lider" : "Üye") + " · " + (m.id === me.id ? "Sen" : on.has(m.id) ? "Çevrimiçi" : "Katıldı " + klWhen(m.joined))));
-    r.append(mkEl("span", "cmr", String(i + 1)), tx, klPw(m.power));
+    tx.append(nm, mkEl("small", null, (m.leader ? T("Lider") : T("Üye")) + " · " + (m.id === me.id ? T("Sen") : on.has(m.id) ? T("Çevrimiçi") : T("Katıldı ") + klWhen(m.joined))));
+    r.append(mkEl("span", "cmr", String(i + 1)), tx, klPw(m.power)); r.style.cursor = "pointer"; r.onclick = () => openProfile(m.id, m.nick);
     if (lead && m.id !== me.id) {
-      const pr = mkEl("button", "cbtn gold sm", "Lider yap"), ki = mkEl("button", "cbtn red sm", "At"), ac = mkEl("div", "cact");
-      klArm(pr, "Emin misin?", async () => { if (await klCall("clan_promote", { p_user: m.id })) { await klanLoad(); renderClan(); } });
-      klArm(ki, "Emin misin?", async () => { if (await klCall("clan_kick", { p_user: m.id })) { await klanLoad(); renderClan(); } });
+      const pr = mkEl("button", "cbtn gold sm", T("Lider yap")), ki = mkEl("button", "cbtn red sm", T("At")), ac = mkEl("div", "cact");
+      klArm(pr, T("Emin misin?"), async () => { if (await klCall("clan_promote", { p_user: m.id })) { await klanLoad(); renderClan(); } });
+      klArm(ki, T("Emin misin?"), async () => { if (await klCall("clan_kick", { p_user: m.id })) { await klanLoad(); renderClan(); } });
       ac.append(pr, ki); const box = mkEl("div"); box.append(r, ac); wrap.append(box); return;
     }
     wrap.append(r);
   });
-  for (let i = c.members.length; i < 5; i++) { const e = mkEl("div", "cm"); e.style.opacity = ".45"; e.append(mkEl("span", "cmr", String(i + 1)), mkEl("div", "cmn", "Boş yer")); wrap.append(e); }
+  for (let i = c.members.length; i < 5; i++) { const e = mkEl("div", "cm"); e.style.opacity = ".45"; e.append(mkEl("span", "cmr", String(i + 1)), mkEl("div", "cmn", T("Boş yer"))); wrap.append(e); }
   b.append(wrap);
 }
 async function renderClanInf(b, c, mine) {
   const w = mkEl("div", "cinf"), lead = mine && c.leader === me.id; b.append(w);
-  const g = mkEl("div", "cgrid"); [["Toplam güç", fmt(c.power)], ["Üye", c.count + "/5"], ["Katılım", c.open ? "Açık" : "Kapalı"]].forEach(([k, v]) => { const d = mkEl("div"); d.append(mkEl("small", null, k), mkEl("b", null, v)); g.append(d); }); w.append(g);
-  const ds = mkEl("div", "cbox", c.descr || "Açıklama yok."); w.append(ds);
+  const g = mkEl("div", "cgrid"); [[T("Toplam güç"), fmt(c.power)], [T("Üye"), c.count + "/5"], [T("Katılım"), c.open ? T("Açık") : T("Kapalı")]].forEach(([k, v]) => { const d = mkEl("div"); d.append(mkEl("small", null, k), mkEl("b", null, v)); g.append(d); }); w.append(g);
+  const ds = mkEl("div", "cbox", c.descr || T("Açıklama yok.")); w.append(ds);
   if (lead) {
-    const inp = mkEl("input", "in csrch"); inp.maxLength = 80; inp.value = c.descr || ""; inp.placeholder = "Klan açıklaması"; inp.style.width = "100%"; inp.style.margin = "10px 0 0";
-    const sv = mkEl("button", "cbtn blue", "Açıklamayı kaydet"); sv.style.marginTop = "8px"; sv.onclick = async () => { if (await klCall("clan_edit", { p_descr: inp.value, p_open: c.open })) { toast("Kaydedildi."); await klanLoad(); renderClan(); } };
-    const tg = mkEl("button", "cbtn " + (c.open ? "gold" : "red"), "Katılım: " + (c.open ? "Açık (kapat)" : "Kapalı (aç)")); tg.style.marginTop = "8px"; tg.onclick = async () => { if (await klCall("clan_edit", { p_descr: c.descr, p_open: !c.open })) { await klanLoad(); renderClan(); } };
+    const inp = mkEl("input", "in csrch"); inp.maxLength = 80; inp.value = c.descr || ""; inp.placeholder = T("Klan açıklaması"); inp.style.width = "100%"; inp.style.margin = "10px 0 0";
+    const sv = mkEl("button", "cbtn blue", T("Açıklamayı kaydet")); sv.style.marginTop = "8px"; sv.onclick = async () => { if (await klCall("clan_edit", { p_descr: inp.value, p_open: c.open })) { toast(T("Kaydedildi.")); await klanLoad(); renderClan(); } };
+    const tg = mkEl("button", "cbtn " + (c.open ? "gold" : "red"), T("Katılım: ") + (c.open ? T("Açık (kapat)") : T("Kapalı (aç)"))); tg.style.marginTop = "8px"; tg.onclick = async () => { if (await klCall("clan_edit", { p_descr: c.descr, p_open: !c.open })) { await klanLoad(); renderClan(); } };
     w.append(inp, sv, tg);
   }
   if (!mine) {
-    const jn = mkEl("button", "cbtn", klan ? "Zaten bir klandasın" : !c.open ? "Katılıma kapalı" : c.count >= 5 ? "Klan dolu" : "Klana katıl");
+    const jn = mkEl("button", "cbtn", klan ? T("Zaten bir klandasın") : !c.open ? T("Katılıma kapalı") : c.count >= 5 ? T("Klan dolu") : T("Klana katıl"));
     jn.style.marginTop = "12px"; jn.disabled = !!klan || !c.open || c.count >= 5;
-    jn.onclick = async () => { if (klBusy) return; klBusy = true; const r = await klCall("clan_join", { p_id: c.id }); klBusy = false; if (r) { await klanLoad(); klView = null; klTab = "chat"; toast("Klana katıldın!"); renderClan(); } };
+    jn.onclick = async () => { if (klBusy) return; klBusy = true; const r = await klCall("clan_join", { p_id: c.id }); klBusy = false; if (r) { await klanLoad(); klView = null; klTab = "chat"; toast(T("Klana katıldın!")); renderClan(); } };
     w.append(jn); return;
   }
-  const lh = mkEl("div", "sec", "Olaylar"); lh.style.margin = "16px 0 4px"; w.append(lh);
-  const lg = mkEl("div", "cbox"); lg.style.paddingTop = "4px"; lg.innerHTML = "Yükleniyor..."; w.append(lg);
-  const lv = mkEl("button", "cbtn red", "Klandan ayrıl"); lv.style.marginTop = "14px";
-  klArm(lv, "Emin misin? Tekrar dokun", async () => { if (await klCall("clan_leave")) { klan = null; klView = null; toast("Klandan ayrıldın."); renderClan(); } });
+  const lh = mkEl("div", "sec", T("Olaylar")); lh.style.margin = "16px 0 4px"; w.append(lh);
+  const lg = mkEl("div", "cbox"); lg.style.paddingTop = "4px"; lg.innerHTML = T("Yükleniyor..."); w.append(lg);
+  const lv = mkEl("button", "cbtn red", T("Klandan ayrıl")); lv.style.marginTop = "14px";
+  klArm(lv, T("Emin misin? Tekrar dokun"), async () => { if (await klCall("clan_leave")) { klan = null; klView = null; toast(T("Klandan ayrıldın.")); renderClan(); } });
   w.append(lv);
   const { data } = await sb.from("clan_log").select("kind,a,b,created_at").order("id", { ascending: false }).limit(30);
   const col = { kurdu: "#fbbf24", katildi: "#34d399", ayrildi: "#fb923c", atildi: "#ef4444", lider: "#60a5fa" };
-  const tx = l => l.kind === "kurdu" ? l.a + " klanı kurdu" : l.kind === "katildi" ? l.a + " klana katıldı" : l.kind === "ayrildi" ? l.a + " klandan ayrıldı" : l.kind === "atildi" ? l.a + ", " + l.b + " tarafından atıldı" : l.b ? l.a + " lider oldu (" + l.b + " devretti)" : l.a + " lider oldu";
-  lg.innerHTML = ""; if (!data || !data.length) lg.textContent = "Henüz olay yok.";
+  const tx = l => l.kind === "kurdu" ? l.a + T(" klanı kurdu") : l.kind === "katildi" ? l.a + T(" klana katıldı") : l.kind === "ayrildi" ? l.a + T(" klandan ayrıldı") : l.kind === "atildi" ? Tf("{a}, {b} tarafından atıldı", { a: l.a, b: l.b }) : l.b ? Tf("{a} lider oldu ({b} devretti)", { a: l.a, b: l.b }) : Tf("{a} lider oldu", { a: l.a });
+  lg.innerHTML = ""; if (!data || !data.length) lg.textContent = T("Henüz olay yok.");
   else data.forEach(l => { const r = mkEl("div", "clog"), d = mkEl("i"), t = mkEl("div"); d.style.background = col[l.kind] || "#999"; t.append(tx(l), mkEl("small", null, klWhen(l.created_at))); r.append(d, t); lg.append(r); });
 }
 function openClanNew() {
   const box = $("#clanNewBox"); box.innerHTML = ""; let emb = 0;
   const nm = mkEl("input", "in"), tg = mkEl("input", "in"), ds = mkEl("input", "in"), er = mkEl("div", "err"), eb = mkEl("div", "cemb");
-  nm.maxLength = 16; nm.placeholder = "Klan adı (3-16)"; tg.maxLength = 4; tg.placeholder = "Etiket (2-4, örn. IOZ)"; tg.style.textTransform = "uppercase"; ds.maxLength = 80; ds.placeholder = "Kısa açıklama (isteğe bağlı)";
+  nm.maxLength = 16; nm.placeholder = T("Klan adı (3-16)"); tg.maxLength = 4; tg.placeholder = T("Etiket (2-4, örn. IOZ)"); tg.style.textTransform = "uppercase"; ds.maxLength = 80; ds.placeholder = T("Kısa açıklama (isteğe bağlı)");
   for (let i = 0; i < 8; i++) { const bt = mkEl("button", i === 0 ? "on" : ""); bt.append(emblem(i, 34)); bt.onclick = () => { emb = i; [...eb.children].forEach((x, k) => x.classList.toggle("on", k === i)); }; eb.append(bt); }
-  const go = mkEl("button", "cbtn gold", "Klanı kur  ·  $" + KL_COST), cn = mkEl("button", "dlater", "Vazgeç"); go.style.marginTop = "12px";
+  const go = mkEl("button", "cbtn gold", T("Klanı kur  ·  $") + KL_COST), cn = mkEl("button", "dlater", T("Vazgeç")); go.style.marginTop = "12px";
   cn.onclick = () => $("#clanNew").classList.remove("on");
   go.onclick = async () => {
-    if (klBusy) return; if (me.money < KL_COST) { er.textContent = "Paran yetmiyor ($" + KL_COST + ")."; return; }
+    if (klBusy) return; if (me.money < KL_COST) { er.textContent = T("Paran yetmiyor ($") + KL_COST + ")."; return; }
     klBusy = true; go.disabled = true; const r = await sb.rpc("clan_create", { p_name: nm.value, p_tag: tg.value, p_emblem: emb, p_descr: ds.value }); klBusy = false; go.disabled = false;
     if (r.error) { er.textContent = klErr(r.error.message || ""); return; }
-    me.money = Math.max(0, me.money - KL_COST); setMoney(); $("#clanNew").classList.remove("on"); klTab = "chat"; toast("Klan kuruldu!"); await klanLoad(); $("#clan").classList.add("on"); renderClan();
+    me.money = Math.max(0, me.money - KL_COST); setMoney(); $("#clanNew").classList.remove("on"); klTab = "chat"; toast(T("Klan kuruldu!")); await klanLoad(); $("#clan").classList.add("on"); renderClan();
   };
-  box.append(mkEl("h2", null, "Klan kur"), mkEl("label", null, "Ad"), nm, mkEl("label", null, "Etiket"), tg, mkEl("label", null, "Amblem"), eb, mkEl("label", null, "Açıklama"), ds, er, go, cn);
+  box.append(mkEl("h2", null, T("Klan kur")), mkEl("label", null, T("Ad")), nm, mkEl("label", null, T("Etiket")), tg, mkEl("label", null, T("Amblem")), eb, mkEl("label", null, T("Açıklama")), ds, er, go, cn);
   $("#clanNew").classList.add("on");
 }
 /* Sıralama: Oyuncular / Klanlar */
@@ -1905,13 +1970,13 @@ async function loadClanRank() {
 }
 function renderClanRank() {
   const box = $("#clanRank"), keep = document.activeElement && document.activeElement.id === "klSrch"; box.innerHTML = "";
-  const sr = mkEl("input", "in csrch"); sr.id = "klSrch"; sr.placeholder = "Klan adı veya etiket ara"; sr.value = klQ; sr.maxLength = 20; let tm;
+  const sr = mkEl("input", "in csrch"); sr.id = "klSrch"; sr.placeholder = T("Klan adı veya etiket ara"); sr.value = klQ; sr.maxLength = 20; let tm;
   sr.oninput = () => { clearTimeout(tm); tm = setTimeout(() => { klQ = sr.value.trim(); loadClanRank(); }, 450); }; box.append(sr);
-  if (!klan) { const k = mkEl("button", "cbtn gold", "Klan kur  ·  $" + KL_COST); k.style.cssText = "margin:10px 14px 0;width:calc(100% - 28px)"; k.onclick = openClanNew; box.append(k); }
-  if (!klRank.length) box.append(mkEl("div", "empty", klQ ? "Klan bulunamadı." : "Henüz klan yok. İlk klanı sen kur."));
+  if (!klan) { const k = mkEl("button", "cbtn gold", T("Klan kur  ·  $") + KL_COST); k.style.cssText = "margin:10px 14px 0;width:calc(100% - 28px)"; k.onclick = openClanNew; box.append(k); }
+  if (!klRank.length) box.append(mkEl("div", "empty", klQ ? T("Klan bulunamadı.") : T("Henüz klan yok. İlk klanı sen kur.")));
   klRank.forEach(c => {
-    const r = mkEl("button", "crow"), tx = mkEl("div", "cmn"), st = c.o_count >= 5 ? "Dolu" : c.o_open ? "Açık" : "Kapalı";
-    tx.append(mkEl("b", null, c.o_name), mkEl("small", null, "[" + c.o_tag + "] · " + c.o_count + "/5 üye · " + st));
+    const r = mkEl("button", "crow"), tx = mkEl("div", "cmn"), st = c.o_count >= 5 ? T("Dolu") : c.o_open ? T("Açık") : T("Kapalı");
+    tx.append(mkEl("b", null, c.o_name), mkEl("small", null, "[" + c.o_tag + "] · " + c.o_count + T("/5 üye · ") + st));
     r.append(mkEl("span", "cmr", "#" + c.o_rank), emblem(c.o_emblem, 34), tx, klPw(Number(c.o_power))); r.onclick = () => openClanView(c.o_id); box.append(r);
   });
   if (keep) { sr.focus(); sr.setSelectionRange(sr.value.length, sr.value.length); }
@@ -1921,6 +1986,31 @@ $("#klanBtn").onclick = openClan; $("#clanClose").onclick = closeClan;
 $("#clan").addEventListener("click", e => { if (e.target.id === "clan") closeClan(); });
 $("#clanNew").addEventListener("click", e => { if (e.target.id === "clanNew") $("#clanNew").classList.remove("on"); });
 
+/* ===== OYUNCU PROFİLİ ===== */
+async function openProfile(id, nick) {
+  if (!id) return; const ov = $("#plP"), box = $("#plBox"); box.innerHTML = T('<div class="empty">Yükleniyor...</div>'); ov.classList.add("on");
+  const close = () => ov.classList.remove("on");
+  const r = await sb.rpc("player_profile", { p_id: id });
+  box.innerHTML = "";
+  if (r.error || !r.data) {
+    const cb = mkEl("button", "btn o", T("Kapat")); cb.onclick = close;
+    box.append(mkEl("h2", null, nick || T("Oyuncu")), mkEl("p", "dsub", r.error ? T("Profil yüklenemedi. Biraz sonra tekrar dene.") : T("Bu oyuncunun profili görüntülenemiyor.")), cb); return;
+  }
+  const p = r.data, av = mkEl("div", "pav", String(p.nick || "?")[0].toUpperCase());
+  av.style.background = COLORS[[...p.id].reduce((a, c) => a + c.charCodeAt(0), 0) % COLORS.length];
+  const nm = mkEl("h2"); if (p.vip) nm.append(vipBadge()); nm.append(" " + p.nick);
+  const pw = mkEl("div", "ppw"), pi = mkEl("div"); pw.innerHTML = BOLT; pi.append(mkEl("small", null, T("GÜÇ")), mkEl("div", null, fmt(Number(p.power)))); pw.append(pi);
+  box.append(av, nm, pw);
+  if (me && p.id === me.id) box.append(mkEl("p", "dsub", T("Bu sensin.")));
+  if (p.clan) {
+    const c = p.clan, row = mkEl("button", "crow"), tx = mkEl("div", "cmn");
+    row.style.cssText = "margin:8px 0 0;width:100%"; tx.append(mkEl("b", null, c.name), mkEl("small", null, "[" + c.tag + "] · " + (c.leader ? T("Lider") : T("Üye")) + " · " + c.count + T("/5 üye")));
+    row.append(emblem(c.emblem, 38), tx, mkEl("span", "cmr", "›")); row.onclick = () => { close(); openClanView(c.id); }; box.append(row);
+  } else box.append(mkEl("div", "cbox", T("Klanı yok.")));
+  const cb = mkEl("button", "btn o", T("Kapat")); cb.style.marginTop = "12px"; cb.onclick = close; box.append(cb);
+}
+$("#plP").addEventListener("click", e => { if (e.target.id === "plP") $("#plP").classList.remove("on"); });
+
 /* ---- döngü ---- */
 function gameTick() {
   if (!me) return;
@@ -1928,7 +2018,7 @@ function gameTick() {
   if (min !== lastMin) { lastMin = min; renderClock(tod); updBoost(); }
   psTick(now, over);
   if (over !== lastOver) {
-    if (lastOver !== null && over) toast("Dükkan kapandı.");
+    if (lastOver !== null && over) toast(T("Dükkan kapandı."));
     lastOver = over; if (over) { q = []; ghosts = []; lastMsg = ""; nextArr = 0; }
     renderClock(tod); renderCard(); renderDay();
   }
@@ -1962,7 +2052,7 @@ function gameTick() {
   if (gone.length) {
     q = q.filter(e => e.until > now);
     gone.forEach(() => { rep = Math.max(1, rep - (cleaner ? 0.025 : 0.05)); bg(sb.rpc("report_walkout", { p_kind: "bekledi" })); });
-    lastMsg = gone[0].name + " beklemekten sıkılıp gitti."; renderCard(); renderClock(tod);
+    lastMsg = gone[0].name + T(" beklemekten sıkılıp gitti."); renderCard(); renderClock(tod);
   }
   const gh = ghosts.length; ghosts = ghosts.filter(g => g.until > now); if (ghosts.length !== gh) renderCard();
 }
@@ -1976,25 +2066,25 @@ document.addEventListener("visibilitychange", () => {
 /* ---- dükkan ---- */
 function renderShop() {
   const body = $("#shopBody"); body.innerHTML = "";
-  if (!models.length) { body.innerHTML = '<div class="empty">Ürünler yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>'; return; }
+  if (!models.length) { body.innerHTML = T('<div class="empty">Ürünler yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>'); return; }
   const w = mkEl("div", "wallet"), b1 = mkEl("b", null, "$" + fmt(me.money)), b2 = mkEl("b", null, (slots - stations.length) + "/" + slots);
-  w.append("Paran: ", b1, "  ·  Boş masa: ", b2); body.append(w);
+  w.append(T("Paran: "), b1, T("  ·  Boş masa: "), b2); body.append(w);
   const base = models.find(m => m.tier === 1);
   if (base) {
     const r = mkEl("div", "pr"), tx = mkEl("div", "pt"), st = mkEl("div", "stars");
     st.innerHTML = starsHtml(base.tier);
-    tx.append(mkEl("b", null, base.name), st, mkEl("small", null, "Saatlik $" + r1(base.rate) + " · Başlangıç modeli"));
+    tx.append(mkEl("b", null, base.name), st, mkEl("small", null, T("Saatlik $") + r1(base.rate) + T(" · Başlangıç modeli")));
     const b = mkEl("button", "pbtn", "$" + fmt(base.price));
-    if (stations.length >= slots) { b.textContent = "Masa yok"; b.disabled = true; }
+    if (stations.length >= slots) { b.textContent = T("Masa yok"); b.disabled = true; }
     else if (me.money < base.price) b.disabled = true;
     else b.onclick = () => buy(base);
     r.append(pcImg(base.tier, "pi"), tx, b); body.append(r);
   }
-  body.append(mkEl("p", "note2", "Daha güçlü modeller dükkandan alınmaz. Ana ekranda masana dokunup bir üst modele yükselt."));
-  body.append(mkEl("div", "wallet", "Yükseltme yolu"));
+  body.append(mkEl("p", "note2", T("Daha güçlü modeller dükkandan alınmaz. Ana ekranda masana dokunup bir üst modele yükselt.")));
+  body.append(mkEl("div", "wallet", T("Yükseltme yolu")));
   models.filter(m => m.tier > 1).forEach(m => {
     const r = mkEl("div", "pr info"), tx = mkEl("div", "pt");
-    tx.append(mkEl("b", null, m.name), mkEl("small", null, "Saatlik $" + r1(m.rate) + (reqs.filter(x => x.min_tier === m.tier).length ? " · Yeni müşteri: " + reqs.filter(x => x.min_tier === m.tier).map(x => x.label).join(", ") : "")));
+    tx.append(mkEl("b", null, m.name), mkEl("small", null, T("Saatlik $") + r1(m.rate) + (reqs.filter(x => x.min_tier === m.tier).length ? T(" · Yeni müşteri: ") + reqs.filter(x => x.min_tier === m.tier).map(x => T(x.label)).join(", ") : "")));
     r.append(pcImg(m.tier, "pi"), tx, mkEl("span", "upg", "$" + fmt(m.upg_price))); body.append(r);
   });
 }
@@ -2007,80 +2097,80 @@ function mkRow(o) {
 }
 function renderGel() {
   const body = $("#gelBody"); body.innerHTML = "";
-  if (!levels.length) { body.innerHTML = '<div class="empty">Veri yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>'; return; }
-  const w = mkEl("div", "wallet"); w.append("Paran: ", mkEl("b", null, "$" + fmt(me.money)), "  ·  Kapasite: ", mkEl("b", null, slots + " bilgisayar")); body.append(w);
+  if (!levels.length) { body.innerHTML = T('<div class="empty">Veri yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>'); return; }
+  const w = mkEl("div", "wallet"); w.append(T("Paran: "), mkEl("b", null, "$" + fmt(me.money)), T("  ·  Kapasite: "), mkEl("b", null, slots + T(" bilgisayar"))); body.append(w);
   const nx = levels.find(l => l.level === level + 1);
   const r = mkEl("div", "pr"), ic = mkEl("span", "gi"), tx = mkEl("div", "pt");
   ic.className = "gi gimg"; ic.innerHTML = '<img src="' + IC.store + '" alt="">';
-  tx.append(mkEl("b", null, "Dükkanını büyüt"), mkEl("small", null, nx ? "Kapasite " + slots + " → " + nx.slots + " bilgisayar" : "En üst seviyedesin: " + slots + " bilgisayar"));
+  tx.append(mkEl("b", null, T("Dükkanını büyüt")), mkEl("small", null, nx ? T("Kapasite ") + slots + " → " + nx.slots + T(" bilgisayar") : T("En üst seviyedesin: ") + slots + T(" bilgisayar")));
   const dots = mkEl("div", "lv"); levels.forEach(l => dots.append(mkEl("span", l.level <= level ? "on" : "", String(l.slots)))); tx.append(dots);
-  const b = mkEl("button", "pbtn", nx ? "$" + fmt(nx.price) : "Maksimum");
+  const b = mkEl("button", "pbtn", nx ? "$" + fmt(nx.price) : T("Maksimum"));
   if (!nx || me.money < nx.price) b.disabled = true; else b.onclick = expand;
   r.append(ic, tx, b); body.append(r);
-  body.append(mkEl("p", "note2", "Büyük dükkan daha çok müşteri çeker. Personel maaşları da dükkan büyüdükçe artar."));
-  body.append(mkEl("div", "sec", "Otomatlar"));
-  const locked = level < MACHINE_LEVEL, lockLine = ["Dükkan seviye " + MACHINE_LEVEL + " (" + ((levels.find(l => l.level === MACHINE_LEVEL) || {}).slots || 20) + " masa) olunca kurulur", "warn2"];
-  body.append(mkRow({ icon: "i-snack", img: "vending", gi: "g3", title: "Atıştırmalık otomatı", lines: [["Müşteriler oyun arasında atıştırır: her ödemeye +%" + Math.round(FOOD_BONUS * 100) + " ek gelir."], vFood ? ["Kurulu", "ok2"] : locked ? lockLine : ["Bir kez kurulur, aylık gider yok."]],
-    btn: vFood ? "Kurulu" : locked ? "Kilitli" : "$" + fmt(FOOD_PRICE), btnCls: vFood ? "cur" : "", disabled: vFood || locked || me.money < FOOD_PRICE, onclick: () => buyMachine("food") }));
-  body.append(mkRow({ icon: "i-drink", img: "vending", title: "İçecek otomatı", lines: [["Soğuk içecek: her ödemeye +%" + Math.round(DRINK_BONUS * 100) + " ek gelir, müşteriler %25 daha sabırlı bekler."], vDrink ? ["Kurulu", "ok2"] : locked ? lockLine : ["Bir kez kurulur, aylık gider yok."]],
-    btn: vDrink ? "Kurulu" : locked ? "Kilitli" : "$" + fmt(DRINK_PRICE), btnCls: vDrink ? "cur" : "", disabled: vDrink || locked || me.money < DRINK_PRICE, onclick: () => buyMachine("drink") }));
-  body.append(mkEl("p", "note2", "Otomat geliri, müşteri ödemesi toplanırken otomatik eklenir. Çok müşteri = çok satış."));
+  body.append(mkEl("p", "note2", T("Büyük dükkan daha çok müşteri çeker. Personel maaşları da dükkan büyüdükçe artar.")));
+  body.append(mkEl("div", "sec", T("Otomatlar")));
+  const locked = level < MACHINE_LEVEL, lockLine = [T("Dükkan seviye ") + MACHINE_LEVEL + " (" + ((levels.find(l => l.level === MACHINE_LEVEL) || {}).slots || 20) + T(" masa) olunca kurulur"), "warn2"];
+  body.append(mkRow({ icon: "i-snack", img: "vending", gi: "g3", title: T("Atıştırmalık otomatı"), lines: [[T("Müşteriler oyun arasında atıştırır: her ödemeye +%") + Math.round(FOOD_BONUS * 100) + T(" ek gelir.")], vFood ? [T("Kurulu"), "ok2"] : locked ? lockLine : [T("Bir kez kurulur, aylık gider yok.")]],
+    btn: vFood ? T("Kurulu") : locked ? T("Kilitli") : "$" + fmt(FOOD_PRICE), btnCls: vFood ? "cur" : "", disabled: vFood || locked || me.money < FOOD_PRICE, onclick: () => buyMachine("food") }));
+  body.append(mkRow({ icon: "i-drink", img: "vending", title: T("İçecek otomatı"), lines: [[T("Soğuk içecek: her ödemeye +%") + Math.round(DRINK_BONUS * 100) + T(" ek gelir, müşteriler %25 daha sabırlı bekler.")], vDrink ? [T("Kurulu"), "ok2"] : locked ? lockLine : [T("Bir kez kurulur, aylık gider yok.")]],
+    btn: vDrink ? T("Kurulu") : locked ? T("Kilitli") : "$" + fmt(DRINK_PRICE), btnCls: vDrink ? "cur" : "", disabled: vDrink || locked || me.money < DRINK_PRICE, onclick: () => buyMachine("drink") }));
+  body.append(mkEl("p", "note2", T("Otomat geliri, müşteri ödemesi toplanırken otomatik eklenir. Çok müşteri = çok satış.")));
 }
 async function buyMachine(kind) {
   const { data, error } = await sb.rpc("buy_machine", { p_kind: kind });
-  if (error) return toast({ "para yetmiyor": "Paran yetmiyor.", "zaten var": "Bu otomat zaten kurulu.", "seviye": "Önce dükkanı seviye " + MACHINE_LEVEL + "'ye büyüt." }[error.message] || "Hata: " + error.message);
+  if (error) return toast({ "para yetmiyor": T("Paran yetmiyor."), "zaten var": T("Bu otomat zaten kurulu."), "seviye": T("Önce dükkanı seviye ") + MACHINE_LEVEL + T("'ye büyüt.") }[error.message] || T("Hata: ") + error.message);
   me.money = Number(data); setMoney(); if (kind === "food") vFood = true; else vDrink = true;
-  renderAll(); renderGel(); toast(kind === "food" ? "Atıştırmalık otomatı kuruldu." : "İçecek otomatı kuruldu.");
+  renderAll(); renderGel(); toast(kind === "food" ? T("Atıştırmalık otomatı kuruldu.") : T("İçecek otomatı kuruldu."));
 }
 async function expand() {
   const { data, error } = await sb.rpc("expand_shop");
-  if (error) return toast({ "para yetmiyor": "Paran yetmiyor.", "maksimum": "Dükkan zaten en büyük seviyede." }[error.message] || "Hata: " + error.message);
+  if (error) return toast({ "para yetmiyor": T("Paran yetmiyor."), "maksimum": T("Dükkan zaten en büyük seviyede.") }[error.message] || T("Hata: ") + error.message);
   const r = data[0]; me.money = Number(r.o_money); setMoney(); slots = r.o_slots; level = r.o_level; updAdBtn();
-  renderAll(); renderGel(); toast("Dükkan büyüdü: " + slots + " bilgisayar kapasitesi.");
+  renderAll(); renderGel(); toast(T("Dükkan büyüdü: ") + slots + T(" bilgisayar kapasitesi."));
 }
 function renderPer() {
   const body = $("#perBody"); body.innerHTML = "";
-  if (!levels.length) { body.innerHTML = '<div class="empty">Veri yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>'; return; }
-  const w = mkEl("div", "wallet"); w.append("Paran: ", mkEl("b", null, "$" + fmt(me.money)), "  ·  Günlük maaş: ", mkEl("b", null, "$" + fmt(staffWage()))); body.append(w);
+  if (!levels.length) { body.innerHTML = T('<div class="empty">Veri yüklenemedi. Supabase SQL dosyasını çalıştırdığından emin ol.</div>'); return; }
+  const w = mkEl("div", "wallet"); w.append(T("Paran: "), mkEl("b", null, "$" + fmt(me.money)), T("  ·  Günlük maaş: "), mkEl("b", null, "$" + fmt(staffWage()))); body.append(w);
   const S = [
-    { k: "cashier", on: cashier, fee: CASHIER_FEE, icon: "i-staff", img: "cashier", gi: "g2", title: "Kasiyer", lines: [["Müşterileri otomatik oturtur."]] },
-    { k: "cleaner", on: cleaner, fee: CLEANER_FEE, icon: "i-broom", img: "bucket", gi: "g3", title: "Temizlikçi", lines: [["Yıldız puanı her gün +0.08 yükselir."], ["Giden müşterinin puan cezası yarıya iner."]] },
-    { k: "manager", on: manager, fee: MANAGER_FEE, icon: "i-tie", img: "manager", gi: "g4", title: "Müdür", need: MACHINE_LEVEL, lines: [["Müşteriler %" + Math.round((MANAGER_ARR - 1) * 100) + " daha sık gelir."], ["Her seansta %" + Math.round((MANAGER_PAY - 1) * 100) + " fazla kazandırır."]] }
+    { k: "cashier", on: cashier, fee: CASHIER_FEE, icon: "i-staff", img: "cashier", gi: "g2", title: T("Kasiyer"), lines: [[T("Müşterileri otomatik oturtur.")]] },
+    { k: "cleaner", on: cleaner, fee: CLEANER_FEE, icon: "i-broom", img: "bucket", gi: "g3", title: T("Temizlikçi"), lines: [[T("Yıldız puanı her gün +0.08 yükselir.")], [T("Giden müşterinin puan cezası yarıya iner.")]] },
+    { k: "manager", on: manager, fee: MANAGER_FEE, icon: "i-tie", img: "manager", gi: "g4", title: T("Müdür"), need: MACHINE_LEVEL, lines: [[T("Müşteriler %") + Math.round((MANAGER_ARR - 1) * 100) + T(" daha sık gelir.")], [T("Her seansta %") + Math.round((MANAGER_PAY - 1) * 100) + T(" fazla kazandırır.")]] }
   ];
   S.forEach(o => {
     const locked = o.need && level < o.need, lines = o.lines.slice();
-    lines.push(["Maaş: $" + fmt(wageOf(o.k)) + " / gün, gün sonunda ödenir."]);
-    lines.push(o.on ? ["Çalışıyor", "ok2"] : locked ? ["Dükkan seviye " + o.need + " olunca işe alınır", "warn2"] : ["İşe alım: $" + fmt(o.fee)]);
-    body.append(mkRow({ icon: o.icon, img: o.img, gi: o.gi, title: o.title, lines, btn: o.on ? "Çıkar" : locked ? "Kilitli" : "İşe al", btnCls: o.on ? "out" : "", disabled: !o.on && (locked || me.money < o.fee), onclick: () => (o.on ? fireStaff(o.k) : hireStaff(o.k)) }));
+    lines.push([T("Maaş: $") + fmt(wageOf(o.k)) + T(" / gün, gün sonunda ödenir.")]);
+    lines.push(o.on ? [T("Çalışıyor"), "ok2"] : locked ? [T("Dükkan seviye ") + o.need + T(" olunca işe alınır"), "warn2"] : [T("İşe alım: $") + fmt(o.fee)]);
+    body.append(mkRow({ icon: o.icon, img: o.img, gi: o.gi, title: o.title, lines, btn: o.on ? T("Çıkar") : locked ? T("Kilitli") : T("İşe al"), btnCls: o.on ? "out" : "", disabled: !o.on && (locked || me.money < o.fee), onclick: () => (o.on ? fireStaff(o.k) : hireStaff(o.k)) }));
   });
-  body.append(mkEl("p", "note2", "Maaşı ödenemeyen personel işten ayrılır (önce müdür). Maaşlar dükkan büyüdükçe artar."));
+  body.append(mkEl("p", "note2", T("Maaşı ödenemeyen personel işten ayrılır (önce müdür). Maaşlar dükkan büyüdükçe artar.")));
 }
-const STAFF = { cashier: ["Kasiyer", "hire_cashier", "fire_cashier"], cleaner: ["Temizlikçi", "hire_cleaner", "fire_cleaner"], manager: ["Müdür", "hire_manager", "fire_manager"] };
+const STAFF = { cashier: [T("Kasiyer"), "hire_cashier", "fire_cashier"], cleaner: [T("Temizlikçi"), "hire_cleaner", "fire_cleaner"], manager: [T("Müdür"), "hire_manager", "fire_manager"] };
 function setStaff(k, v) { if (k === "cashier") cashier = v; else if (k === "cleaner") cleaner = v; else manager = v; }
 async function hireStaff(k) {
   const { data, error } = await sb.rpc(STAFF[k][1]);
-  if (error) return toast({ "para yetmiyor": "Paran yetmiyor.", "zaten var": STAFF[k][0] + " zaten çalışıyor.", "seviye": "Önce dükkanı seviye " + MACHINE_LEVEL + "'ye büyüt." }[error.message] || "Hata: " + error.message);
-  me.money = Number(data); setMoney(); setStaff(k, true); renderAll(); renderPer(); toast(STAFF[k][0] + " işe alındı.");
+  if (error) return toast({ "para yetmiyor": T("Paran yetmiyor."), "zaten var": STAFF[k][0] + T(" zaten çalışıyor."), "seviye": T("Önce dükkanı seviye ") + MACHINE_LEVEL + T("'ye büyüt.") }[error.message] || T("Hata: ") + error.message);
+  me.money = Number(data); setMoney(); setStaff(k, true); renderAll(); renderPer(); toast(STAFF[k][0] + T(" işe alındı."));
 }
 async function fireStaff(k) {
   const { error } = await sb.rpc(STAFF[k][2]);
-  if (error) return toast("Hata: " + error.message);
-  setStaff(k, false); renderAll(); renderPer(); toast(STAFF[k][0] + " işten çıkarıldı.");
+  if (error) return toast(T("Hata: ") + error.message);
+  setStaff(k, false); renderAll(); renderPer(); toast(STAFF[k][0] + T(" işten çıkarıldı."));
 }
 async function buy(m) {
   const { data, error } = await sb.rpc("buy_pc", { p_model: m.id });
-  if (error) return toast({ "para yetmiyor": "Paran yetmiyor.", "yer yok": "Boş masa yok. Bir bilgisayarı sat." }[error.message] || "Satın alınamadı: " + error.message);
+  if (error) return toast({ "para yetmiyor": T("Paran yetmiyor."), "yer yok": T("Boş masa yok. Bir bilgisayarı sat.") }[error.message] || T("Satın alınamadı: ") + error.message);
   const r = data[0]; me.money = Number(r.o_money); setMoney();
   stations.push({ slot: r.o_slot, model: m.id, req: null, hours: 0, pay: 0, end: 0, color: COLORS[0] });
-  stations.sort((a, b) => a.slot - b.slot); renderAll(); renderShop(); toast(m.name + " alındı.");
+  stations.sort((a, b) => a.slot - b.slot); renderAll(); renderShop(); toast(m.name + T(" alındı."));
 }
-const SV = { menu: ["Dükkan", "vMenu"], urun: ["Ürün al", "vUrun"], gel: ["Dükkan geliştir", "vGel"], per: ["Personel al", "vPer"], vip: ["VIP üyelik", "vVip"], ps: ["Oyun Salonu", "vPs"] };
+const SV = { menu: [T("Dükkan"), "vMenu"], urun: [T("Ürün al"), "vUrun"], gel: [T("Dükkan geliştir"), "vGel"], per: [T("Personel al"), "vPer"], vip: [T("VIP üyelik"), "vVip"], ps: [T("Oyun Salonu"), "vPs"] };
 let shopV = "menu";
 function shopView(v) {
   shopV = v;
   document.querySelectorAll("#shop .sv").forEach(e => e.classList.toggle("on", e.id === SV[v][1]));
   $("#shopTitle").textContent = SV[v][0];
-  $("#shopClose").textContent = v === "menu" ? "Kapat" : "Geri";
+  $("#shopClose").textContent = v === "menu" ? T("Kapat") : T("Geri");
   if (v === "urun") renderShop();
   if (v === "gel") renderGel();
   if (v === "per") renderPer();
@@ -2126,11 +2216,11 @@ function add(m) {
   const row = document.createElement("div");
   row.className = "m" + (m.user_id === me.id ? " me" : "");
   const h = document.createElement("div"); h.className = "mh";
-  const n = document.createElement("span"); n.className = "n"; n.textContent = m.nick;
+  const n = document.createElement("span"); n.className = "n tap"; n.textContent = m.nick; n.onclick = () => openProfile(m.user_id, m.nick); seenNote(m);
   const t = document.createElement("span"); t.className = "tm";
-  t.textContent = new Date(m.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+  t.textContent = new Date(m.created_at).toLocaleTimeString(LOC, { hour: "2-digit", minute: "2-digit" });
   const nw = document.createElement("span"); nw.className = "nw"; if (isVipMsg(m)) nw.append(vipBadge()); nw.append(n); nw.append(pwChip(m.user_id)); const rt = document.createElement("span"); rt.className = "rt"; rt.append(t);
-  if (me && m.user_id !== me.id) { const fl = document.createElement("button"); fl.className = "flag"; fl.setAttribute("aria-label", "Bildir veya engelle"); fl.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-flag"/></svg>'; fl.onclick = ev => { ev.stopPropagation(); openMsg(m); }; rt.append(fl); }
+  if (me && m.user_id !== me.id) { const fl = document.createElement("button"); fl.className = "flag"; fl.setAttribute("aria-label", T("Bildir veya engelle")); fl.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-flag"/></svg>'; fl.onclick = ev => { ev.stopPropagation(); openMsg(m); }; rt.append(fl); }
   h.append(nw, rt);
   const b = document.createElement("div"); b.className = "t"; b.textContent = m.body;
   row.dataset.u = m.user_id; row.append(h, b); list.append(row);
@@ -2144,8 +2234,8 @@ async function openChat() {
   const list = $("#list"); list.innerHTML = ""; seen.clear();
   let { data, error } = await sb.from("messages").select("id,user_id,nick,body,created_at,vip").order("created_at", { ascending: false }).limit(20);
   if (error) ({ data, error } = await sb.from("messages").select("id,user_id,nick,body,created_at").order("created_at", { ascending: false }).limit(20));
-  if (error) { list.innerHTML = '<div class="empty">Mesajlar yüklenemedi.</div>'; return; }
-  if (!data.length) list.innerHTML = '<div class="empty">Henüz mesaj yok. İlk mesajı sen yaz.</div>';
+  if (error) { list.innerHTML = T('<div class="empty">Mesajlar yüklenemedi.</div>'); return; }
+  if (!data.length) list.innerHTML = T('<div class="empty">Henüz mesaj yok. İlk mesajı sen yaz.</div>');
   data.reverse().forEach(add);
   list.scrollTop = list.scrollHeight;
 }
@@ -2162,7 +2252,7 @@ async function send() {
   if (error) {
     $("#msg").value = t; const em = error.message || "";
     if (em === "banli") onBanned();
-    else toast(em === "slow" ? "Çok hızlı yazıyorsun, biraz bekle." : em === "kufur" ? "Mesajında uygunsuz kelime var." : em === "link" ? "Mesajda bağlantı olamaz." : em.startsWith("susturuldu") ? "Susturuldun. Kalan süre: " + fmtMin(parseInt(em.split(":")[1], 10) || 0) : "Mesaj gönderilemedi: " + em);
+    else toast(em === "slow" ? T("Çok hızlı yazıyorsun, biraz bekle.") : em === "kufur" ? T("Mesajında uygunsuz kelime var.") : em === "link" ? T("Mesajda bağlantı olamaz.") : em.startsWith("susturuldu") ? T("Susturuldun. Kalan süre: ") + fmtMin(parseInt(em.split(":")[1], 10) || 0) : T("Mesaj gönderilemedi: ") + em);
   } else if (data && data.id) add(data);
   sending = false;
 }
@@ -2183,24 +2273,24 @@ function applyName() {
   if (pr) { try { pr.track({ nick: me.nick, vip }); } catch (e) {} }
 }
 function openSet() {
-  $("#who").textContent = "Oturum: " + me.nick; $("#delBox").style.display = "none"; $("#delNick").value = "";
+  $("#who").textContent = T("Oturum: ") + me.nick; $("#delBox").style.display = "none"; $("#delNick").value = "";
   $("#nameBox").style.display = "none"; $("#admBox").style.display = "none"; $("#nameLeft").textContent = nameLeft();
-  $("#nameAsk").textContent = "İsmi değiştir (" + nameLeft() + " hak)"; $("#nameAsk").disabled = nameLeft() === 0;
+  $("#nameAsk").textContent = T("İsmi değiştir (") + nameLeft() + T(" hak)"); $("#nameAsk").disabled = nameLeft() === 0;
   $("#set").classList.add("on");
 }
 $("#nameAsk").onclick = () => { $("#nameBox").style.display = "block"; $("#delBox").style.display = "none"; $("#nameErr").textContent = ""; $("#newNick").value = ""; };
 $("#nameGo").onclick = async () => {
   const n = $("#newNick").value.trim(), er = $("#nameErr"); er.textContent = "";
-  if (!/^[A-Za-z0-9_]{3,14}$/.test(n)) { er.textContent = "3-14 karakter: harf, rakam ve alt çizgi."; return; }
+  if (!/^[A-Za-z0-9_]{3,14}$/.test(n)) { er.textContent = T("3-14 karakter: harf, rakam ve alt çizgi."); return; }
   $("#nameGo").disabled = true;
   const { data, error } = await sb.rpc("change_nick", { p_new: n });
   $("#nameGo").disabled = false;
   if (error) {
-    er.textContent = { "hak bitti": "İsim değiştirme hakkın bitti.", "ayni": "Bu zaten şu anki adın.", "bad_format": "3-14 karakter: harf, rakam ve alt çizgi.", "banned": "Bu takma ad kullanılamaz.", "taken": "Bu takma ad alınmış." }[error.message] || "Hata: " + error.message;
+    er.textContent = { "hak bitti": T("İsim değiştirme hakkın bitti."), "ayni": T("Bu zaten şu anki adın."), "bad_format": T("3-14 karakter: harf, rakam ve alt çizgi."), "banned": T("Bu takma ad kullanılamaz."), "taken": T("Bu takma ad alınmış.") }[error.message] || T("Hata: ") + error.message;
     return;
   }
   me.nick = data; me.changes = (me.changes || 0) + 1; applyName(); openSet();
-  toast("Takma adın değişti: " + data + ". Kalan hak: " + nameLeft());
+  toast(T("Takma adın değişti: ") + data + T(". Kalan hak: ") + nameLeft());
 };
 function goFull() {
   try {
@@ -2218,7 +2308,7 @@ $("#delAsk").onclick = () => { $("#delBox").style.display = "block"; };
 
 function reset() {
   if (rt) { sb.removeChannel(rt); rt = null; }
-  if (pr) { sb.removeChannel(pr); pr = null; }
+  if (pr) { sb.removeChannel(pr); pr = null; } presSt = {}; seenChat.clear();
   clearInterval(statTimer); clearInterval(custTimer); clearInterval(syncTimer); q = []; stations = []; models = []; reqs = []; levels = []; level = 1; loginFlowDone = false; klan = undefined; klView = null; klRank = []; klRankAt = 0; klStopRT(); boostEnd = 0; boostN = 0; bonusDone = false; repairDone = false; ps = { open: false, level: 1, slots: 4, staff: false, lib: false }; psSt = []; psQ = []; psModels = []; psReqs = []; psLevels = []; psLoaded = false; $("#psBtn").style.display = "none"; cashier = false; cleaner = false; manager = false; vFood = false; vDrink = false; myPower = null; $("#pwrB").innerHTML = ""; rep = 3; ghosts = []; blocked = new Set(); blockNames = {}; $("#adm").classList.remove("on"); $("#banov").classList.remove("on"); vip = false; vipBusy = false; $("#vipB").innerHTML = ""; nextArr = 0; lastMsg = ""; lastOver = null; lastMin = -1; advancing = false; adBusy = false; renderAll(); ranks = []; stats = { tot: 0, n24: 0, a24: 0 }; renderStats(); $("#rnk").classList.remove("on");
   online = []; $("#cnt").textContent = "0"; $("#onl").classList.remove("on");
   me = null; seen.clear(); $("#list").innerHTML = ""; $("#pass").value = ""; $("#pass2").value = ""; $("#nick").value = "";
@@ -2226,12 +2316,12 @@ function reset() {
 }
 $("#out").onclick = async () => { await sb.auth.signOut({ scope: "local" }); reset(); };
 $("#delGo").onclick = async () => {
-  if ($("#delNick").value.trim().toLowerCase() !== me.nick.toLowerCase()) return toast("Takma ad eşleşmiyor.");
+  if ($("#delNick").value.trim().toLowerCase() !== me.nick.toLowerCase()) return toast(T("Takma ad eşleşmiyor."));
   $("#delGo").disabled = true;
   const { error } = await sb.rpc("delete_my_account");
   $("#delGo").disabled = false;
-  if (error) return toast("Hesap silinemedi: " + error.message);
-  await sb.auth.signOut({ scope: "local" }); reset(); toast("Hesabın silindi.");
+  if (error) return toast(T("Hesap silinemedi: ") + error.message);
+  await sb.auth.signOut({ scope: "local" }); reset(); toast(T("Hesabın silindi."));
 };
 
 /* ---- Android geri tuşu: önce açık pencereleri kapat, uygulamadan çıkma ---- */
