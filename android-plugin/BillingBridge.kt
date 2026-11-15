@@ -21,7 +21,7 @@ import com.getcapacitor.annotation.CapacitorPlugin
 /**
  * Google Play Billing köprüsü (tek seferlik ürün: VIP üyelik).
  * JS tarafı: connect(), productInfo({productId}), purchase({productId}), queryPurchases(), acknowledge({purchaseToken})
- * Satın alma doğrulaması ve ödül teslimi SUNUCUDA (Supabase verify-purchase) yapılır.
+ * Satın alma doğrulaması SUNUCUDA (Supabase SQL: claim_vip) Google imzasıyla yapılır; originalJson + signature bu yüzden JS'e iletilir.
  */
 @CapacitorPlugin(name = "BillingBridge")
 class BillingBridge : Plugin(), PurchasesUpdatedListener {
@@ -94,6 +94,8 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
         o.put("orderId", p.orderId ?: "")
         o.put("state", if (p.purchaseState == Purchase.PurchaseState.PURCHASED) "purchased" else "pending")
         o.put("acknowledged", p.isAcknowledged)
+        o.put("originalJson", p.originalJson)
+        o.put("signature", p.signature)
         return o
     }
 
