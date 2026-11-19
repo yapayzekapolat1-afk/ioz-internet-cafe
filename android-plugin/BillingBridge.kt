@@ -30,12 +30,21 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
     private var pendingCall: PluginCall? = null
     private val detailsCache = HashMap<String, ProductDetails>()
 
+    private var connecting = false
+    private val waiters = ArrayList<(Boolean, String) -> Unit>()
+
+    /** Aynı anda birden fazla çağrı gelirse (giriş kontrolü + fiyat + satın alma) hepsi tek bağlantıyı bekler. */
     private fun ensureClient(cb: (Boolean, String) -> Unit) {
         val existing = client
         if (existing != null && existing.isReady) {
             cb(true, "")
             return
         }
+        val start = synchronized(waiters) {
+            waiters.add(cb)
+            if (connecting) false else { connecting = true; true }
+        }
+        if (!start) return
         val c = existing ?: BillingClient.newBuilder(context)
             .setListener(this)
             .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
@@ -43,10 +52,19 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
         client = c
         c.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(result: BillingResult) {
-                cb(result.responseCode == BillingClient.BillingResponseCode.OK, result.debugMessage)
+                val ok = result.responseCode == BillingClient.BillingResponseCode.OK
+                val list = synchronized(waiters) {
+                    connecting = false
+                    val l = ArrayList(waiters)
+                    waiters.clear()
+                    l
+                }
+                list.forEach { it(ok, "(" + result.responseCode + ") " + result.debugMessage) }
             }
 
-            override fun onBillingServiceDisconnected() {}
+            override fun onBillingServiceDisconnected() {
+                synchronized(waiters) { connecting = false }
+            }
         })
     }
 
@@ -82,7 +100,7 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
                 detailsCache[id] = pd
                 cb(pd, "")
             } else {
-                cb(null, "urun bulunamadi: " + result.debugMessage)
+                cb(null, "urun bulunamadi(" + result.responseCode + "): " + result.debugMessage)
             }
         }
     }
@@ -159,7 +177,11 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
                             val r = client!!.launchBillingFlow(act, flow)
                             if (r.responseCode != BillingClient.BillingResponseCode.OK) {
                                 pendingCall = null
-                                call.reject("launch: " + r.debugMessage)
+                                when (r.responseCode) {
+                                    BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> call.reject("zaten sahip", "OWNED")
+                                    BillingClient.BillingResponseCode.USER_CANCELED -> call.reject("iptal", "CANCELED")
+                                    else -> call.reject("launch(" + r.responseCode + "): " + r.debugMessage, "E" + r.responseCode)
+                                }
                             }
                         }
                     }
@@ -175,7 +197,7 @@ class BillingBridge : Plugin(), PurchasesUpdatedListener {
         when {
             result.responseCode == BillingClient.BillingResponseCode.USER_CANCELED -> call.reject("iptal", "CANCELED")
             result.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> call.reject("zaten sahip", "OWNED")
-            result.responseCode != BillingClient.BillingResponseCode.OK || purchases.isNullOrEmpty() -> call.reject("hata: " + result.debugMessage)
+            result.responseCode != BillingClient.BillingResponseCode.OK || purchases.isNullOrEmpty() -> call.reject("hata(" + result.responseCode + "): " + result.debugMessage, "E" + result.responseCode)
             else -> call.resolve(toJs(purchases[0]))
         }
     }
