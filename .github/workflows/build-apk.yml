@@ -32,7 +32,10 @@ jobs:
       - name: Capacitor bağımlılıklarını kur
         run: |
           npm install
-          npm install @capacitor/app
+          # @capacitor/app'i, kurulu @capacitor/core ile AYNI ana sürümden kur (yeni ana sürüm Gradle/Kotlin uyumsuzluğu yaratır)
+          CAP_MAJOR=$(node -p "require('./node_modules/@capacitor/core/package.json').version.split('.')[0]")
+          echo "Capacitor ana sürüm: $CAP_MAJOR"
+          npm install "@capacitor/app@^${CAP_MAJOR}.0.0" || npm install @capacitor/app
         
 
       - name: Android projesini oluştur
@@ -123,18 +126,27 @@ jobs:
         run: |
           ROOT_GRADLE="android/build.gradle"
           echo "--- root build.gradle (önce) ---"; cat "$ROOT_GRADLE"
-          # Billing 8.x ve Unity Ads 4.16.x yeni Kotlin ile derlenmiş; eski 1.9.x derleyici
-          # bunları okuyamayıp "Compilation error" veriyor. Bu yüzden 2.2.20 kullanıyoruz.
-          if grep -q "kotlin-gradle-plugin" "$ROOT_GRADLE"; then
-            sed -i "s#kotlin-gradle-plugin:[^'\"]*#kotlin-gradle-plugin:2.2.20#" "$ROOT_GRADLE"
+          echo "--- gradle wrapper ---"; grep distributionUrl android/gradle/wrapper/gradle-wrapper.properties || true
+          AGP_MAJOR=$(grep -oE "com\.android\.tools\.build:gradle:[0-9]+" "$ROOT_GRADLE" | head -1 | grep -oE "[0-9]+$" || true)
+          AGP_MAJOR=${AGP_MAJOR:-8}
+          echo "AGP ana sürüm: $AGP_MAJOR"
+          APP_GRADLE="android/app/build.gradle"
+          if [ "$AGP_MAJOR" -ge 9 ]; then
+            # AGP 9+ Kotlin derleyicisini kendi içinde getirir; ayrıca eklemek çakışma yaratır.
+            echo "AGP 9+: Kotlin eklentisi eklenmiyor (dahili Kotlin kullanılacak)"
           else
-            sed -i "s/classpath 'com.android.tools.build:gradle:[^']*'/&\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.20\"/" "$ROOT_GRADLE"
+            # Billing 8.x ve Unity Ads 4.16.x yeni Kotlin ile derlenmiş; eski 1.9.x derleyici
+            # bunları okuyamayıp "Compilation error" veriyor. Bu yüzden 2.2.20 kullanıyoruz.
+            if grep -q "kotlin-gradle-plugin" "$ROOT_GRADLE"; then
+              sed -i "s#kotlin-gradle-plugin:[^'\"]*#kotlin-gradle-plugin:2.2.20#" "$ROOT_GRADLE"
+            else
+              sed -i "s/classpath 'com.android.tools.build:gradle:[^']*'/&\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.20\"/" "$ROOT_GRADLE"
+            fi
+            if ! grep -q "kotlin-android" "$APP_GRADLE"; then
+              sed -i "s/apply plugin: 'com.android.application'/apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'/" "$APP_GRADLE"
+            fi
           fi
           echo "--- root build.gradle (sonra) ---"; cat "$ROOT_GRADLE"
-          APP_GRADLE="android/app/build.gradle"
-          if ! grep -q "kotlin-android" "$APP_GRADLE"; then
-            sed -i "s/apply plugin: 'com.android.application'/apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'/" "$APP_GRADLE"
-          fi
 
       - name: Unity Ads Gradle bağımlılığını ekle
         run: |
@@ -278,13 +290,21 @@ jobs:
         run: |
           chmod +x gradlew
           set -o pipefail
-          ./gradlew bundleRelease --stacktrace --console=plain 2>&1 | tee ../gradle-aab.log
+          for i in 1 2 3; do
+            ./gradlew bundleRelease --stacktrace --console=plain 2>&1 | tee ../gradle-aab.log && break
+            echo "AAB denemesi $i başarısız"
+            if [ "$i" -lt 3 ]; then sleep 25; else exit 1; fi
+          done
 
       - name: APK derle (Release, imzalı)
         working-directory: android
         run: |
           set -o pipefail
-          ./gradlew assembleRelease --stacktrace --console=plain 2>&1 | tee ../gradle-apk.log
+          for i in 1 2 3; do
+            ./gradlew assembleRelease --stacktrace --console=plain 2>&1 | tee ../gradle-apk.log && break
+            echo "APK denemesi $i başarısız"
+            if [ "$i" -lt 3 ]; then sleep 25; else exit 1; fi
+          done
 
       - name: Hata özeti (sadece build başarısız olursa)
         if: failure()
@@ -294,11 +314,17 @@ jobs:
             WENT=$(grep -A14 "What went wrong" "$f" | head -16 | cut -c1-260 | sed 's/%/%25/g' | tr '\n' '|')
             CAUSE=$(grep -E "^Caused by|^e: |Duplicate class|defined multiple times|D8:|R8:|OutOfMemory|Java heap" "$f" | head -8 | cut -c1-260 | sed 's/%/%25/g' | tr '\n' '|')
             echo "::error title=GRADLE ASIL HATA ($f)::${WENT:0:1500}"
+            RES=$(grep -E "Could not (resolve|GET|HEAD)|No matching variant|incompatible|status code" "$f" | head -6 | cut -c1-260 | sed 's/%/%25/g' | tr '\n' '|')
+            echo "::error title=COZUMLEME ($f)::${RES:0:1500}"
             echo "::error title=GRADLE NEDEN ($f)::${CAUSE:0:1500}"
             {
               echo "## KOTLIN HATASI ($f)"
               echo '```'
               grep -E "^e: " "$f" | sed -E 's#file:///home/runner/work/[^/]+/[^/]+/##' | sort -u | head -20 | fold -s -w 52
+              echo '```'
+              echo "## Bağımlılık çözümleme hatası"
+              echo '```'
+              grep -E "Could not (resolve|GET|HEAD)|No matching variant|Required by|incompatible|compatible with|status code" "$f" | sed -E 's#https?://[^ ]*/##' | sort -u | head -14 | fold -s -w 52
               echo '```'
               echo "## Diğer ayrıntı"
               echo '```'
