@@ -1061,11 +1061,8 @@ async function openRank() {
   $("#rnk").classList.add("on"); renderRank(); updRnkAt();
   if (Date.now() - statsAt > 600000) bg(refreshStats());
   if (ranks.length > 1 && Date.now() - rnkFetched < 120000) return;   /* 2 dk içinde tekrar sunucuya gitme */
-  const lb = await sb.rpc("leaderboard", { p_lim: 100 });
-  if (lb.error || !Array.isArray(lb.data)) {
-    if (!ranks.length) { const ml = await sb.rpc("member_list", { p_lim: 500 }); if (!ml.error && Array.isArray(ml.data)) { ranks = ml.data.sort(cmp); renderRank(); return; } }   /* sunucu fonksiyonu henüz kurulmadıysa eski liste */
-    return toast(T("Sıralama yüklenemedi: ") + ((lb.error || {}).message || ""));
-  }
+  const lb = await rpcRetry("leaderboard", { p_lim: 100 }, 3);
+  if (lb.error || !Array.isArray(lb.data)) return toast(T("Sıralama yüklenemedi: ") + ((lb.error || {}).message || ""));   /* güce göre olmayan sahte liste göstermiyoruz */
   rnkFetched = Date.now();
   ranks = lb.data.map(r => ({ id: r.o_id, nick: r.o_nick, pw: Number(r.o_power), rk: Number(r.o_rank), vip: !!r.o_vip, av: Number(r.o_av) || 0, fr: r.o_frame || null }));
   ranks.sort((x, y) => x.rk - y.rk);
@@ -1781,7 +1778,7 @@ async function buyVip() {
     const code = e && e.code, msg = String((e && e.message) || e || "");
     if (code === "OWNED" || /zaten sahip/.test(msg)) { toast(T("Bu hesapta VIP satın alınmış, kontrol ediliyor.")); await checkPurchases(); }
     else if (code === "CANCELED" || /iptal/.test(msg)) toast(T("Satın alma iptal edildi."));
-    else toast(T("Satın alma başarısız") + ((code || msg) ? " (" + String(code || msg).slice(0, 60) + ")" : "") + ".");
+    else toast(T("Satın alma başarısız") + ((code || msg) ? " (" + String([code, msg].filter(Boolean).join(" ")).slice(0, 90) + ")" : "") + ".");
   }
   vipBusy = false; renderVip();
 }
@@ -2187,10 +2184,20 @@ $("#clan").addEventListener("click", e => { if (e.target.id === "clan") closeCla
 $("#clanNew").addEventListener("click", e => { if (e.target.id === "clanNew") $("#clanNew").classList.remove("on"); });
 
 /* ===== OYUNCU PROFİLİ ===== */
+/* Geçici sunucu yavaşlığında (zaman aşımı vb.) 2-3 kez dener; oturum/ban hatasında hemen bırakır */
+async function rpcRetry(fn, args, tries) {
+  let r;
+  for (let i = 0; i < (tries || 2); i++) {
+    r = await sb.rpc(fn, args);
+    if (!r.error || /banli|oturum/.test(r.error.message || "")) return r;
+    await new Promise(res => setTimeout(res, 800 + i * 700));
+  }
+  return r;
+}
 async function openProfile(id, nick) {
   if (!id) return; const ov = $("#plP"), box = $("#plBox"); box.innerHTML = T('<div class="empty">Yükleniyor...</div>'); ov.classList.add("on");
   const close = () => ov.classList.remove("on");
-  const r = await sb.rpc("player_profile", { p_id: id });
+  const r = await rpcRetry("player_profile", { p_id: id }, 3);
   box.innerHTML = "";
   if (r.error || !r.data) {
     const cb = mkEl("button", "btn o", T("Kapat")); cb.onclick = close;
