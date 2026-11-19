@@ -1754,9 +1754,8 @@ function renderVip() {
   body.append(card);
 }
 async function deliverVip(token, silent, ex) {
-  const signed = !!(ex && ex.originalJson && ex.signature);
-  let { data, error } = await sb.rpc("claim_vip", signed ? { p_product: VIP_PRODUCT, p_token: token, p_json: ex.originalJson, p_sig: ex.signature } : { p_product: VIP_PRODUCT, p_token: token });
-  if (signed && error && /imza|gecersiz|claim_vip/.test(error.message || "")) ({ data, error } = await sb.rpc("claim_vip", { p_product: VIP_PRODUCT, p_token: token }));
+  if (!(ex && ex.originalJson && ex.signature)) { if (!silent) toast(T("Ödeme alındı ama VIP teslim edilemedi") + " (makbuz imzası yok)" + T(". Oyunu yeniden açınca otomatik denenecek.")); return false; }
+  const { data, error } = await sb.rpc("claim_vip", { p_product: VIP_PRODUCT, p_token: token, p_json: ex.originalJson, p_sig: ex.signature });
   if (error || !data) { const why = String((error && error.message) || "").slice(0, 50); if (!silent) toast(T("Ödeme alındı ama VIP teslim edilemedi") + (why ? " (" + why + ")" : "") + T(". Oyunu yeniden açınca otomatik denenecek.")); return false; }
   try { await billNative().acknowledge({ purchaseToken: token }); } catch (e) {}
   await syncGame();
