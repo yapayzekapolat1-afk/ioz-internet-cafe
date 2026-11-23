@@ -653,6 +653,131 @@ html.scrl .pwx::after{animation:none!important}
 .modb{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:800;line-height:1.2;color:#04302c;background:linear-gradient(180deg,#99f6e4,#14b8a6);box-shadow:0 0 8px rgba(45,212,191,.55);flex:none}
 .modb .ic{width:12px;height:12px}
 b>.modb,h2>.modb{margin-left:6px}
+
+/* ===================== v2: YENİ ANA EKRAN ===================== */
+#home{background:var(--bg)}
+#home .top{display:block;padding:10px 12px 9px;min-height:0;background:var(--bg2);border-bottom:1px solid var(--line)}
+#home .trow{display:flex;align-items:center;gap:10px}
+#home .avh{width:50px;height:50px;flex:none}
+#home .avm{width:50px;height:50px}
+#home .who{min-width:0;flex:1;display:flex;flex-direction:column;gap:6px}
+#home .l1{display:flex;align-items:center;gap:8px;min-width:0}
+#home #pname{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:17px;font-weight:800;letter-spacing:-.01em}
+#home .l2{display:flex;align-items:center;gap:8px;margin:0;min-width:0}
+#home #money{margin:0;padding:3px 11px 3px 8px;border-radius:999px;background:var(--ok-soft);border:1px solid var(--ok-line);font-size:14px;line-height:1.25;flex:none}
+#home .rr{display:flex;gap:8px;align-items:center;flex:none}
+#home .ib,#home #setBtn{width:40px;height:40px;padding:0;display:grid;place-items:center;border-radius:13px;background:var(--card2);border:1px solid var(--line);color:var(--ink)}
+#home .ib .ic,#home #setBtn .ic{width:20px;height:20px}
+#home .tsub{display:flex;align-items:center;gap:8px;margin-top:9px}
+#home .act{display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);flex:none;font-size:13px}
+#home .adp{flex:1;min-width:0;justify-content:center;height:34px;font-size:13px;padding:0 12px}
+#home .body{display:block;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:10px 12px 18px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#home .stn{width:min(100%,560px);margin:0 auto;display:flex;flex-direction:column;gap:10px;min-height:0;flex:none;align-self:auto}
+/* etkinlik şeridi */
+.evts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.evt{position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;padding:11px 6px 9px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--ink);transition:transform .12s,border-color .2s}
+.evt:active{transform:scale(.96)}
+.evt .evi{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 14px rgba(0,0,0,.35)}
+.evt .evi .ic{width:25px;height:25px;stroke-width:1.9}
+.evt b{font-size:12.5px;font-weight:800;letter-spacing:.01em}
+#rafBtn .evi{background:linear-gradient(135deg,#fbbf24,#ef4444)}
+#wheelBtn .evi{background:conic-gradient(from 0deg,#f43f5e,#f59e0b,#22c55e,#3b82f6,#a855f7,#f43f5e)}
+#igBtn .evi{background:linear-gradient(45deg,#f9a825,#ee2a7b 55%,#6228d7)}
+.evt .evd{display:none;position:absolute;top:8px;right:10px;width:10px;height:10px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.28)}
+.evt.ready .evd{display:block;animation:evpulse 1.6s ease-in-out infinite}
+.evt.ready{border-color:rgba(251,191,36,.55)}
+@keyframes evpulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.6}}
+/* gün kartı */
+#home .clk{padding:11px 13px}
+#home .clkr b{font-size:20px}
+#home .clkr2{display:flex;align-items:center;gap:8px;margin-top:9px}
+/* müşteri kartı: sabit yükseklik (ızgara oynamaz) */
+#home #stCard{flex:none;height:186px;padding:10px 12px;display:flex;flex-direction:column;overflow:hidden}
+#home #stCard>.btn{height:44px;flex:none;margin-top:auto}
+#home .ql{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#home .ql>p.cs{margin:14px 0 0;text-align:center}
+/* masalar: sabit boyutlu, sayfa kayar */
+#home .gridw{display:block;flex:none;min-height:0}
+#home .grid,#home .grid.c,#home .grid.tight,#home .grid.tiny{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr))!important;grid-template-rows:none!important;gap:8px;flex:none}
+#home .grid .pcs{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:9px 4px 12px;aspect-ratio:1/1.1;min-height:0;border-radius:14px;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:border-color .2s,background .2s}
+#home .grid .pcs .pci{width:66%;height:auto;aspect-ratio:1;flex:none;--is:auto;border-radius:10px}
+#home .grid .pcs b,#home .grid .pcs small{display:block;line-height:1.15}
+#home .grid .pcs b{font-size:10.5px;color:var(--mut);font-weight:700}
+#home .grid .pcs small{font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+#home .grid .pcs.busy{border-color:var(--acc-line);background:linear-gradient(180deg,var(--acc-soft),var(--card))}
+#home .grid .pcs.empty{background:transparent;border:1.5px dashed var(--line)}
+#home .grid .pcs.empty small{color:var(--mut);font-weight:600}
+#home .grid .pcs .pb.mini{position:absolute;left:9px;right:9px;bottom:6px;width:auto;height:3px;margin:0;border-radius:2px}
+#home .grid .pcs .cdot{position:absolute;top:6px;right:6px;width:8px;height:8px}
+/* alt menü (sekme çubuğu) */
+#home .dock{padding:0;background:var(--bg2);border-top:1px solid var(--line)}
+#home .dock .row{display:flex;gap:0;width:100%;max-width:560px;margin:0 auto;padding:0;overflow:visible}
+.tab{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:9px 2px 8px;background:none;border:0;color:var(--mut);font-size:11.5px;font-weight:700;letter-spacing:.01em}
+.tab .ic{width:24px;height:24px;stroke-width:1.8;color:var(--ink);opacity:.9}
+.tab span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tab:active{background:var(--card)}
+.tab:active .ic{color:var(--acc)}
+.tab #dot,.tab i#dot{position:absolute;top:6px;left:calc(50% + 7px);right:auto}
+/* dükkan menüsü */
+.shopmenu{padding:6px 14px 20px;gap:9px}
+.shopmenu h4{margin:12px 2px 2px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.shopmenu h4:first-child{margin-top:6px}
+.mc{display:flex;align-items:center;gap:13px;width:100%;padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-align:left}
+.mc:active{background:var(--card2)}
+.mc .mi{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:none;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 14px rgba(0,0,0,.3)}
+.mc .mi .ic{width:26px;height:26px;stroke-width:1.9}
+.mc .mt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.mc .mt b{font-size:15.5px;font-weight:800}
+.mc .mt small{color:var(--mut);font-size:12.5px;line-height:1.3}
+.mc .go{width:18px;height:18px;color:var(--mut);flex:none}
+.mc.mcvip{border-color:rgba(251,191,36,.5);background:linear-gradient(135deg,rgba(251,191,36,.16),var(--card) 70%)}
+.mc.lock{opacity:.62}
+/* ===================== v2: SOHBET BAŞLIĞI ===================== */
+.m .mh{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:2px 8px}
+.m .nw{display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px;min-width:0}
+.m .nw .n{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m .rt{display:flex;align-items:center;gap:4px;flex:none;padding-top:2px}
+.m .rt .tm{white-space:nowrap}
+/* ===================== v2: SIRALAMA SATIRLARI ===================== */
+#rnkList.onx{flex:1;min-height:0;overflow-y:auto;max-height:none;padding:6px 12px calc(14px + env(safe-area-inset-bottom))}
+#rnkList .onr:nth-child(1) .onp{color:#fbbf24;font-size:18px}
+#rnkList .onr:nth-child(2) .onp{color:#cbd5e1;font-size:17px}
+#rnkList .onr:nth-child(3) .onp{color:#d98b4a;font-size:17px}
+#rnkList .onr:nth-child(-n+3){border-color:rgba(251,191,36,.3)}
+#rnkList .orr .ooff{width:9px;height:9px;border-radius:50%;background:var(--line)}
+#home .avh{width:58px}
+#home .trow{gap:12px}
+#home #rafBtn,#home #rafBtn b,#home .evt b{color:var(--ink)}
+
+/* ===================== ÇARKIFELEK ===================== */
+#wheel{align-items:flex-end;justify-content:center}
+#wheel .sheet{position:relative;overflow:hidden}
+.whbody{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:8px 16px calc(24px + env(safe-area-inset-bottom));overflow-y:auto}
+.whsub{margin:0;text-align:center;color:var(--mut);font-size:14px;line-height:1.4}
+.whstage{position:relative;width:min(86vw,360px);aspect-ratio:1;margin:14px auto 4px}
+.whglow{position:absolute;inset:-10%;border-radius:50%;background:radial-gradient(circle,rgba(251,191,36,.38),rgba(168,85,247,.2) 52%,transparent 70%);filter:blur(8px)}
+.whwrap{position:absolute;inset:0}
+#whSvg{width:100%;height:100%;display:block;filter:drop-shadow(0 14px 22px rgba(0,0,0,.6));overflow:visible}
+#whRot{transform-origin:180px 180px;will-change:transform}
+.whptr{position:absolute;left:50%;top:-6%;width:15%;transform:translateX(-50%);transform-origin:50% 28%;filter:drop-shadow(0 5px 6px rgba(0,0,0,.55));z-index:2}
+.wb0,.wb1{animation:whb 1s steps(1,end) infinite}
+.wb1{animation-delay:.5s}
+@keyframes whb{0%{opacity:1}50%{opacity:.22}100%{opacity:1}}
+.whgo{width:min(86vw,320px);height:56px;border-radius:18px;border:0;font-size:19px;font-weight:900;letter-spacing:.12em;color:#3b1d00;background:linear-gradient(180deg,#fde68a,#f59e0b 55%,#d97706);box-shadow:0 5px 0 #92400e,0 12px 24px rgba(245,158,11,.4),inset 0 1px 0 rgba(255,255,255,.6);transition:transform .1s,box-shadow .1s,filter .2s}
+.whgo:not(:disabled){animation:whpulse 1.8s ease-in-out infinite}
+.whgo:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 #92400e,0 8px 16px rgba(245,158,11,.4)}
+.whgo:disabled{filter:grayscale(.85) brightness(.7);box-shadow:0 3px 0 #444;cursor:default}
+@keyframes whpulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+.whnote{margin:0;min-height:20px;text-align:center;color:var(--mut);font-size:13.5px;font-variant-numeric:tabular-nums}
+.whres{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(6,9,18,.9);z-index:5;text-align:center;padding:24px}
+.whres.on{display:flex;animation:whfade .3s ease-out}
+@keyframes whfade{from{opacity:0}to{opacity:1}}
+.whres small{font-size:14px;font-weight:900;letter-spacing:.3em;color:#fde68a}
+.whres b{font-size:56px;font-weight:900;line-height:1.05;background:linear-gradient(180deg,#fff7c2,#fbbf24 60%,#d97706);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 18px rgba(251,191,36,.45));animation:whpop .7s cubic-bezier(.2,1.4,.4,1)}
+@keyframes whpop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+.whres span{color:var(--mut);font-size:14px;margin-bottom:12px}
+.whconf{position:absolute;left:50%;top:42%;width:0;height:0;pointer-events:none}
+.whconf i{position:absolute;width:9px;height:14px;border-radius:2px;left:0;top:0}
 .flag.admdel{color:#fb7185;font-size:12px;font-weight:700;width:auto;padding:0 6px}
 
 /* --- Performans: küçük rozetlerde sürekli animasyon yok, görünmeyen satırlar çizilmez --- */
@@ -804,24 +929,43 @@ setTimeout(function () {
 </div>
 
 <div id="home" class="scr">
-  <div class="top"><div class="avh"><button class="avm" id="avBtn" aria-label="Avatar"></button><button class="rkc" id="rkBtn" aria-label="Rütbeler"></button></div><div class="who"><div class="l1"><div id="pname"></div><span id="vipB"></span><span class="pwb" id="pwrB"></span></div><div class="l2"><div id="money"><svg class="ic sm" viewBox="0 0 24 24"><use href="#i-coin"/></svg><span id="moneyV">$10</span></div><div class="act"><i></i><span><b id="cnt">0</b><span class="al"> aktif</span></span><button id="showBtn">Göster</button></div></div></div><div class="rgt"><div class="rr"><button class="ib" id="rafBtn" aria-label="Günlük çekiliş"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M7.5 8a2.5 2.5 0 1 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 1 1 0 5"/></svg></button><button class="ib" id="inbBtn" aria-label="Mesaj kutusu"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><i class="bdg" id="inbBdg"></i></button><button id="setBtn"><svg class="ic sm" viewBox="0 0 24 24"><use href="#i-set"/></svg>Ayarlar</button></div><button class="adp" id="adBtn" aria-label="Video izle, para kazan"><svg class="ic" viewBox="0 0 24 24"><use href="#i-play"/></svg>Video <span id="adAmt">+$100</span></button></div></div>
+  <header class="top">
+    <div class="trow">
+      <div class="avh"><button class="avm" id="avBtn" aria-label="Avatar"></button><button class="rkc" id="rkBtn" aria-label="Rütbeler"></button></div>
+      <div class="who">
+        <div class="l1"><div id="pname"></div><span id="vipB"></span></div>
+        <div class="l2"><span class="pwb" id="pwrB"></span><div id="money"><svg class="ic sm" viewBox="0 0 24 24"><use href="#i-coin"/></svg><span id="moneyV">$10</span></div></div>
+      </div>
+      <div class="rr"><button class="ib" id="inbBtn" aria-label="Mesaj kutusu"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><i class="bdg" id="inbBdg"></i></button><button class="ib" id="setBtn" aria-label="Ayarlar"><svg class="ic" viewBox="0 0 24 24"><use href="#i-set"/></svg></button></div>
+    </div>
+    <div class="tsub">
+      <div class="act"><i></i><span><b id="cnt">0</b><span class="al"> aktif</span></span><button id="showBtn">Göster</button></div>
+      <button class="adp" id="adBtn" aria-label="Video izle, para kazan"><svg class="ic" viewBox="0 0 24 24"><use href="#i-play"/></svg>Video <span id="adAmt">+$100</span></button>
+    </div>
+  </header>
   <div class="body"><div class="stn">
     <div class="neon" id="neon"></div>
+    <div class="evts" id="evts">
+      <button class="evt" id="rafBtn" aria-label="Günlük çekiliş"><span class="evi"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M7.5 8a2.5 2.5 0 1 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 1 1 0 5"/></svg></span><b>Çekiliş</b></button>
+      <button class="evt" id="wheelBtn" aria-label="Çarkıfelek"><span class="evi"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.2"/><path d="M12 3v6.8M12 14.2V21M3 12h6.8M14.2 12H21M5.6 5.6l4.8 4.8M13.6 13.6l4.8 4.8M18.4 5.6l-4.8 4.8M10.4 13.6l-4.8 4.8"/></svg></span><b>Çark</b><i class="evd"></i></button>
+      <button class="evt" id="igBtn" aria-label="Instagram kanalımız"><span class="evi"><svg class="ic" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></span><b>Instagram</b></button>
+    </div>
     <div class="clk"><div class="clkr"><svg class="ic sm" viewBox="0 0 24 24"><use href="#i-clock"/></svg><b id="ckT">08:00</b><span id="ckD">Gün 1</span><span class="chip ok" id="ckS">Açık</span></div><div class="dayb"><i id="dayM"></i></div><div class="clkr2"><span class="chip" id="rushT">Sakin saat</span><span class="perks" id="perks"></span><span class="rep"><span class="stars" id="repS"></span><b id="repV">3.0</b></span></div></div>
     <div class="cc dayc" id="dayBn" style="display:none"></div>
+    <div class="cc" id="stCard"></div>
     <div class="stH"><div><b>Masalarım</b><small id="stSub"></small></div><span class="chip" id="stChip">0/10</span></div>
     <div class="gridw"><div class="grid" id="grid"></div><div id="fly"></div></div>
-    <div class="cc" id="stCard"></div>
   </div></div>
-  <div class="dock"><div class="row">
-    <button class="bn bn-sira" id="rnkBtn"><b>Sıralama</b></button>
-    <button class="bn bn-chat" id="chatBtn"><b>Sohbet</b><span id="dot"></span></button>
-    <button class="bn bn-klan" id="klanBtn"><b>Klan</b></button>
-    <button class="bn bn-dukkan" id="shopBtn"><b>Dükkan</b></button>
-    <button class="bn bn-pers" id="psBtn" style="display:none"><b>Salon</b></button>
-    <button class="bn bn-urun" id="simBtn" style="display:none"><b>Simülasyon</b></button>
-  </div></div>
+  <nav class="dock"><div class="row">
+    <button class="tab" id="rnkBtn"><svg class="ic" viewBox="0 0 24 24"><use href="#i-rank"/></svg><span>Sıralama</span></button>
+    <button class="tab" id="chatBtn"><svg class="ic" viewBox="0 0 24 24"><use href="#i-chat"/></svg><span>Sohbet</span><i id="dot"></i></button>
+    <button class="tab" id="klanBtn"><svg class="ic" viewBox="0 0 24 24"><use href="#i-shield"/></svg><span>Klan</span></button>
+    <button class="tab" id="shopBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9l1.4-5h13.2L20 9"/><path d="M4 9a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0A2.7 2.7 0 0 0 20 9"/><path d="M5 12v8h14v-8"/><path d="M10 20v-4.5h4V20"/></svg><span>Dükkan</span></button>
+    <button class="tab" id="psBtn" style="display:none"><svg class="ic" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10.5" rx="5"/><path d="M7.5 10v4M5.5 12h4"/><circle cx="15.5" cy="11" r=".9" fill="currentColor" stroke="none"/><circle cx="18" cy="13" r=".9" fill="currentColor" stroke="none"/></svg><span>Salon</span></button>
+    <button class="tab" id="simBtn" style="display:none"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l1.5-4.3A2 2 0 0 1 8.4 6.8h7.2a2 2 0 0 1 1.9 1.4L19 12.5"/><rect x="3.5" y="12.5" width="17" height="4.5" rx="1.6"/><circle cx="7.6" cy="17.6" r="1.7"/><circle cx="16.4" cy="17.6" r="1.7"/></svg><span>Araba</span></button>
+  </div></nav>
 </div>
+
 
 <div id="chat" class="ov">
   <div class="sheet">
@@ -879,7 +1023,7 @@ setTimeout(function () {
     <div class="mypw" id="myPow"></div>
     <p class="rnote">Güç; kazandığın ve işine yatırdığın paradan hesaplanır. Yatırım yapmak, para biriktirmekten daha çok güç kazandırır.</p>
     <p class="rnote" id="rnkAt">Sıralama saatte bir güncellenir.</p>
-    <div class="ol rl" id="rnkList"></div>
+    <div class="onx" id="rnkList"></div>
     <div class="clr" id="clanRank" style="display:none"></div>
   </div>
 </div>
@@ -888,13 +1032,16 @@ setTimeout(function () {
   <div class="sheet">
     <div class="hd"><h2><svg class="ic" viewBox="0 0 24 24"><use href="#i-shop"/></svg><span id="shopTitle">Dükkan</span></h2><button class="x" id="shopClose">Kapat</button></div>
     <div class="sv shopmenu on" id="vMenu">
-      <button class="bn bn-urun" data-v="urun"><b>Ürün al</b><small>OLD 1980'den ULTRA 2035'e</small></button>
-      <button class="bn bn-gelis" data-v="gel"><b>Dükkan geliştir</b><small>Büyüt, otomat kur</small></button>
-      <button class="bn bn-pers" data-v="per"><b>Personel al</b><small>Kasiyer, temizlikçi, müdür</small></button>
-      <button class="bn bn-gelis" data-v="ps"><b>Oyun Salonu</b><small>İkinci dükkan: konsollar</small></button>
-      <button class="bn bn-urun" data-v="sim"><b>Araba Simülasyonu</b><small>Üçüncü dükkan: yarış simülatörleri</small></button>
-      <button class="bn bn-pers" data-v="frames"><b>Çerçeve Mağazası</b><small>Avatarını özelleştir</small></button>
-      <button class="bn bn-vip" data-v="vip"><b>VIP üyelik</b><small>$20.000 + reklamsız + %50 kazanç</small></button>
+      <h4>Dükkanım</h4>
+      <button class="mc" data-v="urun"><span class="mi" style="background:linear-gradient(135deg,#fb7185,#e11d48)"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M3 4h2.4l2.1 11.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 8H6.2"/></svg></span><span class="mt"><b>Ürün al</b><small>Bilgisayar al, 1980'den 2035'e</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+      <button class="mc" data-v="gel"><span class="mi" style="background:linear-gradient(135deg,#34d399,#059669)"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9l1.4-5h13.2L20 9"/><path d="M4 9a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0A2.7 2.7 0 0 0 20 9"/><path d="M5 12v8h14v-8"/><path d="M10 20v-4.5h4V20"/></svg></span><span class="mt"><b>Dükkan geliştir</b><small>Büyüt, otomat kur</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+      <button class="mc" data-v="per"><span class="mi" style="background:linear-gradient(135deg,#60a5fa,#2563eb)"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.2c2.6.1 4.5 1.8 4.5 4.3"/></svg></span><span class="mt"><b>Personel al</b><small>Kasiyer, temizlikçi, müdür</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+      <h4>Diğer dükkanlar</h4>
+      <button class="mc" data-v="ps" id="mcPs"><span class="mi" style="background:linear-gradient(135deg,#a78bfa,#6d28d9)"><svg class="ic" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10.5" rx="5"/><path d="M7.5 10v4M5.5 12h4"/><circle cx="15.5" cy="11" r=".9" fill="currentColor" stroke="none"/><circle cx="18" cy="13" r=".9" fill="currentColor" stroke="none"/></svg></span><span class="mt"><b>Oyun Salonu</b><small>İkinci dükkan: konsollar</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+      <button class="mc" data-v="sim" id="mcSim"><span class="mi" style="background:linear-gradient(135deg,#f472b6,#be185d)"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l1.5-4.3A2 2 0 0 1 8.4 6.8h7.2a2 2 0 0 1 1.9 1.4L19 12.5"/><rect x="3.5" y="12.5" width="17" height="4.5" rx="1.6"/><circle cx="7.6" cy="17.6" r="1.7"/><circle cx="16.4" cy="17.6" r="1.7"/></svg></span><span class="mt"><b>Araba Simülasyonu</b><small>Üçüncü dükkan: yarış simülatörleri</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+      <h4>Özel</h4>
+      <button class="mc" data-v="frames"><span class="mi" style="background:linear-gradient(135deg,#2dd4bf,#0f766e)"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19c.8-2.7 3-4 5.5-4s4.7 1.3 5.5 4"/></svg></span><span class="mt"><b>Çerçeve Mağazası</b><small>Avatarını özelleştir</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+      <button class="mc mcvip" data-v="vip" id="mcVip"><span class="mi" style="background:linear-gradient(135deg,#fbbf24,#d97706)"><svg class="ic" viewBox="0 0 24 24"><use href="#i-crown"/></svg></span><span class="mt"><b>VIP üyelik</b><small>$20.000 + reklamsız + %50 kazanç</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
     </div>
     <div class="sv" id="vUrun"><div class="shopbody" id="shopBody"></div></div>
     <div class="sv" id="vGel"><div class="shopbody" id="gelBody"></div></div>
@@ -965,6 +1112,19 @@ setTimeout(function () {
     <div class="onx" id="onlList"></div>
   </div>
 </div>
+<div id="wheel" class="ov">
+  <div class="sheet">
+    <div class="hd"><h2><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.2"/><path d="M12 3v6.8M12 14.2V21M3 12h6.8M14.2 12H21M5.6 5.6l4.8 4.8M13.6 13.6l4.8 4.8M18.4 5.6l-4.8 4.8M10.4 13.6l-4.8 4.8"/></svg>Çarkıfelek</h2><button class="x" id="whClose">Kapat</button></div>
+    <div class="whbody">
+      <p class="whsub">Günde 1 hak. 1.000 ile 50.000 dolar arası ödül kazan!</p>
+      <div class="whstage"><div class="whglow"></div><div class="whwrap"><svg id="whSvg" viewBox="0 0 360 360"></svg>
+        <svg class="whptr" id="whPtr" viewBox="0 0 60 80"><defs><linearGradient id="ptg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fb7185"/><stop offset="1" stop-color="#be123c"/></linearGradient></defs><path d="M30 78C30 78 6 46 6 28a24 24 0 1 1 48 0C54 46 30 78 30 78Z" fill="url(#ptg)" stroke="#7f1d1d" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="22" cy="19" rx="7" ry="10" fill="#fff" opacity=".28" transform="rotate(-18 22 19)"/><circle cx="30" cy="28" r="9.5" fill="#fde68a" stroke="#92400e" stroke-width="2"/><circle cx="30" cy="28" r="4" fill="#f59e0b"/></svg></div></div>
+      <button class="whgo" id="whGo" disabled>ÇEVİR</button>
+      <p class="whnote" id="whNote"></p>
+    </div>
+    <div class="whres" id="whRes"><div class="whconf" id="whConf"></div><small>TEBRİKLER!</small><b id="whPrize">+$0</b><span>Ödül hesabına eklendi.</span><button class="whgo" id="whOk">Harika!</button></div>
+  </div>
+</div>
 <div id="pcpop" class="ov"><div class="pop" id="pcBox"></div></div>
 <div id="adov" class="ov"><div class="pop" style="text-align:center"><h2 id="adTxt">Reklam hazırlanıyor...</h2><p>Lütfen bekle.</p></div></div>
 <div id="updov" class="ov"><div class="pop" style="text-align:center"><h2>Yeni sürüm var</h2><p>Devam etmek için oyunu güncelle.</p><button class="btn" id="updBtn">Güncelle</button></div></div>
@@ -991,6 +1151,8 @@ Object.assign(EN, {"Fotoğraflar": "Photos", " bildirilen fotoğraf": " reported
 Object.assign(EN, {"Araba Simülasyonu": "Car Simulator", "Simülasyon": "Simulator", "Yarış simülatörleri: 8 simülatör modeli, kendi müşterileri ve geliştirmeleri.": "Racing simulators: 8 models with their own customers and upgrades.", "Diğer dükkanlarla aynı anda çalışır, kazançlar toplanır.": "Runs alongside your other shops, earnings are combined.", "Oyun Salonu seviye ": "Game Room level ", "Simülasyona git": "Go to simulator", "Simülasyon pahalıdır ama simülatörler Oyun Salonu konsollarından 3 kat fazla kazandırır. Büyütme, görevli ve yarış paketi simülasyona özeldir.": "The simulator is expensive but earns 3x more than Game Room consoles. Expansion, attendant and race pack are specific to it.", "Araba Simülasyonu açıldı!": "Car Simulator opened!", "Simülatör alındı.": "Simulator bought.", "Simülasyonu büyüt": "Expand simulator", "Simülasyon görevlisi": "Simulator attendant", "Yarış paketi": "Race pack", "Tüm simülasyon kazancı +%{n}.": "All simulator earnings +{n}%.", "Önce bir simülatör al.": "Buy a simulator first.", "Simülatör yetersiz": "Simulator too weak", "Uygun simülatör dolu": "Matching simulator busy", " simülatör": " simulators", "Simülatörde müşteri var.": "A customer is using it.", "Yönetici paneli": "Admin panel", "Yönetici çıkışı": "Admin logout", "Yönetici oturumu kapatıldı.": "Admin session closed.", "Yönetici işlemleri": "Admin actions", "1 saat sustur": "Mute 1 hour", "1 saat susturuldu.": "Muted for 1 hour.", "1 gün sustur": "Mute 1 day", "1 hafta sustur": "Mute 1 week", "Susturmayı kaldır": "Unmute", "VIP ver": "Give VIP", "VIP verildi.": "VIP given.", "Banı kaldır": "Unban", "Banla": "Ban", "Sil": "Delete", "Temiz": "Clean"});
 Object.assign(EN, {"Çevrimiçi": "Online", "Oyuncu ara...": "Search player...", "Oyuncu bulunamadı.": "No player found.", "Güç yolculuğu": "Power journey", "Zirve": "Summit", "Zirveye ulaştın!": "You reached the summit!", "Sıradaki hedef: {a} ({n} güç kaldı)": "Next goal: {a} ({n} power left)", "{n} güç kaldı": "{n} power left", "Başlangıç": "Start"});
 Object.assign(EN, {"Moderatörler": "Moderators", "Moderatör yap": "Make moderator", "Moderatörlüğü al": "Remove moderator", "Moderatör yapıldı.": "Moderator added.", "Moderatörlük alındı.": "Moderator removed.", "Moderatör işlemleri": "Moderator actions", "Zaten moderatör": "Already a moderator", "Henüz moderatör yok.": "No moderators yet.", "Henüz işlem yok": "No actions yet", "Yönetici hesabı moderatör yapılamaz.": "An admin account can't be a moderator.", "Moderatör yetkin kaldırıldı.": "Your moderator role was removed.", "Günlük susturma sınırına ulaştın.": "You reached the daily mute limit.", "Bu oyuncu susturulamaz.": "This player can't be muted.", "{n} moderatör · toplam {m} susturma · son 24 saatte {t}": "{n} moderators · {m} mutes total · {t} in the last 24h", "Bugün {t} · toplam {m} susturma · {p} farklı kişi": "Today {t} · {m} mutes total · {p} different players", "çuvalı kaptı! +{p} güç, +${m} ({k}/{c})": "grabbed the sack! +{p} power, +${m} ({k}/{c})", "+{p} güç ve +${m} kazandın!": "+{p} power and +${m} earned!"});
+Object.assign(EN, {"Araba": "Car", "Çekiliş": "Raffle", "Çark": "Wheel", "Instagram": "Instagram", "Dükkanım": "My shop", "Diğer dükkanlar": "Other shops", "Özel": "Special", "Ürün al": "Buy computers", "Seviye {l} · {n} masa": "Level {l} · {n} desks", "Dükkan seviye {l}'te açılır": "Unlocks at shop level {l}", "Oyun Salonu seviye {l}'te açılır": "Unlocks at Game Room level {l}", "Açılış: $": "Opening: $", "Üyeliğin aktif": "Your membership is active", "Bilgisayar al, 1980'den 2035'e": "Buy computers, from 1980 to 2035"});
+Object.assign(EN, {"Çarkıfelek": "Wheel of Fortune", "ÇEVİR": "SPIN", "Yarın tekrar gel": "Come back tomorrow", "Bugün kazandığın: +$": "Won today: +$", "Yeni hak: ": "Next spin: ", "Bugünkü hakkını kullandın.": "You already used today's spin.", "Ödül hesabına eklendi: +$": "Prize added: +$", "Günde 1 hak. 1.000 ile 50.000 dolar arası ödül kazan!": "1 spin a day. Win from $1,000 to $50,000!", "TEBRİKLER!": "CONGRATULATIONS!", "Ödül hesabına eklendi.": "Prize added to your account.", "Harika!": "Awesome!"});
 const HAS = Object.prototype.hasOwnProperty;
 const T = s => (LANG === "en" && HAS.call(EN, s)) ? EN[s] : s;
 const Tf = (s, v) => { let t = T(s); if (v) for (const k in v) t = t.split("{" + k + "}").join(v[k]); return t; };
@@ -1020,7 +1182,8 @@ document.querySelectorAll(".lang").forEach(box => {
 
 const SB_URL = "https://uipeypgidcqjvnukmzev.supabase.co";
 const SB_KEY = "sb_publishable_Emts4vGTLLBV4AYnA9SOQw_XULy89hn";
-const sb = typeof supabase !== "undefined" ? supabase.createClient(SB_URL, SB_KEY) : null;
+const sbFetch = (u, o) => { const c = new AbortController(), t = setTimeout(() => c.abort(), 25000); if (o && o.signal) { if (o.signal.aborted) c.abort(); else o.signal.addEventListener("abort", () => c.abort()); } return fetch(u, { ...o, signal: c.signal }).finally(() => clearTimeout(t)); };
+const sb = typeof supabase !== "undefined" ? supabase.createClient(SB_URL, SB_KEY, { auth: { detectSessionInUrl: false, lock: async (n, t, fn) => await fn() }, global: { fetch: sbFetch } }) : null;
 const $ = s => document.querySelector(s);
 let isAdm = false, modSet = new Set(), amMod = false, modTm = 0;
 let me = null, mode = "in", rt = null, pr = null, online = [], ranks = [], stats = { tot: 0, n24: 0, a24: 0 }, statTimer = null, sending = false, chatOpen = false;
@@ -1132,7 +1295,7 @@ async function enter(sess, expect) {
   $("#moneyV").textContent = "$" + fmt(me.money);
   show("home"); fitLayout();
   startRT();
-  startPresence(); bg(checkAdm()); bg(loadMods()); clearInterval(modTm); modTm = setInterval(() => { if (document.visibilityState === "visible") bg(loadMods(true)); }, 600000);
+  startPresence(); bg(checkAdm()); bg(loadMods()); bg(whLoad(false)); clearInterval(modTm); modTm = setInterval(() => { if (document.visibilityState === "visible") bg(loadMods(true)); }, 600000);
   bg(sackRefresh()); schedSack();
   loadBlocks();
   let tick = 0;
@@ -1145,10 +1308,6 @@ function startRT() {
   if (rt) return;
   rt = sb.channel("chat").on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, p => {
     onMsgIns(p.new);
-  }).on("postgres_changes", { event: "INSERT", schema: "public", table: "profiles" }, p => {
-    stats.tot++; stats.n24++; stats.a24++; renderStats();
-    if (!ranks.some(x => x.id === p.new.id)) { ranks.push({ id: p.new.id, nick: p.new.nick, pw: 0 }); ranks.sort(byRank); }
-    if ($("#rnk").classList.contains("on")) renderRank();
   }).on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages" }, p => onMsgUpd(p.new)).subscribe();
 }
 
@@ -1172,24 +1331,21 @@ function renderRank() {
   if (mine && mine.pw != null) { box.append(mkEl("span", null, T("Senin gücün")), mkEl("b", null, fmt(mine.pw)), mkEl("em", null, "#" + (mine.rk || ranks.indexOf(mine) + 1))); box.style.display = "flex"; }
   else box.style.display = "none";
   ranks.forEach((r, i) => {
-    const d = document.createElement("div"), s = document.createElement("span"), n = document.createElement("small"), t = document.createElement("span");
-    d.dataset.id = r.id; n.textContent = r.rk || i + 1; t.textContent = r.nick + (me && r.id === me.id ? T("  (Sen)") : ""); s.append(n, pBadge(r.id, 30), t); if (r.vip) s.append(vipBadge()); if (modSet.has(r.id)) s.append(modBadge());
-    const e = document.createElement("em"), on = ids.has(r.id);
-    if (on) s.append(mkEl("i", "od"));
-    if (r.pw != null) { e.textContent = fmt(r.pw); e.className = "pw"; stageAttr(e, r.pw); }
-    else { e.textContent = on ? T("Aktif") : T("Çevrimdışı"); if (!on) e.className = "off"; }
-    if (me && r.id === me.id) d.className = "me";
-    d.style.cursor = "pointer"; d.onclick = () => openProfile(r.id, r.nick); d.append(s, e); l.append(d);
+    const isMe = me && r.id === me.id, d = mkEl("div", "onr" + (isMe ? " mine" : "") + (r.vip ? " vp" : "")), tx = mkEl("span", "otx"), nm = mkEl("span", "onm"), rk = mkEl("small", "ort"), pw = mkEl("span", "opw"), rr = mkEl("span", "orr"), n = r.rk || i + 1;
+    d.dataset.id = r.id; nm.append(mkEl("span", null, r.nick)); if (r.vip) nm.append(vipBadge()); if (modSet.has(r.id)) nm.append(modBadge());
+    rk.dataset.uid = r.id; pw.dataset.uid = r.id; tx.append(nm, rk);
+    rr.append(pw, mkEl("i", ids.has(r.id) ? "odot" : "ooff"));
+    d.append(mkEl("span", "onp" + (n <= 3 ? " p" + n : ""), String(n)), pBadge(r.id, 50), tx, rr);
+    d.onclick = () => openProfile(r.id, r.nick); l.append(d); fillOnl(r.id);
   });
   if (sp && keep) sp.scrollTop = keep;
 }
 /* Çevrimiçi durumu değişince listeyi baştan kurma (kaydırma başa sıçrıyordu): sadece noktaları güncelle */
 function rankDots() {
   const ids = new Set(online.map(o => o.id));
-  document.querySelectorAll("#rnkList>div").forEach(d => {
-    const on = ids.has(d.dataset.id), sp = d.firstChild, dot = sp && sp.querySelector("i.od");
-    if (on && !dot) sp.append(mkEl("i", "od")); else if (!on && dot) dot.remove();
-    const e = d.lastChild; if (e && e !== sp && !e.classList.contains("pw")) { e.textContent = on ? T("Aktif") : T("Çevrimdışı"); e.className = on ? "" : "off"; }
+  document.querySelectorAll("#rnkList>.onr").forEach(d => {
+    const on = ids.has(d.dataset.id), rr = d.querySelector(".orr"), dot = rr && rr.querySelector("i.odot,i.ooff");
+    if (dot) dot.className = on ? "odot" : "ooff";
   });
 }
 let rnkFetched = 0, rnkAt = 0;
@@ -1429,6 +1585,88 @@ async function fetchSync() {
   return Promise.all([sb.rpc("game_state"), sb.rpc("my_stations")]);
 }
 /* Sunucu yükünü azaltmak için: tahsilat en sık 5 sn'de bir; ağır tam senkron en sık 90 sn'de bir */
+const IG_URL = "https://www.instagram.com/channel/5TG4tWoKdokV4nti/";
+function openIg() { try { window.open(IG_URL, "_system"); } catch (e) { location.href = IG_URL; } }
+
+/* ===================== ÇARKIFELEK ===================== */
+const WH_SEGS = [1000, 5000, 2000, 20000, 1500, 10000, 3000, 50000, 2500, 7500, 1000, 4000];
+const WH_COL = [["#a78bfa", "#6d28d9"], ["#60a5fa", "#1d4ed8"], ["#2dd4bf", "#0f766e"], ["#4ade80", "#15803d"], ["#fb923c", "#c2410c"], ["#f472b6", "#be185d"]];
+let whBuilt = false, whSt = { ready: false, left: 0, last: null }, whSpinning = false, whAngle = 0, whTm = 0, whRaf = 0, whPendingPrize = null;
+const whK = n => (n >= 1000 ? String(n / 1000) + "K" : String(n));
+const istDay = () => { try { return new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Istanbul" }); } catch (e) { return new Date().toISOString().slice(0, 10); } };
+function whBuild() {
+  if (whBuilt) return; whBuilt = true;
+  const N = WH_SEGS.length, seg = 360 / N, C = 180, R = 150, pt = (a, r) => { const t = (a - 90) * Math.PI / 180; return [C + r * Math.cos(t), C + r * Math.sin(t)]; };
+  let d = '<defs>';
+  WH_COL.forEach((c, i) => { d += '<linearGradient id="wg' + i + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + c[0] + '"/><stop offset="1" stop-color="' + c[1] + '"/></linearGradient>'; });
+  d += '<linearGradient id="wgold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fef08a"/><stop offset=".5" stop-color="#f59e0b"/><stop offset="1" stop-color="#b45309"/></linearGradient>';
+  d += '<linearGradient id="wrim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".35" stop-color="#f59e0b"/><stop offset=".7" stop-color="#b45309"/><stop offset="1" stop-color="#fcd34d"/></linearGradient>';
+  d += '<radialGradient id="wshine" cx=".35" cy=".28" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></radialGradient>';
+  d += '<radialGradient id="whub" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#fff7c2"/><stop offset=".55" stop-color="#fbbf24"/><stop offset="1" stop-color="#92400e"/></radialGradient></defs>';
+  d += '<g id="whRot"><circle cx="180" cy="180" r="176" fill="url(#wrim)"/><circle cx="180" cy="180" r="157" fill="#2b1a05"/>';
+  for (let i = 0; i < N; i++) {
+    const a0 = i * seg, a1 = (i + 1) * seg, p0 = pt(a0, R), p1 = pt(a1, R), gold = WH_SEGS[i] === 50000;
+    d += '<path d="M' + C + ' ' + C + 'L' + p0[0].toFixed(2) + ' ' + p0[1].toFixed(2) + 'A' + R + ' ' + R + ' 0 0 1 ' + p1[0].toFixed(2) + ' ' + p1[1].toFixed(2) + 'Z" fill="url(#' + (gold ? "wgold" : "wg" + (i % 6)) + ')" stroke="rgba(255,255,255,.55)" stroke-width="1.6"/>';
+  }
+  for (let i = 0; i < N; i++) {
+    const am = i * seg + seg / 2, gold = WH_SEGS[i] === 50000, txt = "$" + whK(WH_SEGS[i]);
+    d += '<g transform="rotate(' + am + ' 180 180)"><text transform="rotate(-90 180 98)" x="180" y="98" dominant-baseline="central" text-anchor="middle" font-family="Inter,Roboto,Arial,sans-serif" font-weight="900" font-size="' + (gold ? 30 : 27) + '" fill="' + (gold ? "#3b1d00" : "#fff") + '" stroke="' + (gold ? "rgba(255,255,255,.7)" : "rgba(20,8,45,.75)") + '" stroke-width="' + (gold ? 1.2 : 3.2) + '" paint-order="stroke" stroke-linejoin="round">' + txt + '</text>';
+    if (gold) d += '<path d="M180 24l3.3 6.7 7.4 1.1-5.4 5.2 1.3 7.4-6.6-3.5-6.6 3.5 1.3-7.4-5.4-5.2 7.4-1.1z" fill="#fff" stroke="#b45309" stroke-width="1.2" stroke-linejoin="round"/>';
+    d += '</g>';
+  }
+  d += '<circle cx="180" cy="180" r="150" fill="url(#wshine)"/>';
+  for (let i = 0; i < 24; i++) { const p = pt(i * 15, 166.5); d += '<circle class="wb' + (i % 2) + '" cx="' + p[0].toFixed(2) + '" cy="' + p[1].toFixed(2) + '" r="4.4" fill="#fffbe0" stroke="#b45309" stroke-width="1.2"/>'; }
+  d += '</g><circle cx="180" cy="180" r="30" fill="url(#whub)" stroke="#7c2d12" stroke-width="3"/><circle cx="180" cy="180" r="22" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/><path d="M180 166l4 8.2 9 1.3-6.5 6.3 1.5 9-8-4.3-8 4.3 1.5-9-6.5-6.3 9-1.3z" fill="#b45309" opacity=".9"/>';
+  $("#whSvg").innerHTML = d;
+}
+function whPtrTick() { const p = $("#whPtr"); if (p && p.animate) p.animate([{ transform: "translateX(-50%) rotate(-26deg)" }, { transform: "translateX(-50%) rotate(0deg)" }], { duration: 120, easing: "ease-out" }); if (navigator.vibrate) { try { navigator.vibrate(6); } catch (e) {} } }
+function whConfetti() {
+  const box = $("#whConf"); box.innerHTML = ""; const cols = ["#fbbf24", "#f43f5e", "#22c55e", "#3b82f6", "#a855f7", "#fde68a", "#fb923c"];
+  for (let i = 0; i < 46; i++) {
+    const e = document.createElement("i"), a = Math.random() * Math.PI * 2, dist = 90 + Math.random() * 190; e.style.background = cols[i % cols.length]; box.append(e);
+    if (e.animate) e.animate([{ transform: "translate(0,0) rotate(0deg)", opacity: 1 }, { transform: "translate(" + Math.cos(a) * dist + "px," + (Math.sin(a) * dist + 90) + "px) rotate(" + (Math.random() * 720 - 360) + "deg)", opacity: 0 }], { duration: 1300 + Math.random() * 900, easing: "cubic-bezier(.15,.7,.3,1)", fill: "forwards" });
+  }
+}
+function whUi() {
+  const go = $("#whGo"), note = $("#whNote"), tile = $("#wheelBtn");
+  tile.classList.toggle("ready", !!whSt.ready);
+  if (whSpinning) { go.disabled = true; return; }
+  if (whSt.ready) { go.disabled = false; go.textContent = T("ÇEVİR"); note.textContent = ""; }
+  else {
+    go.disabled = true; go.textContent = T("Yarın tekrar gel");
+    const h = Math.floor(whSt.left / 3600), m = Math.floor(whSt.left % 3600 / 60), sc = whSt.left % 60, p = x => String(x).padStart(2, "0");
+    note.textContent = (whSt.last ? T("Bugün kazandığın: +$") + Number(whSt.last).toLocaleString(LOC) + " · " : "") + T("Yeni hak: ") + p(h) + ":" + p(m) + ":" + p(sc);
+  }
+}
+function whTick() { if (whSt.ready || whSpinning) return; whSt.left = Math.max(0, whSt.left - 1); if (whSt.left <= 0) { whLoad(true); return; } if ($("#wheel").classList.contains("on")) whUi(); }
+async function whLoad(force) {
+  if (!me) return;
+  if (!force) { try { const c = JSON.parse(localStorage.getItem("whl1") || "null"); if (c && c.day === istDay() && c.used) { whSt = { ready: false, left: Math.max(0, Math.round((c.end - Date.now()) / 1000)), last: c.last }; whUi(); clearInterval(whTm); whTm = setInterval(whTick, 1000); return; } } catch (e) {} }
+  const r = await sb.rpc("wheel_state"); if (r.error || !r.data || !r.data[0]) { $("#wheelBtn").classList.remove("ready"); return; }
+  const x = r.data[0]; whSt = { ready: !!x.o_ready, left: Number(x.o_left) || 0, last: x.o_last != null ? Number(x.o_last) : null };
+  if (!whSt.ready) { try { localStorage.setItem("whl1", JSON.stringify({ day: istDay(), used: true, end: Date.now() + whSt.left * 1000, last: whSt.last })); } catch (e) {} }
+  whUi(); clearInterval(whTm); whTm = setInterval(whTick, 1000);
+}
+async function openWheel() { whBuild(); $("#wheel").classList.add("on"); $("#whRes").classList.remove("on"); whUi(); await whLoad(true); }
+function whFinish(prize, balance) {
+  whSpinning = false; whPendingPrize = null; if (balance != null && me) { me.money = Number(balance); setMoney(); }
+  whSt = { ready: false, left: whSt.left, last: prize };
+  try { localStorage.setItem("whl1", JSON.stringify({ day: istDay(), used: true, end: Date.now() + whSt.left * 1000, last: prize })); } catch (e) {}
+  whUi(); $("#whPrize").textContent = "+$" + Number(prize).toLocaleString(LOC); $("#whRes").classList.add("on"); whConfetti();
+}
+async function whSpin() {
+  if (whSpinning || !whSt.ready) return; whSpinning = true; whUi(); $("#whGo").textContent = "...";
+  const r = await sb.rpc("wheel_spin");
+  if (r.error) { whSpinning = false; const em = r.error.message || ""; if (/zaten/.test(em)) { whSt.ready = false; toast(T("Bugünkü hakkını kullandın.")); whLoad(true); } else toast(T("Hata: ") + em); whUi(); return; }
+  const d = r.data || {}, prize = Number(d.prize) || 1000; whSt.left = Number(d.left) || 0;
+  const idxs = WH_SEGS.map((p, i) => p === prize ? i : -1).filter(i => i >= 0), idx = idxs.length ? idxs[Math.floor(Math.random() * idxs.length)] : 0;
+  whPendingPrize = { prize, balance: d.balance };
+  const seg = 360 / WH_SEGS.length, jitter = (Math.random() - .5) * seg * .55, extra = 360 * 6 + (360 - (idx * seg + seg / 2)) + jitter, from = whAngle % 360, target = whAngle - from + extra, t0 = performance.now(), dur = 6400, rot = $("#whRot"); let lastK = Math.floor(whAngle / seg);
+  const step = t => { const x = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - x, 4), ang = whAngle + (target - whAngle) * e; rot.style.transform = "rotate(" + ang + "deg)"; const k = Math.floor(ang / seg); if (k !== lastK) { lastK = k; whPtrTick(); } if (x < 1) whRaf = requestAnimationFrame(step); else { whAngle = target; setTimeout(() => whFinish(prize, d.balance), 350); } };
+  whRaf = requestAnimationFrame(step);
+}
+function closeWheel() { if (whSpinning) { cancelAnimationFrame(whRaf); if (whPendingPrize) { const rot = $("#whRot"); whAngle = whAngle; if (rot) rot.style.transform = "rotate(" + whAngle + "deg)"; whFinish(whPendingPrize.prize, whPendingPrize.balance); toast(T("Ödül hesabına eklendi: +$") + Number(whPendingPrize.prize).toLocaleString(LOC)); } } $("#wheel").classList.remove("on"); }
+$("#wheelBtn").onclick = openWheel; $("#whGo").onclick = whSpin; $("#whClose").onclick = closeWheel; $("#whOk").onclick = () => $("#whRes").classList.remove("on");
 const COLLECT_GAP = 8000; let lastSoft = 0;
 function softSync(min) { const t = Date.now(); if (t - lastSoft < (min || 90000)) return; lastSoft = t; bg(syncGame()); }
 async function syncGame(pre) {
@@ -1454,91 +1692,38 @@ function renderClock(tod) {
 }
 
 /* ---- masalar ---- */
+const gridEls = new Map();
 function renderGrid() {
-  const g = $("#grid"); g.innerHTML = "";
-  const cols = slots <= 20 ? 5 : slots <= 30 ? 6 : slots <= 42 ? 7 : 8, rows = Math.ceil(slots / cols);
-  g.style.gridTemplateColumns = "repeat(" + cols + ",1fr)"; g.style.gridTemplateRows = "repeat(" + rows + ",minmax(0,1fr))";
-  g.dataset.cols = cols; g.dataset.rows = rows; g.className = "grid" + (cols >= 6 ? " c" : "");
+  const g = $("#grid"); if (g.children.length !== gridEls.size) { g.innerHTML = ""; gridEls.clear(); }
+  g.className = "grid";
   const by = {}; stations.forEach(s => by[s.slot] = s);
   $("#stChip").textContent = stations.length + "/" + slots;
   $("#stSub").textContent = T("Bugün: $") + fmt(today.earn) + " · " + today.cust + T(" müşteri") + (staffN() ? " · " + staffN() + T(" personel") : "");
+  for (const [k, el] of gridEls) if (k > slots) { el.remove(); gridEls.delete(k); }
   for (let i = 1; i <= slots; i++) {
-    const s = by[i], b = mkEl("button", "pcs" + (s ? "" : " empty"));
-    if (s) {
-      const m = modelOf(s);
-      b.append(pcImg(m ? m.tier : 1), mkEl("b", null, m ? String(m.year) : "?"));
-      if (s.req) {
-        const t = mkEl("small", null, "--:--"); t.id = "pt-" + i;
-        const pb = mkEl("div", "pb mini"), bar = mkEl("i"); bar.id = "pp-" + i; pb.append(bar);
-        const dot = mkEl("span", "cdot"); dot.style.background = s.color;
-        b.classList.add("busy"); b.append(t, pb, dot);
-      } else b.append(mkEl("small", null, T("Hazır")));
-      b.onclick = () => openPc(i);
-    } else {
-      const e = mkEl("span", "pci"); e.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg>';
-      b.append(e, mkEl("b", null, T("Boş")), mkEl("small", null, T("Masa ") + i));
-      b.onclick = () => { $("#shop").classList.add("on"); shopView("urun"); };
+    const s = by[i], m = s ? modelOf(s) : null, key = s ? "s|" + (m ? m.tier : 1) + "|" + (s.req ? "b" : "i") : "e";
+    let el = gridEls.get(i);
+    if (!el) { el = document.createElement("button"); el.className = "pcs"; gridEls.set(i, el); g.append(el); }
+    if (el._key !== key) {
+      el._key = key; el.innerHTML = ""; el.className = "pcs" + (s ? (s.req ? " busy" : "") : " empty");
+      if (s) {
+        el.append(pcImg(m ? m.tier : 1), mkEl("b", null, m ? String(m.year) : "?"));
+        if (s.req) {
+          const t = mkEl("small", null, "--:--"); t.id = "pt-" + i;
+          const pb = mkEl("div", "pb mini"), bar = mkEl("i"); bar.id = "pp-" + i; pb.append(bar);
+          el.append(t, pb, mkEl("span", "cdot"));
+        } else el.append(mkEl("small", null, T("Hazır")));
+      } else {
+        const e = mkEl("span", "pci"); e.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg>';
+        el.append(e, mkEl("b", null, T("Boş")), mkEl("small", null, T("Masa ") + i));
+      }
     }
-    g.append(b);
+    if (s) { const dot = el.querySelector(".cdot"); if (dot) dot.style.background = s.color; el.onclick = () => openPc(i); }
+    else el.onclick = () => { $("#shop").classList.add("on"); shopView("urun"); };
   }
-  fitGrid();
 }
-/* Izgara: mevcut yüksekliğe göre ikon boyutunu ve yazıları ayarlar, böylece ana ekran kaymadan tek ekrana sığar */
-function fitGrid() {
-  const g = $("#grid"), cols = Number(g.dataset.cols) || 5, rows = Number(g.dataset.rows) || 1, W = g.clientWidth, H = g.clientHeight;
-  if (!W || !H) return;
-  const gap = 6, cw = (W - gap * (cols - 1)) / cols, rh = (H - gap * (rows - 1)) / rows;
-  const mode = rh >= 80 ? "" : rh >= 56 ? "tight" : "tiny", txt = mode === "" ? 30 : mode === "tight" ? 15 : 0;
-  const IMG = !!PC_IMG[1], is = Math.max(16, Math.min(IMG ? 58 : 46, Math.floor(Math.min(cw * (IMG ? 0.92 : 0.74), rh - txt - 12))));
-  g.style.setProperty("--is", is + "px"); g.classList.toggle("tight", mode === "tight"); g.classList.toggle("tiny", mode === "tiny");
-}
-function fitLayout() {
-  const qh = Math.max(116, Math.min(230, Math.round(window.innerHeight * 0.27)));
-  $("#stCard").style.height = qh + "px"; fitGrid();
-}
-window.addEventListener("resize", fitLayout);
-if (window.ResizeObserver) new ResizeObserver(fitGrid).observe($("#grid"));
-function pcCard(m, tag, cls) {
-  const d = mkEl("div", "pcv t" + m.tier + (cls ? " " + cls : "")), h = mkEl("div", "pchero");
-  if (PC_IMG[m.tier]) { const im = document.createElement("img"); im.src = PC_IMG[m.tier]; im.alt = ""; h.append(im); } else h.append(pcImg(m.tier));
-  d.append(mkEl("span", "pctag", tag), h, mkEl("b", null, m.name), mkEl("small", null, T("Saatlik $") + r1(m.rate)));
-  return d;
-}
-function openPc(slot) {
-  const s = stations.find(x => x.slot === slot), m = s && modelOf(s); if (!m) return;
-  const p = $("#pcBox"); p.innerHTML = "";
-  const r = s.req ? reqById(s.req) : null, nx = models.find(x => x.tier === m.tier + 1);
-  const view = mkEl("div", "pcup" + (nx ? "" : " one"));
-  view.append(pcCard(m, nx ? T("ŞİMDİ") : T("EN ÜST MODEL")));
-  if (nx) { const ar = mkEl("span", "arr"); ar.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg>'; view.append(ar, pcCard(nx, T("YENİ"), "nxt")); }
-  p.append(view);
-  p.append(mkEl("h2", null, T("Masa ") + slot + ": " + m.name), mkEl("p", null, T("Model yılı ") + m.year + T(" · Saatlik ücret $") + r1(m.rate) + (s.req ? T(" · Kullanımda: ") + (r ? T(r.label) : s.req) : T(" · Boşta"))));
-  if (nx) {
-    const gain = Math.round((nx.rate / m.rate - 1) * 100), nr = reqs.filter(x => x.min_tier === nx.tier);
-    p.append(mkEl("p", "upsum", nx.name + T(" ile saatlik ücret $") + r1(m.rate) + " → $" + r1(nx.rate) + " (+%" + gain + ")" + (nr.length ? T(". Yeni müşteri: ") + nr.map(x => T(x.label)).join(", ") : "")));
-    const u = mkEl("button", "btn", T("Yükselt: $") + fmt(nx.upg_price)); u.disabled = !!s.req || me.money < nx.upg_price; u.onclick = () => upgradePc(slot); p.append(u);
-    if (s.req) p.append(mkEl("p", "note2", T("Müşteri varken yükseltilemez.")));
-  }
-  const sell = mkEl("button", "btn r", T("Sat (+$") + fmt(Math.floor(m.price / 2)) + ")"); sell.disabled = !!s.req || stations.length <= 1; sell.onclick = () => sellPc(slot);
-  const c = mkEl("button", "btn o", T("Kapat")); c.onclick = () => $("#pcpop").classList.remove("on");
-  p.append(sell, c); $("#pcpop").classList.add("on");
-}
-async function upgradePc(slot) {
-  const { data, error } = await sb.rpc("upgrade_pc", { p_slot: slot });
-  if (error) return toast({ "masa dolu": T("Masada müşteri var."), "para yetmiyor": T("Paran yetmiyor."), "maksimum": T("Bu en üst model.") }[error.message] || T("Hata: ") + error.message);
-  const r = data[0]; me.money = Number(r.o_money); setMoney();
-  const s = stations.find(x => x.slot === slot); if (s) s.model = r.o_model;
-  renderAll(); openPc(slot); toast(T("Yükseltildi: ") + ((modelById(r.o_model) || {}).name || ""));
-}
-$("#pcpop").addEventListener("click", e => { if (e.target.id === "pcpop") $("#pcpop").classList.remove("on"); });
-async function sellPc(slot) {
-  const { data, error } = await sb.rpc("sell_pc", { p_slot: slot });
-  if (error) return toast({ "masa dolu": T("Masada müşteri var."), "son masa": T("En az 1 bilgisayarın kalmalı.") }[error.message] || T("Hata: ") + error.message);
-  me.money = Number(data); setMoney(); stations = stations.filter(s => s.slot !== slot);
-  $("#pcpop").classList.remove("on"); renderAll(); toast(T("Bilgisayar satıldı."));
-}
+function fitGrid() {}
 
-/* ---- müşteri sırası ---- */
 function renderCard() {
   const c = $("#stCard"); c.innerHTML = "";
   if (!models.length || !reqs.length) { c.append(mkEl("b", "ct", T("Oyun verisi yüklenemedi")), mkEl("p", "cs", T("Supabase SQL dosyasını (ioz_cafe_guvenli_sql.sql) çalıştırdığından emin ol."))); return; }
@@ -1573,10 +1758,7 @@ function renderCard() {
     const b = mkEl("button", "pbtn sm", T("Oturt")); b.disabled = !free || over; b.onclick = () => seat(e);
     row.append(b, pb); list.append(row);
   });
-  /* Sığmayan müşteriler gizlenir, sayısı başlıkta yazar: ekran kaymaz */
-  let hidden = 0;
-  while (list.scrollHeight > list.clientHeight + 1 && list.children.length > 1) { list.lastElementChild.remove(); hidden++; }
-  cnt.textContent = hidden ? "+" + hidden + T(" bekliyor") : q.length ? q.length + T(" bekliyor") : "";
+  cnt.textContent = q.length ? q.length + T(" bekliyor") : "";
 }
 function arrive() {
   if (!reqs.length) return;
@@ -1626,14 +1808,14 @@ async function collect() {
   const { data, error } = await sb.rpc("collect_payments");
   collecting = false;
   if (error) { toast(T("Hata: ") + error.message); return; }
-  const r = data[0];
+  const r = data && data[0]; if (!r) return;
   if (r.o_count > 0) {
-    me.money = Number(r.o_money); setMoney(); fly("+$" + fmt(Number(r.o_total)));
+    zeroCol = 0; me.money = Number(r.o_money); setMoney(); fly("+$" + fmt(Number(r.o_total)));
     const nowc = performance.now(); today = { earn: (today ? Number(today.earn) : 0) + Number(r.o_total), cust: (today ? Number(today.cust) : 0) + Number(r.o_count) };
     stations.filter(s => s.req && s.end <= nowc + 1000).sort((a, b) => a.end - b.end).slice(0, Number(r.o_count)).forEach(s => { s.req = null; s.end = 0; s.hours = 0; s.pay = 0; s.ext = 0; s.extRoll = false; s.extUsed = false; });
     renderGrid(); renderCard(); renderDay();
   }
-  else { const now = performance.now(); stations.forEach(s => { if (s.req && s.end <= now) s.end = now + COLLECT_GAP; }); }
+  else { const now = performance.now(); stations.forEach(s => { if (s.req && s.end <= now) s.end = now + COLLECT_GAP; }); if (++zeroCol >= 3) { zeroCol = 0; softResync(); } }
 }
 function fly(t) { const f = mkEl("span", "pay", t); $("#fly").append(f); setTimeout(() => f.remove(), 1000); }
 
@@ -2955,14 +3137,27 @@ function renderFrameShop() {
   });
   b.append(g);
 }
-$("#avBtn").onclick = openAv; $("#rkBtn").onclick = openRk; $("#pwrB").onclick = openPw; $("#pwrB").setAttribute("role", "button"); $("#pwClose").onclick = () => { cancelAnimationFrame(pwAnim); $("#pwm").classList.remove("on"); }; $("#avClose").onclick = () => $("#avm").classList.remove("on"); $("#rkClose").onclick = () => $("#rkm").classList.remove("on");
+$("#igBtn").onclick = openIg; $("#avBtn").onclick = openAv; $("#rkBtn").onclick = openRk; $("#pwrB").onclick = openPw; $("#pwrB").setAttribute("role", "button"); $("#pwClose").onclick = () => { cancelAnimationFrame(pwAnim); $("#pwm").classList.remove("on"); }; $("#avClose").onclick = () => $("#avm").classList.remove("on"); $("#rkClose").onclick = () => $("#rkm").classList.remove("on");
 $("#avm").addEventListener("click", e => { if (e.target.id === "avm") $("#avm").classList.remove("on"); });
 $("#rkm").addEventListener("click", e => { if (e.target.id === "rkm") $("#rkm").classList.remove("on"); });
 
 /* ---- döngü ---- */
+/* Müşteriler takılırsa: kilit bekçisi, uyku/donma tespiti ve otomatik tam eşitleme */
+let zeroCol = 0, tkWall = 0, tkPerf = 0, lastHeal = 0, lkC = 0, lkA = 0, lkPC = 0, lkPA = 0, lkSC = 0, lkSA = 0;
+function softResync() { const t = Date.now(); if (t - lastHeal < 20000) return; lastHeal = t; bg(syncGame()); }
+function watchLocks(now) {
+  if (collecting) { if (!lkC) lkC = now; else if (now - lkC > 30000) { collecting = false; lkC = 0; } } else lkC = 0;
+  if (acting) { if (!lkA) lkA = now; else if (now - lkA > 30000) { acting = false; lkA = 0; } } else lkA = 0;
+  if (psColl) { if (!lkPC) lkPC = now; else if (now - lkPC > 30000) { psColl = false; lkPC = 0; } } else lkPC = 0;
+  if (psAct) { if (!lkPA) lkPA = now; else if (now - lkPA > 30000) { psAct = false; lkPA = 0; } } else lkPA = 0;
+  if (simColl) { if (!lkSC) lkSC = now; else if (now - lkSC > 30000) { simColl = false; lkSC = 0; } } else lkSC = 0;
+  if (simAct) { if (!lkSA) lkSA = now; else if (now - lkSA > 30000) { simAct = false; lkSA = 0; } } else lkSA = 0;
+}
 function gameTick() {
   if (!me) return;
   const now = performance.now(), tod = todNow(), over = tod >= DAY_END, min = Math.floor(tod);
+  watchLocks(now);
+  { const wall = Date.now(); if (tkWall) { const dW = wall - tkWall, dP = now - tkPerf; if (dW - dP > 4000 || dW > 15000) softResync(); } tkWall = wall; tkPerf = now; }
   if (min !== lastMin) { lastMin = min; renderClock(tod); updBoost(); }
   psTick(now, over);
   simTick(now, over);
@@ -3116,8 +3311,14 @@ async function buy(m) {
 }
 const SV = { menu: [T("Dükkan"), "vMenu"], urun: [T("Ürün al"), "vUrun"], gel: [T("Dükkan geliştir"), "vGel"], per: [T("Personel al"), "vPer"], vip: [T("VIP üyelik"), "vVip"], ps: [T("Oyun Salonu"), "vPs"], sim: [T("Araba Simülasyonu"), "vSim"], frames: [T("Çerçeve Mağazası"), "vFrames"] };
 let shopV = "menu";
+function updShopMenu() {
+  const mp = $("#mcPs"), ms = $("#mcSim"), mv = $("#mcVip"), set = (el, lock, txt) => { if (!el) return; el.classList.toggle("lock", !!lock); const sm = el.querySelector("small"); if (sm && txt) sm.textContent = txt; };
+  set(mp, !ps.open && level < PS_OPEN_LEVEL, ps.open ? Tf("Seviye {l} · {n} masa", { l: ps.level, n: ps.slots }) : level >= PS_OPEN_LEVEL ? T("Açılış: $") + fmt(PS_OPEN_PRICE) : Tf("Dükkan seviye {l}'te açılır", { l: PS_OPEN_LEVEL }));
+  set(ms, !sim.open && !(ps.open && ps.level >= SIM_OPEN_LEVEL), sim.open ? Tf("Seviye {l} · {n} masa", { l: sim.level, n: sim.slots }) : (ps.open && ps.level >= SIM_OPEN_LEVEL) ? T("Açılış: $") + fmt(SIM_OPEN_PRICE) : Tf("Oyun Salonu seviye {l}'te açılır", { l: SIM_OPEN_LEVEL }));
+  set(mv, false, vip ? T("Üyeliğin aktif") : T("$20.000 + reklamsız + %50 kazanç"));
+}
 function shopView(v) {
-  shopV = v;
+  shopV = v; if (v === "menu") updShopMenu();
   document.querySelectorAll("#shop .sv").forEach(e => e.classList.toggle("on", e.id === SV[v][1]));
   $("#shopTitle").textContent = SV[v][0];
   $("#shopClose").textContent = v === "menu" ? T("Kapat") : T("Geri");
@@ -3129,7 +3330,7 @@ function shopView(v) {
   if (v === "sim") renderSimShop();
   if (v === "frames") renderFrameShop();
 }
-document.querySelectorAll(".shopmenu .bn").forEach(b => b.onclick = () => shopView(b.dataset.v));
+document.querySelectorAll(".shopmenu .mc").forEach(b => b.onclick = () => shopView(b.dataset.v));
 $("#shopBtn").onclick = () => { $("#shop").classList.add("on"); shopView("menu"); };
 $("#shopClose").onclick = () => { if (shopV === "menu") $("#shop").classList.remove("on"); else shopView("menu"); };
 $("#shop").addEventListener("click", e => { if (e.target.id === "shop") $("#shop").classList.remove("on"); });
@@ -3435,7 +3636,7 @@ $("#delAsk").onclick = () => { $("#delBox").style.display = "block"; };
 function reset() {
   if (rt) { sb.removeChannel(rt); rt = null; }
   if (pr) { sb.removeChannel(pr); pr = null; } presSt = {}; seenChat.clear();
-  clearInterval(statTimer); clearInterval(custTimer); clearInterval(syncTimer); q = []; stations = []; models = []; reqs = []; levels = []; level = 1; loginFlowDone = false; myCos = { av: 0, frame: null, frames: [] }; clearTimeout(sackTm); clearInterval(skTm); sackSt = null; avMiss.clear(); avWant.clear(); rows.clear(); myRx.clear(); replyTo = null; rnkFetched = 0; ranks = []; clearInterval(inbPoll); inbBadge(0); clearInterval(rafTm); klan = undefined; klView = null; klRank = []; klRankAt = 0; klStopRT(); boostEnd = 0; boostN = 0; bonusDone = false; repairDone = false; ps = { open: false, level: 1, slots: 4, staff: false, lib: false }; psSt = []; psQ = []; psModels = []; psReqs = []; psLevels = []; psLoaded = false; $("#psBtn").style.display = "none"; sim = { open: false, level: 1, slots: 4, staff: false, lib: false }; simSt = []; simQ = []; simModels = []; simReqs = []; simLevels = []; simLoaded = false; $("#simBtn").style.display = "none"; isAdm = false; updAdmUi(); modSet = new Set(); amMod = false; clearInterval(modTm); cashier = false; cleaner = false; manager = false; vFood = false; vDrink = false; myPower = null; $("#pwrB").innerHTML = ""; rep = 3; ghosts = []; blocked = new Set(); blockNames = {}; $("#adm").classList.remove("on"); $("#banov").classList.remove("on"); vip = false; vipBusy = false; $("#vipB").innerHTML = ""; nextArr = 0; lastMsg = ""; lastOver = null; lastMin = -1; advancing = false; adBusy = false; renderAll(); ranks = []; stats = { tot: 0, n24: 0, a24: 0 }; renderStats(); $("#rnk").classList.remove("on");
+  clearInterval(statTimer); clearInterval(custTimer); clearInterval(syncTimer); q = []; stations = []; models = []; reqs = []; levels = []; level = 1; loginFlowDone = false; myCos = { av: 0, frame: null, frames: [] }; clearTimeout(sackTm); clearInterval(skTm); sackSt = null; avMiss.clear(); avWant.clear(); rows.clear(); myRx.clear(); replyTo = null; rnkFetched = 0; ranks = []; clearInterval(inbPoll); inbBadge(0); clearInterval(rafTm); klan = undefined; klView = null; klRank = []; klRankAt = 0; klStopRT(); boostEnd = 0; boostN = 0; bonusDone = false; repairDone = false; ps = { open: false, level: 1, slots: 4, staff: false, lib: false }; psSt = []; psQ = []; psModels = []; psReqs = []; psLevels = []; psLoaded = false; $("#psBtn").style.display = "none"; sim = { open: false, level: 1, slots: 4, staff: false, lib: false }; simSt = []; simQ = []; simModels = []; simReqs = []; simLevels = []; simLoaded = false; $("#simBtn").style.display = "none"; isAdm = false; updAdmUi(); clearInterval(whTm); whSt = { ready: false, left: 0, last: null }; modSet = new Set(); amMod = false; clearInterval(modTm); cashier = false; cleaner = false; manager = false; vFood = false; vDrink = false; myPower = null; $("#pwrB").innerHTML = ""; rep = 3; ghosts = []; blocked = new Set(); blockNames = {}; $("#adm").classList.remove("on"); $("#banov").classList.remove("on"); vip = false; vipBusy = false; $("#vipB").innerHTML = ""; nextArr = 0; lastMsg = ""; lastOver = null; lastMin = -1; advancing = false; adBusy = false; renderAll(); ranks = []; stats = { tot: 0, n24: 0, a24: 0 }; renderStats(); $("#rnk").classList.remove("on");
   online = []; $("#cnt").textContent = "0"; $("#onl").classList.remove("on");
   me = null; seen.clear(); $("#list").innerHTML = ""; $("#pass").value = ""; $("#pass2").value = ""; $("#nick").value = "";
   chatOpen = false; $("#chat").classList.remove("on"); closeSet(); setMode("in"); show("auth");
@@ -3466,6 +3667,7 @@ $("#delGo").onclick = async () => {
       if (on("ps")) { $("#ps").classList.remove("on"); return; }
       if (on("sim")) { $("#sim").classList.remove("on"); return; }
       if (on("pwm")) { $("#pwm").classList.remove("on"); return; }
+      if (on("wheel")) { closeWheel(); return; }
       for (const id of ["pcpop", "msgpop", "blkpop", "onl", "set", "adm"]) if (on(id)) { $("#" + id).classList.remove("on"); return; }
       if (on("shop")) { if (shopV !== "menu") shopView("menu"); else $("#shop").classList.remove("on"); return; }
       if (on("chat")) { closeChat(); return; }
