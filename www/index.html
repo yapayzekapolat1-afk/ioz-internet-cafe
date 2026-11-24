@@ -823,6 +823,37 @@ b>.modb,h2>.modb{margin-left:6px}
 .onr{display:flex;align-items:center;gap:10px;padding:10px 12px;margin:0 0 8px;border-radius:16px;background:var(--card2);border:1px solid var(--line);cursor:pointer}
 .onr.vp{background:linear-gradient(90deg,rgba(251,191,36,.15),var(--card2) 72%);border-color:rgba(251,191,36,.4)}
 .onr.mine{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+/* --- ELİTE VİP --- */
+.elb{display:inline-flex;align-items:center;gap:3px;height:17px;padding:0 7px 0 4px;border-radius:999px;background:linear-gradient(180deg,#ff6a3d,#dc1f26 55%,#7f0d12);color:#fff;font-size:10px;font-weight:900;letter-spacing:.05em;vertical-align:middle;flex:none;white-space:nowrap;text-shadow:0 1px 0 rgba(90,0,0,.7);box-shadow:0 0 8px rgba(255,60,30,.75),inset 0 0 0 1px rgba(255,205,130,.55)}
+.elb .ic{width:11px;height:11px;fill:#ffd76a;stroke:#7a1500;stroke-width:1.1}
+@keyframes elbg{50%{box-shadow:0 0 15px rgba(255,90,30,.95),inset 0 0 0 1px rgba(255,225,150,.85)}}
+.onr.el{background:linear-gradient(90deg,rgba(255,59,31,.34),rgba(127,13,18,.26) 70%,var(--card2));border-color:rgba(255,74,28,.75);box-shadow:inset 3px 0 0 #ff4a1c,0 0 14px rgba(255,50,20,.28)}
+.onr.el.mine{box-shadow:inset 3px 0 0 #ff4a1c,0 0 0 1px var(--acc) inset,0 0 14px rgba(255,50,20,.28)}
+.m.elitem{position:relative;background:linear-gradient(95deg,rgba(255,59,31,.44),rgba(190,18,28,.32) 55%,rgba(120,8,16,.22));box-shadow:inset 3px 0 0 #ff4a1c,inset 0 0 0 1px rgba(255,74,28,.35)}
+.m.elitem::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70%;pointer-events:none;border-radius:inherit;background:radial-gradient(110% 100% at 18% 100%,rgba(255,160,40,.40),transparent 62%),radial-gradient(90% 90% at 82% 100%,rgba(255,60,30,.38),transparent 60%);opacity:.8}
+.m.elitem:nth-last-child(-n+5)::after{animation:elfl 1.9s ease-in-out infinite alternate}
+@keyframes elfl{from{opacity:.45;transform:translateY(3px) scaleY(.94)}to{opacity:1;transform:translateY(-1px) scaleY(1.05)}}
+.m.elitem>*{position:relative;z-index:1}
+.m.elitem .n,.m.elitem.me .n{color:#ffb9a3;text-shadow:0 0 10px rgba(255,70,30,.85)}
+.m.elitem .t{color:#fff1ea;font-weight:700}
+.scrl .m.elitem::after,.lowfx .m.elitem::after,.scrl .elb,.lowfx .elb{animation:none}
+.eljoin{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 10px;padding:9px 10px;border-radius:14px;cursor:pointer;text-align:center;color:#fff;font-size:13px;font-weight:700;background:linear-gradient(90deg,rgba(127,13,18,.1),rgba(220,31,38,.6) 22%,rgba(255,96,40,.66) 50%,rgba(220,31,38,.6) 78%,rgba(127,13,18,.1));border:1px solid rgba(255,96,40,.6);box-shadow:0 0 18px rgba(255,60,30,.45);animation:eljin .6s ease-out}
+.eljoin .elj{display:inline-flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:5px;min-width:0}
+.eljoin .elj b{font-weight:900;color:#fff;text-shadow:0 0 10px rgba(255,200,120,.9);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eljoin .elji .ic{width:18px;height:18px;fill:#ffd76a;stroke:#7a1500;stroke-width:1}
+.eljoin:last-child .elji .ic{animation:eljf .9s ease-in-out infinite alternate}
+@keyframes eljin{from{transform:scale(.88);opacity:0}}
+@keyframes eljf{to{transform:scale(1.18) translateY(-1px)}}
+.lowfx .eljoin .elji .ic{animation:none}
+.elc{margin:14px;padding:16px;border-radius:18px;border:1.5px solid rgba(255,96,40,.8);background:radial-gradient(120% 80% at 50% 0%,rgba(255,80,30,.36),transparent 62%),linear-gradient(180deg,#2c0609,#12070a);box-shadow:0 0 26px rgba(255,50,20,.38)}
+.elc .vh{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:900;color:#ffb9a3;text-shadow:0 0 14px rgba(255,70,30,.85)}
+.ell{margin:12px 0 14px 4px;padding:0;list-style:none}
+.ell li{position:relative;padding:5px 0 5px 22px;font-size:15px;color:#ffe9e2}
+.ell li::before{content:"";position:absolute;left:3px;top:10px;width:9px;height:9px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:linear-gradient(#ffd24a,#ff4a1c)}
+#mcElite.mc{border-color:rgba(255,96,40,.7);background:linear-gradient(135deg,rgba(255,59,31,.26),rgba(190,18,28,.12))}
+.btn.elbtn{background:linear-gradient(#ff6a3d,#dc1f26 55%,#8f0f16);color:#fff;box-shadow:0 8px 22px rgba(220,31,38,.5)}
+.btn.elbtn:active{background:#b3141b}
+.btn.elbtn:disabled{opacity:.75}
 .onp{width:24px;flex:none;text-align:center;font-weight:900;font-size:14px;color:var(--mut)}
 .onp.p1{color:#fbbf24;font-size:18px}.onp.p2{color:#cbd5e1;font-size:17px}.onp.p3{color:#d98b4a;font-size:17px}
 .onr .otx{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
@@ -1041,6 +1072,7 @@ setTimeout(function () {
       <button class="mc" data-v="sim" id="mcSim"><span class="mi" style="background:linear-gradient(135deg,#f472b6,#be185d)"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l1.5-4.3A2 2 0 0 1 8.4 6.8h7.2a2 2 0 0 1 1.9 1.4L19 12.5"/><rect x="3.5" y="12.5" width="17" height="4.5" rx="1.6"/><circle cx="7.6" cy="17.6" r="1.7"/><circle cx="16.4" cy="17.6" r="1.7"/></svg></span><span class="mt"><b>Araba Simülasyonu</b><small>Üçüncü dükkan: yarış simülatörleri</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
       <h4>Özel</h4>
       <button class="mc" data-v="frames"><span class="mi" style="background:linear-gradient(135deg,#2dd4bf,#0f766e)"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19c.8-2.7 3-4 5.5-4s4.7 1.3 5.5 4"/></svg></span><span class="mt"><b>Çerçeve Mağazası</b><small>Avatarını özelleştir</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+      <button class="mc mcvip" data-v="vip" id="mcElite"><span class="mi" style="background:linear-gradient(135deg,#ff6a3d,#b3141b)"><svg class="ic" viewBox="0 0 24 24" style="fill:#ffd76a;stroke:#7a1500"><path d="M12 3c1.2 3.2 5 5 5 9.4a5 5 0 0 1-10 0c0-1.8.9-3.1 1.8-4.1.3 1.1 1 1.6 1.8 1.4C10.4 8 10.2 5.4 12 3z"/></svg></span><span class="mt"><b style="color:#ff9a7a">ELİTE VİP</b><small>2 kat kazanç + $30.000.000 + 100.000 güç</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
       <button class="mc mcvip" data-v="vip" id="mcVip"><span class="mi" style="background:linear-gradient(135deg,#fbbf24,#d97706)"><svg class="ic" viewBox="0 0 24 24"><use href="#i-crown"/></svg></span><span class="mt"><b>VIP üyelik</b><small>$20.000 + reklamsız + %50 kazanç</small></span><svg class="ic go" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
     </div>
     <div class="sv" id="vUrun"><div class="shopbody" id="shopBody"></div></div>
@@ -1154,6 +1186,7 @@ Object.assign(EN, {"Moderatörler": "Moderators", "Moderatör yap": "Make modera
 Object.assign(EN, {"Araba": "Car", "Çekiliş": "Raffle", "Çark": "Wheel", "Instagram": "Instagram", "Dükkanım": "My shop", "Diğer dükkanlar": "Other shops", "Özel": "Special", "Ürün al": "Buy computers", "Seviye {l} · {n} masa": "Level {l} · {n} desks", "Dükkan seviye {l}'te açılır": "Unlocks at shop level {l}", "Oyun Salonu seviye {l}'te açılır": "Unlocks at Game Room level {l}", "Açılış: $": "Opening: $", "Üyeliğin aktif": "Your membership is active", "Bilgisayar al, 1980'den 2035'e": "Buy computers, from 1980 to 2035"});
 Object.assign(EN, {"Çarkıfelek": "Wheel of Fortune", "ÇEVİR": "SPIN", "Yarın tekrar gel": "Come back tomorrow", "Bugün kazandığın: +$": "Won today: +$", "Yeni hak: ": "Next spin: ", "Bugünkü hakkını kullandın.": "You already used today's spin.", "Ödül hesabına eklendi: +$": "Prize added: +$", "Günde 1 hak. 1.000 ile 50.000 dolar arası ödül kazan!": "1 spin a day. Win from $1,000 to $50,000!", "TEBRİKLER!": "CONGRATULATIONS!", "Ödül hesabına eklendi.": "Prize added to your account.", "Harika!": "Awesome!"});
 const HAS = Object.prototype.hasOwnProperty;
+Object.assign(EN, {"Bu çerçeveye zaten sahipsin.": "You already own this frame.", "ELİTE VİP al": "Remove ELITE VIP", "ELİTE VİP alındı.": "ELITE VIP removed.", "VIP & ELİTE VİP": "VIP & ELITE VIP", "ELİTE VİP": "ELITE VIP", "ELİTE VİP üyesisin": "You're ELITE VIP", "ELİTE VİP ol": "Become ELITE VIP", "ELİTE VİP aktif": "ELITE VIP active", "Satın alınca anında $30.000.000": "$30,000,000 instantly on purchase", "Anında +100.000 güç": "Instant +100,000 power", "Tüm reklamlar kalkar": "All ads removed", "Tüm kazançlar 2 kat": "All earnings x2", "+20 bilgisayar masası, +10 PlayStation, +10 araba simülatörü (hazır kurulu)": "+20 computer desks, +10 PlayStations, +10 car simulators (ready to use)", "Sohbette kırmızı ateşli kart ve özel ateş çerçevesi": "Fiery red chat card and exclusive fire frame", "Her girişte sohbette ELİTE VİP duyurusu": "ELITE VIP join announcement in chat on every login", "Sıralamada ve çevrimiçi listesinde kırmızı vurgu": "Red highlight in rankings and online list", "Tek seferlik satın alma. VIP üyeliğin tüm avantajlarını da içerir.": "One-time purchase. Includes all VIP perks.", "2 kat kazanç + $30.000.000 + 100.000 güç": "2x earnings + $30,000,000 + 100,000 power", "giriş yaptı": "joined", "Elite Alev": "Elite Flame", "ELİTE VİP ver": "Give ELITE VIP", "ELİTE VİP verildi.": "ELITE VIP granted.", "Ödeme alındı ama ELİTE VİP teslim edilemedi": "Payment received but ELITE VIP couldn't be delivered", "ELİTE VİP aktif! $30.000.000 ve 100.000 güç hesabına eklendi.": "ELITE VIP active! $30,000,000 and 100,000 power added.", "ELİTE VİP üyeliğin geri yüklendi.": "Your ELITE VIP membership was restored.", "ELİTE VİP zaten aktif.": "ELITE VIP is already active.", "Bu hesapta ELİTE VİP satın alınmış, kontrol ediliyor.": "ELITE VIP was already purchased on this account, checking.", "Ödeme onay bekliyor. Onaylanınca ELİTE VİP otomatik gelecek.": "Payment is pending. ELITE VIP will arrive automatically once approved.", "). Uygulamayı Play Store'dan yüklediğinden ve elite_vip ürününün etkin olduğundan emin ol.": "). Make sure you installed the app from Play Store and the elite_vip product is active."});
 const T = s => (LANG === "en" && HAS.call(EN, s)) ? EN[s] : s;
 const Tf = (s, v) => { let t = T(s); if (v) for (const k in v) t = t.split("{" + k + "}").join(v[k]); return t; };
 document.documentElement.lang = LANG;
@@ -1294,7 +1327,7 @@ async function enter(sess, expect) {
   applyName();
   $("#moneyV").textContent = "$" + fmt(me.money);
   show("home"); fitLayout();
-  startRT();
+  await rtAuth(); startRT(); bg(prefetchChat()); loadRanksCache(); setTimeout(() => bg(fetchRanks(true)), 1500);
   startPresence(); bg(checkAdm()); bg(loadMods()); bg(whLoad(false)); clearInterval(modTm); modTm = setInterval(() => { if (document.visibilityState === "visible") bg(loadMods(true)); }, 600000);
   bg(sackRefresh()); schedSack();
   loadBlocks();
@@ -1304,12 +1337,35 @@ async function enter(sess, expect) {
   adInit().catch(() => {}); checkPurchases(); startInboxPoll(); bg(loadCos()); setTimeout(() => bg(showLoginFlow()), 1300); clearInterval(custTimer); custTimer = setInterval(gameTick, 400); clearInterval(syncTimer); syncTimer = setInterval(() => { if (!document.hidden) syncGame(); }, 120000);   /* saat zaten telefonda ilerliyor; 30 sn yerine 2 dk */
 }
 
+let rtRetry = 0, rtTimer = 0, lastMsgId = 0, pollBusy = false, pollN = 0;
+const MSG_COLS = "id,user_id,nick,body,created_at,vip,elite,kind,ref,reply_to,reply_nick,reply_body,rx";
+async function rtAuth() { try { const r = await sb.auth.getSession(); const t = r && r.data && r.data.session && r.data.session.access_token; if (t) await sb.realtime.setAuth(t); } catch (e) {} }
 function startRT() {
   if (rt) return;
-  rt = sb.channel("chat").on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, p => {
-    onMsgIns(p.new);
-  }).on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages" }, p => onMsgUpd(p.new)).subscribe();
+  const ch = sb.channel("chat"); rt = ch;
+  ch.on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, p => { onMsgIns(p.new); })
+    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages" }, p => onMsgUpd(p.new))
+    .subscribe(st => {
+      if (ch !== rt) return;
+      if (st === "SUBSCRIBED") { rtRetry = 0; bg(pollMsgs()); }
+      else if (st === "CHANNEL_ERROR" || st === "TIMED_OUT" || st === "CLOSED") scheduleRT();
+    });
 }
+function scheduleRT(now) {
+  if (rtTimer || !me) return;
+  rtTimer = setTimeout(async () => { rtTimer = 0; if (!me) return; try { if (rt) sb.removeChannel(rt); } catch (e) {} rt = null; await rtAuth(); startRT(); }, now ? 50 : Math.min(30000, 1500 * (++rtRetry)));
+}
+/* Yedek: gercek zamanli kanal sessiz kalirsa yeni mesajlar sorgu ile alinir (sohbet aciksa 4 sn, kapaliysa ~24 sn) */
+async function pollMsgs() {
+  if (!me || pollBusy || !lastMsgId) return; pollBusy = true;
+  try {
+    const { data } = await sb.from("messages").select(MSG_COLS).gt("id", lastMsgId).order("id", { ascending: true }).limit(30);
+    if (data && data.length) data.forEach(m => onMsgIns(m));
+  } catch (e) {}
+  pollBusy = false;
+}
+setInterval(() => { if (!me || document.hidden) return; pollN++; if (chatOpen || pollN % 6 === 0) bg(pollMsgs()); }, 4000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && me) { if (!rt || rt.state !== "joined") scheduleRT(true); bg(pollMsgs()); } });
 
 const cmp = (a, b) => a.nick.localeCompare(b.nick, "tr", { numeric: true, sensitivity: "base" });
 const byRank = (a, b) => (a.pw != null && b.pw != null && a.pw !== b.pw) ? b.pw - a.pw : cmp(a, b);
@@ -1331,8 +1387,8 @@ function renderRank() {
   if (mine && mine.pw != null) { box.append(mkEl("span", null, T("Senin gücün")), mkEl("b", null, fmt(mine.pw)), mkEl("em", null, "#" + (mine.rk || ranks.indexOf(mine) + 1))); box.style.display = "flex"; }
   else box.style.display = "none";
   ranks.forEach((r, i) => {
-    const isMe = me && r.id === me.id, d = mkEl("div", "onr" + (isMe ? " mine" : "") + (r.vip ? " vp" : "")), tx = mkEl("span", "otx"), nm = mkEl("span", "onm"), rk = mkEl("small", "ort"), pw = mkEl("span", "opw"), rr = mkEl("span", "orr"), n = r.rk || i + 1;
-    d.dataset.id = r.id; nm.append(mkEl("span", null, r.nick)); if (r.vip) nm.append(vipBadge()); if (modSet.has(r.id)) nm.append(modBadge());
+    const isMe = me && r.id === me.id, d = mkEl("div", "onr" + (isMe ? " mine" : "") + (r.elite ? " el" : r.vip ? " vp" : "")), tx = mkEl("span", "otx"), nm = mkEl("span", "onm"), rk = mkEl("small", "ort"), pw = mkEl("span", "opw"), rr = mkEl("span", "orr"), n = r.rk || i + 1;
+    d.dataset.id = r.id; nm.append(mkEl("span", null, r.nick)); if (r.elite) nm.append(eliteBadge()); else if (r.vip) nm.append(vipBadge()); if (modSet.has(r.id)) nm.append(modBadge());
     rk.dataset.uid = r.id; pw.dataset.uid = r.id; tx.append(nm, rk);
     rr.append(pw, mkEl("i", ids.has(r.id) ? "odot" : "ooff"));
     d.append(mkEl("span", "onp" + (n <= 3 ? " p" + n : ""), String(n)), pBadge(r.id, 50), tx, rr);
@@ -1348,7 +1404,7 @@ function rankDots() {
     if (dot) dot.className = on ? "odot" : "ooff";
   });
 }
-let rnkFetched = 0, rnkAt = 0;
+let rnkFetched = 0, rnkAt = 0, rnkBusy = false;
 function updRnkAt() {
   const e = $("#rnkAt"); if (!e) return;
   if (!rnkAt) { e.textContent = T("Sıralama saatte bir güncellenir."); return; }
@@ -1360,14 +1416,24 @@ async function openRank() {
   $("#rnk").classList.add("on"); renderRank(); updRnkAt();
   if (Date.now() - statsAt > 600000) bg(refreshStats());
   if (ranks.length > 1 && Date.now() - rnkFetched < 600000) return;   /* sıralama saatte bir güncelleniyor: 10 dk içinde tekrar sunucuya gitme */
-  const lb = await rpcRetry("leaderboard", { p_lim: 100 }, 3);
-  if (lb.error || !Array.isArray(lb.data)) return toast(T("Sıralama yüklenemedi: ") + ((lb.error || {}).message || ""));   /* güce göre olmayan sahte liste göstermiyoruz */
-  rnkFetched = Date.now();
-  ranks = lb.data.map(r => ({ id: r.o_id, nick: r.o_nick, pw: Number(r.o_power), rk: Number(r.o_rank), vip: !!r.o_vip, av: Number(r.o_av) || 0, fr: r.o_frame || null }));
-  ranks.sort((x, y) => x.rk - y.rk);
-  ranks.forEach(r => { powerCache.set(r.id, { pw: r.pw, av: r.av, fr: r.fr, t: Date.now() }); });
-  if (lb.data[0] && lb.data[0].o_at) rnkAt = new Date(lb.data[0].o_at).getTime();
-  updRnkAt(); renderRank();
+  await fetchRanks(false);
+}
+async function fetchRanks(silent) {
+  if (rnkBusy) return; rnkBusy = true;
+  try {
+    const lb = await rpcRetry("leaderboard", { p_lim: 100 }, 3);
+    if (lb.error || !Array.isArray(lb.data)) { if (!silent) toast(T("Sıralama yüklenemedi: ") + ((lb.error || {}).message || "")); return; }   /* güce göre olmayan sahte liste göstermiyoruz */
+    rnkFetched = Date.now();
+    ranks = lb.data.map(r => ({ id: r.o_id, nick: r.o_nick, pw: Number(r.o_power), rk: Number(r.o_rank), vip: !!r.o_vip, elite: !!r.o_elite, av: Number(r.o_av) || 0, fr: r.o_frame || null }));
+    ranks.sort((x, y) => x.rk - y.rk);
+    ranks.forEach(r => { powerCache.set(r.id, { pw: r.pw, av: r.av, fr: r.fr, t: Date.now() }); });
+    if (lb.data[0] && lb.data[0].o_at) rnkAt = new Date(lb.data[0].o_at).getTime();
+    try { localStorage.setItem("rkc2", JSON.stringify({ t: rnkFetched, at: rnkAt, r: ranks })); } catch (e) {}
+    updRnkAt(); if ($("#rnk").classList.contains("on")) renderRank();
+  } finally { rnkBusy = false; }
+}
+function loadRanksCache() {
+  try { const o = JSON.parse(localStorage.getItem("rkc2") || "null"); if (o && Array.isArray(o.r) && o.r.length && Date.now() - o.t < 3600000) { ranks = o.r; rnkFetched = o.t; rnkAt = o.at || 0; } } catch (e) {}
 }
 $("#rnkBtn").onclick = openRank;
 $("#rnkClose").onclick = () => $("#rnk").classList.remove("on");
@@ -1382,8 +1448,8 @@ function fillOnl(uid) {
 }
 const onlRows = new Map(); let onlQv = "";
 function onlRow(o) {
-  const d = mkEl("div", "onr" + (o.vip ? " vp" : "")), tx = mkEl("span", "otx"), nm = mkEl("span", "onm"), rk = mkEl("small", "ort"), pw = mkEl("span", "opw"), rr = mkEl("span", "orr"), ps = mkEl("span", "onp"), mine = me && o.id === me.id;
-  nm.append(mkEl("span", null, o.nick)); if (o.vip) nm.append(vipBadge()); if (modSet.has(o.id)) nm.append(modBadge());
+  const d = mkEl("div", "onr" + (o.elite ? " el" : o.vip ? " vp" : "")), tx = mkEl("span", "otx"), nm = mkEl("span", "onm"), rk = mkEl("small", "ort"), pw = mkEl("span", "opw"), rr = mkEl("span", "orr"), ps = mkEl("span", "onp"), mine = me && o.id === me.id;
+  nm.append(mkEl("span", null, o.nick)); if (o.elite) nm.append(eliteBadge()); else if (o.vip) nm.append(vipBadge()); if (modSet.has(o.id)) nm.append(modBadge());
   rk.dataset.uid = o.id; pw.dataset.uid = o.id; tx.append(nm, rk); if (mine) d.classList.add("mine");
   rr.append(pw, mine ? mkEl("em", null, T("Sen")) : mkEl("i", "odot"));
   d.append(ps, pBadge(o.id, 50), tx, rr); d.onclick = () => openProfile(o.id, o.nick); d._pos = ps; return d;
@@ -1412,16 +1478,16 @@ let presSt = {}, seenChat = new Map(), prRetry = 0, prWait = false, seenTm = nul
 /* Çevrimiçi = presence listesi + son 4 dk içinde yazanlar + kendin. Bağlantısı kopan ama aktif oyuncular da görünür. */
 function mergeOnline() {
   const now = Date.now(), map = new Map();
-  Object.keys(presSt).forEach(k => { const x = presSt[k][0] || {}; map.set(k, { id: k, nick: x.nick || "?", vip: !!x.vip }); });
-  seenChat.forEach((v, id) => { if (now - v.t > 240000) seenChat.delete(id); else if (!map.has(id)) map.set(id, { id, nick: v.nick, vip: v.vip }); });
-  if (me && !map.has(me.id)) map.set(me.id, { id: me.id, nick: me.nick, vip });
+  Object.keys(presSt).forEach(k => { const x = presSt[k][0] || {}; map.set(k, { id: k, nick: x.nick || "?", vip: !!x.vip, elite: !!x.elite }); });
+  seenChat.forEach((v, id) => { if (now - v.t > 240000) seenChat.delete(id); else if (!map.has(id)) map.set(id, { id, nick: v.nick, vip: v.vip, elite: v.elite }); });
+  if (me && !map.has(me.id)) map.set(me.id, { id: me.id, nick: me.nick, vip, elite });
   online = [...map.values()].sort((a, b) => a.nick.localeCompare(b.nick, "tr"));
   renderOnl(); if ($("#rnk").classList.contains("on")) rankDots();
 }
 function seenNote(m) {
   const t = new Date(m.created_at).getTime(); if (!m.user_id || !(Date.now() - t < 240000)) return;
   const o = seenChat.get(m.user_id); if (o && o.t >= t) return;
-  seenChat.set(m.user_id, { nick: m.nick, vip: !!m.vip, t }); clearTimeout(seenTm); seenTm = setTimeout(mergeOnline, 400);
+  seenChat.set(m.user_id, { nick: m.nick, vip: !!m.vip, elite: !!m.elite, t }); clearTimeout(seenTm); seenTm = setTimeout(mergeOnline, 400);
 }
 function schedulePresRetry() {
   if (prWait) return; prWait = true;
@@ -1433,7 +1499,7 @@ function startPresence() {
   ch.on("presence", { event: "sync" }, () => { if (ch !== pr) return; presSt = ch.presenceState(); mergeOnline(); });
   ch.subscribe(async st => {
     if (ch !== pr) return;
-    if (st === "SUBSCRIBED") { prRetry = 0; try { await ch.track({ nick: me.nick, vip }); } catch (e) {} }
+    if (st === "SUBSCRIBED") { prRetry = 0; try { await ch.track({ nick: me.nick, vip, elite }); } catch (e) {} }
     else if (st === "CHANNEL_ERROR" || st === "TIMED_OUT" || st === "CLOSED") schedulePresRetry();
   });
   mergeOnline();
@@ -1484,7 +1550,7 @@ const boostOn = () => boostEnd > performance.now();
 const UNITY_GAME_ID = "800275081";      /* Unity Game ID (com.iozgames.iozcafe) */
 const UNITY_PLACEMENT = "Rewarded_Android";
 const UNITY_TEST = false;              /* gerçek reklam */
-let vip = false, vipBusy = false, vipPrice = "", vipErr = "", billP, rep = 3, ghosts = [], levels = [], level = 1, cashier = false, cleaner = false, manager = false, vFood = false, vDrink = false, myPower = null, lastCollect = 0, models = [], reqs = [], stations = [], slots = 10, gday = 1, clk = { tod: 480, perf: 0 }, q = [], today = { earn: 0, cust: 0 };
+let elite = false, eliteBusy = false, elitePrice = "", eliteErr = "", eliteAnnounced = false, eliteHiddenAt = 0, vip = false, vipBusy = false, vipPrice = "", vipErr = "", billP, rep = 3, ghosts = [], levels = [], level = 1, cashier = false, cleaner = false, manager = false, vFood = false, vDrink = false, myPower = null, lastCollect = 0, models = [], reqs = [], stations = [], slots = 10, gday = 1, clk = { tod: 480, perf: 0 }, q = [], today = { earn: 0, cust: 0 };
 let custTimer = null, syncTimer = null, nextArr = 0, collecting = false, acting = false, lastOver = null, lastMin = -1, qid = 0, lastMsg = "", advancing = false, adBusy = false, adFails = 0;
 let adP, adReady = false, adInited = false;
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -1500,7 +1566,7 @@ const mmss = s => { s = Math.ceil(s); return String(Math.floor(s / 60)).padStart
 const setMoney = () => { $("#moneyV").textContent = "$" + fmt(me.money); };
 const r1 = x => String(Math.round(x * 10) / 10);
 const mkEl = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
-const payOf = (m, r, h) => Math.max(1, Math.round(m.rate * h * r.mult * (vip ? 1.5 : 1) * (manager ? MANAGER_PAY : 1) * (boostOn() ? BOOST_MULT : 1)));
+const payOf = (m, r, h) => Math.max(1, Math.round(m.rate * h * r.mult * (elite ? 2 : vip ? 1.5 : 1) * (manager ? MANAGER_PAY : 1) * (boostOn() ? BOOST_MULT : 1)));
 const adAmt = () => AD_BASE * (ADMULT[Math.min(level, ADMULT.length) - 1] || 1);
 const updAdBtn = () => { const e = $("#adAmt"); if (e) e.textContent = "+$" + fmt(adAmt()); };
 function renderPerks() {
@@ -1673,7 +1739,7 @@ async function syncGame(pre) {
   const [a, b] = await (pre || fetchSync());
   if (a.error && a.error.message === "banli") { onBanned(); return; }
   const g = a.data && a.data[0];
-  if (g) { clk = { tod: Number(g.o_tod), perf: performance.now() }; gday = g.o_day; slots = g.o_slots; level = g.o_level || 1; cashier = !!g.o_cashier; cleaner = !!g.o_cleaner; manager = !!g.o_manager; vFood = !!g.o_food; vDrink = !!g.o_drink; myPower = g.o_power != null ? Number(g.o_power) : null; rep = Number(g.o_rep) || 3; vip = !!g.o_vip; boostEnd = performance.now() + Number(g.o_boost || 0) * 1000; boostN = Number(g.o_bn || 0); bonusDone = !!g.o_bonus_done; repairDone = !!g.o_repair_done; updAdBtn(); today = { earn: Number(g.o_earn), cust: g.o_cust }; me.money = Number(g.o_money); setMoney(); applyVip(); renderPower(); }
+  if (g) { clk = { tod: Number(g.o_tod), perf: performance.now() }; gday = g.o_day; slots = g.o_slots; level = g.o_level || 1; cashier = !!g.o_cashier; cleaner = !!g.o_cleaner; manager = !!g.o_manager; vFood = !!g.o_food; vDrink = !!g.o_drink; myPower = g.o_power != null ? Number(g.o_power) : null; rep = Number(g.o_rep) || 3; vip = !!g.o_vip; elite = !!g.o_elite; boostEnd = performance.now() + Number(g.o_boost || 0) * 1000; boostN = Number(g.o_bn || 0); bonusDone = !!g.o_bonus_done; repairDone = !!g.o_repair_done; updAdBtn(); today = { earn: Number(g.o_earn), cust: g.o_cust }; me.money = Number(g.o_money); setMoney(); applyVip(); renderPower(); if (elite && !eliteAnnounced) { eliteAnnounced = true; bg(eliteLogin()); } }
   if (b.data && !acting && !collecting) {
     const old = {}; stations.forEach(s => old[s.slot] = s);
     stations = b.data.map(r => { const o = old[r.o_slot] || {}; return { slot: r.o_slot, model: r.o_model, req: r.o_req, hours: r.o_hours || 0, pay: Number(r.o_pay) || 0,
@@ -1866,6 +1932,7 @@ function renderDay() {
 }
 async function nextDay() {
   if (advancing || adBusy) return;
+  if (busyCount() > 0) { const nw = performance.now(); if (stations.some(s => s.req && s.end <= nw + 1500)) { collecting = false; await collect(); } if (ps.open && psSt.some(s => s.req && s.end <= nw + 1500)) { psColl = false; await psCollect(); } if (sim.open && simSt.some(s => s.req && s.end <= nw + 1500)) { simColl = false; await simCollect(); } }
   if (busyCount() > 0) { toast(T("Masalarda hâlâ müşteri var.")); return; }
   advancing = true; renderDay();
   if (!vip) {
@@ -2020,11 +2087,11 @@ function admProfileBox(uid) {
   const load = async () => {
     const r = await sb.rpc("admin_status", { p_user: uid }); if (r.error) return admFail(r.error);
     const x = r.data && r.data[0]; if (!x) return; const parts = [];
-    if (x.o_banned) parts.push(T("Banlı")); if (x.o_muted && new Date(x.o_muted) > new Date()) parts.push(T("Susturulu: ") + new Date(x.o_muted).toLocaleString("tr-TR")); if (x.o_vip) parts.push("VIP");
+    if (x.o_banned) parts.push(T("Banlı")); if (x.o_muted && new Date(x.o_muted) > new Date()) parts.push(T("Susturulu: ") + new Date(x.o_muted).toLocaleString("tr-TR")); if (x.o_elite) parts.push("ELİTE VİP"); else if (x.o_vip) parts.push("VIP");
     st.textContent = T("Yönetici işlemleri") + " · " + (parts.length ? parts.join(" · ") : T("Temiz"));
   };
   const act = async (a, msg) => { const r = await sb.rpc("admin_user_act", { p_user: uid, p_action: a }); if (r.error) return admFail(r.error); toast(msg); load(); };
-  [["mute1h", T("1 saat sustur"), T("1 saat susturuldu."), 0], ["mute1d", T("1 gün sustur"), T("1 gün susturuldu."), 0], ["mute7d", T("1 hafta sustur"), T("1 hafta susturuldu."), 0], ["unmute", T("Susturmayı kaldır"), T("Susturma kaldırıldı."), 0], ["vip", T("VIP ver"), T("VIP verildi."), 0], ["unban", T("Banı kaldır"), T("Ban kaldırıldı."), 0], ["ban", T("Banla"), T("Kalıcı olarak banlandı."), 1]].forEach(([a, l, m, d]) => g.append(armBtn(l, () => act(a, m), !!d)));
+  [["mute1h", T("1 saat sustur"), T("1 saat susturuldu."), 0], ["mute1d", T("1 gün sustur"), T("1 gün susturuldu."), 0], ["mute7d", T("1 hafta sustur"), T("1 hafta susturuldu."), 0], ["unmute", T("Susturmayı kaldır"), T("Susturma kaldırıldı."), 0], ["vip", T("VIP ver"), T("VIP verildi."), 0], ["elite", T("ELİTE VİP ver"), T("ELİTE VİP verildi."), 0], ["unelite", T("ELİTE VİP al"), T("ELİTE VİP alındı."), 1], ["unban", T("Banı kaldır"), T("Ban kaldırıldı."), 0], ["ban", T("Banla"), T("Kalıcı olarak banlandı."), 1]].forEach(([a, l, m, d]) => g.append(armBtn(l, () => act(a, m), !!d)));
   g.append(armBtn(modSet.has(uid) ? T("Moderatörlüğü al") : T("Moderatör yap"), () => setMod(uid, !modSet.has(uid)), false));
   ab.append(st, g); load(); return ab;
 }
@@ -2153,7 +2220,7 @@ async function loadUsers(q) {
 }
 
 /* ---- VIP üyelik (Google Play) ---- */
-const VIP_PRODUCT = "vip_uyelik";
+const VIP_PRODUCT = "vip_uyelik", ELITE_PRODUCT = "elite_vip";
 function billNative() {
   if (billP !== undefined) return billP;
   billP = null;
@@ -2161,11 +2228,27 @@ function billNative() {
   return billP;
 }
 async function loadVipPrice() {
-  const p = billNative(); if (!p || vipPrice) return;
-  try { await p.connect(); const r = await p.productInfo({ productId: VIP_PRODUCT }); vipPrice = r.price || ""; vipErr = ""; renderVip(); } catch (e) { vipErr = String((e && (e.message || e.code)) || e || "bilinmeyen hata").slice(0, 80); renderVip(); }
+  const p = billNative(); if (!p || (vipPrice && elitePrice)) return;
+  const er = e => String((e && (e.message || e.code)) || e || "bilinmeyen hata").slice(0, 80);
+  try { await p.connect(); } catch (e) { vipErr = eliteErr = er(e); renderVip(); return; }
+  if (!vipPrice) { try { const r = await p.productInfo({ productId: VIP_PRODUCT }); vipPrice = r.price || ""; vipErr = ""; } catch (e) { vipErr = er(e); } }
+  if (!elitePrice) { try { const r = await p.productInfo({ productId: ELITE_PRODUCT }); elitePrice = r.price || ""; eliteErr = ""; } catch (e) { eliteErr = er(e); } }
+  renderVip();
+}
+function eliteCard() {
+  const card = mkEl("div", "elc"), hd = mkEl("div", "vh"); hd.append(eliteBadge(), mkEl("span", null, elite ? T("ELİTE VİP üyesisin") : T("ELİTE VİP"))); card.append(hd);
+  const ul = mkEl("ul", "ell");
+  [T("Satın alınca anında $30.000.000"), T("Anında +100.000 güç"), T("Tüm reklamlar kalkar"), T("Tüm kazançlar 2 kat"), T("+20 bilgisayar masası, +10 PlayStation, +10 araba simülatörü (hazır kurulu)"), T("Sohbette kırmızı ateşli kart ve özel ateş çerçevesi"), T("Her girişte sohbette ELİTE VİP duyurusu"), T("Sıralamada ve çevrimiçi listesinde kırmızı vurgu")].forEach(t => ul.append(mkEl("li", null, t)));
+  card.append(ul);
+  const b = mkEl("button", "btn elbtn", elite ? T("ELİTE VİP aktif") : eliteBusy ? T("İşleniyor...") : T("ELİTE VİP ol") + (elitePrice ? " · " + elitePrice : ""));
+  b.disabled = elite || eliteBusy; b.onclick = buyElite; card.append(b);
+  if (!elite && !billNative()) card.append(mkEl("p", "note2", isNative() ? T("Satın alma şu an kullanılamıyor.") : T("Satın alma yalnızca Android uygulamasında çalışır.")));
+  if (!elite && billNative() && !elitePrice && eliteErr) card.append(mkEl("p", "note2", T("Fiyat Play Store'dan alınamadı (") + eliteErr + T("). Uygulamayı Play Store'dan yüklediğinden ve elite_vip ürününün etkin olduğundan emin ol.")));
+  if (!elite) card.append(mkEl("p", "note2", T("Tek seferlik satın alma. VIP üyeliğin tüm avantajlarını da içerir.")));
+  return card;
 }
 function renderVip() {
-  const body = $("#vipBody"); body.innerHTML = "";
+  const body = $("#vipBody"); body.innerHTML = ""; body.append(eliteCard()); if (elite) return;
   const card = mkEl("div", "vipc"), hd = mkEl("div", "vh"); hd.append(vipBadge(), mkEl("span", null, vip ? T("VIP üyesisin") : T("VIP üyelik"))); card.append(hd);
   const ul = mkEl("ul", "vipl");
   [T("Satın alınca anında $20.000"), T("Gün atlarken reklam yok"), T("Tüm kazançlar %50 artar"), T("Sohbette ve sıralamada VIP rozeti"), T("+100 güç puanı")].forEach(t => ul.append(mkEl("li", null, t)));
@@ -2205,11 +2288,45 @@ async function buyVip() {
   }
   vipBusy = false; renderVip();
 }
-async function checkPurchases() {   /* her girişte: ödeme yapıp ödülü almamışsa teslim et */
-  const p = billNative(); if (!p || vip) return;
+async function eliteLogin() {   /* her girişte / geri dönüşte sohbette "ELİTE VİP giriş yaptı" duyurusu */
+  if (!me || !elite) return;
+  try { await sb.rpc("elite_login"); } catch (e) {}
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden) eliteHiddenAt = Date.now(); else if (elite && eliteHiddenAt && Date.now() - eliteHiddenAt > 30000) { eliteHiddenAt = 0; bg(eliteLogin()); } });
+async function deliverElite(token, silent, ex) {
+  if (!(ex && ex.originalJson && ex.signature)) { if (!silent) toast(T("Ödeme alındı ama ELİTE VİP teslim edilemedi") + " (makbuz imzası yok)" + T(". Oyunu yeniden açınca otomatik denenecek.")); return false; }
+  const { data, error } = await sb.rpc("claim_elite", { p_product: ELITE_PRODUCT, p_token: token, p_json: ex.originalJson, p_sig: ex.signature });
+  if (error || !data) { const why = String((error && error.message) || "").slice(0, 50); if (!silent) toast(T("Ödeme alındı ama ELİTE VİP teslim edilemedi") + (why ? " (" + why + ")" : "") + T(". Oyunu yeniden açınca otomatik denenecek.")); return false; }
+  try { await billNative().acknowledge({ purchaseToken: token }); } catch (e) {}
+  await syncGame(); try { await loadCos(); } catch (e) {} try { await syncPs(); } catch (e) {} try { await syncSim(); } catch (e) {}
+  if (data === "new") toast(T("ELİTE VİP aktif! $30.000.000 ve 100.000 güç hesabına eklendi."));
+  else if (data === "restored") toast(T("ELİTE VİP üyeliğin geri yüklendi."));
+  else if (!silent) toast(T("ELİTE VİP zaten aktif."));
+  renderVip(); eliteAnnounced = true; bg(eliteLogin()); return true;
+}
+async function buyElite() {
+  if (elite || eliteBusy) return;
+  const p = billNative();
+  if (!p) { toast(isNative() ? T("Satın alma şu an kullanılamıyor.") : T("Satın alma yalnızca Android uygulamasında çalışır.")); return; }
+  eliteBusy = true; renderVip();
   try {
-    await p.connect(); const r = await p.queryPurchases();
-    for (const x of (r.purchases || [])) if (x.productId === VIP_PRODUCT && x.state === "purchased") { if (await deliverVip(x.purchaseToken, true, x)) break; }
+    const r = await p.purchase({ productId: ELITE_PRODUCT });
+    if (r.state === "pending") toast(T("Ödeme onay bekliyor. Onaylanınca ELİTE VİP otomatik gelecek."));
+    else await deliverElite(r.purchaseToken, false, r);
+  } catch (e) {
+    const code = e && e.code, msg = String((e && e.message) || e || "");
+    if (code === "OWNED" || /zaten sahip/.test(msg)) { toast(T("Bu hesapta ELİTE VİP satın alınmış, kontrol ediliyor.")); await checkPurchases(); }
+    else if (code === "CANCELED" || /iptal/.test(msg)) toast(T("Satın alma iptal edildi."));
+    else toast(T("Satın alma başarısız") + ((code || msg) ? " (" + String([code, msg].filter(Boolean).join(" ")).slice(0, 90) + ")" : "") + ".");
+  }
+  eliteBusy = false; renderVip();
+}
+async function checkPurchases() {   /* her girişte: ödeme yapıp ödülü almamışsa teslim et */
+  const p = billNative(); if (!p || (vip && elite)) return;
+  try {
+    await p.connect(); const r = await p.queryPurchases(), list = (r.purchases || []).filter(x => x.state === "purchased");
+    for (const x of list) if (x.productId === VIP_PRODUCT && (!vip || !x.acknowledged)) { if (await deliverVip(x.purchaseToken, true, x)) break; }
+    for (const x of list) if (x.productId === ELITE_PRODUCT && (!elite || !x.acknowledged)) { if (await deliverElite(x.purchaseToken, true, x)) break; }
   } catch (e) {}
 }
 
@@ -2232,7 +2349,7 @@ $("#updBtn").onclick = () => { try { window.open(PLAY_URL, "_system"); } catch (
 
 /* ===== Oyun Salonu: ikinci dükkan, bilgisayar dükkanıyla eş zamanlı çalışır ===== */
 const psModel = id => psModels.find(m => m.id === id), psReq = id => psReqs.find(r => r.id === id);
-const psPay = (m, r, h) => Math.max(1, Math.round(m.rate * h * r.mult * (vip ? 1.5 : 1) * (ps.lib ? PS_LIB_BONUS : 1) * (boostOn() ? BOOST_MULT : 1)));
+const psPay = (m, r, h) => Math.max(1, Math.round(m.rate * h * r.mult * (elite ? 2 : vip ? 1.5 : 1) * (ps.lib ? PS_LIB_BONUS : 1) * (boostOn() ? BOOST_MULT : 1)));
 const psWage = () => ((psLevels.find(l => l.level === ps.level) || {}).wage) || 0;
 const psMaxTier = () => psSt.reduce((a, s) => Math.max(a, (psModel(s.model) || {}).tier || 0), 0);
 const psOn = () => $("#ps").classList.contains("on");
@@ -2293,7 +2410,7 @@ function renderPs() {
   b.append(mkEl("div", "sec", T("Geliştir")));
   const base = psModels.find(m => m.tier === 1), nx = psLevels.find(l => l.level === ps.level + 1);
   b.append(mkRow({ icon: "i-play", src: PS_IMG[1], gi: "g3", title: Tf("{n} al", { n: base ? base.name : T("Konsol") }), lines: [[T("Boş yere ilk konsol. Üst modeller konsola dokunup yükseltilir.")]], btn: "$" + fmt(base ? base.price : 0), disabled: !base || psSt.length >= ps.slots || me.money < base.price, onclick: psBuy }));
-  b.append(mkRow({ img: "store", title: T("Salonu büyüt"), lines: [[nx ? T("Kapasite ") + ps.slots + " → " + nx.slots + T(" konsol") : T("En üst seviyedesin: ") + ps.slots + T(" konsol")]], btn: nx ? "$" + fmt(nx.price) : T("Maksimum"), disabled: !nx || me.money < nx.price, onclick: psExpand }));
+  b.append(mkRow({ img: "store", title: T("Salonu büyüt"), lines: [[nx ? T("Kapasite ") + ps.slots + " → " + (nx.slots + (elite ? 10 : 0)) + T(" konsol") : T("En üst seviyedesin: ") + ps.slots + T(" konsol")]], btn: nx ? "$" + fmt(nx.price) : T("Maksimum"), disabled: !nx || me.money < nx.price, onclick: psExpand }));
   b.append(mkRow({ img: "cashier", gi: "g2", title: T("Salon görevlisi"), lines: [[T("Müşterileri otomatik oturtur.")], [T("Maaş: $") + fmt(psWage()) + T(" / gün, gün sonunda ödenir.")], ps.staff ? [T("Çalışıyor"), "ok2"] : [T("İşe alım: $") + fmt(PS_STAFF_FEE)]], btn: ps.staff ? T("Çıkar") : T("İşe al"), btnCls: ps.staff ? "out" : "", disabled: !ps.staff && me.money < PS_STAFF_FEE, onclick: () => psStaff(!ps.staff) }));
   b.append(mkRow({ icon: "i-star", src: PS_IMG[8], gi: "g4", title: T("Oyun kütüphanesi"), lines: [[Tf("Tüm salon kazancı +%{n}.", { n: Math.round((PS_LIB_BONUS - 1) * 100) })], ps.lib ? [T("Satın alındı"), "ok2"] : [T("Bir kez alınır, gider yok.")]], btn: ps.lib ? T("Alındı") : "$" + fmt(PS_LIB_PRICE), btnCls: ps.lib ? "cur" : "", disabled: ps.lib || me.money < PS_LIB_PRICE, onclick: psLib }));
   b.append(mkEl("p", "note2", T("Salon, bilgisayar dükkanıyla aynı anda çalışır. Gün, iki dükkan da boşalınca biter.")));
@@ -2342,7 +2459,7 @@ async function psCollect() {
   if (psColl) return; psColl = true;
   const { data, error } = await sb.rpc("ps_collect"); psColl = false; if (error) return;
   const r = data[0];
-  if (r.o_count > 0) { psMoney(r.o_money); fly("+$" + fmt(Number(r.o_total))); if (today) { today = { earn: Number(today.earn) + Number(r.o_total), cust: Number(today.cust) + Number(r.o_count) }; renderDay(); } softSync(); }
+  if (r.o_count > 0) { psMoney(r.o_money); fly("+$" + fmt(Number(r.o_total))); if (today) { today = { earn: Number(today.earn) + Number(r.o_total), cust: Number(today.cust) + Number(r.o_count) }; } const nowc = performance.now(); psSt.filter(s => s.req && s.end <= nowc + 1500).sort((a, b) => a.end - b.end).slice(0, Number(r.o_count)).forEach(s => { s.req = null; s.end = 0; s.hours = 0; s.pay = 0; }); renderDay(); if (psOn()) renderPs(); softSync(8000); }
   else { const now = performance.now(); psSt.forEach(s => { if (s.req && s.end <= now) s.end = now + COLLECT_GAP; }); }
 }
 const psArrMs = (h, n) => { const base = 480000 / (10 + 5.5 * n), k = h >= 16 && h < 22 ? 0.7 : h < 12 ? 1.3 : 1; return base * k / (manager ? MANAGER_ARR : 1) / (boostOn() ? BOOST_MULT : 1) * rand(0.7, 1.3); };
@@ -2370,7 +2487,7 @@ $("#ps").addEventListener("click", e => { if (e.target.id === "ps") $("#ps").cla
 
 /* ===== Araba Simülasyonu: üçüncü dükkan, diğer dükkanlarla eş zamanlı çalışır ===== */
 const simModel = id => simModels.find(m => m.id === id), simReq = id => simReqs.find(r => r.id === id);
-const simPay = (m, r, h) => Math.max(1, Math.round(m.rate * h * r.mult * (vip ? 1.5 : 1) * (sim.lib ? SIM_LIB_BONUS : 1) * (boostOn() ? BOOST_MULT : 1)));
+const simPay = (m, r, h) => Math.max(1, Math.round(m.rate * h * r.mult * (elite ? 2 : vip ? 1.5 : 1) * (sim.lib ? SIM_LIB_BONUS : 1) * (boostOn() ? BOOST_MULT : 1)));
 const simWage = () => ((simLevels.find(l => l.level === sim.level) || {}).wage) || 0;
 const simMaxTier = () => simSt.reduce((a, s) => Math.max(a, (simModel(s.model) || {}).tier || 0), 0);
 const simOn = () => $("#sim").classList.contains("on");
@@ -2431,7 +2548,7 @@ function renderSim() {
   b.append(mkEl("div", "sec", T("Geliştir")));
   const base = simModels.find(m => m.tier === 1), nx = simLevels.find(l => l.level === sim.level + 1);
   b.append(mkRow({ icon: "i-play", src: SIM_IMG[1], gi: "g3", title: Tf("{n} al", { n: base ? base.name : T("Simülatör") }), lines: [[T("Boş yere ilk simülatör. Üst modeller simülatöre dokunup yükseltilir.")]], btn: "$" + fmt(base ? base.price : 0), disabled: !base || simSt.length >= sim.slots || me.money < base.price, onclick: simBuy }));
-  b.append(mkRow({ img: "store", title: T("Simülasyonu büyüt"), lines: [[nx ? T("Kapasite ") + sim.slots + " → " + nx.slots + T(" simülatör") : T("En üst seviyedesin: ") + sim.slots + T(" simülatör")]], btn: nx ? "$" + fmt(nx.price) : T("Maksimum"), disabled: !nx || me.money < nx.price, onclick: simExpand }));
+  b.append(mkRow({ img: "store", title: T("Simülasyonu büyüt"), lines: [[nx ? T("Kapasite ") + sim.slots + " → " + (nx.slots + (elite ? 10 : 0)) + T(" simülatör") : T("En üst seviyedesin: ") + sim.slots + T(" simülatör")]], btn: nx ? "$" + fmt(nx.price) : T("Maksimum"), disabled: !nx || me.money < nx.price, onclick: simExpand }));
   b.append(mkRow({ img: "cashier", gi: "g2", title: T("Simülasyon görevlisi"), lines: [[T("Müşterileri otomatik oturtur.")], [T("Maaş: $") + fmt(simWage()) + T(" / gün, gün sonunda ödenir.")], sim.staff ? [T("Çalışıyor"), "ok2"] : [T("İşe alım: $") + fmt(SIM_STAFF_FEE)]], btn: sim.staff ? T("Çıkar") : T("İşe al"), btnCls: sim.staff ? "out" : "", disabled: !sim.staff && me.money < SIM_STAFF_FEE, onclick: () => simStaff(!sim.staff) }));
   b.append(mkRow({ icon: "i-star", src: SIM_IMG[8], gi: "g4", title: T("Yarış paketi"), lines: [[Tf("Tüm simülasyon kazancı +%{n}.", { n: Math.round((SIM_LIB_BONUS - 1) * 100) })], sim.lib ? [T("Satın alındı"), "ok2"] : [T("Bir kez alınır, gider yok.")]], btn: sim.lib ? T("Alındı") : "$" + fmt(SIM_LIB_PRICE), btnCls: sim.lib ? "cur" : "", disabled: sim.lib || me.money < SIM_LIB_PRICE, onclick: simLib }));
   b.append(mkEl("p", "note2", T("Simülasyon, diğer dükkanlarla aynı anda çalışır. Gün, tüm dükkanlar boşalınca biter.")));
@@ -2480,7 +2597,7 @@ async function simCollect() {
   if (simColl) return; simColl = true;
   const { data, error } = await sb.rpc("sim_collect"); simColl = false; if (error) return;
   const r = data[0];
-  if (r.o_count > 0) { simMoney(r.o_money); fly("+$" + fmt(Number(r.o_total))); if (today) { today = { earn: Number(today.earn) + Number(r.o_total), cust: Number(today.cust) + Number(r.o_count) }; renderDay(); } softSync(); }
+  if (r.o_count > 0) { simMoney(r.o_money); fly("+$" + fmt(Number(r.o_total))); if (today) { today = { earn: Number(today.earn) + Number(r.o_total), cust: Number(today.cust) + Number(r.o_count) }; } const nowc = performance.now(); simSt.filter(s => s.req && s.end <= nowc + 1500).sort((a, b) => a.end - b.end).slice(0, Number(r.o_count)).forEach(s => { s.req = null; s.end = 0; s.hours = 0; s.pay = 0; }); renderDay(); if (simOn()) renderSim(); softSync(8000); }
   else { const now = performance.now(); simSt.forEach(s => { if (s.req && s.end <= now) s.end = now + COLLECT_GAP; }); }
 }
 const simArrMs = (h, n) => { const base = 480000 / (10 + 5.5 * n), k = h >= 16 && h < 22 ? 0.7 : h < 12 ? 1.3 : 1; return base * k / (manager ? MANAGER_ARR : 1) / (boostOn() ? BOOST_MULT : 1) * rand(0.7, 1.3); };
@@ -2577,7 +2694,7 @@ function emblem(i, px) {
   e.innerHTML = '<svg viewBox="0 0 24 28"><defs><linearGradient id="cg' + i + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs><path d="M12 1.5l9.5 3.2v9.6c0 6-4.3 10.5-9.5 12.7C6.8 24.8 2.5 20.3 2.5 14.3V4.7z" fill="url(#cg' + i + ')" stroke="#0b0e15" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 3.6l7.4 2.5v8.2c0 4.8-3.3 8.4-7.4 10.3" fill="none" stroke="#fff" stroke-opacity=".28"/><g transform="translate(0,1.6)" fill="#fff" stroke="#0b0e15" stroke-width=".7" stroke-linejoin="round" stroke-linecap="round">' + CL_ICO[i % 8] + '</g></svg>';
   return e;
 }
-let klan, klView = null, klTab = "chat", klCh = null, klTok = 0, klRank = [], klRankAt = 0, klQ = "", rkTab = "p", klBusy = false;
+let klPoll = 0, klan, klView = null, klTab = "chat", klCh = null, klTok = 0, klRank = [], klRankAt = 0, klQ = "", rkTab = "p", klBusy = false;
 const KL_ERR = { klanda: T("Zaten bir klandasın."), "klanda degil": T("Bir klanda değilsin."), isim: T("İsim 3-16 harf/rakam olmalı."), etiket: T("Etiket 2-4 harf/rakam olmalı."), amblem: T("Bir amblem seç."), kufur: T("Uygunsuz kelime var."), link: T("Bağlantı olamaz."), "isim dolu": T("Bu klan ismi alınmış."), "etiket dolu": T("Bu etiket alınmış."), "para yetmiyor": T("Paran yetmiyor ($") + KL_COST + ").", kapali: T("Bu klan katılıma kapalı."), dolu: T("Klan dolu."), yasakli: T("Bu klandan 1 saat yasaklısın."), yetki: T("Bu işlem için lider olmalısın."), banli: T("Hesabın kısıtlı."), slow: T("Biraz yavaş yaz."), yok: T("Bulunamadı."), maksimum: T("Kapasite en üst seviyede.") };
 const klErr = m => KL_ERR[m] || (m.startsWith("bekle") ? T("Biraz bekle: ") + m.split(":")[1] + T(" dk.") : m.startsWith("susturuldu") ? T("Susturuldun.") : T("Hata: ") + m);
 async function klCall(fn, args) { const r = await sb.rpc(fn, args || {}); if (r.error) { toast(klErr(r.error.message || "")); return null; } return { d: r.data }; }
@@ -2586,7 +2703,7 @@ const klPw = n => { const c = mkEl("span", "cchip"); c.innerHTML = BOLT + "<b>" 
 function klArm(btn, label, fn) {
   btn.onclick = () => { if (btn.dataset.arm) { fn(); return; } btn.dataset.arm = 1; const old = btn.textContent; btn.textContent = label; btn.classList.add("arm"); setTimeout(() => { if (btn.isConnected) { delete btn.dataset.arm; btn.textContent = old; btn.classList.remove("arm"); } }, 3000); };
 }
-function klStopRT() { if (klCh) { sb.removeChannel(klCh); klCh = null; } }
+function klStopRT() { clearInterval(klPoll); klPoll = 0; if (klCh) { sb.removeChannel(klCh); klCh = null; } }
 async function klanLoad() { const r = await sb.rpc("clan_view", { p_id: null }); if (!r.error) klan = r.data || null; else if (klan === undefined) klan = null; }
 async function openClan() { klView = null; $("#clan").classList.add("on"); $("#clanBody").innerHTML = T('<div class="empty">Yükleniyor...</div>'); await klanLoad(); if (!klan) klTab = "chat"; renderClan(); }
 async function openClanView(id) {
@@ -2617,20 +2734,22 @@ function renderNoClan(b) {
 async function renderClanChat(b, c, tok) {
   const list = mkEl("div", "clist"), bar = mkEl("div", "cmp"), inp = mkEl("input", "in"), snd = mkEl("button", "send", T("Gönder"));
   inp.maxLength = 200; inp.placeholder = T("Klana yaz"); inp.autocomplete = "off"; bar.append(inp, snd); b.append(list, bar);
-  const seen = new Set();
+  const seen = new Set(); let klMax = 0;
   const add = m => {
-    if (!m || seen.has(m.id) || (blocked && m.user_id !== me.id && blocked.has(m.user_id))) return; seen.add(m.id);
+    if (!m || seen.has(m.id) || (blocked && m.user_id !== me.id && blocked.has(m.user_id))) return; seen.add(m.id); if (Number(m.id) > klMax) klMax = Number(m.id);
     const e = list.querySelector(".empty"); if (e) e.remove();
-    const row = mkEl("div", "m" + (m.user_id === me.id ? " me" : "")), h = mkEl("div", "mh"), nw = mkEl("span", "nw");
-    nw.append(pBadge(m.user_id, 26)); if (m.vip) nw.append(vipBadge()); if (modSet.has(m.user_id)) nw.append(modBadge()); { const nn = mkEl("span", "n tap", m.nick); nn.onclick = () => openProfile(m.user_id, m.nick); nw.append(nn); }
+    const row = mkEl("div", "m" + (m.user_id === me.id ? " me" : "") + (m.elite ? " elitem" : "")), h = mkEl("div", "mh"), nw = mkEl("span", "nw");
+    nw.append(pBadge(m.user_id, 26)); if (m.elite) nw.append(eliteBadge()); else if (m.vip) nw.append(vipBadge()); if (modSet.has(m.user_id)) nw.append(modBadge()); { const nn = mkEl("span", "n tap", m.nick); nn.onclick = () => openProfile(m.user_id, m.nick); nw.append(nn); }
     h.append(nw, mkEl("span", "tm", new Date(m.created_at).toLocaleTimeString(LOC, { hour: "2-digit", minute: "2-digit" })));
     row.append(h, mkEl("div", "t", m.body)); list.append(row); while (list.children.length > 40) list.firstChild.remove(); list.scrollTop = list.scrollHeight;
   };
-  const { data, error } = await sb.from("clan_messages").select("id,user_id,nick,body,created_at,vip").order("created_at", { ascending: false }).limit(20);
+  const { data, error } = await sb.from("clan_messages").select("id,user_id,nick,body,created_at,vip,elite").order("created_at", { ascending: false }).limit(20);
   if (tok !== klTok) return;
   if (error) list.innerHTML = T('<div class="empty">Mesajlar yüklenemedi.</div>'); else if (!data.length) list.innerHTML = T('<div class="empty">Henüz mesaj yok. Klana ilk mesajı sen yaz.</div>'); else data.reverse().forEach(add);
   list.scrollTop = list.scrollHeight;
   klCh = sb.channel("klan-" + c.id).on("postgres_changes", { event: "INSERT", schema: "public", table: "clan_messages", filter: "clan_id=eq." + c.id }, p => add(p.new)).subscribe();
+  clearInterval(klPoll); let klBusy2 = false;
+  klPoll = setInterval(async () => { if (tok !== klTok || document.hidden || klBusy2 || !klMax) return; klBusy2 = true; try { const r = await sb.from("clan_messages").select("id,user_id,nick,body,created_at,vip,elite").eq("clan_id", c.id).gt("id", klMax).order("id", { ascending: true }).limit(30); if (tok === klTok && r.data) r.data.forEach(add); } catch (e) {} klBusy2 = false; }, 4000);
   let sending = false;
   const send = async () => {
     const t = inp.value.trim(); if (!t || sending) return; sending = true; inp.value = "";
@@ -2646,7 +2765,7 @@ function renderClanMem(b, c, mine) {
   c.members.forEach((m, i) => {
     const r = mkEl("div", "cm" + (m.id === me.id ? " me" : "") + (m.leader ? " ld" : "")), tx = mkEl("div", "cmn"), nm = mkEl("b");
     if (m.leader) { const cr = mkEl("span"); cr.innerHTML = '<svg class="ic sm" viewBox="0 0 24 24" style="color:#fbbf24;fill:#fbbf24;stroke:#78350f"><path d="M5 17l-1-9 5 4 3-6 3 6 5-4-1 9z"/></svg>'; nm.append(cr); }
-    if (m.vip) nm.append(vipBadge()); if (modSet.has(m.id)) nm.append(modBadge()); nm.append(m.nick); if (on.has(m.id)) nm.append(mkEl("span", "cdot2"));
+    if (m.elite) nm.append(eliteBadge()); else if (m.vip) nm.append(vipBadge()); if (modSet.has(m.id)) nm.append(modBadge()); nm.append(m.nick); if (on.has(m.id)) nm.append(mkEl("span", "cdot2"));
     tx.append(nm, mkEl("small", null, (m.leader ? T("Lider") : T("Üye")) + " · " + (m.id === me.id ? T("Sen") : on.has(m.id) ? T("Çevrimiçi") : T("Katıldı ") + klWhen(m.joined))));
     r.append(mkEl("span", "cmr", String(i + 1)), pBadge(m.id, 36), tx, klPw(m.power)); r.style.cursor = "pointer"; r.onclick = () => openProfile(m.id, m.nick);
     if (lead && m.id !== me.id) {
@@ -2767,7 +2886,7 @@ async function openProfile(id, nick) {
   const p = r.data; await ensureAv(p.id, Number(p.av_v) || 0);
   const av = mkEl("div", "pav", String(p.nick || "?")[0].toUpperCase());
   av.style.background = COLORS[[...p.id].reduce((a, c) => a + c.charCodeAt(0), 0) % COLORS.length];
-  const nm = mkEl("h2"); if (p.vip) nm.append(vipBadge()); if (modSet.has(p.id)) nm.append(modBadge()); nm.append(" " + p.nick);
+  const nm = mkEl("h2"); if (p.elite) nm.append(eliteBadge()); else if (p.vip) nm.append(vipBadge()); if (modSet.has(p.id)) nm.append(modBadge()); nm.append(" " + p.nick);
   const pw = mkEl("div", "ppw"), pi = mkEl("div"); pw.innerHTML = BOLT; pi.append(mkEl("small", null, T("GÜÇ")), mkEl("div", null, fmt(Number(p.power)))); pw.append(pi); stageAttr(pw, Number(p.power) || 0);
   const avw = mkEl("div"); avw.style.cssText = "display:flex;justify-content:center;margin-bottom:6px"; avw.append(avEl(avImg(p.id, Number(p.av_v) || 0), p.frame, 112));
   const ri = rankIdx(Number(p.power) || 0), rb = mkEl("button", "rkprof"); rb.append(rankLogo(ri, 30), T(RANKS[ri][0])); rb.onclick = () => { $("#plP").classList.remove("on"); openRk(); };
@@ -2872,7 +2991,7 @@ function renderAdmGift() {
   const mk = (ph, type, max) => { const i = mkEl("input", "in"); i.placeholder = ph; if (type) i.type = type; if (max) i.maxLength = max; i.style.cssText = "width:100%;margin:6px 0 0"; return i; };
   const box1 = mkEl("div", "cbox"), nick = mk(T("Oyuncu takma adı"), "", 20), amt = mk(T("Miktar"), "number"), act = mkEl("div", "cact");
   box1.append(mkEl("b", null, T("Oyuncuya ödül ver")), nick, amt);
-  [["vip", T("VIP ver"), T("VIP verildi.")], ["power", T("Güç ver"), T("Güç verildi.")], ["money", T("Para ver"), T("Para verildi.")]].forEach(([k, lb, ok]) => {
+  [["vip", T("VIP ver"), T("VIP verildi.")], ["elite", T("ELİTE VİP ver"), T("ELİTE VİP verildi.")], ["unelite", T("ELİTE VİP al"), T("ELİTE VİP alındı.")], ["power", T("Güç ver"), T("Güç verildi.")], ["money", T("Para ver"), T("Para verildi.")]].forEach(([k, lb, ok]) => {
     const bt = mkEl("button", "cbtn gold sm", lb);
     klArm(bt, T("Emin misin?"), async () => { const r = await sb.rpc("admin_give", { p_nick: nick.value, p_kind: k, p_amount: Number(amt.value) || 0 }); if (r.error) return admErr(r.error); toast(ok); });
     act.append(bt);
@@ -2961,6 +3080,17 @@ const FR_SVG = (() => {
     + pulse(36.8, 4, "url(#fi)", 0.25, 0.7, 1.6) + ring(32, 5, "url(#fi)") + ring(29.4, 0.9, "#fff", ' stroke-opacity=".6"')
     + "<g>" + spin(5) + '<path d="M0-4 1-1 4 0 1 1 0 4-1 1-4 0-1-1z" transform="translate(40 3.5) scale(1.2)" fill="#fff"/><path d="M0-4 1-1 4 0 1 1 0 4-1 1-4 0-1-1z" transform="translate(71 57.5) scale(.9)" fill="#fde047"/><path d="M0-4 1-1 4 0 1 1 0 4-1 1-4 0-1-1z" transform="translate(9 57.5) scale(.9)" fill="#22d3ee"/></g>'
     + "<g>" + spin(7, true) + '<circle cx="40" cy="10" r="1.6" fill="#fff"/><circle cx="40" cy="70" r="1.6" fill="#fff"/></g>';
+  /* ELİTE ALEV (hafif): 2 katman kızıl ateş, az sayıda canlı alev + kor; küçük avatarda animasyonsuz sürüm */
+  const efl = (a, h, w, y, fill, anim, dur, bgn) => '<g transform="rotate(' + f2(a) + ' 40 40)"><g transform="translate(40 ' + y + ')"><path d="M' + f2(-w) + ' 0C' + f2(-w - 0.7) + ' -' + f2(h * 0.45) + ' ' + f2(-w * 0.2) + ' -' + f2(h * 0.62) + ' 0 -' + h + 'C' + f2(w * 0.2) + ' -' + f2(h * 0.62) + ' ' + f2(w + 0.7) + ' -' + f2(h * 0.45) + ' ' + f2(w) + ' 0Z" fill="' + fill + '"/>' + (fill === "url(#eff)" ? '<path d="M' + f2(-w * 0.45) + ' 0C' + f2(-w * 0.5) + ' -' + f2(h * 0.3) + ' 0 -' + f2(h * 0.4) + ' 0 -' + f2(h * 0.62) + 'C0 -' + f2(h * 0.4) + ' ' + f2(w * 0.5) + ' -' + f2(h * 0.3) + ' ' + f2(w * 0.45) + ' 0Z" fill="#fff0b0"/>' : '') + (anim ? '<animateTransform attributeName="transform" type="scale" additive="sum" values="1 1;1.12 1.3;.93 .82;1.06 1.14;1 1" dur="' + dur + 's" begin="-' + bgn + 's" repeatCount="indefinite"/>' : '') + '</g></g>';
+  const efs = (anim) => { let x = ""; for (let i = 0; i < 8; i++) x += efl(i * 45 + 22, [16, 12, 15, 11][i % 4], 5, 8.5, "url(#efb)", false); for (let i = 0; i < 14; i++) x += efl(i * 25.7, [11, 8, 10, 7][i % 4], 3.9, 10, "url(#eff)", anim && i % 3 === 0, (0.55 + (i % 4) * 0.1).toFixed(2), ((i * 0.37) % 1).toFixed(2)); return x; };
+  let em = "";
+  for (let i = 0; i < 5; i++) {
+    const p = pt(i * 72 + 20, 33 + (i % 2) * 2), y2 = f2(p[1] - 13), d = (1.2 + (i % 3) * 0.3).toFixed(2), b2 = f2(i * 0.37);
+    em += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (0.9 + (i % 3) * 0.3) + '" fill="#ffd24a"><animate attributeName="cy" values="' + p[1] + ";" + y2 + '" dur="' + d + 's" begin="-' + b2 + 's" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="' + d + 's" begin="-' + b2 + 's" repeatCount="indefinite"/></circle>';
+  }
+  const efd = "<defs>" + grad("efb", ["#5a0509", "#b3141b", "#ff4a1c"]) + grad("eff", ["#c8141c", "#ff5a1f", "#ffb020"]) + grad("efr", ["#ff7a3d", "#c8141c", "#4a0408"]) + "</defs>";
+  o.f10 = efd + pulse(35, 9, "#ff2a1a", 0.12, 0.5, 0.9) + efs(true) + ring(31.4, 4.4, "url(#efr)") + ring(29.2, 1, "#ffd9a8", ' stroke-opacity=".7"') + shine(31.4, 2.2, 2.4, -24, 24, 0.9) + em;
+  o.f10s = efd + efs(false) + ring(31.4, 5, "url(#efr)") + ring(29, 1, "#ffd9a8", ' stroke-opacity=".7"');
   return o;
 })();
 let myCos = { av: 0, frame: null, frames: [] };
@@ -2998,7 +3128,8 @@ function avEl(img, fr, px) {
   if (img && String(img).indexOf("data:image/") === 0) { const im = new Image(); im.alt = ""; im.draggable = false; im.decoding = "async"; im.src = fastImg(img); a.append(im); }
   else a.innerHTML = '<svg viewBox="0 0 64 64">' + uq(AV_DEF_SVG) + "</svg>";
   e.append(a);
-  if (fr && FR_SVG[fr]) { e.insertAdjacentHTML("beforeend", '<svg class="frm" viewBox="0 0 80 80">' + uq(FR_SVG[fr]) + "</svg>"); const fs = e.lastElementChild; if (fs && fs.pauseAnimations) fs.pauseAnimations(); }
+  const fk = (fr === "f10" && (px < 52 || lowfx)) ? "f10s" : fr;
+  if (fr && FR_SVG[fk]) { e.insertAdjacentHTML("beforeend", '<svg class="frm" viewBox="0 0 80 80">' + uq(FR_SVG[fk]) + "</svg>"); const fs = e.lastElementChild; if (fs && fs.pauseAnimations) fs.pauseAnimations(); }
   return e;
 }
 /* Profil fotoğrafı ekranda görününce indirilir (görünmeyen satırlar için internet harcanmaz) */
@@ -3024,7 +3155,14 @@ function refreshMe() {
   if (me && myPower != null) { powerCache.set(me.id, { pw: myPower, av: myCos.av, fr: myCos.frame, t: Date.now() }); document.querySelectorAll('.pbd[data-uid="' + me.id + '"]').forEach(c => fillBd(c, powerCache.get(me.id))); }
   renderMe();
 }
-async function loadCos() { const r = await sb.rpc("my_cosmetics"); if (r.error || !r.data) return; myCos = { av: Number(r.data.av_v) || 0, frame: r.data.frame || null, frames: r.data.frames || [] }; refreshMe(); }
+let cosOk = false;
+async function loadCos() {
+  for (let i = 0; i < 4; i++) {
+    const r = await sb.rpc("my_cosmetics");
+    if (!r.error && r.data) { myCos = { av: Number(r.data.av_v) || 0, frame: r.data.frame || null, frames: r.data.frames || [] }; cosOk = true; refreshMe(); return; }
+    await new Promise(x => setTimeout(x, 1200 * (i + 1)));
+  }
+}
 function checkRankUp() {
   if (myPower == null || !me) return; const r = rankIdx(myPower); let last = -1;
   try { const v = localStorage.getItem("rk_" + me.id); last = v == null ? -1 : Number(v); } catch (e) {}
@@ -3101,6 +3239,7 @@ function renderAv() {
     else { c.append(mkEl("small", null, "$" + fmt(price))); c.onclick = () => { $("#avm").classList.remove("on"); $("#shop").classList.add("on"); shopView("frames"); }; c.style.opacity = "1"; }
     g.append(c);
   });
+  if (myCos.frames.includes("f10")) { const on = myCos.frame === "f10", c = mkEl("button", "acell" + (on ? " on" : "")); c.append(avEl(mi, "f10", 64), mkEl("span", null, T("Elite Alev")), mkEl("span", "st", on ? T("Kuşanıldı") : T("Kuşan"))); if (!on) c.onclick = () => equip("fr", "f10"); g.append(c); }
   b.append(g);
 }
 /* -- Rütbe listesi -- */
@@ -3119,6 +3258,7 @@ function renderRk() {
 }
 /* -- Çerçeve mağazası -- */
 function renderFrameShop() {
+  if (!cosOk) bg(loadCos().then(() => { if ($("#frBody") && $("#frBody").isConnected) renderFrameShop(); }));
   const b = $("#frBody"); b.innerHTML = ""; const cur = rankIdx(myPower || 0), w = mkEl("div", "wallet"); w.append(T("Para: "), mkEl("b", null, "$" + fmt(me.money))); b.append(w);
   const g = mkEl("div", "frgrid");
   FR_DEF.forEach(([id, nm, price, mr]) => {
@@ -3129,7 +3269,7 @@ function renderFrameShop() {
       c.append(mkEl("small", null, "$" + fmt(price))); const bt = mkEl("button", "cbtn gold", T("Satın al")); bt.disabled = me.money < price;
       klArm(bt, T("Emin misin?"), async () => {
         const r = await sb.rpc("buy_frame", { p_id: id });
-        if (r.error) { toast(r.error.message === "para yetmiyor" ? T("Paran yetmiyor.") : r.error.message === "rutbe" ? T("Bunun için rütbeni yükseltmelisin.") : T("Hata: ") + r.error.message); return; }
+        if (r.error) { if (r.error.message === "zaten var") { await loadCos(); renderFrameShop(); toast(T("Bu çerçeveye zaten sahipsin.")); return; } toast(r.error.message === "para yetmiyor" ? T("Paran yetmiyor.") : r.error.message === "rutbe" ? T("Bunun için rütbeni yükseltmelisin.") : T("Hata: ") + r.error.message); return; }
         me.money = Number(r.data); setMoney(); myCos.frames.push(id); toast(T("Çerçeve satın alındı!")); renderFrameShop();
       }); c.append(bt);
     }
@@ -3247,8 +3387,8 @@ function renderGel() {
   const nx = levels.find(l => l.level === level + 1);
   const r = mkEl("div", "pr"), ic = mkEl("span", "gi"), tx = mkEl("div", "pt");
   ic.className = "gi gimg"; ic.innerHTML = '<img src="' + IC.store + '" alt="">';
-  tx.append(mkEl("b", null, T("Dükkanını büyüt")), mkEl("small", null, nx ? T("Kapasite ") + slots + " → " + nx.slots + T(" bilgisayar") : T("En üst seviyedesin: ") + slots + T(" bilgisayar")));
-  const dots = mkEl("div", "lv"); levels.forEach(l => dots.append(mkEl("span", l.level <= level ? "on" : "", String(l.slots)))); tx.append(dots);
+  tx.append(mkEl("b", null, T("Dükkanını büyüt")), mkEl("small", null, nx ? T("Kapasite ") + slots + " → " + (nx.slots + (elite ? 20 : 0)) + T(" bilgisayar") : T("En üst seviyedesin: ") + slots + T(" bilgisayar")));
+  const dots = mkEl("div", "lv"); levels.forEach(l => dots.append(mkEl("span", l.level <= level ? "on" : "", String(l.slots + (elite ? 20 : 0))))); tx.append(dots);
   const b = mkEl("button", "pbtn", nx ? "$" + fmt(nx.price) : T("Maksimum"));
   if (!nx || me.money < nx.price) b.disabled = true; else b.onclick = expand;
   r.append(ic, tx, b); body.append(r);
@@ -3309,13 +3449,14 @@ async function buy(m) {
   stations.push({ slot: r.o_slot, model: m.id, req: null, hours: 0, pay: 0, end: 0, color: COLORS[0] });
   stations.sort((a, b) => a.slot - b.slot); renderAll(); renderShop(); toast(m.name + T(" alındı."));
 }
-const SV = { menu: [T("Dükkan"), "vMenu"], urun: [T("Ürün al"), "vUrun"], gel: [T("Dükkan geliştir"), "vGel"], per: [T("Personel al"), "vPer"], vip: [T("VIP üyelik"), "vVip"], ps: [T("Oyun Salonu"), "vPs"], sim: [T("Araba Simülasyonu"), "vSim"], frames: [T("Çerçeve Mağazası"), "vFrames"] };
+const SV = { menu: [T("Dükkan"), "vMenu"], urun: [T("Ürün al"), "vUrun"], gel: [T("Dükkan geliştir"), "vGel"], per: [T("Personel al"), "vPer"], vip: [T("VIP & ELİTE VİP"), "vVip"], ps: [T("Oyun Salonu"), "vPs"], sim: [T("Araba Simülasyonu"), "vSim"], frames: [T("Çerçeve Mağazası"), "vFrames"] };
 let shopV = "menu";
 function updShopMenu() {
-  const mp = $("#mcPs"), ms = $("#mcSim"), mv = $("#mcVip"), set = (el, lock, txt) => { if (!el) return; el.classList.toggle("lock", !!lock); const sm = el.querySelector("small"); if (sm && txt) sm.textContent = txt; };
+  const mp = $("#mcPs"), ms = $("#mcSim"), mv = $("#mcVip"), mel = $("#mcElite"), set = (el, lock, txt) => { if (!el) return; el.classList.toggle("lock", !!lock); const sm = el.querySelector("small"); if (sm && txt) sm.textContent = txt; };
   set(mp, !ps.open && level < PS_OPEN_LEVEL, ps.open ? Tf("Seviye {l} · {n} masa", { l: ps.level, n: ps.slots }) : level >= PS_OPEN_LEVEL ? T("Açılış: $") + fmt(PS_OPEN_PRICE) : Tf("Dükkan seviye {l}'te açılır", { l: PS_OPEN_LEVEL }));
   set(ms, !sim.open && !(ps.open && ps.level >= SIM_OPEN_LEVEL), sim.open ? Tf("Seviye {l} · {n} masa", { l: sim.level, n: sim.slots }) : (ps.open && ps.level >= SIM_OPEN_LEVEL) ? T("Açılış: $") + fmt(SIM_OPEN_PRICE) : Tf("Oyun Salonu seviye {l}'te açılır", { l: SIM_OPEN_LEVEL }));
   set(mv, false, vip ? T("Üyeliğin aktif") : T("$20.000 + reklamsız + %50 kazanç"));
+  set(mel, false, elite ? T("Üyeliğin aktif") : T("2 kat kazanç + $30.000.000 + 100.000 güç"));
 }
 function shopView(v) {
   shopV = v; if (v === "menu") updShopMenu();
@@ -3337,6 +3478,8 @@ $("#shop").addEventListener("click", e => { if (e.target.id === "shop") $("#shop
 
 const vipOf = id => { const o = online.find(x => x.id === id); if (o) return !!o.vip; const r = ranks.find(x => x.id === id); return !!(r && r.vip); };
 const isVipMsg = m => !!m.vip || vipOf(m.user_id) || !!(me && m.user_id === me.id && vip);
+const eliteOf = id => { const o = online.find(x => x.id === id); if (o) return !!o.elite; const r = ranks.find(x => x.id === id); return !!(r && r.elite); };
+const isEliteMsg = m => !!m.elite || eliteOf(m.user_id) || !!(me && m.user_id === me.id && elite);
 const powerCache = new Map(), pwQueue = new Set(); let pwTimer = 0, pwSaveTm = 0;
 (function () { try { const o = JSON.parse(localStorage.getItem("pwc1") || "[]"), now = Date.now(); if (Array.isArray(o)) o.forEach(x => { if (Array.isArray(x) && x.length === 5 && now - x[4] < 1800000) powerCache.set(x[0], { pw: x[1], av: x[2], fr: x[3], t: x[4] }); }); } catch (e) {} })();
 function pwSaveSoon() { clearTimeout(pwSaveTm); pwSaveTm = setTimeout(() => { try { localStorage.setItem("pwc1", JSON.stringify([...powerCache.entries()].slice(-300).map(([k, e]) => [k, e.pw, e.av, e.fr, e.t]))); } catch (e) {} }, 4000); }
@@ -3444,12 +3587,12 @@ function msgRow(m) {
   const n = document.createElement("span"); n.className = "n tap"; n.textContent = m.nick; n.onclick = () => openProfile(m.user_id, m.nick); seenNote(m);
   const t = document.createElement("span"); t.className = "tm";
   t.textContent = new Date(m.created_at).toLocaleTimeString(LOC, { hour: "2-digit", minute: "2-digit" });
-  const nw = document.createElement("span"); nw.className = "nw"; nw.append(pBadge(m.user_id, 22)); if (isVipMsg(m)) nw.append(vipBadge()); if (modSet.has(m.user_id)) nw.append(modBadge()); nw.append(n); nw.append(pwChip(m.user_id)); const rt = document.createElement("span"); rt.className = "rt"; rt.append(t);
+  const nw = document.createElement("span"); nw.className = "nw"; nw.append(pBadge(m.user_id, 22)); if (isEliteMsg(m)) nw.append(eliteBadge()); else if (isVipMsg(m)) nw.append(vipBadge()); if (modSet.has(m.user_id)) nw.append(modBadge()); nw.append(n); nw.append(pwChip(m.user_id)); const rt = document.createElement("span"); rt.className = "rt"; rt.append(t);
   if (me && m.user_id !== me.id) { const fl = document.createElement("button"); fl.className = "flag"; fl.setAttribute("aria-label", T("Bildir veya engelle")); fl.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-flag"/></svg>'; fl.onclick = ev => { ev.stopPropagation(); openMsg(m); }; rt.append(fl); }
   if (isAdm && m.id) { const dl = mkEl("button", "flag admdel", T("Sil")); dl.type = "button"; let ar = false; dl.onclick = async ev => { ev.stopPropagation(); if (!ar) { ar = true; dl.textContent = T("Emin misin?"); setTimeout(() => { ar = false; dl.textContent = T("Sil"); }, 3000); return; } const r = await sb.rpc("admin_del_msg", { p_id: m.id }); if (r.error) return admFail(r.error); row.remove(); rows.delete(Number(m.id)); toast(T("Mesaj silindi.")); }; rt.append(dl); }
   h.append(nw, rt);
   const b = document.createElement("div"); b.className = "t"; b.textContent = m.body;
-  row.dataset.u = m.user_id; if (isVipMsg(m)) row.classList.add("vipm"); row.append(h);
+  row.dataset.u = m.user_id; if (isEliteMsg(m)) row.classList.add("elitem"); else if (isVipMsg(m)) row.classList.add("vipm"); row.append(h);
   if (m.reply_to && m.reply_nick) {
     const q = mkEl("div", "rpl"); q.append(mkEl("b", null, m.reply_nick), mkEl("span", null, m.reply_body || ""));
     q.onclick = () => { const o = rows.get(Number(m.reply_to)); if (o) { o.row.scrollIntoView({ block: "center" }); o.row.classList.add("hl"); setTimeout(() => o.row.classList.remove("hl"), 1400); } };
@@ -3482,14 +3625,23 @@ function sackRow(m) {
   row.append(ic, tx, btn); setTimeout(updSack, 0);
   return row;
 }
+function eliteJoinRow(m) {
+  seenNote(m);
+  const row = document.createElement("div"); row.className = "eljoin";
+  const ic = '<svg class="ic" viewBox="0 0 24 24"><path d="M12 3c1.2 3.2 5 5 5 9.4a5 5 0 0 1-10 0c0-1.8.9-3.1 1.8-4.1.3 1.1 1 1.6 1.8 1.4C10.4 8 10.2 5.4 12 3z"/></svg>';
+  const a = mkEl("span", "elji"), c = mkEl("span", "elji"), t = mkEl("span", "elj"); a.innerHTML = ic; c.innerHTML = ic;
+  t.append(eliteBadge(), mkEl("b", null, m.nick), document.createTextNode(T("giriş yaptı")));
+  row.append(a, t, c); row.onclick = () => { if (m.user_id) openProfile(m.user_id, m.nick); };
+  return row;
+}
 function add(m) {
   if (!m || seen.has(m.id)) return;
   if (m.user_id && me && m.user_id !== me.id && blocked.has(m.user_id)) return;
-  seen.add(m.id);
+  seen.add(m.id); if (Number(m.id) > lastMsgId) lastMsgId = Number(m.id);
   const list = $("#list");
   const empty = list.querySelector(".empty"); if (empty) empty.remove();
   const near = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
-  const row = m.kind === "sack" ? sackRow(m) : m.kind === "sack_win" ? winRow(m) : msgRow(m);
+  const row = m.kind === "sack" ? sackRow(m) : m.kind === "sack_win" ? winRow(m) : m.kind === "elite_join" ? eliteJoinRow(m) : msgRow(m);
   row.dataset.id = m.id; list.append(row);
   while (list.children.length > 100) { const f = list.firstChild; if (f.dataset.id) rows.delete(Number(f.dataset.id)); f.remove(); }
   if (near || (me && m.user_id === me.id)) list.scrollTop = list.scrollHeight;
@@ -3549,11 +3701,20 @@ function onMsgIns(m) {
 }
 function onMsgUpd(m) { const o = m && rows.get(m.id); if (!o) return; o.m.rx = m.rx || {}; renderRx(o.row, o.m); }
 
+let chatPre = null;
+async function prefetchChat() {
+  try {
+    const { data, error } = await sb.from("messages").select(MSG_COLS).order("id", { ascending: false }).limit(20);
+    if (!error && Array.isArray(data)) { chatPre = { t: Date.now(), data }; data.forEach(m => { if (Number(m.id) > lastMsgId) lastMsgId = Number(m.id); }); }
+  } catch (e) {}
+}
 async function openChat() {
   chatOpen = true; $("#dot").style.display = "none";
   $("#chat").classList.add("on");
   const list = $("#list"); list.innerHTML = ""; seen.clear(); rows.clear(); myRx.clear();
-  let { data, error } = await sb.from("messages").select("id,user_id,nick,body,created_at,vip,kind,ref,reply_to,reply_nick,reply_body,rx").order("created_at", { ascending: false }).limit(20);
+  let data, error;
+  if (chatPre && Date.now() - chatPre.t < 20000) { data = chatPre.data.slice(); error = null; chatPre = null; }
+  else ({ data, error } = await sb.from("messages").select(MSG_COLS).order("id", { ascending: false }).limit(20));
   if (error) ({ data, error } = await sb.from("messages").select("id,user_id,nick,body,created_at,vip").order("created_at", { ascending: false }).limit(20));
   if (error) { list.innerHTML = T('<div class="empty">Mesajlar yüklenemedi.</div>'); return; }
   if (!data.length) list.innerHTML = T('<div class="empty">Henüz mesaj yok. İlk mesajı sen yaz.</div>');
@@ -3589,15 +3750,16 @@ $("#msg").addEventListener("keydown", e => { if (e.key === "Enter") send(); });
 /* Ayarlar */
 const nameLeft = () => Math.max(0, 2 - (me.changes || 0));
 function vipBadge() { const b = document.createElement("span"); b.className = "vip"; b.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><use href="#i-crown"/></svg>VIP'; return b; }
+function eliteBadge() { const b = document.createElement("span"); b.className = "elb"; b.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><path d="M12 3c1.2 3.2 5 5 5 9.4a5 5 0 0 1-10 0c0-1.8.9-3.1 1.8-4.1.3 1.1 1 1.6 1.8 1.4C10.4 8 10.2 5.4 12 3z"/></svg>ELİTE VİP'; return b; }
 function applyVip() {
-  const v = $("#vipB"); v.innerHTML = ""; if (vip) v.append(vipBadge());
-  ranks.forEach(r => { if (me && r.id === me.id) r.vip = vip; });
-  if (pr && me) { try { pr.track({ nick: me.nick, vip }); } catch (e) {} }
+  const v = $("#vipB"); v.innerHTML = ""; if (elite) v.append(eliteBadge()); else if (vip) v.append(vipBadge());
+  ranks.forEach(r => { if (me && r.id === me.id) { r.vip = vip; r.elite = elite; } });
+  if (pr && me) { try { pr.track({ nick: me.nick, vip, elite }); } catch (e) {} }
 }
 function applyName() {
   $("#pname").textContent = me.nick; $("#neon").textContent = me.nick.toUpperCase();
   ranks.forEach(r => { if (r.id === me.id) r.nick = me.nick; }); ranks.sort(byRank);
-  if (pr) { try { pr.track({ nick: me.nick, vip }); } catch (e) {} }
+  if (pr) { try { pr.track({ nick: me.nick, vip, elite }); } catch (e) {} }
 }
 function openSet() {
   $("#who").textContent = T("Oturum: ") + me.nick; $("#delBox").style.display = "none"; $("#delNick").value = "";
@@ -3634,9 +3796,9 @@ $("#set").addEventListener("click", e => { if (e.target.id === "set") closeSet()
 $("#delAsk").onclick = () => { $("#delBox").style.display = "block"; };
 
 function reset() {
-  if (rt) { sb.removeChannel(rt); rt = null; }
+  clearTimeout(rtTimer); rtTimer = 0; rtRetry = 0; lastMsgId = 0; if (rt) { sb.removeChannel(rt); rt = null; }
   if (pr) { sb.removeChannel(pr); pr = null; } presSt = {}; seenChat.clear();
-  clearInterval(statTimer); clearInterval(custTimer); clearInterval(syncTimer); q = []; stations = []; models = []; reqs = []; levels = []; level = 1; loginFlowDone = false; myCos = { av: 0, frame: null, frames: [] }; clearTimeout(sackTm); clearInterval(skTm); sackSt = null; avMiss.clear(); avWant.clear(); rows.clear(); myRx.clear(); replyTo = null; rnkFetched = 0; ranks = []; clearInterval(inbPoll); inbBadge(0); clearInterval(rafTm); klan = undefined; klView = null; klRank = []; klRankAt = 0; klStopRT(); boostEnd = 0; boostN = 0; bonusDone = false; repairDone = false; ps = { open: false, level: 1, slots: 4, staff: false, lib: false }; psSt = []; psQ = []; psModels = []; psReqs = []; psLevels = []; psLoaded = false; $("#psBtn").style.display = "none"; sim = { open: false, level: 1, slots: 4, staff: false, lib: false }; simSt = []; simQ = []; simModels = []; simReqs = []; simLevels = []; simLoaded = false; $("#simBtn").style.display = "none"; isAdm = false; updAdmUi(); clearInterval(whTm); whSt = { ready: false, left: 0, last: null }; modSet = new Set(); amMod = false; clearInterval(modTm); cashier = false; cleaner = false; manager = false; vFood = false; vDrink = false; myPower = null; $("#pwrB").innerHTML = ""; rep = 3; ghosts = []; blocked = new Set(); blockNames = {}; $("#adm").classList.remove("on"); $("#banov").classList.remove("on"); vip = false; vipBusy = false; $("#vipB").innerHTML = ""; nextArr = 0; lastMsg = ""; lastOver = null; lastMin = -1; advancing = false; adBusy = false; renderAll(); ranks = []; stats = { tot: 0, n24: 0, a24: 0 }; renderStats(); $("#rnk").classList.remove("on");
+  clearInterval(statTimer); clearInterval(custTimer); clearInterval(syncTimer); q = []; stations = []; models = []; reqs = []; levels = []; level = 1; loginFlowDone = false; elite = false; eliteAnnounced = false; myCos = { av: 0, frame: null, frames: [] }; cosOk = false; clearTimeout(sackTm); clearInterval(skTm); sackSt = null; avMiss.clear(); avWant.clear(); rows.clear(); myRx.clear(); replyTo = null; rnkFetched = 0; ranks = []; clearInterval(inbPoll); inbBadge(0); clearInterval(rafTm); klan = undefined; klView = null; klRank = []; klRankAt = 0; klStopRT(); boostEnd = 0; boostN = 0; bonusDone = false; repairDone = false; ps = { open: false, level: 1, slots: 4, staff: false, lib: false }; psSt = []; psQ = []; psModels = []; psReqs = []; psLevels = []; psLoaded = false; $("#psBtn").style.display = "none"; sim = { open: false, level: 1, slots: 4, staff: false, lib: false }; simSt = []; simQ = []; simModels = []; simReqs = []; simLevels = []; simLoaded = false; $("#simBtn").style.display = "none"; isAdm = false; updAdmUi(); clearInterval(whTm); whSt = { ready: false, left: 0, last: null }; modSet = new Set(); amMod = false; clearInterval(modTm); cashier = false; cleaner = false; manager = false; vFood = false; vDrink = false; myPower = null; $("#pwrB").innerHTML = ""; rep = 3; ghosts = []; blocked = new Set(); blockNames = {}; $("#adm").classList.remove("on"); $("#banov").classList.remove("on"); vip = false; vipBusy = false; $("#vipB").innerHTML = ""; nextArr = 0; lastMsg = ""; lastOver = null; lastMin = -1; advancing = false; adBusy = false; renderAll(); ranks = []; stats = { tot: 0, n24: 0, a24: 0 }; renderStats(); $("#rnk").classList.remove("on");
   online = []; $("#cnt").textContent = "0"; $("#onl").classList.remove("on");
   me = null; seen.clear(); $("#list").innerHTML = ""; $("#pass").value = ""; $("#pass2").value = ""; $("#nick").value = "";
   chatOpen = false; $("#chat").classList.remove("on"); closeSet(); setMode("in"); show("auth");
@@ -3677,7 +3839,7 @@ $("#delGo").onclick = async () => {
   } catch (e) {}
 })();
 
-sb.auth.onAuthStateChange(ev => { if (ev === "SIGNED_OUT" && me) reset(); });
+sb.auth.onAuthStateChange((ev, ss) => { if (ev === "SIGNED_OUT" && me) reset(); else if ((ev === "TOKEN_REFRESHED" || ev === "SIGNED_IN") && ss && ss.access_token) { try { sb.realtime.setAuth(ss.access_token); } catch (e) {} } });
 enter();
 </script>
 </body>
